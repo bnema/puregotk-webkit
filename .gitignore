@@ -1,0 +1,2 @@
+# GIR spec files (copy with ./copygir-webkit.sh)
+/internal/gir/spec/*.gir

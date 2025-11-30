@@ -4,13 +4,15 @@ set -e
 echo "Generating Go files..."
 go run gen.go
 
+PKGS="webkit javascriptcore soup webkitwebprocessextension"
+
 echo "Running goimports..."
-goimports -w v4
+for pkg in $PKGS; do [ -d "$pkg" ] && goimports -w "$pkg"; done
 
 echo "Formatting..."
-go fmt ./v4/...
+for pkg in $PKGS; do [ -d "$pkg" ] && go fmt ./"$pkg"/...; done
 
 echo "Vetting..."
-go vet ./v4/...
+for pkg in $PKGS; do [ -d "$pkg" ] && go vet ./"$pkg"/...; done
 
 echo "Done!"

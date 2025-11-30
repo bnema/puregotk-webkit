@@ -6,9 +6,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/jwijenbergh/puregotk/internal/gir/pass"
-	"github.com/jwijenbergh/puregotk/internal/gir/types"
-	"github.com/jwijenbergh/puregotk/internal/gir/util"
+	"github.com/bnema/puregotk-webkit/internal/gir/pass"
+	"github.com/bnema/puregotk-webkit/internal/gir/types"
+	"github.com/bnema/puregotk-webkit/internal/gir/util"
 )
 
 //go:generate go run gen.go
@@ -22,8 +22,11 @@ var localNamespaces = map[string]bool{
 }
 
 func main() {
-	dir := "v4"
-	os.RemoveAll(dir)
+	dir := "."
+	// Clean up previously generated packages
+	for ns := range localNamespaces {
+		os.RemoveAll(strings.ToLower(ns))
+	}
 
 	var girs []string
 	filepath.Walk("internal/gir/spec", func(path string, f os.FileInfo, err error) error {
