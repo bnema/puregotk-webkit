@@ -71,10 +71,10 @@ func UserMessageNewFromInternalPtr(ptr uintptr) *UserMessage {
 	return cls
 }
 
-var xNewUserMessage func(string, *glib.Variant) uintptr
+var xNewUserMessage func(string, uintptr) uintptr
 
 // Create a new #WebKitUserMessage with @name.
-func NewUserMessage(NameVar string, ParametersVar *glib.Variant) *UserMessage {
+func NewUserMessage(NameVar string, ParametersVar uintptr) *UserMessage {
 	var cls *UserMessage
 
 	cret := xNewUserMessage(NameVar, ParametersVar)
@@ -88,10 +88,10 @@ func NewUserMessage(NameVar string, ParametersVar *glib.Variant) *UserMessage {
 	return cls
 }
 
-var xNewUserMessageWithFdList func(string, *glib.Variant, uintptr) uintptr
+var xNewUserMessageWithFdList func(string, uintptr, uintptr) uintptr
 
 // Create a new #WebKitUserMessage including also a list of UNIX file descriptors to be sent.
-func NewUserMessageWithFdList(NameVar string, ParametersVar *glib.Variant, FdListVar *gio.UnixFDList) *UserMessage {
+func NewUserMessageWithFdList(NameVar string, ParametersVar uintptr, FdListVar *gio.UnixFDList) *UserMessage {
 	var cls *UserMessage
 
 	cret := xNewUserMessageWithFdList(NameVar, ParametersVar, FdListVar.GoPointer())
@@ -134,14 +134,10 @@ func (x *UserMessage) GetName() string {
 var xUserMessageGetParameters func(uintptr) uintptr
 
 // Get the @message parameters.
-func (x *UserMessage) GetParameters() *glib.Variant {
+func (x *UserMessage) GetParameters() uintptr {
 
 	cret := xUserMessageGetParameters(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Variant)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xUserMessageSendReply func(uintptr, uintptr)

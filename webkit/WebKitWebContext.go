@@ -223,7 +223,7 @@ func (x *WebContext) GetTimeZoneOverride() string {
 	return cret
 }
 
-var xWebContextInitializeNotificationPermissions func(uintptr, *glib.List, *glib.List)
+var xWebContextInitializeNotificationPermissions func(uintptr, uintptr, uintptr)
 
 // Sets initial desktop notification permissions for the @context.
 //
@@ -241,7 +241,7 @@ var xWebContextInitializeNotificationPermissions func(uintptr, *glib.List, *glib
 // #WebKitWebContext::initialize-notification-permissions so as to
 // ensure that new web processes receive the most recent set of
 // permissions.
-func (x *WebContext) InitializeNotificationPermissions(AllowedOriginsVar *glib.List, DisallowedOriginsVar *glib.List) {
+func (x *WebContext) InitializeNotificationPermissions(AllowedOriginsVar uintptr, DisallowedOriginsVar uintptr) {
 
 	xWebContextInitializeNotificationPermissions(x.GoPointer(), AllowedOriginsVar, DisallowedOriginsVar)
 
@@ -426,7 +426,7 @@ func (x *WebContext) SetWebProcessExtensionsDirectory(DirectoryVar string) {
 
 }
 
-var xWebContextSetWebProcessExtensionsInitializationUserData func(uintptr, *glib.Variant)
+var xWebContextSetWebProcessExtensionsInitializationUserData func(uintptr, uintptr)
 
 // Set user data to be passed to Web Extensions on initialization.
 //
@@ -436,7 +436,7 @@ var xWebContextSetWebProcessExtensionsInitializationUserData func(uintptr, *glib
 // otherwise it will not have any effect. You can connect to
 // #WebKitWebContext::initialize-web-process-extensions to call this method
 // before anything is loaded.
-func (x *WebContext) SetWebProcessExtensionsInitializationUserData(UserDataVar *glib.Variant) {
+func (x *WebContext) SetWebProcessExtensionsInitializationUserData(UserDataVar uintptr) {
 
 	xWebContextSetWebProcessExtensionsInitializationUserData(x.GoPointer(), UserDataVar)
 

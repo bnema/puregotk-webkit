@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
@@ -57,14 +56,10 @@ func (x *URIResponse) GetContentLength() uint64 {
 var xURIResponseGetHttpHeaders func(uintptr) uintptr
 
 // Get the HTTP headers of a #WebKitURIResponse as a #SoupMessageHeaders.
-func (x *URIResponse) GetHttpHeaders() *soup.MessageHeaders {
+func (x *URIResponse) GetHttpHeaders() uintptr {
 
 	cret := xURIResponseGetHttpHeaders(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*soup.MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xURIResponseGetMimeType func(uintptr) string

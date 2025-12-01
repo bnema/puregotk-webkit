@@ -7,7 +7,6 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
-	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -43,56 +42,48 @@ func (x *AuthClass) GoPointer() uintptr {
 }
 
 // OverrideUpdate sets the callback function.
-func (x *AuthClass) OverrideUpdate(cb func(*Auth, *Message, *glib.HashTable) bool) {
+func (x *AuthClass) OverrideUpdate(cb func(*Auth, *Message, uintptr) bool) {
 	if cb == nil {
 		x.xUpdate = 0
 	} else {
-		x.xUpdate = purego.NewCallback(func(AuthVarp uintptr, MsgVarp uintptr, AuthHeaderVarp *glib.HashTable) bool {
+		x.xUpdate = purego.NewCallback(func(AuthVarp uintptr, MsgVarp uintptr, AuthHeaderVarp uintptr) bool {
 			return cb(AuthNewFromInternalPtr(AuthVarp), MessageNewFromInternalPtr(MsgVarp), AuthHeaderVarp)
 		})
 	}
 }
 
 // GetUpdate gets the callback function.
-func (x *AuthClass) GetUpdate() func(*Auth, *Message, *glib.HashTable) bool {
+func (x *AuthClass) GetUpdate() func(*Auth, *Message, uintptr) bool {
 	if x.xUpdate == 0 {
 		return nil
 	}
-	var rawCallback func(AuthVarp uintptr, MsgVarp uintptr, AuthHeaderVarp *glib.HashTable) bool
+	var rawCallback func(AuthVarp uintptr, MsgVarp uintptr, AuthHeaderVarp uintptr) bool
 	purego.RegisterFunc(&rawCallback, x.xUpdate)
-	return func(AuthVar *Auth, MsgVar *Message, AuthHeaderVar *glib.HashTable) bool {
+	return func(AuthVar *Auth, MsgVar *Message, AuthHeaderVar uintptr) bool {
 		return rawCallback(AuthVar.GoPointer(), MsgVar.GoPointer(), AuthHeaderVar)
 	}
 }
 
 // OverrideGetProtectionSpace sets the callback function.
-func (x *AuthClass) OverrideGetProtectionSpace(cb func(*Auth, *glib.Uri) *glib.SList) {
+func (x *AuthClass) OverrideGetProtectionSpace(cb func(*Auth, uintptr) uintptr) {
 	if cb == nil {
 		x.xGetProtectionSpace = 0
 	} else {
-		x.xGetProtectionSpace = purego.NewCallback(func(AuthVarp uintptr, SourceUriVarp *glib.Uri) uintptr {
-			ret := cb(AuthNewFromInternalPtr(AuthVarp), SourceUriVarp)
-			if ret == nil {
-				return 0
-			}
-			return uintptr(unsafe.Pointer(ret))
+		x.xGetProtectionSpace = purego.NewCallback(func(AuthVarp uintptr, SourceUriVarp uintptr) uintptr {
+			return cb(AuthNewFromInternalPtr(AuthVarp), SourceUriVarp)
 		})
 	}
 }
 
 // GetGetProtectionSpace gets the callback function.
-func (x *AuthClass) GetGetProtectionSpace() func(*Auth, *glib.Uri) *glib.SList {
+func (x *AuthClass) GetGetProtectionSpace() func(*Auth, uintptr) uintptr {
 	if x.xGetProtectionSpace == 0 {
 		return nil
 	}
-	var rawCallback func(AuthVarp uintptr, SourceUriVarp *glib.Uri) uintptr
+	var rawCallback func(AuthVarp uintptr, SourceUriVarp uintptr) uintptr
 	purego.RegisterFunc(&rawCallback, x.xGetProtectionSpace)
-	return func(AuthVar *Auth, SourceUriVar *glib.Uri) *glib.SList {
-		rawRet := rawCallback(AuthVar.GoPointer(), SourceUriVar)
-		if rawRet == 0 {
-			return nil
-		}
-		return (*glib.SList)(unsafe.Pointer(rawRet))
+	return func(AuthVar *Auth, SourceUriVar uintptr) uintptr {
+		return rawCallback(AuthVar.GoPointer(), SourceUriVar)
 	}
 }
 
@@ -290,10 +281,10 @@ func (x *Auth) Cancel() {
 
 }
 
-var xAuthFreeProtectionSpace func(uintptr, *glib.SList)
+var xAuthFreeProtectionSpace func(uintptr, uintptr)
 
 // Frees @space.
-func (x *Auth) FreeProtectionSpace(SpaceVar *glib.SList) {
+func (x *Auth) FreeProtectionSpace(SpaceVar uintptr) {
 
 	xAuthFreeProtectionSpace(x.GoPointer(), SpaceVar)
 
@@ -334,21 +325,17 @@ func (x *Auth) GetInfo() string {
 	return cret
 }
 
-var xAuthGetProtectionSpace func(uintptr, *glib.Uri) uintptr
+var xAuthGetProtectionSpace func(uintptr, uintptr) uintptr
 
 // Returns a list of paths on the server which @auth extends over.
 //
 // (All subdirectories of these paths are also assumed to be part
 // of @auth's protection space, unless otherwise discovered not to
 // be.)
-func (x *Auth) GetProtectionSpace(SourceUriVar *glib.Uri) *glib.SList {
+func (x *Auth) GetProtectionSpace(SourceUriVar uintptr) uintptr {
 
 	cret := xAuthGetProtectionSpace(x.GoPointer(), SourceUriVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.SList)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xAuthGetRealm func(uintptr) string

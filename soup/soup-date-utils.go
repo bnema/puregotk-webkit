@@ -2,11 +2,8 @@
 package soup
 
 import (
-	"unsafe"
-
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
-	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -41,20 +38,16 @@ var xDateTimeNewFromHttpString func(string) uintptr
 // This recognizes all of the "HTTP-date" formats from RFC 2616, RFC 2822 dates,
 // and reasonable approximations thereof. (Eg, it is lenient about whitespace,
 // leading "0"s, etc.)
-func DateTimeNewFromHttpString(DateStringVar string) *glib.DateTime {
+func DateTimeNewFromHttpString(DateStringVar string) uintptr {
 
 	cret := xDateTimeNewFromHttpString(DateStringVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.DateTime)(unsafe.Pointer(cret))
-
+	return cret
 }
 
-var xDateTimeToString func(*glib.DateTime, DateFormat) string
+var xDateTimeToString func(uintptr, DateFormat) string
 
 // Converts @date to a string in the format described by @format.
-func DateTimeToString(DateVar *glib.DateTime, FormatVar DateFormat) string {
+func DateTimeToString(DateVar uintptr, FormatVar DateFormat) string {
 
 	cret := xDateTimeToString(DateVar, FormatVar)
 	return cret

@@ -81,14 +81,10 @@ var xMultipartInputStreamGetHeaders func(uintptr) uintptr
 //
 // Note that if a part had no headers at all an empty [struct@MessageHeaders]
 // will be returned.
-func (x *MultipartInputStream) GetHeaders() *MessageHeaders {
+func (x *MultipartInputStream) GetHeaders() uintptr {
 
 	cret := xMultipartInputStreamGetHeaders(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMultipartInputStreamNextPart func(uintptr, uintptr, **glib.Error) uintptr
@@ -192,14 +188,10 @@ func (x *MultipartInputStream) CanPoll() bool {
 //
 // The behaviour of this method is undefined if
 // g_pollable_input_stream_can_poll() returns %FALSE for @stream.
-func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) *glib.Source {
+func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) uintptr {
 
 	cret := gio.XGPollableInputStreamCreateSource(x.GoPointer(), CancellableVar.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Source)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 // Checks if @stream can be read.

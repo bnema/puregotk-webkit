@@ -279,7 +279,7 @@ func (x *Context) PushExceptionHandler(HandlerVar *ExceptionHandler, UserDataVar
 
 }
 
-var xContextRegisterClass func(uintptr, string, uintptr, *ClassVTable, uintptr) uintptr
+var xContextRegisterClass func(uintptr, string, uintptr, uintptr, uintptr) uintptr
 
 // Register a custom class in @context using the given @name. If the new class inherits from
 // another #JSCClass, the parent should be passed as @parent_class, otherwise %NULL should be
@@ -287,7 +287,7 @@ var xContextRegisterClass func(uintptr, string, uintptr, *ClassVTable, uintptr) 
 // the class, for example, to handle external properties not added to the prototype.
 // When an instance of the #JSCClass is cleared in the context, @destroy_notify is called with
 // the instance as parameter.
-func (x *Context) RegisterClass(NameVar string, ParentClassVar *Class, VtableVar *ClassVTable, DestroyNotifyVar *glib.DestroyNotify) *Class {
+func (x *Context) RegisterClass(NameVar string, ParentClassVar *Class, VtableVar uintptr, DestroyNotifyVar *glib.DestroyNotify) *Class {
 	var cls *Class
 
 	cret := xContextRegisterClass(x.GoPointer(), NameVar, ParentClassVar.GoPointer(), VtableVar, glib.NewCallbackNullable(DestroyNotifyVar))

@@ -61,13 +61,13 @@ func WebsocketConnectionNewFromInternalPtr(ptr uintptr) *WebsocketConnection {
 	return cls
 }
 
-var xNewWebsocketConnection func(uintptr, *glib.Uri, WebsocketConnectionType, string, string, *glib.List) uintptr
+var xNewWebsocketConnection func(uintptr, uintptr, WebsocketConnectionType, string, string, uintptr) uintptr
 
 // Creates a #SoupWebsocketConnection on @stream with the given active @extensions.
 //
 // This should be called after completing the handshake to begin using the WebSocket
 // protocol.
-func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar *glib.Uri, TypeVar WebsocketConnectionType, OriginVar string, ProtocolVar string, ExtensionsVar *glib.List) *WebsocketConnection {
+func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar uintptr, TypeVar WebsocketConnectionType, OriginVar string, ProtocolVar string, ExtensionsVar uintptr) *WebsocketConnection {
 	var cls *WebsocketConnection
 
 	cret := xNewWebsocketConnection(StreamVar.GoPointer(), UriVar, TypeVar, OriginVar, ProtocolVar, ExtensionsVar)
@@ -137,14 +137,10 @@ func (x *WebsocketConnection) GetConnectionType() WebsocketConnectionType {
 var xWebsocketConnectionGetExtensions func(uintptr) uintptr
 
 // Get the extensions chosen via negotiation with the peer.
-func (x *WebsocketConnection) GetExtensions() *glib.List {
+func (x *WebsocketConnection) GetExtensions() uintptr {
 
 	cret := xWebsocketConnectionGetExtensions(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.List)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xWebsocketConnectionGetIoStream func(uintptr) uintptr
@@ -224,14 +220,10 @@ var xWebsocketConnectionGetUri func(uintptr) uintptr
 //
 // For servers this represents the address of the WebSocket, and
 // for clients it is the address connected to.
-func (x *WebsocketConnection) GetUri() *glib.Uri {
+func (x *WebsocketConnection) GetUri() uintptr {
 
 	cret := xWebsocketConnectionGetUri(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Uri)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xWebsocketConnectionSendBinary func(uintptr, []byte, uint)
@@ -248,14 +240,14 @@ func (x *WebsocketConnection) SendBinary(DataVar []byte, LengthVar uint) {
 
 }
 
-var xWebsocketConnectionSendMessage func(uintptr, WebsocketDataType, *glib.Bytes)
+var xWebsocketConnectionSendMessage func(uintptr, WebsocketDataType, uintptr)
 
 // Send a message of the given @type to the peer. Note that this method,
 // allows to send text messages containing %NULL characters.
 //
 // The message is queued to be sent and will be sent when the main loop
 // is run.
-func (x *WebsocketConnection) SendMessage(TypeVar WebsocketDataType, MessageVar *glib.Bytes) {
+func (x *WebsocketConnection) SendMessage(TypeVar WebsocketDataType, MessageVar uintptr) {
 
 	xWebsocketConnectionSendMessage(x.GoPointer(), TypeVar, MessageVar)
 

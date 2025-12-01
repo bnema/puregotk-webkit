@@ -44,14 +44,10 @@ func NavigationPolicyDecisionNewFromInternalPtr(ptr uintptr) *NavigationPolicyDe
 var xNavigationPolicyDecisionGetNavigationAction func(uintptr) uintptr
 
 // Gets the value of the #WebKitNavigationPolicyDecision:navigation-action property.
-func (x *NavigationPolicyDecision) GetNavigationAction() *NavigationAction {
+func (x *NavigationPolicyDecision) GetNavigationAction() uintptr {
 
 	cret := xNavigationPolicyDecisionGetNavigationAction(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*NavigationAction)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 func (c *NavigationPolicyDecision) GoPointer() uintptr {

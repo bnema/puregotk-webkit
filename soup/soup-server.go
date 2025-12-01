@@ -33,7 +33,7 @@ import (
 //
 // See [method@Server.add_handler] and [method@Server.add_early_handler]
 // for details of what handlers can/should do.
-type ServerCallback func(uintptr, uintptr, string, *glib.HashTable, uintptr)
+type ServerCallback func(uintptr, uintptr, string, uintptr, uintptr)
 
 // A callback used to handle WebSocket requests to a #SoupServer.
 //
@@ -475,14 +475,10 @@ var xServerGetListeners func(uintptr) uintptr
 //
 // You should treat these sockets as read-only; writing to or
 // modifiying any of these sockets may cause @server to malfunction.
-func (x *Server) GetListeners() *glib.SList {
+func (x *Server) GetListeners() uintptr {
 
 	cret := xServerGetListeners(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.SList)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xServerGetTlsAuthMode func(uintptr) gio.TlsAuthenticationMode
@@ -539,14 +535,10 @@ var xServerGetUris func(uintptr) uintptr
 // Note that if you used [method@Server.listen_all] the returned URIs will use
 // the addresses `0.0.0.0` and `::`, rather than actually returning separate
 // URIs for each interface on the system.
-func (x *Server) GetUris() *glib.SList {
+func (x *Server) GetUris() uintptr {
 
 	cret := xServerGetUris(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.SList)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xServerIsHttps func(uintptr) bool

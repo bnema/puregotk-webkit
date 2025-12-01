@@ -81,14 +81,10 @@ var xWebsiteDataRef func(uintptr) uintptr
 // Atomically increments the reference count of @website_data by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *WebsiteData) Ref() *WebsiteData {
+func (x *WebsiteData) Ref() uintptr {
 
 	cret := xWebsiteDataRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*WebsiteData)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xWebsiteDataUnref func(uintptr)

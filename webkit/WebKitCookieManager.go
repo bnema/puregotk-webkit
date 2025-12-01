@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gio"
@@ -85,13 +84,13 @@ func CookieManagerNewFromInternalPtr(ptr uintptr) *CookieManager {
 	return cls
 }
 
-var xCookieManagerAddCookie func(uintptr, *soup.Cookie, uintptr, uintptr, uintptr)
+var xCookieManagerAddCookie func(uintptr, uintptr, uintptr, uintptr, uintptr)
 
 // Asynchronously add a #SoupCookie to the underlying storage.
 //
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_add_cookie_finish() to get the result of the operation.
-func (x *CookieManager) AddCookie(CookieVar *soup.Cookie, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *CookieManager) AddCookie(CookieVar uintptr, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
 	xCookieManagerAddCookie(x.GoPointer(), CookieVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 
@@ -111,13 +110,13 @@ func (x *CookieManager) AddCookieFinish(ResultVar gio.AsyncResult) (bool, error)
 
 }
 
-var xCookieManagerDeleteCookie func(uintptr, *soup.Cookie, uintptr, uintptr, uintptr)
+var xCookieManagerDeleteCookie func(uintptr, uintptr, uintptr, uintptr, uintptr)
 
 // Asynchronously delete a #SoupCookie from the current session.
 //
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_delete_cookie_finish() to get the result of the operation.
-func (x *CookieManager) DeleteCookie(CookieVar *soup.Cookie, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *CookieManager) DeleteCookie(CookieVar uintptr, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
 	xCookieManagerDeleteCookie(x.GoPointer(), CookieVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 
@@ -185,17 +184,14 @@ var xCookieManagerGetAllCookiesFinish func(uintptr, uintptr, **glib.Error) uintp
 //
 // The return value is a #GList of #SoupCookie instances which should be released
 // with g_list_free_full() and soup_cookie_free().
-func (x *CookieManager) GetAllCookiesFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
+func (x *CookieManager) GetAllCookiesFinish(ResultVar gio.AsyncResult) (uintptr, error) {
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetAllCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr != nil {
-		return nil, cerr
+	if cerr == nil {
+		return cret, nil
 	}
-	if cret == 0 {
-		return nil, nil
-	}
-	return (*glib.List)(unsafe.Pointer(cret)), nil
+	return cret, cerr
 
 }
 
@@ -220,27 +216,24 @@ var xCookieManagerGetCookiesFinish func(uintptr, uintptr, **glib.Error) uintptr
 //
 // The return value is a #GList of #SoupCookie instances which should be released
 // with g_list_free_full() and soup_cookie_free().
-func (x *CookieManager) GetCookiesFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
+func (x *CookieManager) GetCookiesFinish(ResultVar gio.AsyncResult) (uintptr, error) {
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr != nil {
-		return nil, cerr
+	if cerr == nil {
+		return cret, nil
 	}
-	if cret == 0 {
-		return nil, nil
-	}
-	return (*glib.List)(unsafe.Pointer(cret)), nil
+	return cret, cerr
 
 }
 
-var xCookieManagerReplaceCookies func(uintptr, *glib.List, uintptr, uintptr, uintptr)
+var xCookieManagerReplaceCookies func(uintptr, uintptr, uintptr, uintptr, uintptr)
 
 // Asynchronously replace all cookies in @cookie_manager with the given list of @cookies.
 //
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_replace_cookies_finish() to get the result of the operation.
-func (x *CookieManager) ReplaceCookies(CookiesVar *glib.List, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *CookieManager) ReplaceCookies(CookiesVar uintptr, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
 	xCookieManagerReplaceCookies(x.GoPointer(), CookiesVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 

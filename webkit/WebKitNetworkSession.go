@@ -156,17 +156,14 @@ func (x *NetworkSession) GetItpSummary(CancellableVar *gio.Cancellable, Callback
 var xNetworkSessionGetItpSummaryFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finish an asynchronous operation started with webkit_network_session_get_itp_summary().
-func (x *NetworkSession) GetItpSummaryFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
+func (x *NetworkSession) GetItpSummaryFinish(ResultVar gio.AsyncResult) (uintptr, error) {
 	var cerr *glib.Error
 
 	cret := xNetworkSessionGetItpSummaryFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr != nil {
-		return nil, cerr
+	if cerr == nil {
+		return cret, nil
 	}
-	if cret == 0 {
-		return nil, nil
-	}
-	return (*glib.List)(unsafe.Pointer(cret)), nil
+	return cret, cerr
 
 }
 
@@ -255,7 +252,7 @@ func (x *NetworkSession) SetPersistentCredentialStorageEnabled(EnabledVar bool) 
 
 }
 
-var xNetworkSessionSetProxySettings func(uintptr, NetworkProxyMode, *NetworkProxySettings)
+var xNetworkSessionSetProxySettings func(uintptr, NetworkProxyMode, uintptr)
 
 // Set the network proxy settings to be used by connections started in @session session.
 //
@@ -266,7 +263,7 @@ var xNetworkSessionSetProxySettings func(uintptr, NetworkProxyMode, *NetworkProx
 // or %WEBKIT_NETWORK_PROXY_MODE_CUSTOM to provide your own proxy settings.
 // When @proxy_mode is %WEBKIT_NETWORK_PROXY_MODE_CUSTOM @proxy_settings must be
 // a valid #WebKitNetworkProxySettings; otherwise, @proxy_settings must be %NULL.
-func (x *NetworkSession) SetProxySettings(ProxyModeVar NetworkProxyMode, ProxySettingsVar *NetworkProxySettings) {
+func (x *NetworkSession) SetProxySettings(ProxyModeVar NetworkProxyMode, ProxySettingsVar uintptr) {
 
 	xNetworkSessionSetProxySettings(x.GoPointer(), ProxyModeVar, ProxySettingsVar)
 
@@ -331,7 +328,7 @@ func NetworkSessionGetDefault() *NetworkSession {
 	return cls
 }
 
-var xNetworkSessionSetMemoryPressureSettings func(*MemoryPressureSettings)
+var xNetworkSessionSetMemoryPressureSettings func(uintptr)
 
 // Sets @settings as the #WebKitMemoryPressureSettings.
 //
@@ -345,7 +342,7 @@ var xNetworkSessionSetMemoryPressureSettings func(*MemoryPressureSettings)
 // be enabled only if custom settings have been set using this function. After that, in order
 // to remove the custom settings and disable the periodic check, this function must be called
 // passing %NULL as the value of @settings.
-func NetworkSessionSetMemoryPressureSettings(SettingsVar *MemoryPressureSettings) {
+func NetworkSessionSetMemoryPressureSettings(SettingsVar uintptr) {
 
 	xNetworkSessionSetMemoryPressureSettings(SettingsVar)
 

@@ -72,6 +72,13 @@ func (f *funcArgsTemplate) AddAPI(t string, n string, k Kind, ns string, nullabl
 		} else if stars == 1 {
 			c = n + ".GoPointer()"
 		}
+	case RecordsType:
+		// Records/boxed types are stored as empty Go structs where the C pointer
+		// IS the Go pointer value. We must call .GoPointer() to convert back to uintptr
+		// for purego to pass correctly to C functions.
+		if stars > 0 {
+			c = n + ".GoPointer()"
+		}
 	}
 
 	// special case for varargs

@@ -104,7 +104,7 @@ func NewSettingsWithSettings(FirstSettingNameVar string, varArgs ...interface{})
 	return cls
 }
 
-var xSettingsApplyFromKeyFile func(uintptr, *glib.KeyFile, string, **glib.Error) bool
+var xSettingsApplyFromKeyFile func(uintptr, uintptr, string, **glib.Error) bool
 
 // Reads the contents of the given @group_name from the given @key_file and apply the value of
 // each key/value to the corresponding property on the @settings.
@@ -114,7 +114,7 @@ var xSettingsApplyFromKeyFile func(uintptr, *glib.KeyFile, string, **glib.Error)
 // %FALSE.
 //
 // Supported value types are strings (unquoted), booleans (0, 1, true, false) and unsigned integers.
-func (x *Settings) ApplyFromKeyFile(KeyFileVar *glib.KeyFile, GroupNameVar string) (bool, error) {
+func (x *Settings) ApplyFromKeyFile(KeyFileVar uintptr, GroupNameVar string) (bool, error) {
 	var cerr *glib.Error
 
 	cret := xSettingsApplyFromKeyFile(x.GoPointer(), KeyFileVar, GroupNameVar, &cerr)
@@ -494,10 +494,10 @@ func (x *Settings) GetFantasyFontFamily() string {
 	return cret
 }
 
-var xSettingsGetFeatureEnabled func(uintptr, *Feature) bool
+var xSettingsGetFeatureEnabled func(uintptr, uintptr) bool
 
 // Gets whether a feature is enabled.
-func (x *Settings) GetFeatureEnabled(FeatureVar *Feature) bool {
+func (x *Settings) GetFeatureEnabled(FeatureVar uintptr) bool {
 
 	cret := xSettingsGetFeatureEnabled(x.GoPointer(), FeatureVar)
 	return cret
@@ -1018,7 +1018,7 @@ func (x *Settings) SetFantasyFontFamily(FantasyFontFamilyVar string) {
 
 }
 
-var xSettingsSetFeatureEnabled func(uintptr, *Feature, bool)
+var xSettingsSetFeatureEnabled func(uintptr, uintptr, bool)
 
 // Enables or disables a feature.
 //
@@ -1026,7 +1026,7 @@ var xSettingsSetFeatureEnabled func(uintptr, *Feature, bool)
 // [id@webkit_settings_get_feature_enabled]. To reset a feature to its
 // initial status, pass the value returned by
 // [id@webkit_feature_get_default_value] as the @enabled parameter.
-func (x *Settings) SetFeatureEnabled(FeatureVar *Feature, EnabledVar bool) {
+func (x *Settings) SetFeatureEnabled(FeatureVar uintptr, EnabledVar bool) {
 
 	xSettingsSetFeatureEnabled(x.GoPointer(), FeatureVar, EnabledVar)
 
@@ -1237,14 +1237,10 @@ var xSettingsGetAllFeatures func() uintptr
 // Note that most applications should use
 // [func@Settings.get_development_features] and
 // [func@Settings.get_experimental_features] instead.
-func SettingsGetAllFeatures() *FeatureList {
+func SettingsGetAllFeatures() uintptr {
 
 	cret := xSettingsGetAllFeatures()
-	if cret == 0 {
-		return nil
-	}
-	return (*FeatureList)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xSettingsGetDevelopmentFeatures func() uintptr
@@ -1256,14 +1252,10 @@ var xSettingsGetDevelopmentFeatures func() uintptr
 // web and WebKit developers might find useful, but in general should
 // *not* be exposed to end users; see [enum@FeatureStatus] for
 // more details.
-func SettingsGetDevelopmentFeatures() *FeatureList {
+func SettingsGetDevelopmentFeatures() uintptr {
 
 	cret := xSettingsGetDevelopmentFeatures()
-	if cret == 0 {
-		return nil
-	}
-	return (*FeatureList)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xSettingsGetExperimentalFeatures func() uintptr
@@ -1274,14 +1266,10 @@ var xSettingsGetExperimentalFeatures func() uintptr
 // [func@Settings.get_all_features], and includes those which
 // certain applications may want to expose to end users; see
 // [enum@FeatureStatus] for more details.
-func SettingsGetExperimentalFeatures() *FeatureList {
+func SettingsGetExperimentalFeatures() uintptr {
 
 	cret := xSettingsGetExperimentalFeatures()
-	if cret == 0 {
-		return nil
-	}
-	return (*FeatureList)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 func init() {

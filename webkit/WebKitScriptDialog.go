@@ -107,14 +107,10 @@ var xScriptDialogRef func(uintptr) uintptr
 //
 // This
 // function is MT-safe and may be called from any thread.
-func (x *ScriptDialog) Ref() *ScriptDialog {
+func (x *ScriptDialog) Ref() uintptr {
 
 	cret := xScriptDialogRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*ScriptDialog)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xScriptDialogUnref func(uintptr)

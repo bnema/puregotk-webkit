@@ -2,8 +2,6 @@
 package javascriptcore
 
 import (
-	"unsafe"
-
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/glib"
@@ -100,14 +98,10 @@ var xOptionsGetOptionGroup func() uintptr
 // corresponding option during command line parsing. Applications only need to
 // pass the returned group to g_option_context_add_group(), and the rest will
 // be taken care for automatically.
-func OptionsGetOptionGroup() *glib.OptionGroup {
+func OptionsGetOptionGroup() uintptr {
 
 	cret := xOptionsGetOptionGroup()
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.OptionGroup)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xOptionsGetRangeString func(string, string) bool

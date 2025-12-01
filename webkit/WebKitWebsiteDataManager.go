@@ -43,14 +43,10 @@ var xITPFirstPartyGetLastUpdateTime func(uintptr) uintptr
 //
 // Each @WebKitITPFirstParty is created by webkit_itp_third_party_get_first_parties() and
 // therefore corresponds to exactly one #WebKitITPThirdParty.
-func (x *ITPFirstParty) GetLastUpdateTime() *glib.DateTime {
+func (x *ITPFirstParty) GetLastUpdateTime() uintptr {
 
 	cret := xITPFirstPartyGetLastUpdateTime(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.DateTime)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xITPFirstPartyGetWebsiteDataAccessAllowed func(uintptr) bool
@@ -70,14 +66,10 @@ var xITPFirstPartyRef func(uintptr) uintptr
 // Atomically increments the reference count of @itp_first_party by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *ITPFirstParty) Ref() *ITPFirstParty {
+func (x *ITPFirstParty) Ref() uintptr {
 
 	cret := xITPFirstPartyRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*ITPFirstParty)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xITPFirstPartyUnref func(uintptr)
@@ -120,14 +112,10 @@ func (x *ITPThirdParty) GetDomain() string {
 var xITPThirdPartyGetFirstParties func(uintptr) uintptr
 
 // Get the list of #WebKitITPFirstParty under which @itp_third_party has been seen.
-func (x *ITPThirdParty) GetFirstParties() *glib.List {
+func (x *ITPThirdParty) GetFirstParties() uintptr {
 
 	cret := xITPThirdPartyGetFirstParties(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.List)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xITPThirdPartyRef func(uintptr) uintptr
@@ -135,14 +123,10 @@ var xITPThirdPartyRef func(uintptr) uintptr
 // Atomically increments the reference count of @itp_third_party by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *ITPThirdParty) Ref() *ITPThirdParty {
+func (x *ITPThirdParty) Ref() uintptr {
 
 	cret := xITPThirdPartyRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*ITPThirdParty)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xITPThirdPartyUnref func(uintptr)
@@ -265,17 +249,14 @@ func (x *WebsiteDataManager) Fetch(TypesVar WebsiteDataTypes, CancellableVar *gi
 var xWebsiteDataManagerFetchFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finish an asynchronous operation started with webkit_website_data_manager_fetch().
-func (x *WebsiteDataManager) FetchFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
+func (x *WebsiteDataManager) FetchFinish(ResultVar gio.AsyncResult) (uintptr, error) {
 	var cerr *glib.Error
 
 	cret := xWebsiteDataManagerFetchFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr != nil {
-		return nil, cerr
+	if cerr == nil {
+		return cret, nil
 	}
-	if cret == 0 {
-		return nil, nil
-	}
-	return (*glib.List)(unsafe.Pointer(cret)), nil
+	return cret, cerr
 
 }
 
@@ -341,17 +322,14 @@ func (x *WebsiteDataManager) GetItpSummary(CancellableVar *gio.Cancellable, Call
 var xWebsiteDataManagerGetItpSummaryFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finish an asynchronous operation started with webkit_website_data_manager_get_itp_summary().
-func (x *WebsiteDataManager) GetItpSummaryFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
+func (x *WebsiteDataManager) GetItpSummaryFinish(ResultVar gio.AsyncResult) (uintptr, error) {
 	var cerr *glib.Error
 
 	cret := xWebsiteDataManagerGetItpSummaryFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr != nil {
-		return nil, cerr
+	if cerr == nil {
+		return cret, nil
 	}
-	if cret == 0 {
-		return nil, nil
-	}
-	return (*glib.List)(unsafe.Pointer(cret)), nil
+	return cret, cerr
 
 }
 
@@ -366,7 +344,7 @@ func (x *WebsiteDataManager) IsEphemeral() bool {
 	return cret
 }
 
-var xWebsiteDataManagerRemove func(uintptr, WebsiteDataTypes, *glib.List, uintptr, uintptr, uintptr)
+var xWebsiteDataManagerRemove func(uintptr, WebsiteDataTypes, uintptr, uintptr, uintptr, uintptr)
 
 // Asynchronously removes the website data in the given @website_data list.
 //
@@ -375,7 +353,7 @@ var xWebsiteDataManagerRemove func(uintptr, WebsiteDataTypes, *glib.List, uintpt
 //
 // When the operation is finished, @callback will be called. You can then call
 // webkit_website_data_manager_remove_finish() to get the result of the operation.
-func (x *WebsiteDataManager) Remove(TypesVar WebsiteDataTypes, WebsiteDataVar *glib.List, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *WebsiteDataManager) Remove(TypesVar WebsiteDataTypes, WebsiteDataVar uintptr, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
 	xWebsiteDataManagerRemove(x.GoPointer(), TypesVar, WebsiteDataVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 
