@@ -757,6 +757,7 @@ func (r *ReturnValue) Template(ns string, ins string, kinds KindMap, throws bool
 	if stars > 0 {
 		val = util.StarsInFront(strings.ReplaceAll(val, "*", ""), stars)
 	}
+	record := false
 	switch kind {
 	case ClassesType:
 		raw = "uintptr"
@@ -782,11 +783,19 @@ func (r *ReturnValue) Template(ns string, ins string, kinds KindMap, throws bool
 			raw = "uintptr"
 			val = "uintptr"
 		}
+	case RecordsType:
+		// Record/boxed types with pointers need to return uintptr and cast
+		// purego can't return Go struct pointers directly from C
+		if stars > 0 {
+			raw = "uintptr"
+			record = true
+		}
 	}
 	return funcRetTemplate{
 		Raw:     raw,
 		Value:   val,
 		Class:   class,
+		Record:  record,
 		RefSink: r.TransferOwnership.TransferOwnership == "none",
 		Throws:  throws,
 	}
