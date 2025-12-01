@@ -56,14 +56,10 @@ func (x *PermissionStateQuery) GetName() string {
 var xPermissionStateQueryGetSecurityOrigin func(uintptr) uintptr
 
 // Get the permission origin for which access is being queried.
-func (x *PermissionStateQuery) GetSecurityOrigin() *SecurityOrigin {
+func (x *PermissionStateQuery) GetSecurityOrigin() uintptr {
 
 	cret := xPermissionStateQueryGetSecurityOrigin(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*SecurityOrigin)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xPermissionStateQueryRef func(uintptr) uintptr
@@ -71,14 +67,10 @@ var xPermissionStateQueryRef func(uintptr) uintptr
 // Atomically increments the reference count of @query by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *PermissionStateQuery) Ref() *PermissionStateQuery {
+func (x *PermissionStateQuery) Ref() uintptr {
 
 	cret := xPermissionStateQueryRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*PermissionStateQuery)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xPermissionStateQueryUnref func(uintptr)

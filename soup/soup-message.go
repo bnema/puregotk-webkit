@@ -169,11 +169,11 @@ func NewMessageFromEncodedForm(MethodVar string, UriStringVar string, EncodedFor
 	return cls
 }
 
-var xNewMessageFromMultipart func(string, *Multipart) uintptr
+var xNewMessageFromMultipart func(string, uintptr) uintptr
 
 // Creates a new #SoupMessage and sets it up to send @multipart to
 // @uri_string via POST.
-func NewMessageFromMultipart(UriStringVar string, MultipartVar *Multipart) *Message {
+func NewMessageFromMultipart(UriStringVar string, MultipartVar uintptr) *Message {
 	var cls *Message
 
 	cret := xNewMessageFromMultipart(UriStringVar, MultipartVar)
@@ -186,10 +186,10 @@ func NewMessageFromMultipart(UriStringVar string, MultipartVar *Multipart) *Mess
 	return cls
 }
 
-var xNewMessageFromUri func(string, *glib.Uri) uintptr
+var xNewMessageFromUri func(string, uintptr) uintptr
 
 // Creates a new empty #SoupMessage, which will connect to @uri.
-func NewMessageFromUri(MethodVar string, UriVar *glib.Uri) *Message {
+func NewMessageFromUri(MethodVar string, UriVar uintptr) *Message {
 	var cls *Message
 
 	cret := xNewMessageFromUri(MethodVar, UriVar)
@@ -202,11 +202,11 @@ func NewMessageFromUri(MethodVar string, UriVar *glib.Uri) *Message {
 	return cls
 }
 
-var xNewMessageOptionsPing func(*glib.Uri) uintptr
+var xNewMessageOptionsPing func(uintptr) uintptr
 
 // Creates a new #SoupMessage to send `OPTIONS *` to a server. The path of
 // @base_uri will be ignored.
-func NewMessageOptionsPing(BaseUriVar *glib.Uri) *Message {
+func NewMessageOptionsPing(BaseUriVar uintptr) *Message {
 	var cls *Message
 
 	cret := xNewMessageOptionsPing(BaseUriVar)
@@ -290,14 +290,10 @@ func (x *Message) GetConnectionId() uint64 {
 var xMessageGetFirstParty func(uintptr) uintptr
 
 // Gets @msg's first-party [struct@GLib.Uri].
-func (x *Message) GetFirstParty() *glib.Uri {
+func (x *Message) GetFirstParty() uintptr {
 
 	cret := xMessageGetFirstParty(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Uri)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMessageGetFlags func(uintptr) MessageFlags
@@ -365,14 +361,10 @@ var xMessageGetMetrics func(uintptr) uintptr
 //
 // If the flag %SOUP_MESSAGE_COLLECT_METRICS is not enabled for @msg this will
 // return %NULL.
-func (x *Message) GetMetrics() *MessageMetrics {
+func (x *Message) GetMetrics() uintptr {
 
 	cret := xMessageGetMetrics(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageMetrics)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMessageGetPriority func(uintptr) MessagePriority
@@ -422,40 +414,28 @@ func (x *Message) GetRemoteAddress() *gio.SocketAddress {
 var xMessageGetRequestHeaders func(uintptr) uintptr
 
 // Returns the headers sent with the request.
-func (x *Message) GetRequestHeaders() *MessageHeaders {
+func (x *Message) GetRequestHeaders() uintptr {
 
 	cret := xMessageGetRequestHeaders(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMessageGetResponseHeaders func(uintptr) uintptr
 
 // Returns the headers recieved with the response.
-func (x *Message) GetResponseHeaders() *MessageHeaders {
+func (x *Message) GetResponseHeaders() uintptr {
 
 	cret := xMessageGetResponseHeaders(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMessageGetSiteForCookies func(uintptr) uintptr
 
 // Gets @msg's site for cookies #GUri.
-func (x *Message) GetSiteForCookies() *glib.Uri {
+func (x *Message) GetSiteForCookies() uintptr {
 
 	cret := xMessageGetSiteForCookies(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Uri)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMessageGetStatus func(uintptr) Status
@@ -521,14 +501,10 @@ func (x *Message) GetTlsProtocolVersion() gio.TlsProtocolVersion {
 var xMessageGetUri func(uintptr) uintptr
 
 // Gets @msg's URI.
-func (x *Message) GetUri() *glib.Uri {
+func (x *Message) GetUri() uintptr {
 
 	cret := xMessageGetUri(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Uri)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMessageIsFeatureDisabled func(uintptr, types.GType) bool
@@ -573,13 +549,13 @@ func (x *Message) RemoveFlags(FlagsVar MessageFlags) {
 
 }
 
-var xMessageSetFirstParty func(uintptr, *glib.Uri)
+var xMessageSetFirstParty func(uintptr, uintptr)
 
 // Sets @first_party as the main document #GUri for @msg.
 //
 // For details of when and how this is used refer to the documentation for
 // [enum@CookieJarAcceptPolicy].
-func (x *Message) SetFirstParty(FirstPartyVar *glib.Uri) {
+func (x *Message) SetFirstParty(FirstPartyVar uintptr) {
 
 	xMessageSetFirstParty(x.GoPointer(), FirstPartyVar)
 
@@ -673,7 +649,7 @@ func (x *Message) SetRequestBody(ContentTypeVar string, StreamVar *gio.InputStre
 
 }
 
-var xMessageSetRequestBodyFromBytes func(uintptr, string, *glib.Bytes)
+var xMessageSetRequestBodyFromBytes func(uintptr, string, uintptr)
 
 // Set the request body of a #SoupMessage from [struct@GLib.Bytes].
 //
@@ -681,13 +657,13 @@ var xMessageSetRequestBodyFromBytes func(uintptr, string, *glib.Bytes)
 // not be changed if present.
 // The request body needs to be set again in case @msg is restarted
 // (in case of redirection or authentication).
-func (x *Message) SetRequestBodyFromBytes(ContentTypeVar string, BytesVar *glib.Bytes) {
+func (x *Message) SetRequestBodyFromBytes(ContentTypeVar string, BytesVar uintptr) {
 
 	xMessageSetRequestBodyFromBytes(x.GoPointer(), ContentTypeVar, BytesVar)
 
 }
 
-var xMessageSetSiteForCookies func(uintptr, *glib.Uri)
+var xMessageSetSiteForCookies func(uintptr, uintptr)
 
 // Sets @site_for_cookies as the policy URL for same-site cookies for @msg.
 //
@@ -698,7 +674,7 @@ var xMessageSetSiteForCookies func(uintptr, *glib.Uri)
 //
 // See the [same-site spec](https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00)
 // for more information.
-func (x *Message) SetSiteForCookies(SiteForCookiesVar *glib.Uri) {
+func (x *Message) SetSiteForCookies(SiteForCookiesVar uintptr) {
 
 	xMessageSetSiteForCookies(x.GoPointer(), SiteForCookiesVar)
 
@@ -720,13 +696,13 @@ func (x *Message) SetTlsClientCertificate(CertificateVar *gio.TlsCertificate) {
 
 }
 
-var xMessageSetUri func(uintptr, *glib.Uri)
+var xMessageSetUri func(uintptr, uintptr)
 
 // Sets @msg's URI to @uri.
 //
 // If @msg has already been sent and you want to re-send it with the new URI,
 // you need to send it again.
-func (x *Message) SetUri(UriVar *glib.Uri) {
+func (x *Message) SetUri(UriVar uintptr) {
 
 	xMessageSetUri(x.GoPointer(), UriVar)
 

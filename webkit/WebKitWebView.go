@@ -168,34 +168,34 @@ func (x *WebViewClass) GetLoadChanged() func(*WebView, LoadEvent) {
 }
 
 // OverrideLoadFailed sets the callback function.
-func (x *WebViewClass) OverrideLoadFailed(cb func(*WebView, LoadEvent, string, *glib.Error) bool) {
+func (x *WebViewClass) OverrideLoadFailed(cb func(*WebView, LoadEvent, string, uintptr) bool) {
 	if cb == nil {
 		x.xLoadFailed = 0
 	} else {
-		x.xLoadFailed = purego.NewCallback(func(WebViewVarp uintptr, LoadEventVarp LoadEvent, FailingUriVarp string, ErrorVarp *glib.Error) bool {
+		x.xLoadFailed = purego.NewCallback(func(WebViewVarp uintptr, LoadEventVarp LoadEvent, FailingUriVarp string, ErrorVarp uintptr) bool {
 			return cb(WebViewNewFromInternalPtr(WebViewVarp), LoadEventVarp, FailingUriVarp, ErrorVarp)
 		})
 	}
 }
 
 // GetLoadFailed gets the callback function.
-func (x *WebViewClass) GetLoadFailed() func(*WebView, LoadEvent, string, *glib.Error) bool {
+func (x *WebViewClass) GetLoadFailed() func(*WebView, LoadEvent, string, uintptr) bool {
 	if x.xLoadFailed == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, LoadEventVarp LoadEvent, FailingUriVarp string, ErrorVarp *glib.Error) bool
+	var rawCallback func(WebViewVarp uintptr, LoadEventVarp LoadEvent, FailingUriVarp string, ErrorVarp uintptr) bool
 	purego.RegisterFunc(&rawCallback, x.xLoadFailed)
-	return func(WebViewVar *WebView, LoadEventVar LoadEvent, FailingUriVar string, ErrorVar *glib.Error) bool {
+	return func(WebViewVar *WebView, LoadEventVar LoadEvent, FailingUriVar string, ErrorVar uintptr) bool {
 		return rawCallback(WebViewVar.GoPointer(), LoadEventVar, FailingUriVar, ErrorVar)
 	}
 }
 
 // OverrideCreate sets the callback function.
-func (x *WebViewClass) OverrideCreate(cb func(*WebView, *NavigationAction) *gtk.Widget) {
+func (x *WebViewClass) OverrideCreate(cb func(*WebView, uintptr) *gtk.Widget) {
 	if cb == nil {
 		x.xCreate = 0
 	} else {
-		x.xCreate = purego.NewCallback(func(WebViewVarp uintptr, NavigationActionVarp *NavigationAction) uintptr {
+		x.xCreate = purego.NewCallback(func(WebViewVarp uintptr, NavigationActionVarp uintptr) uintptr {
 			ret := cb(WebViewNewFromInternalPtr(WebViewVarp), NavigationActionVarp)
 			if ret == nil {
 				return 0
@@ -206,13 +206,13 @@ func (x *WebViewClass) OverrideCreate(cb func(*WebView, *NavigationAction) *gtk.
 }
 
 // GetCreate gets the callback function.
-func (x *WebViewClass) GetCreate() func(*WebView, *NavigationAction) *gtk.Widget {
+func (x *WebViewClass) GetCreate() func(*WebView, uintptr) *gtk.Widget {
 	if x.xCreate == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, NavigationActionVarp *NavigationAction) uintptr
+	var rawCallback func(WebViewVarp uintptr, NavigationActionVarp uintptr) uintptr
 	purego.RegisterFunc(&rawCallback, x.xCreate)
-	return func(WebViewVar *WebView, NavigationActionVar *NavigationAction) *gtk.Widget {
+	return func(WebViewVar *WebView, NavigationActionVar uintptr) *gtk.Widget {
 		rawRet := rawCallback(WebViewVar.GoPointer(), NavigationActionVar)
 		if rawRet == 0 {
 			return nil
@@ -293,24 +293,24 @@ func (x *WebViewClass) GetClose() func(*WebView) {
 }
 
 // OverrideScriptDialog sets the callback function.
-func (x *WebViewClass) OverrideScriptDialog(cb func(*WebView, *ScriptDialog) bool) {
+func (x *WebViewClass) OverrideScriptDialog(cb func(*WebView, uintptr) bool) {
 	if cb == nil {
 		x.xScriptDialog = 0
 	} else {
-		x.xScriptDialog = purego.NewCallback(func(WebViewVarp uintptr, DialogVarp *ScriptDialog) bool {
+		x.xScriptDialog = purego.NewCallback(func(WebViewVarp uintptr, DialogVarp uintptr) bool {
 			return cb(WebViewNewFromInternalPtr(WebViewVarp), DialogVarp)
 		})
 	}
 }
 
 // GetScriptDialog gets the callback function.
-func (x *WebViewClass) GetScriptDialog() func(*WebView, *ScriptDialog) bool {
+func (x *WebViewClass) GetScriptDialog() func(*WebView, uintptr) bool {
 	if x.xScriptDialog == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, DialogVarp *ScriptDialog) bool
+	var rawCallback func(WebViewVarp uintptr, DialogVarp uintptr) bool
 	purego.RegisterFunc(&rawCallback, x.xScriptDialog)
-	return func(WebViewVar *WebView, DialogVar *ScriptDialog) bool {
+	return func(WebViewVar *WebView, DialogVar uintptr) bool {
 		return rawCallback(WebViewVar.GoPointer(), DialogVar)
 	}
 }
@@ -707,24 +707,24 @@ func (x *WebViewClass) GetRunColorChooser() func(*WebView, *ColorChooserRequest)
 }
 
 // OverrideShowOptionMenu sets the callback function.
-func (x *WebViewClass) OverrideShowOptionMenu(cb func(*WebView, *OptionMenu, *gdk.Rectangle) bool) {
+func (x *WebViewClass) OverrideShowOptionMenu(cb func(*WebView, *OptionMenu, uintptr) bool) {
 	if cb == nil {
 		x.xShowOptionMenu = 0
 	} else {
-		x.xShowOptionMenu = purego.NewCallback(func(WebViewVarp uintptr, MenuVarp uintptr, RectangleVarp *gdk.Rectangle) bool {
+		x.xShowOptionMenu = purego.NewCallback(func(WebViewVarp uintptr, MenuVarp uintptr, RectangleVarp uintptr) bool {
 			return cb(WebViewNewFromInternalPtr(WebViewVarp), OptionMenuNewFromInternalPtr(MenuVarp), RectangleVarp)
 		})
 	}
 }
 
 // GetShowOptionMenu gets the callback function.
-func (x *WebViewClass) GetShowOptionMenu() func(*WebView, *OptionMenu, *gdk.Rectangle) bool {
+func (x *WebViewClass) GetShowOptionMenu() func(*WebView, *OptionMenu, uintptr) bool {
 	if x.xShowOptionMenu == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, MenuVarp uintptr, RectangleVarp *gdk.Rectangle) bool
+	var rawCallback func(WebViewVarp uintptr, MenuVarp uintptr, RectangleVarp uintptr) bool
 	purego.RegisterFunc(&rawCallback, x.xShowOptionMenu)
-	return func(WebViewVar *WebView, MenuVar *OptionMenu, RectangleVar *gdk.Rectangle) bool {
+	return func(WebViewVar *WebView, MenuVar *OptionMenu, RectangleVar uintptr) bool {
 		return rawCallback(WebViewVar.GoPointer(), MenuVar.GoPointer(), RectangleVar)
 	}
 }
@@ -776,24 +776,24 @@ func (x *WebViewClass) GetUserMessageReceived() func(*WebView, *UserMessage) boo
 }
 
 // OverrideQueryPermissionState sets the callback function.
-func (x *WebViewClass) OverrideQueryPermissionState(cb func(*WebView, *PermissionStateQuery) bool) {
+func (x *WebViewClass) OverrideQueryPermissionState(cb func(*WebView, uintptr) bool) {
 	if cb == nil {
 		x.xQueryPermissionState = 0
 	} else {
-		x.xQueryPermissionState = purego.NewCallback(func(WebViewVarp uintptr, QueryVarp *PermissionStateQuery) bool {
+		x.xQueryPermissionState = purego.NewCallback(func(WebViewVarp uintptr, QueryVarp uintptr) bool {
 			return cb(WebViewNewFromInternalPtr(WebViewVarp), QueryVarp)
 		})
 	}
 }
 
 // GetQueryPermissionState gets the callback function.
-func (x *WebViewClass) GetQueryPermissionState() func(*WebView, *PermissionStateQuery) bool {
+func (x *WebViewClass) GetQueryPermissionState() func(*WebView, uintptr) bool {
 	if x.xQueryPermissionState == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, QueryVarp *PermissionStateQuery) bool
+	var rawCallback func(WebViewVarp uintptr, QueryVarp uintptr) bool
 	purego.RegisterFunc(&rawCallback, x.xQueryPermissionState)
-	return func(WebViewVar *WebView, QueryVar *PermissionStateQuery) bool {
+	return func(WebViewVar *WebView, QueryVar uintptr) bool {
 		return rawCallback(WebViewVar.GoPointer(), QueryVar)
 	}
 }
@@ -1775,7 +1775,7 @@ func NewWebView() *WebView {
 	return cls
 }
 
-var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, *glib.Variant, string, string, uintptr, uintptr, uintptr)
+var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, uintptr, string, string, uintptr, uintptr, uintptr)
 
 // Asynchronously call @body with @arguments in the script world with name @world_name of the main frame current context in @web_view.
 // The @arguments values must be one of the following types, or contain only the following GVariant types: number, string and dictionary.
@@ -1839,7 +1839,7 @@ var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, *glib.Variant
 //	}
 //
 // ```
-func (x *WebView) CallAsyncJavascriptFunction(BodyVar string, LengthVar int, ArgumentsVar *glib.Variant, WorldNameVar string, SourceUriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *WebView) CallAsyncJavascriptFunction(BodyVar string, LengthVar int, ArgumentsVar uintptr, WorldNameVar string, SourceUriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
 	xWebViewCallAsyncJavascriptFunction(x.GoPointer(), BodyVar, LengthVar, ArgumentsVar, WorldNameVar, SourceUriVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 
@@ -2076,14 +2076,14 @@ func (x *WebView) GetBackForwardList() *BackForwardList {
 	return cls
 }
 
-var xWebViewGetBackgroundColor func(uintptr, *gdk.RGBA)
+var xWebViewGetBackgroundColor func(uintptr, uintptr)
 
 // Gets the color that is used to draw the @web_view background.
 //
 // Gets the color that is used to draw the @web_view background before
 // the actual contents are rendered.
 // For more information see also webkit_web_view_set_background_color()
-func (x *WebView) GetBackgroundColor(RgbaVar *gdk.RGBA) {
+func (x *WebView) GetBackgroundColor(RgbaVar uintptr) {
 
 	xWebViewGetBackgroundColor(x.GoPointer(), RgbaVar)
 
@@ -2322,14 +2322,10 @@ func (x *WebView) GetPageId() uint64 {
 var xWebViewGetSessionState func(uintptr) uintptr
 
 // Gets the current session state of @web_view
-func (x *WebView) GetSessionState() *WebViewSessionState {
+func (x *WebView) GetSessionState() uintptr {
 
 	cret := xWebViewGetSessionState(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*WebViewSessionState)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xWebViewGetSettings func(uintptr) uintptr
@@ -2398,12 +2394,12 @@ func (x *WebView) GetSnapshotFinish(ResultVar gio.AsyncResult) (*gdk.Texture, er
 
 }
 
-var xWebViewGetThemeColor func(uintptr, *gdk.RGBA) bool
+var xWebViewGetThemeColor func(uintptr, uintptr) bool
 
 // Gets the theme color that is specified by the content in the @web_view.
 // If the @web_view doesn't have a theme color it will fill the @rgba
 // with transparent black content.
-func (x *WebView) GetThemeColor(RgbaVar *gdk.RGBA) bool {
+func (x *WebView) GetThemeColor(RgbaVar uintptr) bool {
 
 	cret := xWebViewGetThemeColor(x.GoPointer(), RgbaVar)
 	return cret
@@ -2699,7 +2695,7 @@ func (x *WebView) LoadAlternateHtml(ContentVar string, ContentUriVar string, Bas
 
 }
 
-var xWebViewLoadBytes func(uintptr, *glib.Bytes, string, string, string)
+var xWebViewLoadBytes func(uintptr, uintptr, string, string, string)
 
 // Load the specified @bytes into @web_view using the given @mime_type and @encoding.
 //
@@ -2707,7 +2703,7 @@ var xWebViewLoadBytes func(uintptr, *glib.Bytes, string, string, string)
 // When @encoding is %NULL, it defaults to "UTF-8".
 // When @base_uri is %NULL, it defaults to "about:blank".
 // You can monitor the load operation by connecting to #WebKitWebView::load-changed signal.
-func (x *WebView) LoadBytes(BytesVar *glib.Bytes, MimeTypeVar string, EncodingVar string, BaseUriVar string) {
+func (x *WebView) LoadBytes(BytesVar uintptr, MimeTypeVar string, EncodingVar string, BaseUriVar string) {
 
 	xWebViewLoadBytes(x.GoPointer(), BytesVar, MimeTypeVar, EncodingVar, BaseUriVar)
 
@@ -2788,10 +2784,10 @@ func (x *WebView) ReloadBypassCache() {
 
 }
 
-var xWebViewRestoreSessionState func(uintptr, *WebViewSessionState)
+var xWebViewRestoreSessionState func(uintptr, uintptr)
 
 // Restore the @web_view session state from @state
-func (x *WebView) RestoreSessionState(StateVar *WebViewSessionState) {
+func (x *WebView) RestoreSessionState(StateVar uintptr) {
 
 	xWebViewRestoreSessionState(x.GoPointer(), StateVar)
 
@@ -2901,7 +2897,7 @@ func (x *WebView) SendMessageToPageFinish(ResultVar gio.AsyncResult) (*UserMessa
 
 }
 
-var xWebViewSetBackgroundColor func(uintptr, *gdk.RGBA)
+var xWebViewSetBackgroundColor func(uintptr, uintptr)
 
 // Sets the color that will be used to draw the @web_view background.
 //
@@ -2909,7 +2905,7 @@ var xWebViewSetBackgroundColor func(uintptr, *gdk.RGBA)
 // the actual contents are rendered. Note that if the web page loaded in @web_view
 // specifies a background color, it will take precedence over the @rgba color.
 // By default the @web_view background color is opaque white.
-func (x *WebView) SetBackgroundColor(RgbaVar *gdk.RGBA) {
+func (x *WebView) SetBackgroundColor(RgbaVar uintptr) {
 
 	xWebViewSetBackgroundColor(x.GoPointer(), RgbaVar)
 

@@ -28,14 +28,10 @@ func (x *ApplicationInfo) GoPointer() uintptr {
 var xNewApplicationInfo func() uintptr
 
 // Creates a new #WebKitApplicationInfo
-func NewApplicationInfo() *ApplicationInfo {
+func NewApplicationInfo() uintptr {
 
 	cret := xNewApplicationInfo()
-	if cret == 0 {
-		return nil
-	}
-	return (*ApplicationInfo)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xApplicationInfoGetName func(uintptr) string
@@ -65,14 +61,10 @@ var xApplicationInfoRef func(uintptr) uintptr
 //
 // This
 // function is MT-safe and may be called from any thread.
-func (x *ApplicationInfo) Ref() *ApplicationInfo {
+func (x *ApplicationInfo) Ref() uintptr {
 
 	cret := xApplicationInfoRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*ApplicationInfo)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xApplicationInfoSetName func(uintptr, string)

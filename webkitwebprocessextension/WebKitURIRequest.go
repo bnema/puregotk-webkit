@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
@@ -62,14 +61,10 @@ func NewURIRequest(UriVar string) *URIRequest {
 var xURIRequestGetHttpHeaders func(uintptr) uintptr
 
 // Get the HTTP headers of a #WebKitURIRequest as a #SoupMessageHeaders.
-func (x *URIRequest) GetHttpHeaders() *soup.MessageHeaders {
+func (x *URIRequest) GetHttpHeaders() uintptr {
 
 	cret := xURIRequestGetHttpHeaders(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*soup.MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xURIRequestGetHttpMethod func(uintptr) string

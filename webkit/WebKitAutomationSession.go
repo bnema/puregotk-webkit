@@ -68,14 +68,10 @@ var xAutomationSessionGetApplicationInfo func(uintptr) uintptr
 // Get the the previously set #WebKitAutomationSession.
 //
 // Get the #WebKitAutomationSession previously set with webkit_automation_session_set_application_info().
-func (x *AutomationSession) GetApplicationInfo() *ApplicationInfo {
+func (x *AutomationSession) GetApplicationInfo() uintptr {
 
 	cret := xAutomationSessionGetApplicationInfo(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*ApplicationInfo)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xAutomationSessionGetId func(uintptr) string
@@ -87,7 +83,7 @@ func (x *AutomationSession) GetId() string {
 	return cret
 }
 
-var xAutomationSessionSetApplicationInfo func(uintptr, *ApplicationInfo)
+var xAutomationSessionSetApplicationInfo func(uintptr, uintptr)
 
 // Set the application information to @session.
 //
@@ -97,7 +93,7 @@ var xAutomationSessionSetApplicationInfo func(uintptr, *ApplicationInfo)
 // if the client requested a specific browser name or version. This will not have any effect when called
 // after the automation session has been fully created, so this must be called in the callback of
 // #WebKitWebContext::automation-started signal.
-func (x *AutomationSession) SetApplicationInfo(InfoVar *ApplicationInfo) {
+func (x *AutomationSession) SetApplicationInfo(InfoVar uintptr) {
 
 	xAutomationSessionSetApplicationInfo(x.GoPointer(), InfoVar)
 

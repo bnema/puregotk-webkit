@@ -7,7 +7,6 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
-	"github.com/jwijenbergh/puregotk/v4/gdk"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -103,10 +102,10 @@ func (x *WindowProperties) GetFullscreen() bool {
 	return cret
 }
 
-var xWindowPropertiesGetGeometry func(uintptr, *gdk.Rectangle)
+var xWindowPropertiesGetGeometry func(uintptr, uintptr)
 
 // Get the geometry the window should have on the screen when shown.
-func (x *WindowProperties) GetGeometry(GeometryVar *gdk.Rectangle) {
+func (x *WindowProperties) GetGeometry(GeometryVar uintptr) {
 
 	xWindowPropertiesGetGeometry(x.GoPointer(), GeometryVar)
 

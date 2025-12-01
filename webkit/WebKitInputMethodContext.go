@@ -232,11 +232,11 @@ func (x *InputMethodContextClass) GetSetEnablePreedit() func(*InputMethodContext
 //	position. Any input method which composes complex characters or any
 //	other compositions from multiple sequential key presses should override
 //	this method to provide feedback.
-func (x *InputMethodContextClass) OverrideGetPreedit(cb func(*InputMethodContext, string, **glib.List, uint)) {
+func (x *InputMethodContextClass) OverrideGetPreedit(cb func(*InputMethodContext, string, uintptr, uint)) {
 	if cb == nil {
 		x.xGetPreedit = 0
 	} else {
-		x.xGetPreedit = purego.NewCallback(func(ContextVarp uintptr, TextVarp string, UnderlinesVarp **glib.List, CursorOffsetVarp uint) {
+		x.xGetPreedit = purego.NewCallback(func(ContextVarp uintptr, TextVarp string, UnderlinesVarp uintptr, CursorOffsetVarp uint) {
 			cb(InputMethodContextNewFromInternalPtr(ContextVarp), TextVarp, UnderlinesVarp, CursorOffsetVarp)
 		})
 	}
@@ -249,13 +249,13 @@ func (x *InputMethodContextClass) OverrideGetPreedit(cb func(*InputMethodContext
 //	position. Any input method which composes complex characters or any
 //	other compositions from multiple sequential key presses should override
 //	this method to provide feedback.
-func (x *InputMethodContextClass) GetGetPreedit() func(*InputMethodContext, string, **glib.List, uint) {
+func (x *InputMethodContextClass) GetGetPreedit() func(*InputMethodContext, string, uintptr, uint) {
 	if x.xGetPreedit == 0 {
 		return nil
 	}
-	var rawCallback func(ContextVarp uintptr, TextVarp string, UnderlinesVarp **glib.List, CursorOffsetVarp uint)
+	var rawCallback func(ContextVarp uintptr, TextVarp string, UnderlinesVarp uintptr, CursorOffsetVarp uint)
 	purego.RegisterFunc(&rawCallback, x.xGetPreedit)
-	return func(ContextVar *InputMethodContext, TextVar string, UnderlinesVar **glib.List, CursorOffsetVar uint) {
+	return func(ContextVar *InputMethodContext, TextVar string, UnderlinesVar uintptr, CursorOffsetVar uint) {
 		rawCallback(ContextVar.GoPointer(), TextVar, UnderlinesVar, CursorOffsetVar)
 	}
 }
@@ -846,27 +846,19 @@ func (x *InputMethodUnderline) GoPointer() uintptr {
 var xNewInputMethodUnderline func(uint, uint) uintptr
 
 // Create a new #WebKitInputMethodUnderline for the given range in preedit string
-func NewInputMethodUnderline(StartOffsetVar uint, EndOffsetVar uint) *InputMethodUnderline {
+func NewInputMethodUnderline(StartOffsetVar uint, EndOffsetVar uint) uintptr {
 
 	cret := xNewInputMethodUnderline(StartOffsetVar, EndOffsetVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*InputMethodUnderline)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xInputMethodUnderlineCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitInputMethodUnderline.
-func (x *InputMethodUnderline) Copy() *InputMethodUnderline {
+func (x *InputMethodUnderline) Copy() uintptr {
 
 	cret := xInputMethodUnderlineCopy(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*InputMethodUnderline)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xInputMethodUnderlineFree func(uintptr)
@@ -878,13 +870,13 @@ func (x *InputMethodUnderline) Free() {
 
 }
 
-var xInputMethodUnderlineSetColor func(uintptr, *gdk.RGBA)
+var xInputMethodUnderlineSetColor func(uintptr, uintptr)
 
 // Set the color of the underline.
 //
 // If @rgba is %NULL the foreground text color will be used
 // for the underline too.
-func (x *InputMethodUnderline) SetColor(RgbaVar *gdk.RGBA) {
+func (x *InputMethodUnderline) SetColor(RgbaVar uintptr) {
 
 	xInputMethodUnderlineSetColor(x.GoPointer(), RgbaVar)
 
@@ -1000,13 +992,13 @@ func (x *InputMethodContext) GetInputPurpose() InputPurpose {
 	return cret
 }
 
-var xInputMethodContextGetPreedit func(uintptr, string, **glib.List, uint)
+var xInputMethodContextGetPreedit func(uintptr, string, uintptr, uint)
 
 // Get the pre-edit string and a list of WebKitInputMethodUnderline.
 //
 // Get the current pre-edit string for the @context, and a list of WebKitInputMethodUnderline to apply to the string.
 // The string will be displayed inserted at @cursor_offset.
-func (x *InputMethodContext) GetPreedit(TextVar string, UnderlinesVar **glib.List, CursorOffsetVar uint) {
+func (x *InputMethodContext) GetPreedit(TextVar string, UnderlinesVar uintptr, CursorOffsetVar uint) {
 
 	xInputMethodContextGetPreedit(x.GoPointer(), TextVar, UnderlinesVar, CursorOffsetVar)
 

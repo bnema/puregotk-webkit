@@ -8,7 +8,6 @@ import (
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gdk"
-	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -76,14 +75,14 @@ func NewContextMenu() *ContextMenu {
 	return cls
 }
 
-var xNewContextMenuWithItems func(*glib.List) uintptr
+var xNewContextMenuWithItems func(uintptr) uintptr
 
 // Creates a new #WebKitContextMenu object with the given items.
 //
 // Creates a new #WebKitContextMenu object to be used as a submenu of an existing
 // #WebKitContextMenu with the given initial items.
 // See also webkit_context_menu_new()
-func NewContextMenuWithItems(ItemsVar *glib.List) *ContextMenu {
+func NewContextMenuWithItems(ItemsVar uintptr) *ContextMenu {
 	var cls *ContextMenu
 
 	cret := xNewContextMenuWithItems(ItemsVar)
@@ -174,14 +173,10 @@ func (x *ContextMenu) GetItemAtPosition(PositionVar uint) *ContextMenuItem {
 var xContextMenuGetItems func(uintptr) uintptr
 
 // Returns the item list of @menu.
-func (x *ContextMenu) GetItems() *glib.List {
+func (x *ContextMenu) GetItems() uintptr {
 
 	cret := xContextMenuGetItems(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.List)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xContextMenuGetNItems func(uintptr) uint
@@ -199,14 +194,10 @@ var xContextMenuGetUserData func(uintptr) uintptr
 //
 // This function can be used from the UI Process to get user data previously set
 // from the Web Process with webkit_context_menu_set_user_data().
-func (x *ContextMenu) GetUserData() *glib.Variant {
+func (x *ContextMenu) GetUserData() uintptr {
 
 	cret := xContextMenuGetUserData(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Variant)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xContextMenuInsert func(uintptr, uintptr, int)
@@ -282,14 +273,14 @@ func (x *ContextMenu) RemoveAll() {
 
 }
 
-var xContextMenuSetUserData func(uintptr, *glib.Variant)
+var xContextMenuSetUserData func(uintptr, uintptr)
 
 // Sets user data to @menu.
 //
 // This function can be used from a Web Process extension to set user data
 // that can be retrieved from the UI Process using webkit_context_menu_get_user_data().
 // If the @user_data #GVariant is floating, it is consumed.
-func (x *ContextMenu) SetUserData(UserDataVar *glib.Variant) {
+func (x *ContextMenu) SetUserData(UserDataVar uintptr) {
 
 	xContextMenuSetUserData(x.GoPointer(), UserDataVar)
 

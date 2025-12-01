@@ -379,10 +379,10 @@ func NewValueString(ContextVar *Context, StringVar string) *Value {
 	return cls
 }
 
-var xNewValueStringFromBytes func(uintptr, *glib.Bytes) uintptr
+var xNewValueStringFromBytes func(uintptr, uintptr) uintptr
 
 // Create a new #JSCValue from @bytes.
-func NewValueStringFromBytes(ContextVar *Context, BytesVar *glib.Bytes) *Value {
+func NewValueStringFromBytes(ContextVar *Context, BytesVar uintptr) *Value {
 	var cls *Value
 
 	cret := xNewValueStringFromBytes(ContextVar.GoPointer(), BytesVar)
@@ -904,14 +904,10 @@ var xValueToStringAsBytes func(uintptr) uintptr
 
 // Convert @value to a string and return the results as #GBytes. This is needed
 // to handle strings with null characters.
-func (x *Value) ToStringAsBytes() *glib.Bytes {
+func (x *Value) ToStringAsBytes() uintptr {
 
 	cret := xValueToStringAsBytes(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Bytes)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xValueTypedArrayGetBuffer func(uintptr) uintptr

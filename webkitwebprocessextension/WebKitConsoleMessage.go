@@ -27,14 +27,10 @@ func (x *ConsoleMessage) GoPointer() uintptr {
 var xConsoleMessageCopy func(uintptr) uintptr
 
 // Make a copy of @console_message.
-func (x *ConsoleMessage) Copy() *ConsoleMessage {
+func (x *ConsoleMessage) Copy() uintptr {
 
 	cret := xConsoleMessageCopy(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*ConsoleMessage)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xConsoleMessageFree func(uintptr)

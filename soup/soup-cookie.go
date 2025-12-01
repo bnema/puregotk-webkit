@@ -2,11 +2,8 @@
 package soup
 
 import (
-	"unsafe"
-
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
-	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -48,7 +45,7 @@ const (
 	SameSitePolicyStrictValue SameSitePolicy = 2
 )
 
-var xCookieParse func(string, *glib.Uri) uintptr
+var xCookieParse func(string, uintptr) uintptr
 
 // Parses @header and returns a #SoupCookie.
 //
@@ -63,20 +60,16 @@ var xCookieParse func(string, *glib.Uri) uintptr
 //
 // As of version 3.4.0 the default value of a cookie's same-site-policy
 // is %SOUP_SAME_SITE_POLICY_LAX.
-func CookieParse(HeaderVar string, OriginVar *glib.Uri) *Cookie {
+func CookieParse(HeaderVar string, OriginVar uintptr) uintptr {
 
 	cret := xCookieParse(HeaderVar, OriginVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*Cookie)(unsafe.Pointer(cret))
-
+	return cret
 }
 
-var xCookiesFree func(*glib.SList)
+var xCookiesFree func(uintptr)
 
 // Frees @cookies.
-func CookiesFree(CookiesVar *glib.SList) {
+func CookiesFree(CookiesVar uintptr) {
 
 	xCookiesFree(CookiesVar)
 
@@ -91,14 +84,10 @@ var xCookiesFromRequest func(uintptr) uintptr
 // values, none of the other #SoupCookie fields will be filled in. (Thus, you
 // can't generally pass a cookie returned from this method directly to
 // [func@cookies_to_response].)
-func CookiesFromRequest(MsgVar *Message) *glib.SList {
+func CookiesFromRequest(MsgVar *Message) uintptr {
 
 	cret := xCookiesFromRequest(MsgVar.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.SList)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xCookiesFromResponse func(uintptr) uintptr
@@ -108,27 +97,23 @@ var xCookiesFromResponse func(uintptr) uintptr
 //
 // Cookies that do not specify "path" or "domain" attributes will have their
 // values defaulted from @msg.
-func CookiesFromResponse(MsgVar *Message) *glib.SList {
+func CookiesFromResponse(MsgVar *Message) uintptr {
 
 	cret := xCookiesFromResponse(MsgVar.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.SList)(unsafe.Pointer(cret))
-
+	return cret
 }
 
-var xCookiesToCookieHeader func(*glib.SList) string
+var xCookiesToCookieHeader func(uintptr) string
 
 // Serializes a [struct@GLib.SList] of #SoupCookie into a string suitable for
 // setting as the value of the "Cookie" header.
-func CookiesToCookieHeader(CookiesVar *glib.SList) string {
+func CookiesToCookieHeader(CookiesVar uintptr) string {
 
 	cret := xCookiesToCookieHeader(CookiesVar)
 	return cret
 }
 
-var xCookiesToRequest func(*glib.SList, uintptr)
+var xCookiesToRequest func(uintptr, uintptr)
 
 // Adds the name and value of each cookie in @cookies to @msg's
 // "Cookie" request.
@@ -136,20 +121,20 @@ var xCookiesToRequest func(*glib.SList, uintptr)
 // If @msg already has a "Cookie" request header, these cookies will be appended
 // to the cookies already present. Be careful that you do not append the same
 // cookies twice, eg, when requeuing a message.
-func CookiesToRequest(CookiesVar *glib.SList, MsgVar *Message) {
+func CookiesToRequest(CookiesVar uintptr, MsgVar *Message) {
 
 	xCookiesToRequest(CookiesVar, MsgVar.GoPointer())
 
 }
 
-var xCookiesToResponse func(*glib.SList, uintptr)
+var xCookiesToResponse func(uintptr, uintptr)
 
 // Appends a "Set-Cookie" response header to @msg for each cookie in
 // @cookies.
 //
 // This is in addition to any other "Set-Cookie" headers
 // @msg may already have.
-func CookiesToResponse(CookiesVar *glib.SList, MsgVar *Message) {
+func CookiesToResponse(CookiesVar uintptr, MsgVar *Message) {
 
 	xCookiesToResponse(CookiesVar, MsgVar.GoPointer())
 

@@ -286,15 +286,20 @@ func (t *Type) Template(ns string, kinds KindMap, array bool) string {
 		count += 1
 	}
 	// set the same pointer types on the name
-	if count > 0 && kind != CallbackType {
+	// NOTE: RecordsType (boxed types) pointers must use uintptr because:
+	// 1. The Go struct is empty (just _ structs.HostLayout)
+	// 2. The C pointer is stored AS the Go pointer value, not IN a field
+	// 3. purego can't properly marshal these "fake" Go pointers to C
+	if count > 0 && kind != CallbackType && kind != RecordsType {
 		_type = strings.Repeat("*", count) + _type
 	} else if kind == RecordsType {
 		if array {
+			// Arrays/slices of records keep their type (e.g., []gobject.Value)
 			return _type
 		}
-		// if it's not a pointer
-		// then purego doesn't support it (struct by value is not supported
-		// so return uintptr
+		// Single record pointers and values use uintptr for C interop
+		// Pointers: the Go struct is empty, C pointer is the Go pointer value
+		// Values: struct by value is not supported by purego
 		_type = "uintptr"
 	}
 	return _type

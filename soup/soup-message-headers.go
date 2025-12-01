@@ -36,14 +36,10 @@ var xNewMessageHeaders func(MessageHeadersType) uintptr
 // ([class@Message] does this automatically for its own headers. You would only
 // need to use this method if you are manually parsing or generating message
 // headers.)
-func NewMessageHeaders(TypeVar MessageHeadersType) *MessageHeaders {
+func NewMessageHeaders(TypeVar MessageHeadersType) uintptr {
 
 	cret := xNewMessageHeaders(TypeVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMessageHeadersAppend func(uintptr, string, string)
@@ -100,16 +96,16 @@ func (x *MessageHeaders) Foreach(FuncVar *MessageHeadersForeachFunc, UserDataVar
 
 }
 
-var xMessageHeadersFreeRanges func(uintptr, *Range)
+var xMessageHeadersFreeRanges func(uintptr, uintptr)
 
 // Frees the array of ranges returned from [method@MessageHeaders.get_ranges].
-func (x *MessageHeaders) FreeRanges(RangesVar *Range) {
+func (x *MessageHeaders) FreeRanges(RangesVar uintptr) {
 
 	xMessageHeadersFreeRanges(x.GoPointer(), RangesVar)
 
 }
 
-var xMessageHeadersGetContentDisposition func(uintptr, string, **glib.HashTable) bool
+var xMessageHeadersGetContentDisposition func(uintptr, string, uintptr) bool
 
 // Looks up the "Content-Disposition" header in @hdrs, parses it, and
 // returns its value in *@disposition and *@params.
@@ -128,7 +124,7 @@ var xMessageHeadersGetContentDisposition func(uintptr, string, **glib.HashTable)
 // Content-Disposition is also used in "multipart/form-data", however
 // this is handled automatically by [struct@Multipart] and the associated
 // form methods.
-func (x *MessageHeaders) GetContentDisposition(DispositionVar string, ParamsVar **glib.HashTable) bool {
+func (x *MessageHeaders) GetContentDisposition(DispositionVar string, ParamsVar uintptr) bool {
 
 	cret := xMessageHeadersGetContentDisposition(x.GoPointer(), DispositionVar, ParamsVar)
 	return cret
@@ -157,13 +153,13 @@ func (x *MessageHeaders) GetContentRange(StartVar int64, EndVar int64, TotalLeng
 	return cret
 }
 
-var xMessageHeadersGetContentType func(uintptr, **glib.HashTable) string
+var xMessageHeadersGetContentType func(uintptr, uintptr) string
 
 // Looks up the "Content-Type" header in @hdrs, parses it, and returns
 // its value in *@content_type and *@params.
 //
 // @params can be %NULL if you are only interested in the content type itself.
-func (x *MessageHeaders) GetContentType(ParamsVar **glib.HashTable) string {
+func (x *MessageHeaders) GetContentType(ParamsVar uintptr) string {
 
 	cret := xMessageHeadersGetContentType(x.GoPointer(), ParamsVar)
 	return cret
@@ -242,7 +238,7 @@ func (x *MessageHeaders) GetOne(NameVar string) string {
 	return cret
 }
 
-var xMessageHeadersGetRanges func(uintptr, int64, uintptr, int) bool
+var xMessageHeadersGetRanges func(uintptr, int64, []Range, int) bool
 
 // Parses @hdrs's Range header and returns an array of the requested
 // byte ranges.
@@ -272,7 +268,7 @@ var xMessageHeadersGetRanges func(uintptr, int64, uintptr, int) bool
 // it all at once, or you do not already have the complete response
 // body available, and only want to generate the parts that were
 // actually requested by the client.
-func (x *MessageHeaders) GetRanges(TotalLengthVar int64, RangesVar uintptr, LengthVar int) bool {
+func (x *MessageHeaders) GetRanges(TotalLengthVar int64, RangesVar []Range, LengthVar int) bool {
 
 	cret := xMessageHeadersGetRanges(x.GoPointer(), TotalLengthVar, RangesVar, LengthVar)
 	return cret
@@ -304,14 +300,10 @@ func (x *MessageHeaders) HeaderEquals(NameVar string, ValueVar string) bool {
 var xMessageHeadersRef func(uintptr) uintptr
 
 // Atomically increments the reference count of @hdrs by one.
-func (x *MessageHeaders) Ref() *MessageHeaders {
+func (x *MessageHeaders) Ref() uintptr {
 
 	cret := xMessageHeadersRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xMessageHeadersRemove func(uintptr, string)
@@ -339,14 +331,14 @@ func (x *MessageHeaders) Replace(NameVar string, ValueVar string) {
 
 }
 
-var xMessageHeadersSetContentDisposition func(uintptr, string, *glib.HashTable)
+var xMessageHeadersSetContentDisposition func(uintptr, string, uintptr)
 
 // Sets the "Content-Disposition" header in @hdrs to @disposition,
 // optionally with additional parameters specified in @params.
 //
 // See [method@MessageHeaders.get_content_disposition] for a discussion
 // of how Content-Disposition is used in HTTP.
-func (x *MessageHeaders) SetContentDisposition(DispositionVar string, ParamsVar *glib.HashTable) {
+func (x *MessageHeaders) SetContentDisposition(DispositionVar string, ParamsVar uintptr) {
 
 	xMessageHeadersSetContentDisposition(x.GoPointer(), DispositionVar, ParamsVar)
 
@@ -387,12 +379,12 @@ func (x *MessageHeaders) SetContentRange(StartVar int64, EndVar int64, TotalLeng
 
 }
 
-var xMessageHeadersSetContentType func(uintptr, string, *glib.HashTable)
+var xMessageHeadersSetContentType func(uintptr, string, uintptr)
 
 // Sets the "Content-Type" header in @hdrs to @content_type.
 //
 // Accepts additional parameters specified in @params.
-func (x *MessageHeaders) SetContentType(ContentTypeVar string, ParamsVar *glib.HashTable) {
+func (x *MessageHeaders) SetContentType(ContentTypeVar string, ParamsVar uintptr) {
 
 	xMessageHeadersSetContentType(x.GoPointer(), ContentTypeVar, ParamsVar)
 
@@ -442,13 +434,13 @@ func (x *MessageHeaders) SetRange(StartVar int64, EndVar int64) {
 
 }
 
-var xMessageHeadersSetRanges func(uintptr, *Range, int)
+var xMessageHeadersSetRanges func(uintptr, uintptr, int)
 
 // Sets @hdrs's Range header to request the indicated ranges.
 //
 // If you only want to request a single range, you can use
 // [method@MessageHeaders.set_range].
-func (x *MessageHeaders) SetRanges(RangesVar *Range, LengthVar int) {
+func (x *MessageHeaders) SetRanges(RangesVar uintptr, LengthVar int) {
 
 	xMessageHeadersSetRanges(x.GoPointer(), RangesVar, LengthVar)
 
@@ -574,16 +566,16 @@ const (
 	MessageHeadersMultipartValue MessageHeadersType = 2
 )
 
-var xMessageHeadersIterInit func(*MessageHeadersIter, *MessageHeaders)
+var xMessageHeadersIterInit func(uintptr, uintptr)
 
 // Initializes @iter for iterating @hdrs.
-func MessageHeadersIterInit(IterVar *MessageHeadersIter, HdrsVar *MessageHeaders) {
+func MessageHeadersIterInit(IterVar uintptr, HdrsVar uintptr) {
 
 	xMessageHeadersIterInit(IterVar, HdrsVar)
 
 }
 
-var xMessageHeadersIterNext func(*MessageHeadersIter, string, string) bool
+var xMessageHeadersIterNext func(uintptr, string, string) bool
 
 // Yields the next name/value pair in the [struct@MessageHeaders] being
 // iterated by @iter.
@@ -591,7 +583,7 @@ var xMessageHeadersIterNext func(*MessageHeadersIter, string, string) bool
 // If @iter has already yielded the last header, then
 // [method@MessageHeadersIter.next] will return %FALSE and @name and @value
 // will be unchanged.
-func MessageHeadersIterNext(IterVar *MessageHeadersIter, NameVar string, ValueVar string) bool {
+func MessageHeadersIterNext(IterVar uintptr, NameVar string, ValueVar string) bool {
 
 	cret := xMessageHeadersIterNext(IterVar, NameVar, ValueVar)
 	return cret

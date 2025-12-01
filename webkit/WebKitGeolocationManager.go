@@ -43,27 +43,19 @@ func (x *GeolocationPosition) GoPointer() uintptr {
 var xNewGeolocationPosition func(float64, float64, float64) uintptr
 
 // Create a new #WebKitGeolocationPosition.
-func NewGeolocationPosition(LatitudeVar float64, LongitudeVar float64, AccuracyVar float64) *GeolocationPosition {
+func NewGeolocationPosition(LatitudeVar float64, LongitudeVar float64, AccuracyVar float64) uintptr {
 
 	cret := xNewGeolocationPosition(LatitudeVar, LongitudeVar, AccuracyVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*GeolocationPosition)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xGeolocationPositionCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitGeolocationPosition.
-func (x *GeolocationPosition) Copy() *GeolocationPosition {
+func (x *GeolocationPosition) Copy() uintptr {
 
 	cret := xGeolocationPositionCopy(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*GeolocationPosition)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xGeolocationPositionFree func(uintptr)
@@ -167,10 +159,10 @@ func (x *GeolocationManager) GetEnableHighAccuracy() bool {
 	return cret
 }
 
-var xGeolocationManagerUpdatePosition func(uintptr, *GeolocationPosition)
+var xGeolocationManagerUpdatePosition func(uintptr, uintptr)
 
 // Notify @manager that position has been updated to @position.
-func (x *GeolocationManager) UpdatePosition(PositionVar *GeolocationPosition) {
+func (x *GeolocationManager) UpdatePosition(PositionVar uintptr) {
 
 	xGeolocationManagerUpdatePosition(x.GoPointer(), PositionVar)
 

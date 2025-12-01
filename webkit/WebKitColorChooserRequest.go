@@ -7,7 +7,6 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
-	"github.com/jwijenbergh/puregotk/v4/gdk"
 	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
@@ -83,28 +82,28 @@ func (x *ColorChooserRequest) Finish() {
 
 }
 
-var xColorChooserRequestGetElementRectangle func(uintptr, *gdk.Rectangle)
+var xColorChooserRequestGetElementRectangle func(uintptr, uintptr)
 
 // Gets the bounding box of the color input element.
-func (x *ColorChooserRequest) GetElementRectangle(RectVar *gdk.Rectangle) {
+func (x *ColorChooserRequest) GetElementRectangle(RectVar uintptr) {
 
 	xColorChooserRequestGetElementRectangle(x.GoPointer(), RectVar)
 
 }
 
-var xColorChooserRequestGetRgba func(uintptr, *gdk.RGBA)
+var xColorChooserRequestGetRgba func(uintptr, uintptr)
 
 // Gets the current #GdkRGBA color of @request
-func (x *ColorChooserRequest) GetRgba(RgbaVar *gdk.RGBA) {
+func (x *ColorChooserRequest) GetRgba(RgbaVar uintptr) {
 
 	xColorChooserRequestGetRgba(x.GoPointer(), RgbaVar)
 
 }
 
-var xColorChooserRequestSetRgba func(uintptr, *gdk.RGBA)
+var xColorChooserRequestSetRgba func(uintptr, uintptr)
 
 // Sets the current #GdkRGBA color of @request
-func (x *ColorChooserRequest) SetRgba(RgbaVar *gdk.RGBA) {
+func (x *ColorChooserRequest) SetRgba(RgbaVar uintptr) {
 
 	xColorChooserRequestSetRgba(x.GoPointer(), RgbaVar)
 

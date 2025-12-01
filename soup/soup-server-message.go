@@ -127,53 +127,37 @@ func (x *ServerMessage) GetRemoteHost() string {
 var xServerMessageGetRequestBody func(uintptr) uintptr
 
 // Get the request body of @msg.
-func (x *ServerMessage) GetRequestBody() *MessageBody {
+func (x *ServerMessage) GetRequestBody() uintptr {
 
 	cret := xServerMessageGetRequestBody(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageBody)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xServerMessageGetRequestHeaders func(uintptr) uintptr
 
 // Get the request headers of @msg.
-func (x *ServerMessage) GetRequestHeaders() *MessageHeaders {
+func (x *ServerMessage) GetRequestHeaders() uintptr {
 
 	cret := xServerMessageGetRequestHeaders(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xServerMessageGetResponseBody func(uintptr) uintptr
 
 // Get the response body of @msg.
-func (x *ServerMessage) GetResponseBody() *MessageBody {
+func (x *ServerMessage) GetResponseBody() uintptr {
 
 	cret := xServerMessageGetResponseBody(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageBody)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xServerMessageGetResponseHeaders func(uintptr) uintptr
 
 // Get the response headers of @msg.
-func (x *ServerMessage) GetResponseHeaders() *MessageHeaders {
+func (x *ServerMessage) GetResponseHeaders() uintptr {
 
 	cret := xServerMessageGetResponseHeaders(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*MessageHeaders)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xServerMessageGetSocket func(uintptr) uintptr
@@ -242,14 +226,10 @@ func (x *ServerMessage) GetTlsPeerCertificateErrors() gio.TlsCertificateFlags {
 var xServerMessageGetUri func(uintptr) uintptr
 
 // Get @msg's URI.
-func (x *ServerMessage) GetUri() *glib.Uri {
+func (x *ServerMessage) GetUri() uintptr {
 
 	cret := xServerMessageGetUri(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Uri)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xServerMessageIsOptionsPing func(uintptr) bool

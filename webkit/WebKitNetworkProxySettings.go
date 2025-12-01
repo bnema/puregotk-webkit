@@ -62,14 +62,10 @@ var xNewNetworkProxySettings func(string, []string) uintptr
 // Also note that hostname exclusions apply only to connections made to hosts identified by name, and IP address exclusions apply only
 // to connections made to hosts identified by address. That is, if example.com has an address of 192.168.1.1, and @ignore_hosts
 // contains only "192.168.1.1", then a connection to "example.com" will use the proxy, and a connection to 192.168.1.1" will not.
-func NewNetworkProxySettings(DefaultProxyUriVar string, IgnoreHostsVar []string) *NetworkProxySettings {
+func NewNetworkProxySettings(DefaultProxyUriVar string, IgnoreHostsVar []string) uintptr {
 
 	cret := xNewNetworkProxySettings(DefaultProxyUriVar, IgnoreHostsVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*NetworkProxySettings)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xNetworkProxySettingsAddProxyForScheme func(uintptr, string, string)
@@ -88,14 +84,10 @@ func (x *NetworkProxySettings) AddProxyForScheme(SchemeVar string, ProxyUriVar s
 var xNetworkProxySettingsCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitNetworkProxySettings.
-func (x *NetworkProxySettings) Copy() *NetworkProxySettings {
+func (x *NetworkProxySettings) Copy() uintptr {
 
 	cret := xNetworkProxySettingsCopy(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*NetworkProxySettings)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xNetworkProxySettingsFree func(uintptr)

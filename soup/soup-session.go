@@ -762,17 +762,14 @@ var xSessionSendAndRead func(uintptr, uintptr, uintptr, **glib.Error) uintptr
 // is not too long and can be stored in memory.
 //
 // See [method@Session.send] for more details on the general semantics.
-func (x *Session) SendAndRead(MsgVar *Message, CancellableVar *gio.Cancellable) (*glib.Bytes, error) {
+func (x *Session) SendAndRead(MsgVar *Message, CancellableVar *gio.Cancellable) (uintptr, error) {
 	var cerr *glib.Error
 
 	cret := xSessionSendAndRead(x.GoPointer(), MsgVar.GoPointer(), CancellableVar.GoPointer(), &cerr)
-	if cerr != nil {
-		return nil, cerr
+	if cerr == nil {
+		return cret, nil
 	}
-	if cret == 0 {
-		return nil, nil
-	}
-	return (*glib.Bytes)(unsafe.Pointer(cret)), nil
+	return cret, cerr
 
 }
 
@@ -798,17 +795,14 @@ var xSessionSendAndReadFinish func(uintptr, uintptr, **glib.Error) uintptr
 // Gets the response to a [method@Session.send_and_read_async].
 //
 // If successful, returns a [struct@GLib.Bytes] with the response body.
-func (x *Session) SendAndReadFinish(ResultVar gio.AsyncResult) (*glib.Bytes, error) {
+func (x *Session) SendAndReadFinish(ResultVar gio.AsyncResult) (uintptr, error) {
 	var cerr *glib.Error
 
 	cret := xSessionSendAndReadFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr != nil {
-		return nil, cerr
+	if cerr == nil {
+		return cret, nil
 	}
-	if cret == 0 {
-		return nil, nil
-	}
-	return (*glib.Bytes)(unsafe.Pointer(cret)), nil
+	return cret, cerr
 
 }
 

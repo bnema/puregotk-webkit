@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gio"
@@ -76,13 +75,13 @@ func (x *URISchemeResponse) SetContentType(ContentTypeVar string) {
 
 }
 
-var xURISchemeResponseSetHttpHeaders func(uintptr, *soup.MessageHeaders)
+var xURISchemeResponseSetHttpHeaders func(uintptr, uintptr)
 
 // Assign the provided #SoupMessageHeaders to the response.
 //
 // @headers need to be of the type %SOUP_MESSAGE_HEADERS_RESPONSE.
 // Any existing headers will be overwritten.
-func (x *URISchemeResponse) SetHttpHeaders(HeadersVar *soup.MessageHeaders) {
+func (x *URISchemeResponse) SetHttpHeaders(HeadersVar uintptr) {
 
 	xURISchemeResponseSetHttpHeaders(x.GoPointer(), HeadersVar)
 

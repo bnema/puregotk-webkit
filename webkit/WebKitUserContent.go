@@ -42,14 +42,10 @@ var xUserContentFilterRef func(uintptr) uintptr
 // Atomically increments the reference count of @user_content_filter by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *UserContentFilter) Ref() *UserContentFilter {
+func (x *UserContentFilter) Ref() uintptr {
 
 	cret := xUserContentFilterRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*UserContentFilter)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xUserContentFilterUnref func(uintptr)
@@ -91,14 +87,10 @@ var xNewUserScript func(string, UserContentInjectedFrames, UserScriptInjectionTi
 // URI patterns must be of the form `[protocol]://[host]/[path]`, where the
 // *host* and *path* components can contain the wildcard character (`*`) to
 // represent zero or more other characters.
-func NewUserScript(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, AllowListVar []string, BlockListVar []string) *UserScript {
+func NewUserScript(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, AllowListVar []string, BlockListVar []string) uintptr {
 
 	cret := xNewUserScript(SourceVar, InjectedFramesVar, InjectionTimeVar, AllowListVar, BlockListVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*UserScript)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xNewUserScriptForWorld func(string, UserContentInjectedFrames, UserScriptInjectionTime, string, []string, []string) uintptr
@@ -106,14 +98,10 @@ var xNewUserScriptForWorld func(string, UserContentInjectedFrames, UserScriptInj
 // Creates a new user script for script world with name @world_name.
 //
 // See webkit_user_script_new() for a full description.
-func NewUserScriptForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, WorldNameVar string, AllowListVar []string, BlockListVar []string) *UserScript {
+func NewUserScriptForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, WorldNameVar string, AllowListVar []string, BlockListVar []string) uintptr {
 
 	cret := xNewUserScriptForWorld(SourceVar, InjectedFramesVar, InjectionTimeVar, WorldNameVar, AllowListVar, BlockListVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*UserScript)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xUserScriptRef func(uintptr) uintptr
@@ -121,14 +109,10 @@ var xUserScriptRef func(uintptr) uintptr
 // Atomically increments the reference count of @user_script by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *UserScript) Ref() *UserScript {
+func (x *UserScript) Ref() uintptr {
 
 	cret := xUserScriptRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*UserScript)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xUserScriptUnref func(uintptr)
@@ -170,14 +154,10 @@ var xNewUserStyleSheet func(string, UserContentInjectedFrames, UserStyleLevel, [
 // URI patterns must be of the form `[protocol]://[host]/[path]`, where the
 // *host* and *path* components can contain the wildcard character (`*`) to
 // represent zero or more other characters.
-func NewUserStyleSheet(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, AllowListVar []string, BlockListVar []string) *UserStyleSheet {
+func NewUserStyleSheet(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, AllowListVar []string, BlockListVar []string) uintptr {
 
 	cret := xNewUserStyleSheet(SourceVar, InjectedFramesVar, LevelVar, AllowListVar, BlockListVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*UserStyleSheet)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xNewUserStyleSheetForWorld func(string, UserContentInjectedFrames, UserStyleLevel, string, []string, []string) uintptr
@@ -186,14 +166,10 @@ var xNewUserStyleSheetForWorld func(string, UserContentInjectedFrames, UserStyle
 //
 // Creates a new user style sheet for script world with name @world_name.
 // See webkit_user_style_sheet_new() for a full description.
-func NewUserStyleSheetForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, WorldNameVar string, AllowListVar []string, BlockListVar []string) *UserStyleSheet {
+func NewUserStyleSheetForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, WorldNameVar string, AllowListVar []string, BlockListVar []string) uintptr {
 
 	cret := xNewUserStyleSheetForWorld(SourceVar, InjectedFramesVar, LevelVar, WorldNameVar, AllowListVar, BlockListVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*UserStyleSheet)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xUserStyleSheetRef func(uintptr) uintptr
@@ -201,14 +177,10 @@ var xUserStyleSheetRef func(uintptr) uintptr
 // Atomically increments the reference count of @user_style_sheet by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *UserStyleSheet) Ref() *UserStyleSheet {
+func (x *UserStyleSheet) Ref() uintptr {
 
 	cret := xUserStyleSheetRef(x.GoPointer())
-	if cret == 0 {
-		return nil
-	}
-	return (*UserStyleSheet)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xUserStyleSheetUnref func(uintptr)

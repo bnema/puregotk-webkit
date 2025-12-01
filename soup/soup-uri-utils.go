@@ -2,11 +2,8 @@
 package soup
 
 import (
-	"unsafe"
-
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
-	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -49,7 +46,7 @@ const (
 	UriFragmentValue URIComponent = 9
 )
 
-var xUriCopy func(*glib.Uri, URIComponent, ...interface{}) uintptr
+var xUriCopy func(uintptr, URIComponent, ...interface{}) uintptr
 
 // As of 3.4.0 this will detect the default ports of HTTP(s) and WS(S)
 // URIs when copying and set it to the default port of the new scheme.
@@ -57,33 +54,25 @@ var xUriCopy func(*glib.Uri, URIComponent, ...interface{}) uintptr
 // will result in `https://localhost:443`.
 //
 // Return a copy of @uri with the given components updated.
-func UriCopy(UriVar *glib.Uri, FirstComponentVar URIComponent, varArgs ...interface{}) *glib.Uri {
+func UriCopy(UriVar uintptr, FirstComponentVar URIComponent, varArgs ...interface{}) uintptr {
 
 	cret := xUriCopy(UriVar, FirstComponentVar, varArgs...)
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Uri)(unsafe.Pointer(cret))
-
+	return cret
 }
 
 var xUriDecodeDataUri func(string, string) uintptr
 
 // Decodes the given data URI and returns its contents and @content_type.
-func UriDecodeDataUri(UriVar string, ContentTypeVar string) *glib.Bytes {
+func UriDecodeDataUri(UriVar string, ContentTypeVar string) uintptr {
 
 	cret := xUriDecodeDataUri(UriVar, ContentTypeVar)
-	if cret == 0 {
-		return nil
-	}
-	return (*glib.Bytes)(unsafe.Pointer(cret))
-
+	return cret
 }
 
-var xUriEqual func(*glib.Uri, *glib.Uri) bool
+var xUriEqual func(uintptr, uintptr) bool
 
 // Tests whether or not @uri1 and @uri2 are equal in all parts.
-func UriEqual(Uri1Var *glib.Uri, Uri2Var *glib.Uri) bool {
+func UriEqual(Uri1Var uintptr, Uri2Var uintptr) bool {
 
 	cret := xUriEqual(Uri1Var, Uri2Var)
 	return cret
