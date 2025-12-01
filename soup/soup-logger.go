@@ -184,7 +184,7 @@ var xLoggerSetPrinter func(uintptr, uintptr, uintptr, uintptr)
 // the log to go to `stdout`.
 func (x *Logger) SetPrinter(PrinterVar *LoggerPrinter, PrinterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xLoggerSetPrinter(x.GoPointer(), glib.NewCallback(PrinterVar), PrinterDataVar, glib.NewCallback(DestroyVar))
+	xLoggerSetPrinter(x.GoPointer(), glib.NewCallback(PrinterVar), PrinterDataVar, glib.NewCallbackNullable(DestroyVar))
 
 }
 
@@ -198,7 +198,7 @@ var xLoggerSetRequestFilter func(uintptr, uintptr, uintptr, uintptr)
 // level passed to [ctor@Logger.new].)
 func (x *Logger) SetRequestFilter(RequestFilterVar *LoggerFilter, FilterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xLoggerSetRequestFilter(x.GoPointer(), glib.NewCallback(RequestFilterVar), FilterDataVar, glib.NewCallback(DestroyVar))
+	xLoggerSetRequestFilter(x.GoPointer(), glib.NewCallback(RequestFilterVar), FilterDataVar, glib.NewCallbackNullable(DestroyVar))
 
 }
 
@@ -212,7 +212,7 @@ var xLoggerSetResponseFilter func(uintptr, uintptr, uintptr, uintptr)
 // the level passed to [ctor@Logger.new].)
 func (x *Logger) SetResponseFilter(ResponseFilterVar *LoggerFilter, FilterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xLoggerSetResponseFilter(x.GoPointer(), glib.NewCallback(ResponseFilterVar), FilterDataVar, glib.NewCallback(DestroyVar))
+	xLoggerSetResponseFilter(x.GoPointer(), glib.NewCallback(ResponseFilterVar), FilterDataVar, glib.NewCallbackNullable(DestroyVar))
 
 }
 

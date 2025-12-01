@@ -92,13 +92,17 @@ func (x *OptionMenu) GetEvent() *gdk.Event {
 	return cls
 }
 
-var xOptionMenuGetItem func(uintptr, uint) *OptionMenuItem
+var xOptionMenuGetItem func(uintptr, uint) uintptr
 
 // Returns the #WebKitOptionMenuItem at @index in @menu.
 func (x *OptionMenu) GetItem(IndexVar uint) *OptionMenuItem {
 
 	cret := xOptionMenuGetItem(x.GoPointer(), IndexVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*OptionMenuItem)(unsafe.Pointer(cret))
+
 }
 
 var xOptionMenuGetNItems func(uintptr) uint

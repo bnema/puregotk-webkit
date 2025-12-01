@@ -134,7 +134,7 @@ func (x *Feature) GetStatus() FeatureStatus {
 	return cret
 }
 
-var xFeatureRef func(uintptr) *Feature
+var xFeatureRef func(uintptr) uintptr
 
 // Atomically acquires a reference on the given @feature.
 //
@@ -142,7 +142,11 @@ var xFeatureRef func(uintptr) *Feature
 func (x *Feature) Ref() *Feature {
 
 	cret := xFeatureRef(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*Feature)(unsafe.Pointer(cret))
+
 }
 
 var xFeatureUnref func(uintptr)
@@ -191,13 +195,17 @@ func (x *FeatureList) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xFeatureListGet func(uintptr, uint) *Feature
+var xFeatureListGet func(uintptr, uint) uintptr
 
 // Gets a feature given its index.
 func (x *FeatureList) Get(IndexVar uint) *Feature {
 
 	cret := xFeatureListGet(x.GoPointer(), IndexVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*Feature)(unsafe.Pointer(cret))
+
 }
 
 var xFeatureListGetLength func(uintptr) uint
@@ -209,7 +217,7 @@ func (x *FeatureList) GetLength() uint {
 	return cret
 }
 
-var xFeatureListRef func(uintptr) *FeatureList
+var xFeatureListRef func(uintptr) uintptr
 
 // Atomically acquires a reference on the given @feature_list.
 //
@@ -217,7 +225,11 @@ var xFeatureListRef func(uintptr) *FeatureList
 func (x *FeatureList) Ref() *FeatureList {
 
 	cret := xFeatureListRef(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*FeatureList)(unsafe.Pointer(cret))
+
 }
 
 var xFeatureListUnref func(uintptr)

@@ -30,13 +30,17 @@ func (x *OptionMenuItem) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xOptionMenuItemCopy func(uintptr) *OptionMenuItem
+var xOptionMenuItemCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitOptionMenuItem.
 func (x *OptionMenuItem) Copy() *OptionMenuItem {
 
 	cret := xOptionMenuItemCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*OptionMenuItem)(unsafe.Pointer(cret))
+
 }
 
 var xOptionMenuItemFree func(uintptr)

@@ -83,7 +83,7 @@ var xAuthDomainDigestSetAuthCallback func(uintptr, uintptr, uintptr, uintptr)
 // set the callback at construct time.
 func (x *AuthDomainDigest) SetAuthCallback(CallbackVar *AuthDomainDigestAuthCallback, UserDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
 
-	xAuthDomainDigestSetAuthCallback(x.GoPointer(), glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DnotifyVar))
+	xAuthDomainDigestSetAuthCallback(x.GoPointer(), glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DnotifyVar))
 
 }
 

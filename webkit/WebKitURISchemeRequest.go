@@ -93,13 +93,17 @@ func (x *URISchemeRequest) GetHttpBody() *gio.InputStream {
 	return cls
 }
 
-var xURISchemeRequestGetHttpHeaders func(uintptr) *soup.MessageHeaders
+var xURISchemeRequestGetHttpHeaders func(uintptr) uintptr
 
 // Get the #SoupMessageHeaders of the request.
 func (x *URISchemeRequest) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURISchemeRequestGetHttpHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*soup.MessageHeaders)(unsafe.Pointer(cret))
+
 }
 
 var xURISchemeRequestGetHttpMethod func(uintptr) string

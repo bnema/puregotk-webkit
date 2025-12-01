@@ -59,13 +59,17 @@ func NewURIRequest(UriVar string) *URIRequest {
 	return cls
 }
 
-var xURIRequestGetHttpHeaders func(uintptr) *soup.MessageHeaders
+var xURIRequestGetHttpHeaders func(uintptr) uintptr
 
 // Get the HTTP headers of a #WebKitURIRequest as a #SoupMessageHeaders.
 func (x *URIRequest) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURIRequestGetHttpHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*soup.MessageHeaders)(unsafe.Pointer(cret))
+
 }
 
 var xURIRequestGetHttpMethod func(uintptr) string

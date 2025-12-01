@@ -124,40 +124,56 @@ func (x *ServerMessage) GetRemoteHost() string {
 	return cret
 }
 
-var xServerMessageGetRequestBody func(uintptr) *MessageBody
+var xServerMessageGetRequestBody func(uintptr) uintptr
 
 // Get the request body of @msg.
 func (x *ServerMessage) GetRequestBody() *MessageBody {
 
 	cret := xServerMessageGetRequestBody(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MessageBody)(unsafe.Pointer(cret))
+
 }
 
-var xServerMessageGetRequestHeaders func(uintptr) *MessageHeaders
+var xServerMessageGetRequestHeaders func(uintptr) uintptr
 
 // Get the request headers of @msg.
 func (x *ServerMessage) GetRequestHeaders() *MessageHeaders {
 
 	cret := xServerMessageGetRequestHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MessageHeaders)(unsafe.Pointer(cret))
+
 }
 
-var xServerMessageGetResponseBody func(uintptr) *MessageBody
+var xServerMessageGetResponseBody func(uintptr) uintptr
 
 // Get the response body of @msg.
 func (x *ServerMessage) GetResponseBody() *MessageBody {
 
 	cret := xServerMessageGetResponseBody(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MessageBody)(unsafe.Pointer(cret))
+
 }
 
-var xServerMessageGetResponseHeaders func(uintptr) *MessageHeaders
+var xServerMessageGetResponseHeaders func(uintptr) uintptr
 
 // Get the response headers of @msg.
 func (x *ServerMessage) GetResponseHeaders() *MessageHeaders {
 
 	cret := xServerMessageGetResponseHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MessageHeaders)(unsafe.Pointer(cret))
+
 }
 
 var xServerMessageGetSocket func(uintptr) uintptr
@@ -223,13 +239,17 @@ func (x *ServerMessage) GetTlsPeerCertificateErrors() gio.TlsCertificateFlags {
 	return cret
 }
 
-var xServerMessageGetUri func(uintptr) *glib.Uri
+var xServerMessageGetUri func(uintptr) uintptr
 
 // Get @msg's URI.
 func (x *ServerMessage) GetUri() *glib.Uri {
 
 	cret := xServerMessageGetUri(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Uri)(unsafe.Pointer(cret))
+
 }
 
 var xServerMessageIsOptionsPing func(uintptr) bool

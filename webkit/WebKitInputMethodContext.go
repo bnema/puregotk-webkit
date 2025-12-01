@@ -843,22 +843,30 @@ func (x *InputMethodUnderline) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewInputMethodUnderline func(uint, uint) *InputMethodUnderline
+var xNewInputMethodUnderline func(uint, uint) uintptr
 
 // Create a new #WebKitInputMethodUnderline for the given range in preedit string
 func NewInputMethodUnderline(StartOffsetVar uint, EndOffsetVar uint) *InputMethodUnderline {
 
 	cret := xNewInputMethodUnderline(StartOffsetVar, EndOffsetVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*InputMethodUnderline)(unsafe.Pointer(cret))
+
 }
 
-var xInputMethodUnderlineCopy func(uintptr) *InputMethodUnderline
+var xInputMethodUnderlineCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitInputMethodUnderline.
 func (x *InputMethodUnderline) Copy() *InputMethodUnderline {
 
 	cret := xInputMethodUnderlineCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*InputMethodUnderline)(unsafe.Pointer(cret))
+
 }
 
 var xInputMethodUnderlineFree func(uintptr)

@@ -120,7 +120,7 @@ func (x *UserContentFilterStore) Load(IdentifierVar string, CancellableVar *gio.
 
 }
 
-var xUserContentFilterStoreLoadFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
+var xUserContentFilterStoreLoadFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finishes an asynchronous filter load previously started with
 // webkit_user_content_filter_store_load().
@@ -128,10 +128,13 @@ func (x *UserContentFilterStore) LoadFinish(ResultVar gio.AsyncResult) (*UserCon
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreLoadFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*UserContentFilter)(unsafe.Pointer(cret)), nil
 
 }
 
@@ -183,7 +186,7 @@ func (x *UserContentFilterStore) Save(IdentifierVar string, SourceVar *glib.Byte
 
 }
 
-var xUserContentFilterStoreSaveFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
+var xUserContentFilterStoreSaveFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finishes an asynchronous filter save previously started with
 // webkit_user_content_filter_store_save().
@@ -191,10 +194,13 @@ func (x *UserContentFilterStore) SaveFinish(ResultVar gio.AsyncResult) (*UserCon
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreSaveFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*UserContentFilter)(unsafe.Pointer(cret)), nil
 
 }
 
@@ -214,7 +220,7 @@ func (x *UserContentFilterStore) SaveFromFile(IdentifierVar string, FileVar gio.
 
 }
 
-var xUserContentFilterStoreSaveFromFileFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
+var xUserContentFilterStoreSaveFromFileFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finishes and asynchronous filter save previously started with
 // webkit_user_content_filter_store_save_from_file().
@@ -222,10 +228,13 @@ func (x *UserContentFilterStore) SaveFromFileFinish(ResultVar gio.AsyncResult) (
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreSaveFromFileFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*UserContentFilter)(unsafe.Pointer(cret)), nil
 
 }
 
