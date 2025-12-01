@@ -179,7 +179,7 @@ func (x *CookieManager) GetAllCookies(CancellableVar *gio.Cancellable, CallbackV
 
 }
 
-var xCookieManagerGetAllCookiesFinish func(uintptr, uintptr, **glib.Error) *glib.List
+var xCookieManagerGetAllCookiesFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finish an asynchronous operation started with webkit_cookie_manager_get_all_cookies().
 //
@@ -189,10 +189,13 @@ func (x *CookieManager) GetAllCookiesFinish(ResultVar gio.AsyncResult) (*glib.Li
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetAllCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret)), nil
 
 }
 
@@ -211,7 +214,7 @@ func (x *CookieManager) GetCookies(UriVar string, CancellableVar *gio.Cancellabl
 
 }
 
-var xCookieManagerGetCookiesFinish func(uintptr, uintptr, **glib.Error) *glib.List
+var xCookieManagerGetCookiesFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finish an asynchronous operation started with webkit_cookie_manager_get_cookies().
 //
@@ -221,10 +224,13 @@ func (x *CookieManager) GetCookiesFinish(ResultVar gio.AsyncResult) (*glib.List,
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret)), nil
 
 }
 

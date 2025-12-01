@@ -171,13 +171,17 @@ func (x *ContextMenu) GetItemAtPosition(PositionVar uint) *ContextMenuItem {
 	return cls
 }
 
-var xContextMenuGetItems func(uintptr) *glib.List
+var xContextMenuGetItems func(uintptr) uintptr
 
 // Returns the item list of @menu.
 func (x *ContextMenu) GetItems() *glib.List {
 
 	cret := xContextMenuGetItems(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
+
 }
 
 var xContextMenuGetNItems func(uintptr) uint
@@ -189,7 +193,7 @@ func (x *ContextMenu) GetNItems() uint {
 	return cret
 }
 
-var xContextMenuGetUserData func(uintptr) *glib.Variant
+var xContextMenuGetUserData func(uintptr) uintptr
 
 // Gets the user data of @menu.
 //
@@ -198,7 +202,11 @@ var xContextMenuGetUserData func(uintptr) *glib.Variant
 func (x *ContextMenu) GetUserData() *glib.Variant {
 
 	cret := xContextMenuGetUserData(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Variant)(unsafe.Pointer(cret))
+
 }
 
 var xContextMenuInsert func(uintptr, uintptr, int)

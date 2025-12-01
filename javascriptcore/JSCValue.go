@@ -900,14 +900,18 @@ func (x *Value) ToString() string {
 	return cret
 }
 
-var xValueToStringAsBytes func(uintptr) *glib.Bytes
+var xValueToStringAsBytes func(uintptr) uintptr
 
 // Convert @value to a string and return the results as #GBytes. This is needed
 // to handle strings with null characters.
 func (x *Value) ToStringAsBytes() *glib.Bytes {
 
 	cret := xValueToStringAsBytes(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Bytes)(unsafe.Pointer(cret))
+
 }
 
 var xValueTypedArrayGetBuffer func(uintptr) uintptr

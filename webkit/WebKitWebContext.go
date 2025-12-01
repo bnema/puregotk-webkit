@@ -302,7 +302,7 @@ var xWebContextRegisterUriScheme func(uintptr, string, uintptr, uintptr, uintptr
 // ```
 func (x *WebContext) RegisterUriScheme(SchemeVar string, CallbackVar *URISchemeRequestCallback, UserDataVar uintptr, UserDataDestroyFuncVar *glib.DestroyNotify) {
 
-	xWebContextRegisterUriScheme(x.GoPointer(), SchemeVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(UserDataDestroyFuncVar))
+	xWebContextRegisterUriScheme(x.GoPointer(), SchemeVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(UserDataDestroyFuncVar))
 
 }
 

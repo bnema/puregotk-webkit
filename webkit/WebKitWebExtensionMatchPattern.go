@@ -31,49 +31,63 @@ func (x *WebExtensionMatchPattern) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewWebExtensionMatchPatternAllHostsAndSchemes func() *WebExtensionMatchPattern
+var xNewWebExtensionMatchPatternAllHostsAndSchemes func() uintptr
 
 // Returns a new #WebKitWebExtensionMatchPattern that has `*` for scheme, host, and path.
 func NewWebExtensionMatchPatternAllHostsAndSchemes() *WebExtensionMatchPattern {
 
 	cret := xNewWebExtensionMatchPatternAllHostsAndSchemes()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*WebExtensionMatchPattern)(unsafe.Pointer(cret))
+
 }
 
-var xNewWebExtensionMatchPatternAllUrls func() *WebExtensionMatchPattern
+var xNewWebExtensionMatchPatternAllUrls func() uintptr
 
 // Returns a new #WebKitWebExtensionMatchPattern for `&lt;all_urls&gt;`.
 func NewWebExtensionMatchPatternAllUrls() *WebExtensionMatchPattern {
 
 	cret := xNewWebExtensionMatchPatternAllUrls()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*WebExtensionMatchPattern)(unsafe.Pointer(cret))
+
 }
 
-var xNewWebExtensionMatchPatternWithScheme func(string, string, string, **glib.Error) *WebExtensionMatchPattern
+var xNewWebExtensionMatchPatternWithScheme func(string, string, string, **glib.Error) uintptr
 
 // Returns a new #WebKitWebExtensionMatchPattern for the specified @scheme, @host, and @path strings.
 func NewWebExtensionMatchPatternWithScheme(SchemeVar string, HostVar string, PathVar string) (*WebExtensionMatchPattern, error) {
 	var cerr *glib.Error
 
 	cret := xNewWebExtensionMatchPatternWithScheme(SchemeVar, HostVar, PathVar, &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*WebExtensionMatchPattern)(unsafe.Pointer(cret)), nil
 
 }
 
-var xNewWebExtensionMatchPatternWithString func(string, **glib.Error) *WebExtensionMatchPattern
+var xNewWebExtensionMatchPatternWithString func(string, **glib.Error) uintptr
 
 // Returns a new #WebKitWebExtensionMatchPattern for the specified @string.
 func NewWebExtensionMatchPatternWithString(StringVar string) (*WebExtensionMatchPattern, error) {
 	var cerr *glib.Error
 
 	cret := xNewWebExtensionMatchPatternWithString(StringVar, &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*WebExtensionMatchPattern)(unsafe.Pointer(cret)), nil
 
 }
 
@@ -151,7 +165,7 @@ func (x *WebExtensionMatchPattern) MatchesUrl(UrlVar string, OptionsVar WebExten
 	return cret
 }
 
-var xWebExtensionMatchPatternRef func(uintptr) *WebExtensionMatchPattern
+var xWebExtensionMatchPatternRef func(uintptr) uintptr
 
 // Atomically acquires a reference on the given @matchPattern.
 //
@@ -159,7 +173,11 @@ var xWebExtensionMatchPatternRef func(uintptr) *WebExtensionMatchPattern
 func (x *WebExtensionMatchPattern) Ref() *WebExtensionMatchPattern {
 
 	cret := xWebExtensionMatchPatternRef(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*WebExtensionMatchPattern)(unsafe.Pointer(cret))
+
 }
 
 var xWebExtensionMatchPatternUnref func(uintptr)

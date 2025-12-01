@@ -2319,13 +2319,17 @@ func (x *WebView) GetPageId() uint64 {
 	return cret
 }
 
-var xWebViewGetSessionState func(uintptr) *WebViewSessionState
+var xWebViewGetSessionState func(uintptr) uintptr
 
 // Gets the current session state of @web_view
 func (x *WebView) GetSessionState() *WebViewSessionState {
 
 	cret := xWebViewGetSessionState(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*WebViewSessionState)(unsafe.Pointer(cret))
+
 }
 
 var xWebViewGetSettings func(uintptr) uintptr

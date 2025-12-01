@@ -70,8 +70,12 @@ func (x *AuthClass) OverrideGetProtectionSpace(cb func(*Auth, *glib.Uri) *glib.S
 	if cb == nil {
 		x.xGetProtectionSpace = 0
 	} else {
-		x.xGetProtectionSpace = purego.NewCallback(func(AuthVarp uintptr, SourceUriVarp *glib.Uri) *glib.SList {
-			return cb(AuthNewFromInternalPtr(AuthVarp), SourceUriVarp)
+		x.xGetProtectionSpace = purego.NewCallback(func(AuthVarp uintptr, SourceUriVarp *glib.Uri) uintptr {
+			ret := cb(AuthNewFromInternalPtr(AuthVarp), SourceUriVarp)
+			if ret == nil {
+				return 0
+			}
+			return uintptr(unsafe.Pointer(ret))
 		})
 	}
 }
@@ -81,10 +85,14 @@ func (x *AuthClass) GetGetProtectionSpace() func(*Auth, *glib.Uri) *glib.SList {
 	if x.xGetProtectionSpace == 0 {
 		return nil
 	}
-	var rawCallback func(AuthVarp uintptr, SourceUriVarp *glib.Uri) *glib.SList
+	var rawCallback func(AuthVarp uintptr, SourceUriVarp *glib.Uri) uintptr
 	purego.RegisterFunc(&rawCallback, x.xGetProtectionSpace)
 	return func(AuthVar *Auth, SourceUriVar *glib.Uri) *glib.SList {
-		return rawCallback(AuthVar.GoPointer(), SourceUriVar)
+		rawRet := rawCallback(AuthVar.GoPointer(), SourceUriVar)
+		if rawRet == 0 {
+			return nil
+		}
+		return (*glib.SList)(unsafe.Pointer(rawRet))
 	}
 }
 
@@ -326,7 +334,7 @@ func (x *Auth) GetInfo() string {
 	return cret
 }
 
-var xAuthGetProtectionSpace func(uintptr, *glib.Uri) *glib.SList
+var xAuthGetProtectionSpace func(uintptr, *glib.Uri) uintptr
 
 // Returns a list of paths on the server which @auth extends over.
 //
@@ -336,7 +344,11 @@ var xAuthGetProtectionSpace func(uintptr, *glib.Uri) *glib.SList
 func (x *Auth) GetProtectionSpace(SourceUriVar *glib.Uri) *glib.SList {
 
 	cret := xAuthGetProtectionSpace(x.GoPointer(), SourceUriVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.SList)(unsafe.Pointer(cret))
+
 }
 
 var xAuthGetRealm func(uintptr) string

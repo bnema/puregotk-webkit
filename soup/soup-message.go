@@ -287,13 +287,17 @@ func (x *Message) GetConnectionId() uint64 {
 	return cret
 }
 
-var xMessageGetFirstParty func(uintptr) *glib.Uri
+var xMessageGetFirstParty func(uintptr) uintptr
 
 // Gets @msg's first-party [struct@GLib.Uri].
 func (x *Message) GetFirstParty() *glib.Uri {
 
 	cret := xMessageGetFirstParty(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Uri)(unsafe.Pointer(cret))
+
 }
 
 var xMessageGetFlags func(uintptr) MessageFlags
@@ -355,7 +359,7 @@ func (x *Message) GetMethod() string {
 	return cret
 }
 
-var xMessageGetMetrics func(uintptr) *MessageMetrics
+var xMessageGetMetrics func(uintptr) uintptr
 
 // Get the [struct@MessageMetrics] of @msg.
 //
@@ -364,7 +368,11 @@ var xMessageGetMetrics func(uintptr) *MessageMetrics
 func (x *Message) GetMetrics() *MessageMetrics {
 
 	cret := xMessageGetMetrics(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MessageMetrics)(unsafe.Pointer(cret))
+
 }
 
 var xMessageGetPriority func(uintptr) MessagePriority
@@ -411,31 +419,43 @@ func (x *Message) GetRemoteAddress() *gio.SocketAddress {
 	return cls
 }
 
-var xMessageGetRequestHeaders func(uintptr) *MessageHeaders
+var xMessageGetRequestHeaders func(uintptr) uintptr
 
 // Returns the headers sent with the request.
 func (x *Message) GetRequestHeaders() *MessageHeaders {
 
 	cret := xMessageGetRequestHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MessageHeaders)(unsafe.Pointer(cret))
+
 }
 
-var xMessageGetResponseHeaders func(uintptr) *MessageHeaders
+var xMessageGetResponseHeaders func(uintptr) uintptr
 
 // Returns the headers recieved with the response.
 func (x *Message) GetResponseHeaders() *MessageHeaders {
 
 	cret := xMessageGetResponseHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MessageHeaders)(unsafe.Pointer(cret))
+
 }
 
-var xMessageGetSiteForCookies func(uintptr) *glib.Uri
+var xMessageGetSiteForCookies func(uintptr) uintptr
 
 // Gets @msg's site for cookies #GUri.
 func (x *Message) GetSiteForCookies() *glib.Uri {
 
 	cret := xMessageGetSiteForCookies(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Uri)(unsafe.Pointer(cret))
+
 }
 
 var xMessageGetStatus func(uintptr) Status
@@ -498,13 +518,17 @@ func (x *Message) GetTlsProtocolVersion() gio.TlsProtocolVersion {
 	return cret
 }
 
-var xMessageGetUri func(uintptr) *glib.Uri
+var xMessageGetUri func(uintptr) uintptr
 
 // Gets @msg's URI.
 func (x *Message) GetUri() *glib.Uri {
 
 	cret := xMessageGetUri(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Uri)(unsafe.Pointer(cret))
+
 }
 
 var xMessageIsFeatureDisabled func(uintptr, types.GType) bool

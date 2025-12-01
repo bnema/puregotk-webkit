@@ -173,22 +173,30 @@ func NewHSTSEnforcer() *HSTSEnforcer {
 	return cls
 }
 
-var xHSTSEnforcerGetDomains func(uintptr, bool) *glib.List
+var xHSTSEnforcerGetDomains func(uintptr, bool) uintptr
 
 // Gets a list of domains for which there are policies in @enforcer.
 func (x *HSTSEnforcer) GetDomains(SessionPoliciesVar bool) *glib.List {
 
 	cret := xHSTSEnforcerGetDomains(x.GoPointer(), SessionPoliciesVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
+
 }
 
-var xHSTSEnforcerGetPolicies func(uintptr, bool) *glib.List
+var xHSTSEnforcerGetPolicies func(uintptr, bool) uintptr
 
 // Gets a list with the policies in @enforcer.
 func (x *HSTSEnforcer) GetPolicies(SessionPoliciesVar bool) *glib.List {
 
 	cret := xHSTSEnforcerGetPolicies(x.GoPointer(), SessionPoliciesVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
+
 }
 
 var xHSTSEnforcerHasValidPolicy func(uintptr, string) bool

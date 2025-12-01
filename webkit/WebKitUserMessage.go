@@ -131,13 +131,17 @@ func (x *UserMessage) GetName() string {
 	return cret
 }
 
-var xUserMessageGetParameters func(uintptr) *glib.Variant
+var xUserMessageGetParameters func(uintptr) uintptr
 
 // Get the @message parameters.
 func (x *UserMessage) GetParameters() *glib.Variant {
 
 	cret := xUserMessageGetParameters(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Variant)(unsafe.Pointer(cret))
+
 }
 
 var xUserMessageSendReply func(uintptr, uintptr)

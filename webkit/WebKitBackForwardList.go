@@ -70,22 +70,30 @@ func (x *BackForwardList) GetBackItem() *BackForwardListItem {
 	return cls
 }
 
-var xBackForwardListGetBackList func(uintptr) *glib.List
+var xBackForwardListGetBackList func(uintptr) uintptr
 
 // Obtain the list of items preceding the current one.
 func (x *BackForwardList) GetBackList() *glib.List {
 
 	cret := xBackForwardListGetBackList(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
+
 }
 
-var xBackForwardListGetBackListWithLimit func(uintptr, uint) *glib.List
+var xBackForwardListGetBackListWithLimit func(uintptr, uint) uintptr
 
 // Obtain a list up to some number of items preceding the current one.
 func (x *BackForwardList) GetBackListWithLimit(LimitVar uint) *glib.List {
 
 	cret := xBackForwardListGetBackListWithLimit(x.GoPointer(), LimitVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
+
 }
 
 var xBackForwardListGetCurrentItem func(uintptr) uintptr
@@ -122,22 +130,30 @@ func (x *BackForwardList) GetForwardItem() *BackForwardListItem {
 	return cls
 }
 
-var xBackForwardListGetForwardList func(uintptr) *glib.List
+var xBackForwardListGetForwardList func(uintptr) uintptr
 
 // Obtain the list of items following the current one.
 func (x *BackForwardList) GetForwardList() *glib.List {
 
 	cret := xBackForwardListGetForwardList(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
+
 }
 
-var xBackForwardListGetForwardListWithLimit func(uintptr, uint) *glib.List
+var xBackForwardListGetForwardListWithLimit func(uintptr, uint) uintptr
 
 // Obtain a list up to some number of items following the current one.
 func (x *BackForwardList) GetForwardListWithLimit(LimitVar uint) *glib.List {
 
 	cret := xBackForwardListGetForwardListWithLimit(x.GoPointer(), LimitVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
+
 }
 
 var xBackForwardListGetLength func(uintptr) uint

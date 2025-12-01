@@ -40,22 +40,30 @@ func (x *GeolocationPosition) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewGeolocationPosition func(float64, float64, float64) *GeolocationPosition
+var xNewGeolocationPosition func(float64, float64, float64) uintptr
 
 // Create a new #WebKitGeolocationPosition.
 func NewGeolocationPosition(LatitudeVar float64, LongitudeVar float64, AccuracyVar float64) *GeolocationPosition {
 
 	cret := xNewGeolocationPosition(LatitudeVar, LongitudeVar, AccuracyVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*GeolocationPosition)(unsafe.Pointer(cret))
+
 }
 
-var xGeolocationPositionCopy func(uintptr) *GeolocationPosition
+var xGeolocationPositionCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitGeolocationPosition.
 func (x *GeolocationPosition) Copy() *GeolocationPosition {
 
 	cret := xGeolocationPositionCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*GeolocationPosition)(unsafe.Pointer(cret))
+
 }
 
 var xGeolocationPositionFree func(uintptr)

@@ -30,13 +30,17 @@ func (x *ScriptMessageReply) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xScriptMessageReplyRef func(uintptr) *ScriptMessageReply
+var xScriptMessageReplyRef func(uintptr) uintptr
 
 // Atomically increments the reference count of @script_message_reply by one.
 func (x *ScriptMessageReply) Ref() *ScriptMessageReply {
 
 	cret := xScriptMessageReplyRef(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*ScriptMessageReply)(unsafe.Pointer(cret))
+
 }
 
 var xScriptMessageReplyReturnErrorMessage func(uintptr, string)

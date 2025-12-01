@@ -44,22 +44,30 @@ func (x *MemoryPressureSettings) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewMemoryPressureSettings func() *MemoryPressureSettings
+var xNewMemoryPressureSettings func() uintptr
 
 // Create a new #WebKitMemoryPressureSettings with the default values.
 func NewMemoryPressureSettings() *MemoryPressureSettings {
 
 	cret := xNewMemoryPressureSettings()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MemoryPressureSettings)(unsafe.Pointer(cret))
+
 }
 
-var xMemoryPressureSettingsCopy func(uintptr) *MemoryPressureSettings
+var xMemoryPressureSettingsCopy func(uintptr) uintptr
 
 // Make a copy of @settings.
 func (x *MemoryPressureSettings) Copy() *MemoryPressureSettings {
 
 	cret := xMemoryPressureSettingsCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MemoryPressureSettings)(unsafe.Pointer(cret))
+
 }
 
 var xMemoryPressureSettingsFree func(uintptr)

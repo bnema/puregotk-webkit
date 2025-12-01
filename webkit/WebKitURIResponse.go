@@ -54,13 +54,17 @@ func (x *URIResponse) GetContentLength() uint64 {
 	return cret
 }
 
-var xURIResponseGetHttpHeaders func(uintptr) *soup.MessageHeaders
+var xURIResponseGetHttpHeaders func(uintptr) uintptr
 
 // Get the HTTP headers of a #WebKitURIResponse as a #SoupMessageHeaders.
 func (x *URIResponse) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURIResponseGetHttpHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*soup.MessageHeaders)(unsafe.Pointer(cret))
+
 }
 
 var xURIResponseGetMimeType func(uintptr) string

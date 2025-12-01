@@ -366,7 +366,7 @@ var xServerAddEarlyHandler func(uintptr, string, uintptr, uintptr, uintptr)
 // run as well.
 func (x *Server) AddEarlyHandler(PathVar string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddEarlyHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
+	xServerAddEarlyHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
 
 }
 
@@ -407,7 +407,7 @@ var xServerAddHandler func(uintptr, string, uintptr, uintptr, uintptr)
 // [method@MessageBody.complete] to indicate that no more chunks are coming.
 func (x *Server) AddHandler(PathVar string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
+	xServerAddHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
 
 }
 
@@ -449,7 +449,7 @@ var xServerAddWebsocketHandler func(uintptr, string, string, []string, uintptr, 
 // setting a failure status code if the handshake should be rejected.
 func (x *Server) AddWebsocketHandler(PathVar string, OriginVar string, ProtocolsVar []string, CallbackVar *ServerWebsocketCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddWebsocketHandler(x.GoPointer(), PathVar, OriginVar, ProtocolsVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
+	xServerAddWebsocketHandler(x.GoPointer(), PathVar, OriginVar, ProtocolsVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
 
 }
 
@@ -469,7 +469,7 @@ func (x *Server) Disconnect() {
 
 }
 
-var xServerGetListeners func(uintptr) *glib.SList
+var xServerGetListeners func(uintptr) uintptr
 
 // Gets @server's list of listening sockets.
 //
@@ -478,7 +478,11 @@ var xServerGetListeners func(uintptr) *glib.SList
 func (x *Server) GetListeners() *glib.SList {
 
 	cret := xServerGetListeners(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.SList)(unsafe.Pointer(cret))
+
 }
 
 var xServerGetTlsAuthMode func(uintptr) gio.TlsAuthenticationMode
@@ -524,7 +528,7 @@ func (x *Server) GetTlsDatabase() *gio.TlsDatabase {
 	return cls
 }
 
-var xServerGetUris func(uintptr) *glib.SList
+var xServerGetUris func(uintptr) uintptr
 
 // Gets a list of URIs corresponding to the interfaces @server is
 // listening on.
@@ -538,7 +542,11 @@ var xServerGetUris func(uintptr) *glib.SList
 func (x *Server) GetUris() *glib.SList {
 
 	cret := xServerGetUris(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.SList)(unsafe.Pointer(cret))
+
 }
 
 var xServerIsHttps func(uintptr) bool

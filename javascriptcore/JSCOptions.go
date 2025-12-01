@@ -2,6 +2,8 @@
 package javascriptcore
 
 import (
+	"unsafe"
+
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/glib"
@@ -89,7 +91,7 @@ func OptionsGetInt(OptionVar string, ValueVar int) bool {
 	return cret
 }
 
-var xOptionsGetOptionGroup func() *glib.OptionGroup
+var xOptionsGetOptionGroup func() uintptr
 
 // Create a #GOptionGroup to handle JSCOptions as command line arguments.
 // The options will be exposed as command line arguments with the form
@@ -101,7 +103,11 @@ var xOptionsGetOptionGroup func() *glib.OptionGroup
 func OptionsGetOptionGroup() *glib.OptionGroup {
 
 	cret := xOptionsGetOptionGroup()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.OptionGroup)(unsafe.Pointer(cret))
+
 }
 
 var xOptionsGetRangeString func(string, string) bool
