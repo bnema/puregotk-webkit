@@ -79,7 +79,7 @@ func (x *ClassVTable) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideJscReserved0 sets the callback function.
+// OverrideJscReserved0 sets the "_jsc_reserved0" callback function.
 func (x *ClassVTable) OverrideJscReserved0(cb func()) {
 	if cb == nil {
 		x.xJscReserved0 = 0
@@ -90,7 +90,7 @@ func (x *ClassVTable) OverrideJscReserved0(cb func()) {
 	}
 }
 
-// GetJscReserved0 gets the callback function.
+// GetJscReserved0 gets the "_jsc_reserved0" callback function.
 func (x *ClassVTable) GetJscReserved0() func() {
 	if x.xJscReserved0 == 0 {
 		return nil
@@ -102,7 +102,7 @@ func (x *ClassVTable) GetJscReserved0() func() {
 	}
 }
 
-// OverrideJscReserved1 sets the callback function.
+// OverrideJscReserved1 sets the "_jsc_reserved1" callback function.
 func (x *ClassVTable) OverrideJscReserved1(cb func()) {
 	if cb == nil {
 		x.xJscReserved1 = 0
@@ -113,7 +113,7 @@ func (x *ClassVTable) OverrideJscReserved1(cb func()) {
 	}
 }
 
-// GetJscReserved1 gets the callback function.
+// GetJscReserved1 gets the "_jsc_reserved1" callback function.
 func (x *ClassVTable) GetJscReserved1() func() {
 	if x.xJscReserved1 == 0 {
 		return nil
@@ -125,7 +125,7 @@ func (x *ClassVTable) GetJscReserved1() func() {
 	}
 }
 
-// OverrideJscReserved2 sets the callback function.
+// OverrideJscReserved2 sets the "_jsc_reserved2" callback function.
 func (x *ClassVTable) OverrideJscReserved2(cb func()) {
 	if cb == nil {
 		x.xJscReserved2 = 0
@@ -136,7 +136,7 @@ func (x *ClassVTable) OverrideJscReserved2(cb func()) {
 	}
 }
 
-// GetJscReserved2 gets the callback function.
+// GetJscReserved2 gets the "_jsc_reserved2" callback function.
 func (x *ClassVTable) GetJscReserved2() func() {
 	if x.xJscReserved2 == 0 {
 		return nil
@@ -148,7 +148,7 @@ func (x *ClassVTable) GetJscReserved2() func() {
 	}
 }
 
-// OverrideJscReserved3 sets the callback function.
+// OverrideJscReserved3 sets the "_jsc_reserved3" callback function.
 func (x *ClassVTable) OverrideJscReserved3(cb func()) {
 	if cb == nil {
 		x.xJscReserved3 = 0
@@ -159,7 +159,7 @@ func (x *ClassVTable) OverrideJscReserved3(cb func()) {
 	}
 }
 
-// GetJscReserved3 gets the callback function.
+// GetJscReserved3 gets the "_jsc_reserved3" callback function.
 func (x *ClassVTable) GetJscReserved3() func() {
 	if x.xJscReserved3 == 0 {
 		return nil
@@ -171,7 +171,7 @@ func (x *ClassVTable) GetJscReserved3() func() {
 	}
 }
 
-// OverrideJscReserved4 sets the callback function.
+// OverrideJscReserved4 sets the "_jsc_reserved4" callback function.
 func (x *ClassVTable) OverrideJscReserved4(cb func()) {
 	if cb == nil {
 		x.xJscReserved4 = 0
@@ -182,7 +182,7 @@ func (x *ClassVTable) OverrideJscReserved4(cb func()) {
 	}
 }
 
-// GetJscReserved4 gets the callback function.
+// GetJscReserved4 gets the "_jsc_reserved4" callback function.
 func (x *ClassVTable) GetJscReserved4() func() {
 	if x.xJscReserved4 == 0 {
 		return nil
@@ -194,7 +194,7 @@ func (x *ClassVTable) GetJscReserved4() func() {
 	}
 }
 
-// OverrideJscReserved5 sets the callback function.
+// OverrideJscReserved5 sets the "_jsc_reserved5" callback function.
 func (x *ClassVTable) OverrideJscReserved5(cb func()) {
 	if cb == nil {
 		x.xJscReserved5 = 0
@@ -205,7 +205,7 @@ func (x *ClassVTable) OverrideJscReserved5(cb func()) {
 	}
 }
 
-// GetJscReserved5 gets the callback function.
+// GetJscReserved5 gets the "_jsc_reserved5" callback function.
 func (x *ClassVTable) GetJscReserved5() func() {
 	if x.xJscReserved5 == 0 {
 		return nil
@@ -217,7 +217,7 @@ func (x *ClassVTable) GetJscReserved5() func() {
 	}
 }
 
-// OverrideJscReserved6 sets the callback function.
+// OverrideJscReserved6 sets the "_jsc_reserved6" callback function.
 func (x *ClassVTable) OverrideJscReserved6(cb func()) {
 	if cb == nil {
 		x.xJscReserved6 = 0
@@ -228,7 +228,7 @@ func (x *ClassVTable) OverrideJscReserved6(cb func()) {
 	}
 }
 
-// GetJscReserved6 gets the callback function.
+// GetJscReserved6 gets the "_jsc_reserved6" callback function.
 func (x *ClassVTable) GetJscReserved6() func() {
 	if x.xJscReserved6 == 0 {
 		return nil
@@ -240,7 +240,7 @@ func (x *ClassVTable) GetJscReserved6() func() {
 	}
 }
 
-// OverrideJscReserved7 sets the callback function.
+// OverrideJscReserved7 sets the "_jsc_reserved7" callback function.
 func (x *ClassVTable) OverrideJscReserved7(cb func()) {
 	if cb == nil {
 		x.xJscReserved7 = 0
@@ -251,7 +251,7 @@ func (x *ClassVTable) OverrideJscReserved7(cb func()) {
 	}
 }
 
-// GetJscReserved7 gets the callback function.
+// GetJscReserved7 gets the "_jsc_reserved7" callback function.
 func (x *ClassVTable) GetJscReserved7() func() {
 	if x.xJscReserved7 == 0 {
 		return nil
@@ -463,6 +463,23 @@ func (c *Class) GoPointer() uintptr {
 
 func (c *Class) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyName sets the "name" property.
+// The name of the class.
+func (x *Class) SetPropertyName(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("name", &v)
+}
+
+// GetPropertyName gets the "name" property.
+// The name of the class.
+func (x *Class) GetPropertyName() string {
+	var v gobject.Value
+	x.GetProperty("name", &v)
+	return v.GetString()
 }
 
 func init() {

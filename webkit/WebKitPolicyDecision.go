@@ -37,7 +37,7 @@ func (x *PolicyDecisionClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideWebkitReserved0 sets the callback function.
+// OverrideWebkitReserved0 sets the "_webkit_reserved0" callback function.
 func (x *PolicyDecisionClass) OverrideWebkitReserved0(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved0 = 0
@@ -48,7 +48,7 @@ func (x *PolicyDecisionClass) OverrideWebkitReserved0(cb func()) {
 	}
 }
 
-// GetWebkitReserved0 gets the callback function.
+// GetWebkitReserved0 gets the "_webkit_reserved0" callback function.
 func (x *PolicyDecisionClass) GetWebkitReserved0() func() {
 	if x.xWebkitReserved0 == 0 {
 		return nil
@@ -60,7 +60,7 @@ func (x *PolicyDecisionClass) GetWebkitReserved0() func() {
 	}
 }
 
-// OverrideWebkitReserved1 sets the callback function.
+// OverrideWebkitReserved1 sets the "_webkit_reserved1" callback function.
 func (x *PolicyDecisionClass) OverrideWebkitReserved1(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved1 = 0
@@ -71,7 +71,7 @@ func (x *PolicyDecisionClass) OverrideWebkitReserved1(cb func()) {
 	}
 }
 
-// GetWebkitReserved1 gets the callback function.
+// GetWebkitReserved1 gets the "_webkit_reserved1" callback function.
 func (x *PolicyDecisionClass) GetWebkitReserved1() func() {
 	if x.xWebkitReserved1 == 0 {
 		return nil
@@ -83,7 +83,7 @@ func (x *PolicyDecisionClass) GetWebkitReserved1() func() {
 	}
 }
 
-// OverrideWebkitReserved2 sets the callback function.
+// OverrideWebkitReserved2 sets the "_webkit_reserved2" callback function.
 func (x *PolicyDecisionClass) OverrideWebkitReserved2(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved2 = 0
@@ -94,7 +94,7 @@ func (x *PolicyDecisionClass) OverrideWebkitReserved2(cb func()) {
 	}
 }
 
-// GetWebkitReserved2 gets the callback function.
+// GetWebkitReserved2 gets the "_webkit_reserved2" callback function.
 func (x *PolicyDecisionClass) GetWebkitReserved2() func() {
 	if x.xWebkitReserved2 == 0 {
 		return nil
@@ -106,7 +106,7 @@ func (x *PolicyDecisionClass) GetWebkitReserved2() func() {
 	}
 }
 
-// OverrideWebkitReserved3 sets the callback function.
+// OverrideWebkitReserved3 sets the "_webkit_reserved3" callback function.
 func (x *PolicyDecisionClass) OverrideWebkitReserved3(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved3 = 0
@@ -117,7 +117,7 @@ func (x *PolicyDecisionClass) OverrideWebkitReserved3(cb func()) {
 	}
 }
 
-// GetWebkitReserved3 gets the callback function.
+// GetWebkitReserved3 gets the "_webkit_reserved3" callback function.
 func (x *PolicyDecisionClass) GetWebkitReserved3() func() {
 	if x.xWebkitReserved3 == 0 {
 		return nil
@@ -129,7 +129,7 @@ func (x *PolicyDecisionClass) GetWebkitReserved3() func() {
 	}
 }
 
-// OverrideWebkitReserved4 sets the callback function.
+// OverrideWebkitReserved4 sets the "_webkit_reserved4" callback function.
 func (x *PolicyDecisionClass) OverrideWebkitReserved4(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved4 = 0
@@ -140,7 +140,7 @@ func (x *PolicyDecisionClass) OverrideWebkitReserved4(cb func()) {
 	}
 }
 
-// GetWebkitReserved4 gets the callback function.
+// GetWebkitReserved4 gets the "_webkit_reserved4" callback function.
 func (x *PolicyDecisionClass) GetWebkitReserved4() func() {
 	if x.xWebkitReserved4 == 0 {
 		return nil
@@ -152,7 +152,7 @@ func (x *PolicyDecisionClass) GetWebkitReserved4() func() {
 	}
 }
 
-// OverrideWebkitReserved5 sets the callback function.
+// OverrideWebkitReserved5 sets the "_webkit_reserved5" callback function.
 func (x *PolicyDecisionClass) OverrideWebkitReserved5(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved5 = 0
@@ -163,7 +163,7 @@ func (x *PolicyDecisionClass) OverrideWebkitReserved5(cb func()) {
 	}
 }
 
-// GetWebkitReserved5 gets the callback function.
+// GetWebkitReserved5 gets the "_webkit_reserved5" callback function.
 func (x *PolicyDecisionClass) GetWebkitReserved5() func() {
 	if x.xWebkitReserved5 == 0 {
 		return nil
@@ -175,7 +175,7 @@ func (x *PolicyDecisionClass) GetWebkitReserved5() func() {
 	}
 }
 
-// OverrideWebkitReserved6 sets the callback function.
+// OverrideWebkitReserved6 sets the "_webkit_reserved6" callback function.
 func (x *PolicyDecisionClass) OverrideWebkitReserved6(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved6 = 0
@@ -186,7 +186,7 @@ func (x *PolicyDecisionClass) OverrideWebkitReserved6(cb func()) {
 	}
 }
 
-// GetWebkitReserved6 gets the callback function.
+// GetWebkitReserved6 gets the "_webkit_reserved6" callback function.
 func (x *PolicyDecisionClass) GetWebkitReserved6() func() {
 	if x.xWebkitReserved6 == 0 {
 		return nil
@@ -198,7 +198,7 @@ func (x *PolicyDecisionClass) GetWebkitReserved6() func() {
 	}
 }
 
-// OverrideWebkitReserved7 sets the callback function.
+// OverrideWebkitReserved7 sets the "_webkit_reserved7" callback function.
 func (x *PolicyDecisionClass) OverrideWebkitReserved7(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved7 = 0
@@ -209,7 +209,7 @@ func (x *PolicyDecisionClass) OverrideWebkitReserved7(cb func()) {
 	}
 }
 
-// GetWebkitReserved7 gets the callback function.
+// GetWebkitReserved7 gets the "_webkit_reserved7" callback function.
 func (x *PolicyDecisionClass) GetWebkitReserved7() func() {
 	if x.xWebkitReserved7 == 0 {
 		return nil

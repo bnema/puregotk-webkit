@@ -26,10 +26,10 @@ func (x *NavigationAction) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNavigationActionCopy func(uintptr) uintptr
+var xNavigationActionCopy func(uintptr) *NavigationAction
 
 // Make a copy of @navigation.
-func (x *NavigationAction) Copy() uintptr {
+func (x *NavigationAction) Copy() *NavigationAction {
 
 	cret := xNavigationActionCopy(x.GoPointer())
 	return cret

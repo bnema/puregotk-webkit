@@ -63,12 +63,12 @@ func AutomationSessionNewFromInternalPtr(ptr uintptr) *AutomationSession {
 	return cls
 }
 
-var xAutomationSessionGetApplicationInfo func(uintptr) uintptr
+var xAutomationSessionGetApplicationInfo func(uintptr) *ApplicationInfo
 
 // Get the the previously set #WebKitAutomationSession.
 //
 // Get the #WebKitAutomationSession previously set with webkit_automation_session_set_application_info().
-func (x *AutomationSession) GetApplicationInfo() uintptr {
+func (x *AutomationSession) GetApplicationInfo() *ApplicationInfo {
 
 	cret := xAutomationSessionGetApplicationInfo(x.GoPointer())
 	return cret
@@ -83,7 +83,7 @@ func (x *AutomationSession) GetId() string {
 	return cret
 }
 
-var xAutomationSessionSetApplicationInfo func(uintptr, uintptr)
+var xAutomationSessionSetApplicationInfo func(uintptr, *ApplicationInfo)
 
 // Set the application information to @session.
 //
@@ -93,7 +93,7 @@ var xAutomationSessionSetApplicationInfo func(uintptr, uintptr)
 // if the client requested a specific browser name or version. This will not have any effect when called
 // after the automation session has been fully created, so this must be called in the callback of
 // #WebKitWebContext::automation-started signal.
-func (x *AutomationSession) SetApplicationInfo(InfoVar uintptr) {
+func (x *AutomationSession) SetApplicationInfo(InfoVar *ApplicationInfo) {
 
 	xAutomationSessionSetApplicationInfo(x.GoPointer(), InfoVar)
 
@@ -108,6 +108,23 @@ func (c *AutomationSession) GoPointer() uintptr {
 
 func (c *AutomationSession) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyId sets the "id" property.
+// The session unique identifier.
+func (x *AutomationSession) SetPropertyId(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("id", &v)
+}
+
+// GetPropertyId gets the "id" property.
+// The session unique identifier.
+func (x *AutomationSession) GetPropertyId() string {
+	var v gobject.Value
+	x.GetProperty("id", &v)
+	return v.GetString()
 }
 
 // This signal is emitted when the automation client requests a new

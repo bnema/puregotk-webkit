@@ -25,10 +25,10 @@ func (x *ApplicationInfo) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewApplicationInfo func() uintptr
+var xNewApplicationInfo func() *ApplicationInfo
 
 // Creates a new #WebKitApplicationInfo
-func NewApplicationInfo() uintptr {
+func NewApplicationInfo() *ApplicationInfo {
 
 	cret := xNewApplicationInfo()
 	return cret
@@ -46,22 +46,22 @@ func (x *ApplicationInfo) GetName() string {
 	return cret
 }
 
-var xApplicationInfoGetVersion func(uintptr, uint64, uint64, uint64)
+var xApplicationInfoGetVersion func(uintptr, *uint64, *uint64, *uint64)
 
 // Get the application version previously set with webkit_application_info_set_version().
-func (x *ApplicationInfo) GetVersion(MajorVar uint64, MinorVar uint64, MicroVar uint64) {
+func (x *ApplicationInfo) GetVersion(MajorVar *uint64, MinorVar *uint64, MicroVar *uint64) {
 
 	xApplicationInfoGetVersion(x.GoPointer(), MajorVar, MinorVar, MicroVar)
 
 }
 
-var xApplicationInfoRef func(uintptr) uintptr
+var xApplicationInfoRef func(uintptr) *ApplicationInfo
 
 // Atomically increments the reference count of @info by one.
 //
 // This
 // function is MT-safe and may be called from any thread.
-func (x *ApplicationInfo) Ref() uintptr {
+func (x *ApplicationInfo) Ref() *ApplicationInfo {
 
 	cret := xApplicationInfoRef(x.GoPointer())
 	return cret

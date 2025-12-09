@@ -203,6 +203,120 @@ func (c *HitTestResult) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// SetPropertyContext sets the "context" property.
+// Bitmask of #WebKitHitTestResultContext flags representing
+// the context of the #WebKitHitTestResult.
+func (x *HitTestResult) SetPropertyContext(value uint) {
+	var v gobject.Value
+	v.Init(gobject.TypeUintVal)
+	v.SetUint(value)
+	x.SetProperty("context", &v)
+}
+
+// GetPropertyContext gets the "context" property.
+// Bitmask of #WebKitHitTestResultContext flags representing
+// the context of the #WebKitHitTestResult.
+func (x *HitTestResult) GetPropertyContext() uint {
+	var v gobject.Value
+	x.GetProperty("context", &v)
+	return v.GetUint()
+}
+
+// SetPropertyImageUri sets the "image-uri" property.
+// The URI of the image if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) SetPropertyImageUri(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("image-uri", &v)
+}
+
+// GetPropertyImageUri gets the "image-uri" property.
+// The URI of the image if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) GetPropertyImageUri() string {
+	var v gobject.Value
+	x.GetProperty("image-uri", &v)
+	return v.GetString()
+}
+
+// SetPropertyLinkLabel sets the "link-label" property.
+// The label of the link if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) SetPropertyLinkLabel(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("link-label", &v)
+}
+
+// GetPropertyLinkLabel gets the "link-label" property.
+// The label of the link if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) GetPropertyLinkLabel() string {
+	var v gobject.Value
+	x.GetProperty("link-label", &v)
+	return v.GetString()
+}
+
+// SetPropertyLinkTitle sets the "link-title" property.
+// The title of the link if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) SetPropertyLinkTitle(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("link-title", &v)
+}
+
+// GetPropertyLinkTitle gets the "link-title" property.
+// The title of the link if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) GetPropertyLinkTitle() string {
+	var v gobject.Value
+	x.GetProperty("link-title", &v)
+	return v.GetString()
+}
+
+// SetPropertyLinkUri sets the "link-uri" property.
+// The URI of the link if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) SetPropertyLinkUri(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("link-uri", &v)
+}
+
+// GetPropertyLinkUri gets the "link-uri" property.
+// The URI of the link if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) GetPropertyLinkUri() string {
+	var v gobject.Value
+	x.GetProperty("link-uri", &v)
+	return v.GetString()
+}
+
+// SetPropertyMediaUri sets the "media-uri" property.
+// The URI of the media if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_MEDIA
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) SetPropertyMediaUri(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("media-uri", &v)
+}
+
+// GetPropertyMediaUri gets the "media-uri" property.
+// The URI of the media if flag %WEBKIT_HIT_TEST_RESULT_CONTEXT_MEDIA
+// is present in #WebKitHitTestResult:context
+func (x *HitTestResult) GetPropertyMediaUri() string {
+	var v gobject.Value
+	x.GetProperty("media-uri", &v)
+	return v.GetString()
+}
+
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})

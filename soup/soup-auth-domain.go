@@ -53,7 +53,7 @@ func (x *AuthDomainClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideAccepts sets the callback function.
+// OverrideAccepts sets the "accepts" callback function.
 func (x *AuthDomainClass) OverrideAccepts(cb func(*AuthDomain, *ServerMessage, string) string) {
 	if cb == nil {
 		x.xAccepts = 0
@@ -64,7 +64,7 @@ func (x *AuthDomainClass) OverrideAccepts(cb func(*AuthDomain, *ServerMessage, s
 	}
 }
 
-// GetAccepts gets the callback function.
+// GetAccepts gets the "accepts" callback function.
 func (x *AuthDomainClass) GetAccepts() func(*AuthDomain, *ServerMessage, string) string {
 	if x.xAccepts == 0 {
 		return nil
@@ -76,7 +76,7 @@ func (x *AuthDomainClass) GetAccepts() func(*AuthDomain, *ServerMessage, string)
 	}
 }
 
-// OverrideChallenge sets the callback function.
+// OverrideChallenge sets the "challenge" callback function.
 func (x *AuthDomainClass) OverrideChallenge(cb func(*AuthDomain, *ServerMessage) string) {
 	if cb == nil {
 		x.xChallenge = 0
@@ -87,7 +87,7 @@ func (x *AuthDomainClass) OverrideChallenge(cb func(*AuthDomain, *ServerMessage)
 	}
 }
 
-// GetChallenge gets the callback function.
+// GetChallenge gets the "challenge" callback function.
 func (x *AuthDomainClass) GetChallenge() func(*AuthDomain, *ServerMessage) string {
 	if x.xChallenge == 0 {
 		return nil
@@ -99,7 +99,7 @@ func (x *AuthDomainClass) GetChallenge() func(*AuthDomain, *ServerMessage) strin
 	}
 }
 
-// OverrideCheckPassword sets the callback function.
+// OverrideCheckPassword sets the "check_password" callback function.
 func (x *AuthDomainClass) OverrideCheckPassword(cb func(*AuthDomain, *ServerMessage, string, string) bool) {
 	if cb == nil {
 		x.xCheckPassword = 0
@@ -110,7 +110,7 @@ func (x *AuthDomainClass) OverrideCheckPassword(cb func(*AuthDomain, *ServerMess
 	}
 }
 
-// GetCheckPassword gets the callback function.
+// GetCheckPassword gets the "check_password" callback function.
 func (x *AuthDomainClass) GetCheckPassword() func(*AuthDomain, *ServerMessage, string, string) bool {
 	if x.xCheckPassword == 0 {
 		return nil
@@ -285,7 +285,7 @@ var xAuthDomainSetFilter func(uintptr, uintptr, uintptr, uintptr)
 // used to set the filter at construct time.
 func (x *AuthDomain) SetFilter(FilterVar *AuthDomainFilter, FilterDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
 
-	xAuthDomainSetFilter(x.GoPointer(), glib.NewCallback(FilterVar), FilterDataVar, glib.NewCallbackNullable(DnotifyVar))
+	xAuthDomainSetFilter(x.GoPointer(), glib.NewCallback(FilterVar), FilterDataVar, glib.NewCallback(DnotifyVar))
 
 }
 
@@ -300,7 +300,7 @@ var xAuthDomainSetGenericAuthCallback func(uintptr, uintptr, uintptr, uintptr)
 // should do.
 func (x *AuthDomain) SetGenericAuthCallback(AuthCallbackVar *AuthDomainGenericAuthCallback, AuthDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
 
-	xAuthDomainSetGenericAuthCallback(x.GoPointer(), glib.NewCallback(AuthCallbackVar), AuthDataVar, glib.NewCallbackNullable(DnotifyVar))
+	xAuthDomainSetGenericAuthCallback(x.GoPointer(), glib.NewCallback(AuthCallbackVar), AuthDataVar, glib.NewCallback(DnotifyVar))
 
 }
 
@@ -313,6 +313,74 @@ func (c *AuthDomain) GoPointer() uintptr {
 
 func (c *AuthDomain) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyFilterData sets the "filter-data" property.
+// Data to pass to the [callback@AuthDomainFilter].
+func (x *AuthDomain) SetPropertyFilterData(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("filter-data", &v)
+}
+
+// GetPropertyFilterData gets the "filter-data" property.
+// Data to pass to the [callback@AuthDomainFilter].
+func (x *AuthDomain) GetPropertyFilterData() uintptr {
+	var v gobject.Value
+	x.GetProperty("filter-data", &v)
+	return v.GetPointer()
+}
+
+// SetPropertyGenericAuthData sets the "generic-auth-data" property.
+// The data to pass to the [callback@AuthDomainGenericAuthCallback].
+func (x *AuthDomain) SetPropertyGenericAuthData(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("generic-auth-data", &v)
+}
+
+// GetPropertyGenericAuthData gets the "generic-auth-data" property.
+// The data to pass to the [callback@AuthDomainGenericAuthCallback].
+func (x *AuthDomain) GetPropertyGenericAuthData() uintptr {
+	var v gobject.Value
+	x.GetProperty("generic-auth-data", &v)
+	return v.GetPointer()
+}
+
+// SetPropertyProxy sets the "proxy" property.
+// Whether or not this is a proxy auth domain.
+func (x *AuthDomain) SetPropertyProxy(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("proxy", &v)
+}
+
+// GetPropertyProxy gets the "proxy" property.
+// Whether or not this is a proxy auth domain.
+func (x *AuthDomain) GetPropertyProxy() bool {
+	var v gobject.Value
+	x.GetProperty("proxy", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyRealm sets the "realm" property.
+// The realm of this auth domain.
+func (x *AuthDomain) SetPropertyRealm(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("realm", &v)
+}
+
+// GetPropertyRealm gets the "realm" property.
+// The realm of this auth domain.
+func (x *AuthDomain) GetPropertyRealm() string {
+	var v gobject.Value
+	x.GetProperty("realm", &v)
+	return v.GetString()
 }
 
 func init() {

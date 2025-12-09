@@ -34,24 +34,24 @@ func (x *SecurityOrigin) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewSecurityOrigin func(string, string, uint16) uintptr
+var xNewSecurityOrigin func(string, string, uint16) *SecurityOrigin
 
 // Create a new security origin from the provided protocol, host and
 // port.
-func NewSecurityOrigin(ProtocolVar string, HostVar string, PortVar uint16) uintptr {
+func NewSecurityOrigin(ProtocolVar string, HostVar string, PortVar uint16) *SecurityOrigin {
 
 	cret := xNewSecurityOrigin(ProtocolVar, HostVar, PortVar)
 	return cret
 }
 
-var xNewSecurityOriginForUri func(string) uintptr
+var xNewSecurityOriginForUri func(string) *SecurityOrigin
 
 // Create a new security origin from the provided.
 //
 // Create a new security origin from the provided URI. Components of
 // @uri other than protocol, host, and port do not affect the created
 // #WebKitSecurityOrigin.
-func NewSecurityOriginForUri(UriVar string) uintptr {
+func NewSecurityOriginForUri(UriVar string) *SecurityOrigin {
 
 	cret := xNewSecurityOriginForUri(UriVar)
 	return cret
@@ -93,12 +93,12 @@ func (x *SecurityOrigin) GetProtocol() string {
 	return cret
 }
 
-var xSecurityOriginRef func(uintptr) uintptr
+var xSecurityOriginRef func(uintptr) *SecurityOrigin
 
 // Atomically increments the reference count of @origin by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *SecurityOrigin) Ref() uintptr {
+func (x *SecurityOrigin) Ref() *SecurityOrigin {
 
 	cret := xSecurityOriginRef(x.GoPointer())
 	return cret

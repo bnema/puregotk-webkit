@@ -83,6 +83,22 @@ func (c *UserMediaPermissionRequest) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// GetPropertyIsForAudioDevice gets the "is-for-audio-device" property.
+// Whether the media device to which the permission was requested has a microphone or not.
+func (x *UserMediaPermissionRequest) GetPropertyIsForAudioDevice() bool {
+	var v gobject.Value
+	x.GetProperty("is-for-audio-device", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyIsForVideoDevice gets the "is-for-video-device" property.
+// Whether the media device to which the permission was requested has a video capture capability or not.
+func (x *UserMediaPermissionRequest) GetPropertyIsForVideoDevice() bool {
+	var v gobject.Value
+	x.GetProperty("is-for-video-device", &v)
+	return v.GetBoolean()
+}
+
 // Allow the action which triggered this request.
 func (x *UserMediaPermissionRequest) Allow() {
 

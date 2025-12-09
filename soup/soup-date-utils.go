@@ -4,6 +4,7 @@ package soup
 import (
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -31,23 +32,23 @@ const (
 	DateCookieValue DateFormat = 2
 )
 
-var xDateTimeNewFromHttpString func(string) uintptr
+var xDateTimeNewFromHttpString func(string) *glib.DateTime
 
 // Parses @date_string and tries to extract a date from it.
 //
 // This recognizes all of the "HTTP-date" formats from RFC 2616, RFC 2822 dates,
 // and reasonable approximations thereof. (Eg, it is lenient about whitespace,
 // leading "0"s, etc.)
-func DateTimeNewFromHttpString(DateStringVar string) uintptr {
+func DateTimeNewFromHttpString(DateStringVar string) *glib.DateTime {
 
 	cret := xDateTimeNewFromHttpString(DateStringVar)
 	return cret
 }
 
-var xDateTimeToString func(uintptr, DateFormat) string
+var xDateTimeToString func(*glib.DateTime, DateFormat) string
 
 // Converts @date to a string in the format described by @format.
-func DateTimeToString(DateVar uintptr, FormatVar DateFormat) string {
+func DateTimeToString(DateVar *glib.DateTime, FormatVar DateFormat) string {
 
 	cret := xDateTimeToString(DateVar, FormatVar)
 	return cret

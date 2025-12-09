@@ -24,10 +24,10 @@ func (x *ConsoleMessage) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xConsoleMessageCopy func(uintptr) uintptr
+var xConsoleMessageCopy func(uintptr) *ConsoleMessage
 
 // Make a copy of @console_message.
-func (x *ConsoleMessage) Copy() uintptr {
+func (x *ConsoleMessage) Copy() *ConsoleMessage {
 
 	cret := xConsoleMessageCopy(x.GoPointer())
 	return cret

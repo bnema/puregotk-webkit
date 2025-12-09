@@ -5,6 +5,7 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
@@ -53,10 +54,10 @@ func (x *URIResponse) GetContentLength() uint64 {
 	return cret
 }
 
-var xURIResponseGetHttpHeaders func(uintptr) uintptr
+var xURIResponseGetHttpHeaders func(uintptr) *soup.MessageHeaders
 
 // Get the HTTP headers of a #WebKitURIResponse as a #SoupMessageHeaders.
-func (x *URIResponse) GetHttpHeaders() uintptr {
+func (x *URIResponse) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURIResponseGetHttpHeaders(x.GoPointer())
 	return cret
@@ -116,6 +117,54 @@ func (c *URIResponse) GoPointer() uintptr {
 
 func (c *URIResponse) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// GetPropertyContentLength gets the "content-length" property.
+// The expected content length of the response.
+func (x *URIResponse) GetPropertyContentLength() uint64 {
+	var v gobject.Value
+	x.GetProperty("content-length", &v)
+	return v.GetUint64()
+}
+
+// GetPropertyHttpHeaders gets the "http-headers" property.
+// The HTTP headers of the response, or %NULL if the response is not an HTTP response.
+func (x *URIResponse) GetPropertyHttpHeaders() uintptr {
+	var v gobject.Value
+	x.GetProperty("http-headers", &v)
+	return v.GetPointer()
+}
+
+// GetPropertyMimeType gets the "mime-type" property.
+// The MIME type of the response.
+func (x *URIResponse) GetPropertyMimeType() string {
+	var v gobject.Value
+	x.GetProperty("mime-type", &v)
+	return v.GetString()
+}
+
+// GetPropertyStatusCode gets the "status-code" property.
+// The status code of the response as returned by the server.
+func (x *URIResponse) GetPropertyStatusCode() uint {
+	var v gobject.Value
+	x.GetProperty("status-code", &v)
+	return v.GetUint()
+}
+
+// GetPropertySuggestedFilename gets the "suggested-filename" property.
+// The suggested filename for the URI response.
+func (x *URIResponse) GetPropertySuggestedFilename() string {
+	var v gobject.Value
+	x.GetProperty("suggested-filename", &v)
+	return v.GetString()
+}
+
+// GetPropertyUri gets the "uri" property.
+// The URI for which the response was made.
+func (x *URIResponse) GetPropertyUri() string {
+	var v gobject.Value
+	x.GetProperty("uri", &v)
+	return v.GetString()
 }
 
 func init() {

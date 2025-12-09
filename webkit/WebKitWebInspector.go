@@ -181,6 +181,31 @@ func (c *WebInspector) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// GetPropertyAttachedHeight gets the "attached-height" property.
+// The height that the inspector view should have when it is attached.
+func (x *WebInspector) GetPropertyAttachedHeight() uint {
+	var v gobject.Value
+	x.GetProperty("attached-height", &v)
+	return v.GetUint()
+}
+
+// GetPropertyCanAttach gets the "can-attach" property.
+// Whether the @inspector can be attached to the same window that contains
+// the inspected view.
+func (x *WebInspector) GetPropertyCanAttach() bool {
+	var v gobject.Value
+	x.GetProperty("can-attach", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyInspectedUri gets the "inspected-uri" property.
+// The URI that is currently being inspected.
+func (x *WebInspector) GetPropertyInspectedUri() string {
+	var v gobject.Value
+	x.GetProperty("inspected-uri", &v)
+	return v.GetString()
+}
+
 // Emitted when the inspector is requested to be attached to the window
 // where the inspected web view is.
 // If this signal is not handled the inspector view will be automatically

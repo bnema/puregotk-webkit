@@ -124,37 +124,37 @@ func (x *ServerMessage) GetRemoteHost() string {
 	return cret
 }
 
-var xServerMessageGetRequestBody func(uintptr) uintptr
+var xServerMessageGetRequestBody func(uintptr) *MessageBody
 
 // Get the request body of @msg.
-func (x *ServerMessage) GetRequestBody() uintptr {
+func (x *ServerMessage) GetRequestBody() *MessageBody {
 
 	cret := xServerMessageGetRequestBody(x.GoPointer())
 	return cret
 }
 
-var xServerMessageGetRequestHeaders func(uintptr) uintptr
+var xServerMessageGetRequestHeaders func(uintptr) *MessageHeaders
 
 // Get the request headers of @msg.
-func (x *ServerMessage) GetRequestHeaders() uintptr {
+func (x *ServerMessage) GetRequestHeaders() *MessageHeaders {
 
 	cret := xServerMessageGetRequestHeaders(x.GoPointer())
 	return cret
 }
 
-var xServerMessageGetResponseBody func(uintptr) uintptr
+var xServerMessageGetResponseBody func(uintptr) *MessageBody
 
 // Get the response body of @msg.
-func (x *ServerMessage) GetResponseBody() uintptr {
+func (x *ServerMessage) GetResponseBody() *MessageBody {
 
 	cret := xServerMessageGetResponseBody(x.GoPointer())
 	return cret
 }
 
-var xServerMessageGetResponseHeaders func(uintptr) uintptr
+var xServerMessageGetResponseHeaders func(uintptr) *MessageHeaders
 
 // Get the response headers of @msg.
-func (x *ServerMessage) GetResponseHeaders() uintptr {
+func (x *ServerMessage) GetResponseHeaders() *MessageHeaders {
 
 	cret := xServerMessageGetResponseHeaders(x.GoPointer())
 	return cret
@@ -223,10 +223,10 @@ func (x *ServerMessage) GetTlsPeerCertificateErrors() gio.TlsCertificateFlags {
 	return cret
 }
 
-var xServerMessageGetUri func(uintptr) uintptr
+var xServerMessageGetUri func(uintptr) *glib.Uri
 
 // Get @msg's URI.
-func (x *ServerMessage) GetUri() uintptr {
+func (x *ServerMessage) GetUri() *glib.Uri {
 
 	cret := xServerMessageGetUri(x.GoPointer())
 	return cret

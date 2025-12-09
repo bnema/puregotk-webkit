@@ -30,10 +30,10 @@ func (x *ScriptMessageReply) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xScriptMessageReplyRef func(uintptr) uintptr
+var xScriptMessageReplyRef func(uintptr) *ScriptMessageReply
 
 // Atomically increments the reference count of @script_message_reply by one.
-func (x *ScriptMessageReply) Ref() uintptr {
+func (x *ScriptMessageReply) Ref() *ScriptMessageReply {
 
 	cret := xScriptMessageReplyRef(x.GoPointer())
 	return cret
@@ -127,7 +127,7 @@ func NewUserContentManager() *UserContentManager {
 	return cls
 }
 
-var xUserContentManagerAddFilter func(uintptr, uintptr)
+var xUserContentManagerAddFilter func(uintptr, *UserContentFilter)
 
 // Adds a #WebKitUserContentFilter to the given #WebKitUserContentManager.
 //
@@ -135,31 +135,31 @@ var xUserContentManagerAddFilter func(uintptr, uintptr)
 // #WebKitUserContentManager instances.
 //
 // Filters need to be saved and loaded from #WebKitUserContentFilterStore.
-func (x *UserContentManager) AddFilter(FilterVar uintptr) {
+func (x *UserContentManager) AddFilter(FilterVar *UserContentFilter) {
 
 	xUserContentManagerAddFilter(x.GoPointer(), FilterVar)
 
 }
 
-var xUserContentManagerAddScript func(uintptr, uintptr)
+var xUserContentManagerAddScript func(uintptr, *UserScript)
 
 // Adds a #WebKitUserScript to the given #WebKitUserContentManager.
 //
 // The same #WebKitUserScript can be reused with multiple
 // #WebKitUserContentManager instances.
-func (x *UserContentManager) AddScript(ScriptVar uintptr) {
+func (x *UserContentManager) AddScript(ScriptVar *UserScript) {
 
 	xUserContentManagerAddScript(x.GoPointer(), ScriptVar)
 
 }
 
-var xUserContentManagerAddStyleSheet func(uintptr, uintptr)
+var xUserContentManagerAddStyleSheet func(uintptr, *UserStyleSheet)
 
 // Adds a #WebKitUserStyleSheet to the given #WebKitUserContentManager.
 //
 // The same #WebKitUserStyleSheet can be reused with multiple
 // #WebKitUserContentManager instances.
-func (x *UserContentManager) AddStyleSheet(StylesheetVar uintptr) {
+func (x *UserContentManager) AddStyleSheet(StylesheetVar *UserStyleSheet) {
 
 	xUserContentManagerAddStyleSheet(x.GoPointer(), StylesheetVar)
 
@@ -253,12 +253,12 @@ func (x *UserContentManager) RemoveAllStyleSheets() {
 
 }
 
-var xUserContentManagerRemoveFilter func(uintptr, uintptr)
+var xUserContentManagerRemoveFilter func(uintptr, *UserContentFilter)
 
 // Removes a filter from the given #WebKitUserContentManager.
 //
 // Since 2.24
-func (x *UserContentManager) RemoveFilter(FilterVar uintptr) {
+func (x *UserContentManager) RemoveFilter(FilterVar *UserContentFilter) {
 
 	xUserContentManagerRemoveFilter(x.GoPointer(), FilterVar)
 
@@ -277,23 +277,23 @@ func (x *UserContentManager) RemoveFilterById(FilterIdVar string) {
 
 }
 
-var xUserContentManagerRemoveScript func(uintptr, uintptr)
+var xUserContentManagerRemoveScript func(uintptr, *UserScript)
 
 // Removes a #WebKitUserScript from the given #WebKitUserContentManager.
 //
 // See also webkit_user_content_manager_remove_all_scripts().
-func (x *UserContentManager) RemoveScript(ScriptVar uintptr) {
+func (x *UserContentManager) RemoveScript(ScriptVar *UserScript) {
 
 	xUserContentManagerRemoveScript(x.GoPointer(), ScriptVar)
 
 }
 
-var xUserContentManagerRemoveStyleSheet func(uintptr, uintptr)
+var xUserContentManagerRemoveStyleSheet func(uintptr, *UserStyleSheet)
 
 // Removes a #WebKitUserStyleSheet from the given #WebKitUserContentManager.
 //
 // See also webkit_user_content_manager_remove_all_style_sheets().
-func (x *UserContentManager) RemoveStyleSheet(StylesheetVar uintptr) {
+func (x *UserContentManager) RemoveStyleSheet(StylesheetVar *UserStyleSheet) {
 
 	xUserContentManagerRemoveStyleSheet(x.GoPointer(), StylesheetVar)
 

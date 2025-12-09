@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -36,7 +37,7 @@ func (x *Multipart) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewMultipart func(string) uintptr
+var xNewMultipart func(string) *Multipart
 
 // Creates a new empty #SoupMultipart with a randomly-generated
 // boundary string.
@@ -44,27 +45,27 @@ var xNewMultipart func(string) uintptr
 // Note that @mime_type must be the full MIME type, including "multipart/".
 //
 // See also: [ctor@Message.new_from_multipart].
-func NewMultipart(MimeTypeVar string) uintptr {
+func NewMultipart(MimeTypeVar string) *Multipart {
 
 	cret := xNewMultipart(MimeTypeVar)
 	return cret
 }
 
-var xNewMultipartFromMessage func(uintptr, uintptr) uintptr
+var xNewMultipartFromMessage func(*MessageHeaders, *glib.Bytes) *Multipart
 
 // Parses @headers and @body to form a new #SoupMultipart
-func NewMultipartFromMessage(HeadersVar uintptr, BodyVar uintptr) uintptr {
+func NewMultipartFromMessage(HeadersVar *MessageHeaders, BodyVar *glib.Bytes) *Multipart {
 
 	cret := xNewMultipartFromMessage(HeadersVar, BodyVar)
 	return cret
 }
 
-var xMultipartAppendFormFile func(uintptr, string, string, string, uintptr)
+var xMultipartAppendFormFile func(uintptr, string, string, string, *glib.Bytes)
 
 // Adds a new MIME part containing @body to @multipart
 //
 // Uses "Content-Disposition: form-data", as per the HTML forms specification.
-func (x *Multipart) AppendFormFile(ControlNameVar string, FilenameVar string, ContentTypeVar string, BodyVar uintptr) {
+func (x *Multipart) AppendFormFile(ControlNameVar string, FilenameVar string, ContentTypeVar string, BodyVar *glib.Bytes) {
 
 	xMultipartAppendFormFile(x.GoPointer(), ControlNameVar, FilenameVar, ContentTypeVar, BodyVar)
 
@@ -81,14 +82,14 @@ func (x *Multipart) AppendFormString(ControlNameVar string, DataVar string) {
 
 }
 
-var xMultipartAppendPart func(uintptr, uintptr, uintptr)
+var xMultipartAppendPart func(uintptr, *MessageHeaders, *glib.Bytes)
 
 // Adds a new MIME part to @multipart with the given headers and body.
 //
 // (The multipart will make its own copies of @headers and @body, so
 // you should free your copies if you are not using them for anything
 // else.)
-func (x *Multipart) AppendPart(HeadersVar uintptr, BodyVar uintptr) {
+func (x *Multipart) AppendPart(HeadersVar *MessageHeaders, BodyVar *glib.Bytes) {
 
 	xMultipartAppendPart(x.GoPointer(), HeadersVar, BodyVar)
 
@@ -112,19 +113,19 @@ func (x *Multipart) GetLength() int {
 	return cret
 }
 
-var xMultipartGetPart func(uintptr, int, uintptr, uintptr) bool
+var xMultipartGetPart func(uintptr, int, **MessageHeaders, **glib.Bytes) bool
 
 // Gets the indicated body part from @multipart.
-func (x *Multipart) GetPart(PartVar int, HeadersVar uintptr, BodyVar uintptr) bool {
+func (x *Multipart) GetPart(PartVar int, HeadersVar **MessageHeaders, BodyVar **glib.Bytes) bool {
 
 	cret := xMultipartGetPart(x.GoPointer(), PartVar, HeadersVar, BodyVar)
 	return cret
 }
 
-var xMultipartToMessage func(uintptr, uintptr, uintptr)
+var xMultipartToMessage func(uintptr, *MessageHeaders, **glib.Bytes)
 
 // Serializes @multipart to @dest_headers and @dest_body.
-func (x *Multipart) ToMessage(DestHeadersVar uintptr, DestBodyVar uintptr) {
+func (x *Multipart) ToMessage(DestHeadersVar *MessageHeaders, DestBodyVar **glib.Bytes) {
 
 	xMultipartToMessage(x.GoPointer(), DestHeadersVar, DestBodyVar)
 

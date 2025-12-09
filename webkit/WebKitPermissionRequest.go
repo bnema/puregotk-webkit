@@ -24,7 +24,7 @@ func (x *PermissionRequestInterface) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideAllow sets the callback function.
+// OverrideAllow sets the "allow" callback function.
 func (x *PermissionRequestInterface) OverrideAllow(cb func(PermissionRequest)) {
 	if cb == nil {
 		x.xAllow = 0
@@ -35,7 +35,7 @@ func (x *PermissionRequestInterface) OverrideAllow(cb func(PermissionRequest)) {
 	}
 }
 
-// GetAllow gets the callback function.
+// GetAllow gets the "allow" callback function.
 func (x *PermissionRequestInterface) GetAllow() func(PermissionRequest) {
 	if x.xAllow == 0 {
 		return nil
@@ -47,7 +47,7 @@ func (x *PermissionRequestInterface) GetAllow() func(PermissionRequest) {
 	}
 }
 
-// OverrideDeny sets the callback function.
+// OverrideDeny sets the "deny" callback function.
 func (x *PermissionRequestInterface) OverrideDeny(cb func(PermissionRequest)) {
 	if cb == nil {
 		x.xDeny = 0
@@ -58,7 +58,7 @@ func (x *PermissionRequestInterface) OverrideDeny(cb func(PermissionRequest)) {
 	}
 }
 
-// GetDeny gets the callback function.
+// GetDeny gets the "deny" callback function.
 func (x *PermissionRequestInterface) GetDeny() func(PermissionRequest) {
 	if x.xDeny == 0 {
 		return nil

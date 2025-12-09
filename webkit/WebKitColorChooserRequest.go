@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/gdk"
 	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
@@ -82,28 +83,28 @@ func (x *ColorChooserRequest) Finish() {
 
 }
 
-var xColorChooserRequestGetElementRectangle func(uintptr, uintptr)
+var xColorChooserRequestGetElementRectangle func(uintptr, *gdk.Rectangle)
 
 // Gets the bounding box of the color input element.
-func (x *ColorChooserRequest) GetElementRectangle(RectVar uintptr) {
+func (x *ColorChooserRequest) GetElementRectangle(RectVar *gdk.Rectangle) {
 
 	xColorChooserRequestGetElementRectangle(x.GoPointer(), RectVar)
 
 }
 
-var xColorChooserRequestGetRgba func(uintptr, uintptr)
+var xColorChooserRequestGetRgba func(uintptr, *gdk.RGBA)
 
 // Gets the current #GdkRGBA color of @request
-func (x *ColorChooserRequest) GetRgba(RgbaVar uintptr) {
+func (x *ColorChooserRequest) GetRgba(RgbaVar *gdk.RGBA) {
 
 	xColorChooserRequestGetRgba(x.GoPointer(), RgbaVar)
 
 }
 
-var xColorChooserRequestSetRgba func(uintptr, uintptr)
+var xColorChooserRequestSetRgba func(uintptr, *gdk.RGBA)
 
 // Sets the current #GdkRGBA color of @request
-func (x *ColorChooserRequest) SetRgba(RgbaVar uintptr) {
+func (x *ColorChooserRequest) SetRgba(RgbaVar *gdk.RGBA) {
 
 	xColorChooserRequestSetRgba(x.GoPointer(), RgbaVar)
 
@@ -118,6 +119,23 @@ func (c *ColorChooserRequest) GoPointer() uintptr {
 
 func (c *ColorChooserRequest) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyRgba sets the "rgba" property.
+// The #GdkRGBA color of the request
+func (x *ColorChooserRequest) SetPropertyRgba(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("rgba", &v)
+}
+
+// GetPropertyRgba gets the "rgba" property.
+// The #GdkRGBA color of the request
+func (x *ColorChooserRequest) GetPropertyRgba() uintptr {
+	var v gobject.Value
+	x.GetProperty("rgba", &v)
+	return v.GetPointer()
 }
 
 // Emitted when the @request finishes. This signal can be emitted because the

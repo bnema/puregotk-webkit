@@ -224,6 +224,48 @@ func (c *Download) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// SetPropertyAllowOverwrite sets the "allow-overwrite" property.
+// Whether or not the download is allowed to overwrite an existing file on
+// disk. If this property is %FALSE and the destination already exists,
+// the download will fail.
+func (x *Download) SetPropertyAllowOverwrite(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("allow-overwrite", &v)
+}
+
+// GetPropertyAllowOverwrite gets the "allow-overwrite" property.
+// Whether or not the download is allowed to overwrite an existing file on
+// disk. If this property is %FALSE and the destination already exists,
+// the download will fail.
+func (x *Download) GetPropertyAllowOverwrite() bool {
+	var v gobject.Value
+	x.GetProperty("allow-overwrite", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyDestination gets the "destination" property.
+// The local path to where the download will be saved.
+func (x *Download) GetPropertyDestination() string {
+	var v gobject.Value
+	x.GetProperty("destination", &v)
+	return v.GetString()
+}
+
+// GetPropertyEstimatedProgress gets the "estimated-progress" property.
+// An estimate of the percent completion for the download operation.
+// This value will range from 0.0 to 1.0. The value is an estimate
+// based on the total number of bytes expected to be received for
+// a download.
+// If you need a more accurate progress information you can connect to
+// #WebKitDownload::received-data signal to track the progress.
+func (x *Download) GetPropertyEstimatedProgress() float64 {
+	var v gobject.Value
+	x.GetProperty("estimated-progress", &v)
+	return v.GetDouble()
+}
+
 // This signal is emitted after #WebKitDownload::decide-destination and before
 // #WebKitDownload::received-data to notify that destination file has been
 // created successfully at @destination.

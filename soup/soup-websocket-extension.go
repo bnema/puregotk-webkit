@@ -37,32 +37,32 @@ func (x *WebsocketExtensionClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideConfigure sets the callback function.
+// OverrideConfigure sets the "configure" callback function.
 // called to configure the extension with the given parameters
-func (x *WebsocketExtensionClass) OverrideConfigure(cb func(*WebsocketExtension, WebsocketConnectionType, uintptr) bool) {
+func (x *WebsocketExtensionClass) OverrideConfigure(cb func(*WebsocketExtension, WebsocketConnectionType, *glib.HashTable) bool) {
 	if cb == nil {
 		x.xConfigure = 0
 	} else {
-		x.xConfigure = purego.NewCallback(func(ExtensionVarp uintptr, ConnectionTypeVarp WebsocketConnectionType, ParamsVarp uintptr) bool {
+		x.xConfigure = purego.NewCallback(func(ExtensionVarp uintptr, ConnectionTypeVarp WebsocketConnectionType, ParamsVarp *glib.HashTable) bool {
 			return cb(WebsocketExtensionNewFromInternalPtr(ExtensionVarp), ConnectionTypeVarp, ParamsVarp)
 		})
 	}
 }
 
-// GetConfigure gets the callback function.
+// GetConfigure gets the "configure" callback function.
 // called to configure the extension with the given parameters
-func (x *WebsocketExtensionClass) GetConfigure() func(*WebsocketExtension, WebsocketConnectionType, uintptr) bool {
+func (x *WebsocketExtensionClass) GetConfigure() func(*WebsocketExtension, WebsocketConnectionType, *glib.HashTable) bool {
 	if x.xConfigure == 0 {
 		return nil
 	}
-	var rawCallback func(ExtensionVarp uintptr, ConnectionTypeVarp WebsocketConnectionType, ParamsVarp uintptr) bool
+	var rawCallback func(ExtensionVarp uintptr, ConnectionTypeVarp WebsocketConnectionType, ParamsVarp *glib.HashTable) bool
 	purego.RegisterFunc(&rawCallback, x.xConfigure)
-	return func(ExtensionVar *WebsocketExtension, ConnectionTypeVar WebsocketConnectionType, ParamsVar uintptr) bool {
+	return func(ExtensionVar *WebsocketExtension, ConnectionTypeVar WebsocketConnectionType, ParamsVar *glib.HashTable) bool {
 		return rawCallback(ExtensionVar.GoPointer(), ConnectionTypeVar, ParamsVar)
 	}
 }
 
-// OverrideGetRequestParams sets the callback function.
+// OverrideGetRequestParams sets the "get_request_params" callback function.
 // called by the client to build the request header.
 //
 //	It should include the parameters string starting with ';'
@@ -76,7 +76,7 @@ func (x *WebsocketExtensionClass) OverrideGetRequestParams(cb func(*WebsocketExt
 	}
 }
 
-// GetGetRequestParams gets the callback function.
+// GetGetRequestParams gets the "get_request_params" callback function.
 // called by the client to build the request header.
 //
 //	It should include the parameters string starting with ';'
@@ -91,7 +91,7 @@ func (x *WebsocketExtensionClass) GetGetRequestParams() func(*WebsocketExtension
 	}
 }
 
-// OverrideGetResponseParams sets the callback function.
+// OverrideGetResponseParams sets the "get_response_params" callback function.
 // called by the server to build the response header.
 //
 //	It should include the parameters string starting with ';'
@@ -105,7 +105,7 @@ func (x *WebsocketExtensionClass) OverrideGetResponseParams(cb func(*WebsocketEx
 	}
 }
 
-// GetGetResponseParams gets the callback function.
+// GetGetResponseParams gets the "get_response_params" callback function.
 // called by the server to build the response header.
 //
 //	It should include the parameters string starting with ';'
@@ -120,60 +120,60 @@ func (x *WebsocketExtensionClass) GetGetResponseParams() func(*WebsocketExtensio
 	}
 }
 
-// OverrideProcessOutgoingMessage sets the callback function.
+// OverrideProcessOutgoingMessage sets the "process_outgoing_message" callback function.
 // called to process the payload data of a message
 //
 //	before it's sent. Reserved bits of the header should be changed.
-func (x *WebsocketExtensionClass) OverrideProcessOutgoingMessage(cb func(*WebsocketExtension, byte, uintptr) uintptr) {
+func (x *WebsocketExtensionClass) OverrideProcessOutgoingMessage(cb func(*WebsocketExtension, byte, *glib.Bytes) *glib.Bytes) {
 	if cb == nil {
 		x.xProcessOutgoingMessage = 0
 	} else {
-		x.xProcessOutgoingMessage = purego.NewCallback(func(ExtensionVarp uintptr, HeaderVarp byte, PayloadVarp uintptr) uintptr {
+		x.xProcessOutgoingMessage = purego.NewCallback(func(ExtensionVarp uintptr, HeaderVarp byte, PayloadVarp *glib.Bytes) *glib.Bytes {
 			return cb(WebsocketExtensionNewFromInternalPtr(ExtensionVarp), HeaderVarp, PayloadVarp)
 		})
 	}
 }
 
-// GetProcessOutgoingMessage gets the callback function.
+// GetProcessOutgoingMessage gets the "process_outgoing_message" callback function.
 // called to process the payload data of a message
 //
 //	before it's sent. Reserved bits of the header should be changed.
-func (x *WebsocketExtensionClass) GetProcessOutgoingMessage() func(*WebsocketExtension, byte, uintptr) uintptr {
+func (x *WebsocketExtensionClass) GetProcessOutgoingMessage() func(*WebsocketExtension, byte, *glib.Bytes) *glib.Bytes {
 	if x.xProcessOutgoingMessage == 0 {
 		return nil
 	}
-	var rawCallback func(ExtensionVarp uintptr, HeaderVarp byte, PayloadVarp uintptr) uintptr
+	var rawCallback func(ExtensionVarp uintptr, HeaderVarp byte, PayloadVarp *glib.Bytes) *glib.Bytes
 	purego.RegisterFunc(&rawCallback, x.xProcessOutgoingMessage)
-	return func(ExtensionVar *WebsocketExtension, HeaderVar byte, PayloadVar uintptr) uintptr {
+	return func(ExtensionVar *WebsocketExtension, HeaderVar byte, PayloadVar *glib.Bytes) *glib.Bytes {
 		return rawCallback(ExtensionVar.GoPointer(), HeaderVar, PayloadVar)
 	}
 }
 
-// OverrideProcessIncomingMessage sets the callback function.
+// OverrideProcessIncomingMessage sets the "process_incoming_message" callback function.
 // called to process the payload data of a message
 //
 //	after it's received. Reserved bits of the header should be cleared.
-func (x *WebsocketExtensionClass) OverrideProcessIncomingMessage(cb func(*WebsocketExtension, byte, uintptr) uintptr) {
+func (x *WebsocketExtensionClass) OverrideProcessIncomingMessage(cb func(*WebsocketExtension, byte, *glib.Bytes) *glib.Bytes) {
 	if cb == nil {
 		x.xProcessIncomingMessage = 0
 	} else {
-		x.xProcessIncomingMessage = purego.NewCallback(func(ExtensionVarp uintptr, HeaderVarp byte, PayloadVarp uintptr) uintptr {
+		x.xProcessIncomingMessage = purego.NewCallback(func(ExtensionVarp uintptr, HeaderVarp byte, PayloadVarp *glib.Bytes) *glib.Bytes {
 			return cb(WebsocketExtensionNewFromInternalPtr(ExtensionVarp), HeaderVarp, PayloadVarp)
 		})
 	}
 }
 
-// GetProcessIncomingMessage gets the callback function.
+// GetProcessIncomingMessage gets the "process_incoming_message" callback function.
 // called to process the payload data of a message
 //
 //	after it's received. Reserved bits of the header should be cleared.
-func (x *WebsocketExtensionClass) GetProcessIncomingMessage() func(*WebsocketExtension, byte, uintptr) uintptr {
+func (x *WebsocketExtensionClass) GetProcessIncomingMessage() func(*WebsocketExtension, byte, *glib.Bytes) *glib.Bytes {
 	if x.xProcessIncomingMessage == 0 {
 		return nil
 	}
-	var rawCallback func(ExtensionVarp uintptr, HeaderVarp byte, PayloadVarp uintptr) uintptr
+	var rawCallback func(ExtensionVarp uintptr, HeaderVarp byte, PayloadVarp *glib.Bytes) *glib.Bytes
 	purego.RegisterFunc(&rawCallback, x.xProcessIncomingMessage)
-	return func(ExtensionVar *WebsocketExtension, HeaderVar byte, PayloadVar uintptr) uintptr {
+	return func(ExtensionVar *WebsocketExtension, HeaderVar byte, PayloadVar *glib.Bytes) *glib.Bytes {
 		return rawCallback(ExtensionVar.GoPointer(), HeaderVar, PayloadVar)
 	}
 }
@@ -197,10 +197,10 @@ func WebsocketExtensionNewFromInternalPtr(ptr uintptr) *WebsocketExtension {
 	return cls
 }
 
-var xWebsocketExtensionConfigure func(uintptr, WebsocketConnectionType, uintptr, **glib.Error) bool
+var xWebsocketExtensionConfigure func(uintptr, WebsocketConnectionType, *glib.HashTable, **glib.Error) bool
 
 // Configures @extension with the given @params.
-func (x *WebsocketExtension) Configure(ConnectionTypeVar WebsocketConnectionType, ParamsVar uintptr) (bool, error) {
+func (x *WebsocketExtension) Configure(ConnectionTypeVar WebsocketConnectionType, ParamsVar *glib.HashTable) (bool, error) {
 	var cerr *glib.Error
 
 	cret := xWebsocketExtensionConfigure(x.GoPointer(), ConnectionTypeVar, ParamsVar, &cerr)
@@ -235,7 +235,7 @@ func (x *WebsocketExtension) GetResponseParams() string {
 	return cret
 }
 
-var xWebsocketExtensionProcessIncomingMessage func(uintptr, byte, uintptr, **glib.Error) uintptr
+var xWebsocketExtensionProcessIncomingMessage func(uintptr, byte, *glib.Bytes, **glib.Error) *glib.Bytes
 
 // Process a message after it's received.
 //
@@ -244,7 +244,7 @@ var xWebsocketExtensionProcessIncomingMessage func(uintptr, byte, uintptr, **gli
 // [struct@GLib.Bytes] is returned with the new data.
 //
 // Extensions using reserved bits of the header will reset them in @header.
-func (x *WebsocketExtension) ProcessIncomingMessage(HeaderVar byte, PayloadVar uintptr) (uintptr, error) {
+func (x *WebsocketExtension) ProcessIncomingMessage(HeaderVar byte, PayloadVar *glib.Bytes) (*glib.Bytes, error) {
 	var cerr *glib.Error
 
 	cret := xWebsocketExtensionProcessIncomingMessage(x.GoPointer(), HeaderVar, PayloadVar, &cerr)
@@ -255,7 +255,7 @@ func (x *WebsocketExtension) ProcessIncomingMessage(HeaderVar byte, PayloadVar u
 
 }
 
-var xWebsocketExtensionProcessOutgoingMessage func(uintptr, byte, uintptr, **glib.Error) uintptr
+var xWebsocketExtensionProcessOutgoingMessage func(uintptr, byte, *glib.Bytes, **glib.Error) *glib.Bytes
 
 // Process a message before it's sent.
 //
@@ -264,7 +264,7 @@ var xWebsocketExtensionProcessOutgoingMessage func(uintptr, byte, uintptr, **gli
 // [struct@GLib.Bytes] is returned with the new data.
 //
 // Extensions using reserved bits of the header will change them in @header.
-func (x *WebsocketExtension) ProcessOutgoingMessage(HeaderVar byte, PayloadVar uintptr) (uintptr, error) {
+func (x *WebsocketExtension) ProcessOutgoingMessage(HeaderVar byte, PayloadVar *glib.Bytes) (*glib.Bytes, error) {
 	var cerr *glib.Error
 
 	cret := xWebsocketExtensionProcessOutgoingMessage(x.GoPointer(), HeaderVar, PayloadVar, &cerr)

@@ -21,7 +21,7 @@ type WebProcessExtensionInitializeFunction func(uintptr)
 // the web extensions when the web process starts, and which receives
 // as additional argument the user data set with
 // webkit_web_context_set_web_process_extensions_initialization_user_data().
-type WebProcessExtensionInitializeWithUserDataFunction func(uintptr, uintptr)
+type WebProcessExtensionInitializeWithUserDataFunction func(uintptr, *glib.Variant)
 
 type WebProcessExtensionClass struct {
 	_ structs.HostLayout

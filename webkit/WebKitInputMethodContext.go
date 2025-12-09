@@ -81,7 +81,7 @@ func (x *InputMethodContextClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverridePreeditStarted sets the callback function.
+// OverridePreeditStarted sets the "preedit_started" callback function.
 func (x *InputMethodContextClass) OverridePreeditStarted(cb func(*InputMethodContext)) {
 	if cb == nil {
 		x.xPreeditStarted = 0
@@ -92,7 +92,7 @@ func (x *InputMethodContextClass) OverridePreeditStarted(cb func(*InputMethodCon
 	}
 }
 
-// GetPreeditStarted gets the callback function.
+// GetPreeditStarted gets the "preedit_started" callback function.
 func (x *InputMethodContextClass) GetPreeditStarted() func(*InputMethodContext) {
 	if x.xPreeditStarted == 0 {
 		return nil
@@ -104,7 +104,7 @@ func (x *InputMethodContextClass) GetPreeditStarted() func(*InputMethodContext) 
 	}
 }
 
-// OverridePreeditChanged sets the callback function.
+// OverridePreeditChanged sets the "preedit_changed" callback function.
 func (x *InputMethodContextClass) OverridePreeditChanged(cb func(*InputMethodContext)) {
 	if cb == nil {
 		x.xPreeditChanged = 0
@@ -115,7 +115,7 @@ func (x *InputMethodContextClass) OverridePreeditChanged(cb func(*InputMethodCon
 	}
 }
 
-// GetPreeditChanged gets the callback function.
+// GetPreeditChanged gets the "preedit_changed" callback function.
 func (x *InputMethodContextClass) GetPreeditChanged() func(*InputMethodContext) {
 	if x.xPreeditChanged == 0 {
 		return nil
@@ -127,7 +127,7 @@ func (x *InputMethodContextClass) GetPreeditChanged() func(*InputMethodContext) 
 	}
 }
 
-// OverridePreeditFinished sets the callback function.
+// OverridePreeditFinished sets the "preedit_finished" callback function.
 func (x *InputMethodContextClass) OverridePreeditFinished(cb func(*InputMethodContext)) {
 	if cb == nil {
 		x.xPreeditFinished = 0
@@ -138,7 +138,7 @@ func (x *InputMethodContextClass) OverridePreeditFinished(cb func(*InputMethodCo
 	}
 }
 
-// GetPreeditFinished gets the callback function.
+// GetPreeditFinished gets the "preedit_finished" callback function.
 func (x *InputMethodContextClass) GetPreeditFinished() func(*InputMethodContext) {
 	if x.xPreeditFinished == 0 {
 		return nil
@@ -150,7 +150,7 @@ func (x *InputMethodContextClass) GetPreeditFinished() func(*InputMethodContext)
 	}
 }
 
-// OverrideCommitted sets the callback function.
+// OverrideCommitted sets the "committed" callback function.
 func (x *InputMethodContextClass) OverrideCommitted(cb func(*InputMethodContext, string)) {
 	if cb == nil {
 		x.xCommitted = 0
@@ -161,7 +161,7 @@ func (x *InputMethodContextClass) OverrideCommitted(cb func(*InputMethodContext,
 	}
 }
 
-// GetCommitted gets the callback function.
+// GetCommitted gets the "committed" callback function.
 func (x *InputMethodContextClass) GetCommitted() func(*InputMethodContext, string) {
 	if x.xCommitted == 0 {
 		return nil
@@ -173,7 +173,7 @@ func (x *InputMethodContextClass) GetCommitted() func(*InputMethodContext, strin
 	}
 }
 
-// OverrideDeleteSurrounding sets the callback function.
+// OverrideDeleteSurrounding sets the "delete_surrounding" callback function.
 func (x *InputMethodContextClass) OverrideDeleteSurrounding(cb func(*InputMethodContext, int, uint)) {
 	if cb == nil {
 		x.xDeleteSurrounding = 0
@@ -184,7 +184,7 @@ func (x *InputMethodContextClass) OverrideDeleteSurrounding(cb func(*InputMethod
 	}
 }
 
-// GetDeleteSurrounding gets the callback function.
+// GetDeleteSurrounding gets the "delete_surrounding" callback function.
 func (x *InputMethodContextClass) GetDeleteSurrounding() func(*InputMethodContext, int, uint) {
 	if x.xDeleteSurrounding == 0 {
 		return nil
@@ -196,7 +196,7 @@ func (x *InputMethodContextClass) GetDeleteSurrounding() func(*InputMethodContex
 	}
 }
 
-// OverrideSetEnablePreedit sets the callback function.
+// OverrideSetEnablePreedit sets the "set_enable_preedit" callback function.
 // Called via webkit_input_method_context_set_enable_preedit() to
 //
 //	control the use of the preedit string.
@@ -210,7 +210,7 @@ func (x *InputMethodContextClass) OverrideSetEnablePreedit(cb func(*InputMethodC
 	}
 }
 
-// GetSetEnablePreedit gets the callback function.
+// GetSetEnablePreedit gets the "set_enable_preedit" callback function.
 // Called via webkit_input_method_context_set_enable_preedit() to
 //
 //	control the use of the preedit string.
@@ -225,42 +225,42 @@ func (x *InputMethodContextClass) GetSetEnablePreedit() func(*InputMethodContext
 	}
 }
 
-// OverrideGetPreedit sets the callback function.
+// OverrideGetPreedit sets the "get_preedit" callback function.
 // Called via webkit_input_method_context_get_preedit() to
 //
 //	retrieve the text currently being preedited for display at the cursor
 //	position. Any input method which composes complex characters or any
 //	other compositions from multiple sequential key presses should override
 //	this method to provide feedback.
-func (x *InputMethodContextClass) OverrideGetPreedit(cb func(*InputMethodContext, string, uintptr, uint)) {
+func (x *InputMethodContextClass) OverrideGetPreedit(cb func(*InputMethodContext, *string, **glib.List, *uint)) {
 	if cb == nil {
 		x.xGetPreedit = 0
 	} else {
-		x.xGetPreedit = purego.NewCallback(func(ContextVarp uintptr, TextVarp string, UnderlinesVarp uintptr, CursorOffsetVarp uint) {
+		x.xGetPreedit = purego.NewCallback(func(ContextVarp uintptr, TextVarp *string, UnderlinesVarp **glib.List, CursorOffsetVarp *uint) {
 			cb(InputMethodContextNewFromInternalPtr(ContextVarp), TextVarp, UnderlinesVarp, CursorOffsetVarp)
 		})
 	}
 }
 
-// GetGetPreedit gets the callback function.
+// GetGetPreedit gets the "get_preedit" callback function.
 // Called via webkit_input_method_context_get_preedit() to
 //
 //	retrieve the text currently being preedited for display at the cursor
 //	position. Any input method which composes complex characters or any
 //	other compositions from multiple sequential key presses should override
 //	this method to provide feedback.
-func (x *InputMethodContextClass) GetGetPreedit() func(*InputMethodContext, string, uintptr, uint) {
+func (x *InputMethodContextClass) GetGetPreedit() func(*InputMethodContext, *string, **glib.List, *uint) {
 	if x.xGetPreedit == 0 {
 		return nil
 	}
-	var rawCallback func(ContextVarp uintptr, TextVarp string, UnderlinesVarp uintptr, CursorOffsetVarp uint)
+	var rawCallback func(ContextVarp uintptr, TextVarp *string, UnderlinesVarp **glib.List, CursorOffsetVarp *uint)
 	purego.RegisterFunc(&rawCallback, x.xGetPreedit)
-	return func(ContextVar *InputMethodContext, TextVar string, UnderlinesVar uintptr, CursorOffsetVar uint) {
+	return func(ContextVar *InputMethodContext, TextVar *string, UnderlinesVar **glib.List, CursorOffsetVar *uint) {
 		rawCallback(ContextVar.GoPointer(), TextVar, UnderlinesVar, CursorOffsetVar)
 	}
 }
 
-// OverrideFilterKeyEvent sets the callback function.
+// OverrideFilterKeyEvent sets the "filter_key_event" callback function.
 // Called via webkit_input_method_context_filter_key_event() on every
 //
 //	key press or release event. Every non-trivial input method needs to
@@ -280,7 +280,7 @@ func (x *InputMethodContextClass) OverrideFilterKeyEvent(cb func(*InputMethodCon
 	}
 }
 
-// GetFilterKeyEvent gets the callback function.
+// GetFilterKeyEvent gets the "filter_key_event" callback function.
 // Called via webkit_input_method_context_filter_key_event() on every
 //
 //	key press or release event. Every non-trivial input method needs to
@@ -301,7 +301,7 @@ func (x *InputMethodContextClass) GetFilterKeyEvent() func(*InputMethodContext, 
 	}
 }
 
-// OverrideNotifyFocusIn sets the callback function.
+// OverrideNotifyFocusIn sets the "notify_focus_in" callback function.
 // Called via webkit_input_method_context_notify_focus_in() when
 //
 //	an editable element of the #WebKitWebView has gained focus.
@@ -315,7 +315,7 @@ func (x *InputMethodContextClass) OverrideNotifyFocusIn(cb func(*InputMethodCont
 	}
 }
 
-// GetNotifyFocusIn gets the callback function.
+// GetNotifyFocusIn gets the "notify_focus_in" callback function.
 // Called via webkit_input_method_context_notify_focus_in() when
 //
 //	an editable element of the #WebKitWebView has gained focus.
@@ -330,7 +330,7 @@ func (x *InputMethodContextClass) GetNotifyFocusIn() func(*InputMethodContext) {
 	}
 }
 
-// OverrideNotifyFocusOut sets the callback function.
+// OverrideNotifyFocusOut sets the "notify_focus_out" callback function.
 // Called via webkit_input_method_context_notify_focus_out() when
 //
 //	an editable element of the #WebKitWebView has lost focus.
@@ -344,7 +344,7 @@ func (x *InputMethodContextClass) OverrideNotifyFocusOut(cb func(*InputMethodCon
 	}
 }
 
-// GetNotifyFocusOut gets the callback function.
+// GetNotifyFocusOut gets the "notify_focus_out" callback function.
 // Called via webkit_input_method_context_notify_focus_out() when
 //
 //	an editable element of the #WebKitWebView has lost focus.
@@ -359,7 +359,7 @@ func (x *InputMethodContextClass) GetNotifyFocusOut() func(*InputMethodContext) 
 	}
 }
 
-// OverrideNotifyCursorArea sets the callback function.
+// OverrideNotifyCursorArea sets the "notify_cursor_area" callback function.
 // Called via webkit_input_method_context_notify_cursor_area()
 //
 //	to inform the input method of the current cursor location relative to
@@ -374,7 +374,7 @@ func (x *InputMethodContextClass) OverrideNotifyCursorArea(cb func(*InputMethodC
 	}
 }
 
-// GetNotifyCursorArea gets the callback function.
+// GetNotifyCursorArea gets the "notify_cursor_area" callback function.
 // Called via webkit_input_method_context_notify_cursor_area()
 //
 //	to inform the input method of the current cursor location relative to
@@ -390,7 +390,7 @@ func (x *InputMethodContextClass) GetNotifyCursorArea() func(*InputMethodContext
 	}
 }
 
-// OverrideNotifySurrounding sets the callback function.
+// OverrideNotifySurrounding sets the "notify_surrounding" callback function.
 // Called via webkit_input_method_context_notify_surrounding() to
 //
 //	update the context surrounding the cursor. The provided text should not include
@@ -405,7 +405,7 @@ func (x *InputMethodContextClass) OverrideNotifySurrounding(cb func(*InputMethod
 	}
 }
 
-// GetNotifySurrounding gets the callback function.
+// GetNotifySurrounding gets the "notify_surrounding" callback function.
 // Called via webkit_input_method_context_notify_surrounding() to
 //
 //	update the context surrounding the cursor. The provided text should not include
@@ -421,7 +421,7 @@ func (x *InputMethodContextClass) GetNotifySurrounding() func(*InputMethodContex
 	}
 }
 
-// OverrideReset sets the callback function.
+// OverrideReset sets the "reset" callback function.
 // Called via webkit_input_method_context_reset() to signal a change that
 //
 //	requires a reset. An input method that implements preediting
@@ -436,7 +436,7 @@ func (x *InputMethodContextClass) OverrideReset(cb func(*InputMethodContext)) {
 	}
 }
 
-// GetReset gets the callback function.
+// GetReset gets the "reset" callback function.
 // Called via webkit_input_method_context_reset() to signal a change that
 //
 //	requires a reset. An input method that implements preediting
@@ -452,7 +452,7 @@ func (x *InputMethodContextClass) GetReset() func(*InputMethodContext) {
 	}
 }
 
-// OverrideWebkitReserved0 sets the callback function.
+// OverrideWebkitReserved0 sets the "_webkit_reserved0" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved0(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved0 = 0
@@ -463,7 +463,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved0(cb func()) {
 	}
 }
 
-// GetWebkitReserved0 gets the callback function.
+// GetWebkitReserved0 gets the "_webkit_reserved0" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved0() func() {
 	if x.xWebkitReserved0 == 0 {
 		return nil
@@ -475,7 +475,7 @@ func (x *InputMethodContextClass) GetWebkitReserved0() func() {
 	}
 }
 
-// OverrideWebkitReserved1 sets the callback function.
+// OverrideWebkitReserved1 sets the "_webkit_reserved1" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved1(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved1 = 0
@@ -486,7 +486,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved1(cb func()) {
 	}
 }
 
-// GetWebkitReserved1 gets the callback function.
+// GetWebkitReserved1 gets the "_webkit_reserved1" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved1() func() {
 	if x.xWebkitReserved1 == 0 {
 		return nil
@@ -498,7 +498,7 @@ func (x *InputMethodContextClass) GetWebkitReserved1() func() {
 	}
 }
 
-// OverrideWebkitReserved2 sets the callback function.
+// OverrideWebkitReserved2 sets the "_webkit_reserved2" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved2(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved2 = 0
@@ -509,7 +509,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved2(cb func()) {
 	}
 }
 
-// GetWebkitReserved2 gets the callback function.
+// GetWebkitReserved2 gets the "_webkit_reserved2" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved2() func() {
 	if x.xWebkitReserved2 == 0 {
 		return nil
@@ -521,7 +521,7 @@ func (x *InputMethodContextClass) GetWebkitReserved2() func() {
 	}
 }
 
-// OverrideWebkitReserved3 sets the callback function.
+// OverrideWebkitReserved3 sets the "_webkit_reserved3" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved3(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved3 = 0
@@ -532,7 +532,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved3(cb func()) {
 	}
 }
 
-// GetWebkitReserved3 gets the callback function.
+// GetWebkitReserved3 gets the "_webkit_reserved3" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved3() func() {
 	if x.xWebkitReserved3 == 0 {
 		return nil
@@ -544,7 +544,7 @@ func (x *InputMethodContextClass) GetWebkitReserved3() func() {
 	}
 }
 
-// OverrideWebkitReserved4 sets the callback function.
+// OverrideWebkitReserved4 sets the "_webkit_reserved4" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved4(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved4 = 0
@@ -555,7 +555,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved4(cb func()) {
 	}
 }
 
-// GetWebkitReserved4 gets the callback function.
+// GetWebkitReserved4 gets the "_webkit_reserved4" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved4() func() {
 	if x.xWebkitReserved4 == 0 {
 		return nil
@@ -567,7 +567,7 @@ func (x *InputMethodContextClass) GetWebkitReserved4() func() {
 	}
 }
 
-// OverrideWebkitReserved5 sets the callback function.
+// OverrideWebkitReserved5 sets the "_webkit_reserved5" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved5(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved5 = 0
@@ -578,7 +578,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved5(cb func()) {
 	}
 }
 
-// GetWebkitReserved5 gets the callback function.
+// GetWebkitReserved5 gets the "_webkit_reserved5" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved5() func() {
 	if x.xWebkitReserved5 == 0 {
 		return nil
@@ -590,7 +590,7 @@ func (x *InputMethodContextClass) GetWebkitReserved5() func() {
 	}
 }
 
-// OverrideWebkitReserved6 sets the callback function.
+// OverrideWebkitReserved6 sets the "_webkit_reserved6" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved6(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved6 = 0
@@ -601,7 +601,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved6(cb func()) {
 	}
 }
 
-// GetWebkitReserved6 gets the callback function.
+// GetWebkitReserved6 gets the "_webkit_reserved6" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved6() func() {
 	if x.xWebkitReserved6 == 0 {
 		return nil
@@ -613,7 +613,7 @@ func (x *InputMethodContextClass) GetWebkitReserved6() func() {
 	}
 }
 
-// OverrideWebkitReserved7 sets the callback function.
+// OverrideWebkitReserved7 sets the "_webkit_reserved7" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved7(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved7 = 0
@@ -624,7 +624,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved7(cb func()) {
 	}
 }
 
-// GetWebkitReserved7 gets the callback function.
+// GetWebkitReserved7 gets the "_webkit_reserved7" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved7() func() {
 	if x.xWebkitReserved7 == 0 {
 		return nil
@@ -636,7 +636,7 @@ func (x *InputMethodContextClass) GetWebkitReserved7() func() {
 	}
 }
 
-// OverrideWebkitReserved8 sets the callback function.
+// OverrideWebkitReserved8 sets the "_webkit_reserved8" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved8(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved8 = 0
@@ -647,7 +647,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved8(cb func()) {
 	}
 }
 
-// GetWebkitReserved8 gets the callback function.
+// GetWebkitReserved8 gets the "_webkit_reserved8" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved8() func() {
 	if x.xWebkitReserved8 == 0 {
 		return nil
@@ -659,7 +659,7 @@ func (x *InputMethodContextClass) GetWebkitReserved8() func() {
 	}
 }
 
-// OverrideWebkitReserved9 sets the callback function.
+// OverrideWebkitReserved9 sets the "_webkit_reserved9" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved9(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved9 = 0
@@ -670,7 +670,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved9(cb func()) {
 	}
 }
 
-// GetWebkitReserved9 gets the callback function.
+// GetWebkitReserved9 gets the "_webkit_reserved9" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved9() func() {
 	if x.xWebkitReserved9 == 0 {
 		return nil
@@ -682,7 +682,7 @@ func (x *InputMethodContextClass) GetWebkitReserved9() func() {
 	}
 }
 
-// OverrideWebkitReserved10 sets the callback function.
+// OverrideWebkitReserved10 sets the "_webkit_reserved10" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved10(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved10 = 0
@@ -693,7 +693,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved10(cb func()) {
 	}
 }
 
-// GetWebkitReserved10 gets the callback function.
+// GetWebkitReserved10 gets the "_webkit_reserved10" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved10() func() {
 	if x.xWebkitReserved10 == 0 {
 		return nil
@@ -705,7 +705,7 @@ func (x *InputMethodContextClass) GetWebkitReserved10() func() {
 	}
 }
 
-// OverrideWebkitReserved11 sets the callback function.
+// OverrideWebkitReserved11 sets the "_webkit_reserved11" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved11(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved11 = 0
@@ -716,7 +716,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved11(cb func()) {
 	}
 }
 
-// GetWebkitReserved11 gets the callback function.
+// GetWebkitReserved11 gets the "_webkit_reserved11" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved11() func() {
 	if x.xWebkitReserved11 == 0 {
 		return nil
@@ -728,7 +728,7 @@ func (x *InputMethodContextClass) GetWebkitReserved11() func() {
 	}
 }
 
-// OverrideWebkitReserved12 sets the callback function.
+// OverrideWebkitReserved12 sets the "_webkit_reserved12" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved12(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved12 = 0
@@ -739,7 +739,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved12(cb func()) {
 	}
 }
 
-// GetWebkitReserved12 gets the callback function.
+// GetWebkitReserved12 gets the "_webkit_reserved12" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved12() func() {
 	if x.xWebkitReserved12 == 0 {
 		return nil
@@ -751,7 +751,7 @@ func (x *InputMethodContextClass) GetWebkitReserved12() func() {
 	}
 }
 
-// OverrideWebkitReserved13 sets the callback function.
+// OverrideWebkitReserved13 sets the "_webkit_reserved13" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved13(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved13 = 0
@@ -762,7 +762,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved13(cb func()) {
 	}
 }
 
-// GetWebkitReserved13 gets the callback function.
+// GetWebkitReserved13 gets the "_webkit_reserved13" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved13() func() {
 	if x.xWebkitReserved13 == 0 {
 		return nil
@@ -774,7 +774,7 @@ func (x *InputMethodContextClass) GetWebkitReserved13() func() {
 	}
 }
 
-// OverrideWebkitReserved14 sets the callback function.
+// OverrideWebkitReserved14 sets the "_webkit_reserved14" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved14(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved14 = 0
@@ -785,7 +785,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved14(cb func()) {
 	}
 }
 
-// GetWebkitReserved14 gets the callback function.
+// GetWebkitReserved14 gets the "_webkit_reserved14" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved14() func() {
 	if x.xWebkitReserved14 == 0 {
 		return nil
@@ -797,7 +797,7 @@ func (x *InputMethodContextClass) GetWebkitReserved14() func() {
 	}
 }
 
-// OverrideWebkitReserved15 sets the callback function.
+// OverrideWebkitReserved15 sets the "_webkit_reserved15" callback function.
 func (x *InputMethodContextClass) OverrideWebkitReserved15(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved15 = 0
@@ -808,7 +808,7 @@ func (x *InputMethodContextClass) OverrideWebkitReserved15(cb func()) {
 	}
 }
 
-// GetWebkitReserved15 gets the callback function.
+// GetWebkitReserved15 gets the "_webkit_reserved15" callback function.
 func (x *InputMethodContextClass) GetWebkitReserved15() func() {
 	if x.xWebkitReserved15 == 0 {
 		return nil
@@ -843,19 +843,19 @@ func (x *InputMethodUnderline) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewInputMethodUnderline func(uint, uint) uintptr
+var xNewInputMethodUnderline func(uint, uint) *InputMethodUnderline
 
 // Create a new #WebKitInputMethodUnderline for the given range in preedit string
-func NewInputMethodUnderline(StartOffsetVar uint, EndOffsetVar uint) uintptr {
+func NewInputMethodUnderline(StartOffsetVar uint, EndOffsetVar uint) *InputMethodUnderline {
 
 	cret := xNewInputMethodUnderline(StartOffsetVar, EndOffsetVar)
 	return cret
 }
 
-var xInputMethodUnderlineCopy func(uintptr) uintptr
+var xInputMethodUnderlineCopy func(uintptr) *InputMethodUnderline
 
 // Make a copy of the #WebKitInputMethodUnderline.
-func (x *InputMethodUnderline) Copy() uintptr {
+func (x *InputMethodUnderline) Copy() *InputMethodUnderline {
 
 	cret := xInputMethodUnderlineCopy(x.GoPointer())
 	return cret
@@ -870,13 +870,13 @@ func (x *InputMethodUnderline) Free() {
 
 }
 
-var xInputMethodUnderlineSetColor func(uintptr, uintptr)
+var xInputMethodUnderlineSetColor func(uintptr, *gdk.RGBA)
 
 // Set the color of the underline.
 //
 // If @rgba is %NULL the foreground text color will be used
 // for the underline too.
-func (x *InputMethodUnderline) SetColor(RgbaVar uintptr) {
+func (x *InputMethodUnderline) SetColor(RgbaVar *gdk.RGBA) {
 
 	xInputMethodUnderlineSetColor(x.GoPointer(), RgbaVar)
 
@@ -992,13 +992,13 @@ func (x *InputMethodContext) GetInputPurpose() InputPurpose {
 	return cret
 }
 
-var xInputMethodContextGetPreedit func(uintptr, string, uintptr, uint)
+var xInputMethodContextGetPreedit func(uintptr, *string, **glib.List, *uint)
 
 // Get the pre-edit string and a list of WebKitInputMethodUnderline.
 //
 // Get the current pre-edit string for the @context, and a list of WebKitInputMethodUnderline to apply to the string.
 // The string will be displayed inserted at @cursor_offset.
-func (x *InputMethodContext) GetPreedit(TextVar string, UnderlinesVar uintptr, CursorOffsetVar uint) {
+func (x *InputMethodContext) GetPreedit(TextVar *string, UnderlinesVar **glib.List, CursorOffsetVar *uint) {
 
 	xInputMethodContextGetPreedit(x.GoPointer(), TextVar, UnderlinesVar, CursorOffsetVar)
 

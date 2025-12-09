@@ -233,6 +233,22 @@ func (c *FindController) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// GetPropertyMaxMatchCount gets the "max-match-count" property.
+// The maximum number of matches to report for a given search.
+func (x *FindController) GetPropertyMaxMatchCount() uint {
+	var v gobject.Value
+	x.GetProperty("max-match-count", &v)
+	return v.GetUint()
+}
+
+// GetPropertyText gets the "text" property.
+// The current search text for this #WebKitFindController.
+func (x *FindController) GetPropertyText() string {
+	var v gobject.Value
+	x.GetProperty("text", &v)
+	return v.GetString()
+}
+
 // This signal is emitted when the #WebKitFindController has
 // counted the number of matches for a given text after a call
 // to webkit_find_controller_count_matches().

@@ -61,13 +61,13 @@ func WebsocketConnectionNewFromInternalPtr(ptr uintptr) *WebsocketConnection {
 	return cls
 }
 
-var xNewWebsocketConnection func(uintptr, uintptr, WebsocketConnectionType, string, string, uintptr) uintptr
+var xNewWebsocketConnection func(uintptr, *glib.Uri, WebsocketConnectionType, string, string, *glib.List) uintptr
 
 // Creates a #SoupWebsocketConnection on @stream with the given active @extensions.
 //
 // This should be called after completing the handshake to begin using the WebSocket
 // protocol.
-func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar uintptr, TypeVar WebsocketConnectionType, OriginVar string, ProtocolVar string, ExtensionsVar uintptr) *WebsocketConnection {
+func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar *glib.Uri, TypeVar WebsocketConnectionType, OriginVar string, ProtocolVar string, ExtensionsVar *glib.List) *WebsocketConnection {
 	var cls *WebsocketConnection
 
 	cret := xNewWebsocketConnection(StreamVar.GoPointer(), UriVar, TypeVar, OriginVar, ProtocolVar, ExtensionsVar)
@@ -134,10 +134,10 @@ func (x *WebsocketConnection) GetConnectionType() WebsocketConnectionType {
 	return cret
 }
 
-var xWebsocketConnectionGetExtensions func(uintptr) uintptr
+var xWebsocketConnectionGetExtensions func(uintptr) *glib.List
 
 // Get the extensions chosen via negotiation with the peer.
-func (x *WebsocketConnection) GetExtensions() uintptr {
+func (x *WebsocketConnection) GetExtensions() *glib.List {
 
 	cret := xWebsocketConnectionGetExtensions(x.GoPointer())
 	return cret
@@ -214,13 +214,13 @@ func (x *WebsocketConnection) GetState() WebsocketState {
 	return cret
 }
 
-var xWebsocketConnectionGetUri func(uintptr) uintptr
+var xWebsocketConnectionGetUri func(uintptr) *glib.Uri
 
 // Get the URI of the WebSocket.
 //
 // For servers this represents the address of the WebSocket, and
 // for clients it is the address connected to.
-func (x *WebsocketConnection) GetUri() uintptr {
+func (x *WebsocketConnection) GetUri() *glib.Uri {
 
 	cret := xWebsocketConnectionGetUri(x.GoPointer())
 	return cret
@@ -240,14 +240,14 @@ func (x *WebsocketConnection) SendBinary(DataVar []byte, LengthVar uint) {
 
 }
 
-var xWebsocketConnectionSendMessage func(uintptr, WebsocketDataType, uintptr)
+var xWebsocketConnectionSendMessage func(uintptr, WebsocketDataType, *glib.Bytes)
 
 // Send a message of the given @type to the peer. Note that this method,
 // allows to send text messages containing %NULL characters.
 //
 // The message is queued to be sent and will be sent when the main loop
 // is run.
-func (x *WebsocketConnection) SendMessage(TypeVar WebsocketDataType, MessageVar uintptr) {
+func (x *WebsocketConnection) SendMessage(TypeVar WebsocketDataType, MessageVar *glib.Bytes) {
 
 	xWebsocketConnectionSendMessage(x.GoPointer(), TypeVar, MessageVar)
 
@@ -312,6 +312,153 @@ func (c *WebsocketConnection) GoPointer() uintptr {
 
 func (c *WebsocketConnection) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyExtensions sets the "extensions" property.
+// List of [class@WebsocketExtension] objects that are active in the connection.
+func (x *WebsocketConnection) SetPropertyExtensions(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("extensions", &v)
+}
+
+// GetPropertyExtensions gets the "extensions" property.
+// List of [class@WebsocketExtension] objects that are active in the connection.
+func (x *WebsocketConnection) GetPropertyExtensions() uintptr {
+	var v gobject.Value
+	x.GetProperty("extensions", &v)
+	return v.GetPointer()
+}
+
+// SetPropertyKeepaliveInterval sets the "keepalive-interval" property.
+// Interval in seconds on when to send a ping message which will
+// serve as a keepalive message.
+//
+// If set to 0 the keepalive message is disabled.
+func (x *WebsocketConnection) SetPropertyKeepaliveInterval(value uint) {
+	var v gobject.Value
+	v.Init(gobject.TypeUintVal)
+	v.SetUint(value)
+	x.SetProperty("keepalive-interval", &v)
+}
+
+// GetPropertyKeepaliveInterval gets the "keepalive-interval" property.
+// Interval in seconds on when to send a ping message which will
+// serve as a keepalive message.
+//
+// If set to 0 the keepalive message is disabled.
+func (x *WebsocketConnection) GetPropertyKeepaliveInterval() uint {
+	var v gobject.Value
+	x.GetProperty("keepalive-interval", &v)
+	return v.GetUint()
+}
+
+// SetPropertyKeepalivePongTimeout sets the "keepalive-pong-timeout" property.
+// Timeout in seconds for when the absence of a pong from a keepalive
+// ping is assumed to be caused by a faulty connection. The WebSocket
+// will be transitioned to a closed state when this happens.
+//
+// If set to 0 then the absence of pongs from keepalive pings is
+// ignored.
+func (x *WebsocketConnection) SetPropertyKeepalivePongTimeout(value uint) {
+	var v gobject.Value
+	v.Init(gobject.TypeUintVal)
+	v.SetUint(value)
+	x.SetProperty("keepalive-pong-timeout", &v)
+}
+
+// GetPropertyKeepalivePongTimeout gets the "keepalive-pong-timeout" property.
+// Timeout in seconds for when the absence of a pong from a keepalive
+// ping is assumed to be caused by a faulty connection. The WebSocket
+// will be transitioned to a closed state when this happens.
+//
+// If set to 0 then the absence of pongs from keepalive pings is
+// ignored.
+func (x *WebsocketConnection) GetPropertyKeepalivePongTimeout() uint {
+	var v gobject.Value
+	x.GetProperty("keepalive-pong-timeout", &v)
+	return v.GetUint()
+}
+
+// SetPropertyMaxIncomingPayloadSize sets the "max-incoming-payload-size" property.
+// The maximum payload size for incoming packets.
+//
+// The protocol expects or 0 to not limit it.
+func (x *WebsocketConnection) SetPropertyMaxIncomingPayloadSize(value uint64) {
+	var v gobject.Value
+	v.Init(gobject.TypeUint64Val)
+	v.SetUint64(value)
+	x.SetProperty("max-incoming-payload-size", &v)
+}
+
+// GetPropertyMaxIncomingPayloadSize gets the "max-incoming-payload-size" property.
+// The maximum payload size for incoming packets.
+//
+// The protocol expects or 0 to not limit it.
+func (x *WebsocketConnection) GetPropertyMaxIncomingPayloadSize() uint64 {
+	var v gobject.Value
+	x.GetProperty("max-incoming-payload-size", &v)
+	return v.GetUint64()
+}
+
+// SetPropertyOrigin sets the "origin" property.
+// The client's Origin.
+func (x *WebsocketConnection) SetPropertyOrigin(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("origin", &v)
+}
+
+// GetPropertyOrigin gets the "origin" property.
+// The client's Origin.
+func (x *WebsocketConnection) GetPropertyOrigin() string {
+	var v gobject.Value
+	x.GetProperty("origin", &v)
+	return v.GetString()
+}
+
+// SetPropertyProtocol sets the "protocol" property.
+// The chosen protocol, or %NULL if a protocol was not agreed
+// upon.
+func (x *WebsocketConnection) SetPropertyProtocol(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("protocol", &v)
+}
+
+// GetPropertyProtocol gets the "protocol" property.
+// The chosen protocol, or %NULL if a protocol was not agreed
+// upon.
+func (x *WebsocketConnection) GetPropertyProtocol() string {
+	var v gobject.Value
+	x.GetProperty("protocol", &v)
+	return v.GetString()
+}
+
+// SetPropertyUri sets the "uri" property.
+// The URI of the WebSocket.
+//
+// For servers this represents the address of the WebSocket,
+// and for clients it is the address connected to.
+func (x *WebsocketConnection) SetPropertyUri(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("uri", &v)
+}
+
+// GetPropertyUri gets the "uri" property.
+// The URI of the WebSocket.
+//
+// For servers this represents the address of the WebSocket,
+// and for clients it is the address connected to.
+func (x *WebsocketConnection) GetPropertyUri() uintptr {
+	var v gobject.Value
+	x.GetProperty("uri", &v)
+	return v.GetPointer()
 }
 
 // Emitted when the connection has completely closed.

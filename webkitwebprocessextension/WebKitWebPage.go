@@ -157,6 +157,14 @@ func (c *WebPage) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// GetPropertyUri gets the "uri" property.
+// The current active URI of the #WebKitWebPage.
+func (x *WebPage) GetPropertyUri() string {
+	var v gobject.Value
+	x.GetProperty("uri", &v)
+	return v.GetString()
+}
+
 // Emitted when a message is sent to the console. This can be a message
 // produced by the use of JavaScript console API, a JavaScript exception,
 // a security error or other errors, warnings, debug or log messages.

@@ -101,13 +101,13 @@ func (x *ScriptDialog) PromptSetText(TextVar string) {
 
 }
 
-var xScriptDialogRef func(uintptr) uintptr
+var xScriptDialogRef func(uintptr) *ScriptDialog
 
 // Atomically increments the reference count of @dialog by one.
 //
 // This
 // function is MT-safe and may be called from any thread.
-func (x *ScriptDialog) Ref() uintptr {
+func (x *ScriptDialog) Ref() *ScriptDialog {
 
 	cret := xScriptDialogRef(x.GoPointer())
 	return cret

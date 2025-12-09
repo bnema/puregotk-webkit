@@ -30,7 +30,7 @@ func (x *CookieJarClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideSave sets the callback function.
+// OverrideSave sets the "save" callback function.
 func (x *CookieJarClass) OverrideSave(cb func(*CookieJar)) {
 	if cb == nil {
 		x.xSave = 0
@@ -41,7 +41,7 @@ func (x *CookieJarClass) OverrideSave(cb func(*CookieJar)) {
 	}
 }
 
-// GetSave gets the callback function.
+// GetSave gets the "save" callback function.
 func (x *CookieJarClass) GetSave() func(*CookieJar) {
 	if x.xSave == 0 {
 		return nil
@@ -53,7 +53,7 @@ func (x *CookieJarClass) GetSave() func(*CookieJar) {
 	}
 }
 
-// OverrideIsPersistent sets the callback function.
+// OverrideIsPersistent sets the "is_persistent" callback function.
 func (x *CookieJarClass) OverrideIsPersistent(cb func(*CookieJar) bool) {
 	if cb == nil {
 		x.xIsPersistent = 0
@@ -64,7 +64,7 @@ func (x *CookieJarClass) OverrideIsPersistent(cb func(*CookieJar) bool) {
 	}
 }
 
-// GetIsPersistent gets the callback function.
+// GetIsPersistent gets the "is_persistent" callback function.
 func (x *CookieJarClass) GetIsPersistent() func(*CookieJar) bool {
 	if x.xIsPersistent == 0 {
 		return nil
@@ -76,25 +76,25 @@ func (x *CookieJarClass) GetIsPersistent() func(*CookieJar) bool {
 	}
 }
 
-// OverrideChanged sets the callback function.
-func (x *CookieJarClass) OverrideChanged(cb func(*CookieJar, uintptr, uintptr)) {
+// OverrideChanged sets the "changed" callback function.
+func (x *CookieJarClass) OverrideChanged(cb func(*CookieJar, *Cookie, *Cookie)) {
 	if cb == nil {
 		x.xChanged = 0
 	} else {
-		x.xChanged = purego.NewCallback(func(JarVarp uintptr, OldCookieVarp uintptr, NewCookieVarp uintptr) {
+		x.xChanged = purego.NewCallback(func(JarVarp uintptr, OldCookieVarp *Cookie, NewCookieVarp *Cookie) {
 			cb(CookieJarNewFromInternalPtr(JarVarp), OldCookieVarp, NewCookieVarp)
 		})
 	}
 }
 
-// GetChanged gets the callback function.
-func (x *CookieJarClass) GetChanged() func(*CookieJar, uintptr, uintptr) {
+// GetChanged gets the "changed" callback function.
+func (x *CookieJarClass) GetChanged() func(*CookieJar, *Cookie, *Cookie) {
 	if x.xChanged == 0 {
 		return nil
 	}
-	var rawCallback func(JarVarp uintptr, OldCookieVarp uintptr, NewCookieVarp uintptr)
+	var rawCallback func(JarVarp uintptr, OldCookieVarp *Cookie, NewCookieVarp *Cookie)
 	purego.RegisterFunc(&rawCallback, x.xChanged)
-	return func(JarVar *CookieJar, OldCookieVar uintptr, NewCookieVar uintptr) {
+	return func(JarVar *CookieJar, OldCookieVar *Cookie, NewCookieVar *Cookie) {
 		rawCallback(JarVar.GoPointer(), OldCookieVar, NewCookieVar)
 	}
 }
@@ -187,7 +187,7 @@ func NewCookieJar() *CookieJar {
 	return cls
 }
 
-var xCookieJarAddCookie func(uintptr, uintptr)
+var xCookieJarAddCookie func(uintptr, *Cookie)
 
 // Adds @cookie to @jar.
 //
@@ -196,13 +196,13 @@ var xCookieJarAddCookie func(uintptr, uintptr)
 // that the cookie's expire date is not in the past).
 //
 // @cookie will be 'stolen' by the jar, so don't free it afterwards.
-func (x *CookieJar) AddCookie(CookieVar uintptr) {
+func (x *CookieJar) AddCookie(CookieVar *Cookie) {
 
 	xCookieJarAddCookie(x.GoPointer(), CookieVar)
 
 }
 
-var xCookieJarAddCookieFull func(uintptr, uintptr, uintptr, uintptr)
+var xCookieJarAddCookieFull func(uintptr, *Cookie, *glib.Uri, *glib.Uri)
 
 // Adds @cookie to @jar.
 //
@@ -217,13 +217,13 @@ var xCookieJarAddCookieFull func(uintptr, uintptr, uintptr, uintptr)
 // from insecure origins. %NULL is treated as secure.
 //
 // @cookie will be 'stolen' by the jar, so don't free it afterwards.
-func (x *CookieJar) AddCookieFull(CookieVar uintptr, UriVar uintptr, FirstPartyVar uintptr) {
+func (x *CookieJar) AddCookieFull(CookieVar *Cookie, UriVar *glib.Uri, FirstPartyVar *glib.Uri) {
 
 	xCookieJarAddCookieFull(x.GoPointer(), CookieVar, UriVar, FirstPartyVar)
 
 }
 
-var xCookieJarAddCookieWithFirstParty func(uintptr, uintptr, uintptr)
+var xCookieJarAddCookieWithFirstParty func(uintptr, *glib.Uri, *Cookie)
 
 // Adds @cookie to @jar.
 //
@@ -238,13 +238,13 @@ var xCookieJarAddCookieWithFirstParty func(uintptr, uintptr, uintptr)
 //
 // For secure cookies to work properly you may want to use
 // [method@CookieJar.add_cookie_full].
-func (x *CookieJar) AddCookieWithFirstParty(FirstPartyVar uintptr, CookieVar uintptr) {
+func (x *CookieJar) AddCookieWithFirstParty(FirstPartyVar *glib.Uri, CookieVar *Cookie) {
 
 	xCookieJarAddCookieWithFirstParty(x.GoPointer(), FirstPartyVar, CookieVar)
 
 }
 
-var xCookieJarAllCookies func(uintptr) uintptr
+var xCookieJarAllCookies func(uintptr) *glib.SList
 
 // Constructs a [struct@GLib.List] with every cookie inside the @jar.
 //
@@ -252,18 +252,18 @@ var xCookieJarAllCookies func(uintptr) uintptr
 // you have to free them when you are done with them.
 //
 // For historical reasons this list is in reverse order.
-func (x *CookieJar) AllCookies() uintptr {
+func (x *CookieJar) AllCookies() *glib.SList {
 
 	cret := xCookieJarAllCookies(x.GoPointer())
 	return cret
 }
 
-var xCookieJarDeleteCookie func(uintptr, uintptr)
+var xCookieJarDeleteCookie func(uintptr, *Cookie)
 
 // Deletes @cookie from @jar.
 //
 // Emits the [signal@CookieJar::changed] signal.
-func (x *CookieJar) DeleteCookie(CookieVar uintptr) {
+func (x *CookieJar) DeleteCookie(CookieVar *Cookie) {
 
 	xCookieJarDeleteCookie(x.GoPointer(), CookieVar)
 
@@ -278,7 +278,7 @@ func (x *CookieJar) GetAcceptPolicy() CookieJarAcceptPolicy {
 	return cret
 }
 
-var xCookieJarGetCookieList func(uintptr, uintptr, bool) uintptr
+var xCookieJarGetCookieList func(uintptr, *glib.Uri, bool) *glib.SList
 
 // Retrieves the list of cookies that would be sent with a request to @uri
 // as a [struct@GLib.List] of #SoupCookie objects.
@@ -290,13 +290,13 @@ var xCookieJarGetCookieList func(uintptr, uintptr, bool) uintptr
 // header itself when making the actual HTTP request, you should
 // almost certainly be setting @for_http to %FALSE if you are calling
 // this.
-func (x *CookieJar) GetCookieList(UriVar uintptr, ForHttpVar bool) uintptr {
+func (x *CookieJar) GetCookieList(UriVar *glib.Uri, ForHttpVar bool) *glib.SList {
 
 	cret := xCookieJarGetCookieList(x.GoPointer(), UriVar, ForHttpVar)
 	return cret
 }
 
-var xCookieJarGetCookieListWithSameSiteInfo func(uintptr, uintptr, uintptr, uintptr, bool, bool, bool) uintptr
+var xCookieJarGetCookieListWithSameSiteInfo func(uintptr, *glib.Uri, *glib.Uri, *glib.Uri, bool, bool, bool) *glib.SList
 
 // This is an extended version of [method@CookieJar.get_cookie_list] that
 // provides more information required to use SameSite cookies.
@@ -304,13 +304,13 @@ var xCookieJarGetCookieListWithSameSiteInfo func(uintptr, uintptr, uintptr, uint
 // See the [SameSite cookies
 // spec](https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00) for
 // more detailed information.
-func (x *CookieJar) GetCookieListWithSameSiteInfo(UriVar uintptr, TopLevelVar uintptr, SiteForCookiesVar uintptr, ForHttpVar bool, IsSafeMethodVar bool, IsTopLevelNavigationVar bool) uintptr {
+func (x *CookieJar) GetCookieListWithSameSiteInfo(UriVar *glib.Uri, TopLevelVar *glib.Uri, SiteForCookiesVar *glib.Uri, ForHttpVar bool, IsSafeMethodVar bool, IsTopLevelNavigationVar bool) *glib.SList {
 
 	cret := xCookieJarGetCookieListWithSameSiteInfo(x.GoPointer(), UriVar, TopLevelVar, SiteForCookiesVar, ForHttpVar, IsSafeMethodVar, IsTopLevelNavigationVar)
 	return cret
 }
 
-var xCookieJarGetCookies func(uintptr, uintptr, bool) string
+var xCookieJarGetCookies func(uintptr, *glib.Uri, bool) string
 
 // Retrieves (in Cookie-header form) the list of cookies that would
 // be sent with a request to @uri.
@@ -322,7 +322,7 @@ var xCookieJarGetCookies func(uintptr, uintptr, bool) string
 // header itself when making the actual HTTP request, you should
 // almost certainly be setting @for_http to %FALSE if you are calling
 // this.
-func (x *CookieJar) GetCookies(UriVar uintptr, ForHttpVar bool) string {
+func (x *CookieJar) GetCookies(UriVar *glib.Uri, ForHttpVar bool) string {
 
 	cret := xCookieJarGetCookies(x.GoPointer(), UriVar, ForHttpVar)
 	return cret
@@ -346,7 +346,7 @@ func (x *CookieJar) SetAcceptPolicy(PolicyVar CookieJarAcceptPolicy) {
 
 }
 
-var xCookieJarSetCookie func(uintptr, uintptr, string)
+var xCookieJarSetCookie func(uintptr, *glib.Uri, string)
 
 // Adds @cookie to @jar, exactly as though it had appeared in a
 // Set-Cookie header returned from a request to @uri.
@@ -357,20 +357,20 @@ var xCookieJarSetCookie func(uintptr, uintptr, string)
 // [method@CookieJar.set_cookie_with_first_party], otherwise the jar
 // will have no way of knowing if the cookie is being set by a third
 // party or not.
-func (x *CookieJar) SetCookie(UriVar uintptr, CookieVar string) {
+func (x *CookieJar) SetCookie(UriVar *glib.Uri, CookieVar string) {
 
 	xCookieJarSetCookie(x.GoPointer(), UriVar, CookieVar)
 
 }
 
-var xCookieJarSetCookieWithFirstParty func(uintptr, uintptr, uintptr, string)
+var xCookieJarSetCookieWithFirstParty func(uintptr, *glib.Uri, *glib.Uri, string)
 
 // Adds @cookie to @jar, exactly as though it had appeared in a
 // Set-Cookie header returned from a request to @uri.
 //
 // @first_party will be used to reject cookies coming from third party resources
 // in case such a security policy is set in the @jar.
-func (x *CookieJar) SetCookieWithFirstParty(UriVar uintptr, FirstPartyVar uintptr, CookieVar string) {
+func (x *CookieJar) SetCookieWithFirstParty(UriVar *glib.Uri, FirstPartyVar *glib.Uri, CookieVar string) {
 
 	xCookieJarSetCookieWithFirstParty(x.GoPointer(), UriVar, FirstPartyVar, CookieVar)
 
@@ -385,6 +385,23 @@ func (c *CookieJar) GoPointer() uintptr {
 
 func (c *CookieJar) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyReadOnly sets the "read-only" property.
+// Whether or not the cookie jar is read-only.
+func (x *CookieJar) SetPropertyReadOnly(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("read-only", &v)
+}
+
+// GetPropertyReadOnly gets the "read-only" property.
+// Whether or not the cookie jar is read-only.
+func (x *CookieJar) GetPropertyReadOnly() bool {
+	var v gobject.Value
+	x.GetProperty("read-only", &v)
+	return v.GetBoolean()
 }
 
 // Emitted when @jar changes.

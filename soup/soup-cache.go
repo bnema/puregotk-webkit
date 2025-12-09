@@ -25,7 +25,7 @@ func (x *CacheClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideGetCacheability sets the callback function.
+// OverrideGetCacheability sets the "get_cacheability" callback function.
 func (x *CacheClass) OverrideGetCacheability(cb func(*Cache, *Message) Cacheability) {
 	if cb == nil {
 		x.xGetCacheability = 0
@@ -36,7 +36,7 @@ func (x *CacheClass) OverrideGetCacheability(cb func(*Cache, *Message) Cacheabil
 	}
 }
 
-// GetGetCacheability gets the callback function.
+// GetGetCacheability gets the "get_cacheability" callback function.
 func (x *CacheClass) GetGetCacheability() func(*Cache, *Message) Cacheability {
 	if x.xGetCacheability == 0 {
 		return nil
@@ -201,6 +201,23 @@ func (c *Cache) GoPointer() uintptr {
 
 func (c *Cache) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyCacheDir sets the "cache-dir" property.
+// The directory to store the cache files.
+func (x *Cache) SetPropertyCacheDir(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("cache-dir", &v)
+}
+
+// GetPropertyCacheDir gets the "cache-dir" property.
+// The directory to store the cache files.
+func (x *Cache) GetPropertyCacheDir() string {
+	var v gobject.Value
+	x.GetProperty("cache-dir", &v)
+	return v.GetString()
 }
 
 func init() {

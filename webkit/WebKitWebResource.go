@@ -62,10 +62,10 @@ func (x *WebResource) GetData(CancellableVar *gio.Cancellable, CallbackVar *gio.
 
 }
 
-var xWebResourceGetDataFinish func(uintptr, uintptr, uint, **glib.Error) uintptr
+var xWebResourceGetDataFinish func(uintptr, uintptr, *uint, **glib.Error) uintptr
 
 // Finish an asynchronous operation started with webkit_web_resource_get_data().
-func (x *WebResource) GetDataFinish(ResultVar gio.AsyncResult, LengthVar uint) (uintptr, error) {
+func (x *WebResource) GetDataFinish(ResultVar gio.AsyncResult, LengthVar *uint) (uintptr, error) {
 	var cerr *glib.Error
 
 	cret := xWebResourceGetDataFinish(x.GoPointer(), ResultVar.GoPointer(), LengthVar, &cerr)
@@ -149,6 +149,15 @@ func (c *WebResource) GoPointer() uintptr {
 
 func (c *WebResource) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// GetPropertyUri gets the "uri" property.
+// The current active URI of the #WebKitWebResource.
+// See webkit_web_resource_get_uri() for more details.
+func (x *WebResource) GetPropertyUri() string {
+	var v gobject.Value
+	x.GetProperty("uri", &v)
+	return v.GetString()
 }
 
 // This signal is emitted when an error occurs during the resource

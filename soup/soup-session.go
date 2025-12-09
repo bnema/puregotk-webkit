@@ -43,7 +43,7 @@ func (x *SessionClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideRequestQueued sets the callback function.
+// OverrideRequestQueued sets the "request_queued" callback function.
 func (x *SessionClass) OverrideRequestQueued(cb func(*Session, *Message)) {
 	if cb == nil {
 		x.xRequestQueued = 0
@@ -54,7 +54,7 @@ func (x *SessionClass) OverrideRequestQueued(cb func(*Session, *Message)) {
 	}
 }
 
-// GetRequestQueued gets the callback function.
+// GetRequestQueued gets the "request_queued" callback function.
 func (x *SessionClass) GetRequestQueued() func(*Session, *Message) {
 	if x.xRequestQueued == 0 {
 		return nil
@@ -66,7 +66,7 @@ func (x *SessionClass) GetRequestQueued() func(*Session, *Message) {
 	}
 }
 
-// OverrideRequestUnqueued sets the callback function.
+// OverrideRequestUnqueued sets the "request_unqueued" callback function.
 func (x *SessionClass) OverrideRequestUnqueued(cb func(*Session, *Message)) {
 	if cb == nil {
 		x.xRequestUnqueued = 0
@@ -77,7 +77,7 @@ func (x *SessionClass) OverrideRequestUnqueued(cb func(*Session, *Message)) {
 	}
 }
 
-// GetRequestUnqueued gets the callback function.
+// GetRequestUnqueued gets the "request_unqueued" callback function.
 func (x *SessionClass) GetRequestUnqueued() func(*Session, *Message) {
 	if x.xRequestUnqueued == 0 {
 		return nil
@@ -89,7 +89,7 @@ func (x *SessionClass) GetRequestUnqueued() func(*Session, *Message) {
 	}
 }
 
-// OverrideSoupReserved1 sets the callback function.
+// OverrideSoupReserved1 sets the "_soup_reserved1" callback function.
 func (x *SessionClass) OverrideSoupReserved1(cb func()) {
 	if cb == nil {
 		x.xSoupReserved1 = 0
@@ -100,7 +100,7 @@ func (x *SessionClass) OverrideSoupReserved1(cb func()) {
 	}
 }
 
-// GetSoupReserved1 gets the callback function.
+// GetSoupReserved1 gets the "_soup_reserved1" callback function.
 func (x *SessionClass) GetSoupReserved1() func() {
 	if x.xSoupReserved1 == 0 {
 		return nil
@@ -112,7 +112,7 @@ func (x *SessionClass) GetSoupReserved1() func() {
 	}
 }
 
-// OverrideSoupReserved2 sets the callback function.
+// OverrideSoupReserved2 sets the "_soup_reserved2" callback function.
 func (x *SessionClass) OverrideSoupReserved2(cb func()) {
 	if cb == nil {
 		x.xSoupReserved2 = 0
@@ -123,7 +123,7 @@ func (x *SessionClass) OverrideSoupReserved2(cb func()) {
 	}
 }
 
-// GetSoupReserved2 gets the callback function.
+// GetSoupReserved2 gets the "_soup_reserved2" callback function.
 func (x *SessionClass) GetSoupReserved2() func() {
 	if x.xSoupReserved2 == 0 {
 		return nil
@@ -135,7 +135,7 @@ func (x *SessionClass) GetSoupReserved2() func() {
 	}
 }
 
-// OverrideSoupReserved3 sets the callback function.
+// OverrideSoupReserved3 sets the "_soup_reserved3" callback function.
 func (x *SessionClass) OverrideSoupReserved3(cb func()) {
 	if cb == nil {
 		x.xSoupReserved3 = 0
@@ -146,7 +146,7 @@ func (x *SessionClass) OverrideSoupReserved3(cb func()) {
 	}
 }
 
-// GetSoupReserved3 gets the callback function.
+// GetSoupReserved3 gets the "_soup_reserved3" callback function.
 func (x *SessionClass) GetSoupReserved3() func() {
 	if x.xSoupReserved3 == 0 {
 		return nil
@@ -158,7 +158,7 @@ func (x *SessionClass) GetSoupReserved3() func() {
 	}
 }
 
-// OverrideSoupReserved4 sets the callback function.
+// OverrideSoupReserved4 sets the "_soup_reserved4" callback function.
 func (x *SessionClass) OverrideSoupReserved4(cb func()) {
 	if cb == nil {
 		x.xSoupReserved4 = 0
@@ -169,7 +169,7 @@ func (x *SessionClass) OverrideSoupReserved4(cb func()) {
 	}
 }
 
-// GetSoupReserved4 gets the callback function.
+// GetSoupReserved4 gets the "_soup_reserved4" callback function.
 func (x *SessionClass) GetSoupReserved4() func() {
 	if x.xSoupReserved4 == 0 {
 		return nil
@@ -181,7 +181,7 @@ func (x *SessionClass) GetSoupReserved4() func() {
 	}
 }
 
-// OverrideSoupReserved5 sets the callback function.
+// OverrideSoupReserved5 sets the "_soup_reserved5" callback function.
 func (x *SessionClass) OverrideSoupReserved5(cb func()) {
 	if cb == nil {
 		x.xSoupReserved5 = 0
@@ -192,7 +192,7 @@ func (x *SessionClass) OverrideSoupReserved5(cb func()) {
 	}
 }
 
-// GetSoupReserved5 gets the callback function.
+// GetSoupReserved5 gets the "_soup_reserved5" callback function.
 func (x *SessionClass) GetSoupReserved5() func() {
 	if x.xSoupReserved5 == 0 {
 		return nil
@@ -204,7 +204,7 @@ func (x *SessionClass) GetSoupReserved5() func() {
 	}
 }
 
-// OverrideSoupReserved6 sets the callback function.
+// OverrideSoupReserved6 sets the "_soup_reserved6" callback function.
 func (x *SessionClass) OverrideSoupReserved6(cb func()) {
 	if cb == nil {
 		x.xSoupReserved6 = 0
@@ -215,7 +215,7 @@ func (x *SessionClass) OverrideSoupReserved6(cb func()) {
 	}
 }
 
-// GetSoupReserved6 gets the callback function.
+// GetSoupReserved6 gets the "_soup_reserved6" callback function.
 func (x *SessionClass) GetSoupReserved6() func() {
 	if x.xSoupReserved6 == 0 {
 		return nil
@@ -227,7 +227,7 @@ func (x *SessionClass) GetSoupReserved6() func() {
 	}
 }
 
-// OverrideSoupReserved7 sets the callback function.
+// OverrideSoupReserved7 sets the "_soup_reserved7" callback function.
 func (x *SessionClass) OverrideSoupReserved7(cb func()) {
 	if cb == nil {
 		x.xSoupReserved7 = 0
@@ -238,7 +238,7 @@ func (x *SessionClass) OverrideSoupReserved7(cb func()) {
 	}
 }
 
-// GetSoupReserved7 gets the callback function.
+// GetSoupReserved7 gets the "_soup_reserved7" callback function.
 func (x *SessionClass) GetSoupReserved7() func() {
 	if x.xSoupReserved7 == 0 {
 		return nil
@@ -250,7 +250,7 @@ func (x *SessionClass) GetSoupReserved7() func() {
 	}
 }
 
-// OverrideSoupReserved8 sets the callback function.
+// OverrideSoupReserved8 sets the "_soup_reserved8" callback function.
 func (x *SessionClass) OverrideSoupReserved8(cb func()) {
 	if cb == nil {
 		x.xSoupReserved8 = 0
@@ -261,7 +261,7 @@ func (x *SessionClass) OverrideSoupReserved8(cb func()) {
 	}
 }
 
-// GetSoupReserved8 gets the callback function.
+// GetSoupReserved8 gets the "_soup_reserved8" callback function.
 func (x *SessionClass) GetSoupReserved8() func() {
 	if x.xSoupReserved8 == 0 {
 		return nil
@@ -753,7 +753,7 @@ func (x *Session) Send(MsgVar *Message, CancellableVar *gio.Cancellable) (*gio.I
 
 }
 
-var xSessionSendAndRead func(uintptr, uintptr, uintptr, **glib.Error) uintptr
+var xSessionSendAndRead func(uintptr, uintptr, uintptr, **glib.Error) *glib.Bytes
 
 // Synchronously sends @msg and reads the response body.
 //
@@ -762,7 +762,7 @@ var xSessionSendAndRead func(uintptr, uintptr, uintptr, **glib.Error) uintptr
 // is not too long and can be stored in memory.
 //
 // See [method@Session.send] for more details on the general semantics.
-func (x *Session) SendAndRead(MsgVar *Message, CancellableVar *gio.Cancellable) (uintptr, error) {
+func (x *Session) SendAndRead(MsgVar *Message, CancellableVar *gio.Cancellable) (*glib.Bytes, error) {
 	var cerr *glib.Error
 
 	cret := xSessionSendAndRead(x.GoPointer(), MsgVar.GoPointer(), CancellableVar.GoPointer(), &cerr)
@@ -790,12 +790,12 @@ func (x *Session) SendAndReadAsync(MsgVar *Message, IoPriorityVar int, Cancellab
 
 }
 
-var xSessionSendAndReadFinish func(uintptr, uintptr, **glib.Error) uintptr
+var xSessionSendAndReadFinish func(uintptr, uintptr, **glib.Error) *glib.Bytes
 
 // Gets the response to a [method@Session.send_and_read_async].
 //
 // If successful, returns a [struct@GLib.Bytes] with the response body.
-func (x *Session) SendAndReadFinish(ResultVar gio.AsyncResult) (uintptr, error) {
+func (x *Session) SendAndReadFinish(ResultVar gio.AsyncResult) (*glib.Bytes, error) {
 	var cerr *glib.Error
 
 	cret := xSessionSendAndReadFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -1051,6 +1051,229 @@ func (c *Session) GoPointer() uintptr {
 
 func (c *Session) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyAcceptLanguage sets the "accept-language" property.
+// If non-%NULL, the value to use for the "Accept-Language" header
+// on [class@Message]s sent from this session.
+//
+// Setting this will disable [property@Session:accept-language-auto].
+func (x *Session) SetPropertyAcceptLanguage(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("accept-language", &v)
+}
+
+// GetPropertyAcceptLanguage gets the "accept-language" property.
+// If non-%NULL, the value to use for the "Accept-Language" header
+// on [class@Message]s sent from this session.
+//
+// Setting this will disable [property@Session:accept-language-auto].
+func (x *Session) GetPropertyAcceptLanguage() string {
+	var v gobject.Value
+	x.GetProperty("accept-language", &v)
+	return v.GetString()
+}
+
+// SetPropertyAcceptLanguageAuto sets the "accept-language-auto" property.
+// If %TRUE, #SoupSession will automatically set the string
+// for the "Accept-Language" header on every [class@Message]
+// sent, based on the return value of [func@GLib.get_language_names].
+//
+// Setting this will override any previous value of
+// [property@Session:accept-language].
+func (x *Session) SetPropertyAcceptLanguageAuto(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("accept-language-auto", &v)
+}
+
+// GetPropertyAcceptLanguageAuto gets the "accept-language-auto" property.
+// If %TRUE, #SoupSession will automatically set the string
+// for the "Accept-Language" header on every [class@Message]
+// sent, based on the return value of [func@GLib.get_language_names].
+//
+// Setting this will override any previous value of
+// [property@Session:accept-language].
+func (x *Session) GetPropertyAcceptLanguageAuto() bool {
+	var v gobject.Value
+	x.GetProperty("accept-language-auto", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyIdleTimeout sets the "idle-timeout" property.
+// Connection lifetime (in seconds) when idle. Any connection
+// left idle longer than this will be closed.
+//
+// Although you can change this property at any time, it will
+// only affect newly-created connections, not currently-open
+// ones. You can call [method@Session.abort] after setting this
+// if you want to ensure that all future connections will have
+// this timeout value.
+func (x *Session) SetPropertyIdleTimeout(value uint) {
+	var v gobject.Value
+	v.Init(gobject.TypeUintVal)
+	v.SetUint(value)
+	x.SetProperty("idle-timeout", &v)
+}
+
+// GetPropertyIdleTimeout gets the "idle-timeout" property.
+// Connection lifetime (in seconds) when idle. Any connection
+// left idle longer than this will be closed.
+//
+// Although you can change this property at any time, it will
+// only affect newly-created connections, not currently-open
+// ones. You can call [method@Session.abort] after setting this
+// if you want to ensure that all future connections will have
+// this timeout value.
+func (x *Session) GetPropertyIdleTimeout() uint {
+	var v gobject.Value
+	x.GetProperty("idle-timeout", &v)
+	return v.GetUint()
+}
+
+// SetPropertyMaxConns sets the "max-conns" property.
+// The maximum number of connections that the session can open at once.
+func (x *Session) SetPropertyMaxConns(value int) {
+	var v gobject.Value
+	v.Init(gobject.TypeIntVal)
+	v.SetInt(value)
+	x.SetProperty("max-conns", &v)
+}
+
+// GetPropertyMaxConns gets the "max-conns" property.
+// The maximum number of connections that the session can open at once.
+func (x *Session) GetPropertyMaxConns() int {
+	var v gobject.Value
+	x.GetProperty("max-conns", &v)
+	return v.GetInt()
+}
+
+// SetPropertyMaxConnsPerHost sets the "max-conns-per-host" property.
+// The maximum number of connections that the session can open at once
+// to a given host.
+func (x *Session) SetPropertyMaxConnsPerHost(value int) {
+	var v gobject.Value
+	v.Init(gobject.TypeIntVal)
+	v.SetInt(value)
+	x.SetProperty("max-conns-per-host", &v)
+}
+
+// GetPropertyMaxConnsPerHost gets the "max-conns-per-host" property.
+// The maximum number of connections that the session can open at once
+// to a given host.
+func (x *Session) GetPropertyMaxConnsPerHost() int {
+	var v gobject.Value
+	x.GetProperty("max-conns-per-host", &v)
+	return v.GetInt()
+}
+
+// SetPropertyTimeout sets the "timeout" property.
+// The timeout (in seconds) for socket I/O operations
+// (including connecting to a server, and waiting for a reply
+// to an HTTP request).
+//
+// Although you can change this property at any time, it will
+// only affect newly-created connections, not currently-open
+// ones. You can call [method@Session.abort] after setting this
+// if you want to ensure that all future connections will have
+// this timeout value.
+//
+// Not to be confused with [property@Session:idle-timeout] (which is
+// the length of time that idle persistent connections will be
+// kept open).
+func (x *Session) SetPropertyTimeout(value uint) {
+	var v gobject.Value
+	v.Init(gobject.TypeUintVal)
+	v.SetUint(value)
+	x.SetProperty("timeout", &v)
+}
+
+// GetPropertyTimeout gets the "timeout" property.
+// The timeout (in seconds) for socket I/O operations
+// (including connecting to a server, and waiting for a reply
+// to an HTTP request).
+//
+// Although you can change this property at any time, it will
+// only affect newly-created connections, not currently-open
+// ones. You can call [method@Session.abort] after setting this
+// if you want to ensure that all future connections will have
+// this timeout value.
+//
+// Not to be confused with [property@Session:idle-timeout] (which is
+// the length of time that idle persistent connections will be
+// kept open).
+func (x *Session) GetPropertyTimeout() uint {
+	var v gobject.Value
+	x.GetProperty("timeout", &v)
+	return v.GetUint()
+}
+
+// SetPropertyUserAgent sets the "user-agent" property.
+// User-Agent string.
+//
+// If non-%NULL, the value to use for the "User-Agent" header
+// on [class@Message]s sent from this session.
+//
+// RFC 2616 says: "The User-Agent request-header field
+// contains information about the user agent originating the
+// request. This is for statistical purposes, the tracing of
+// protocol violations, and automated recognition of user
+// agents for the sake of tailoring responses to avoid
+// particular user agent limitations. User agents SHOULD
+// include this field with requests."
+//
+// The User-Agent header contains a list of one or more
+// product tokens, separated by whitespace, with the most
+// significant product token coming first. The tokens must be
+// brief, ASCII, and mostly alphanumeric (although "-", "_",
+// and "." are also allowed), and may optionally include a "/"
+// followed by a version string. You may also put comments,
+// enclosed in parentheses, between or after the tokens.
+//
+// If you set a [property@Session:user-agent] property that has trailing
+// whitespace, #SoupSession will append its own product token
+// (eg, `libsoup/2.3.2`) to the end of the
+// header for you.
+func (x *Session) SetPropertyUserAgent(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("user-agent", &v)
+}
+
+// GetPropertyUserAgent gets the "user-agent" property.
+// User-Agent string.
+//
+// If non-%NULL, the value to use for the "User-Agent" header
+// on [class@Message]s sent from this session.
+//
+// RFC 2616 says: "The User-Agent request-header field
+// contains information about the user agent originating the
+// request. This is for statistical purposes, the tracing of
+// protocol violations, and automated recognition of user
+// agents for the sake of tailoring responses to avoid
+// particular user agent limitations. User agents SHOULD
+// include this field with requests."
+//
+// The User-Agent header contains a list of one or more
+// product tokens, separated by whitespace, with the most
+// significant product token coming first. The tokens must be
+// brief, ASCII, and mostly alphanumeric (although "-", "_",
+// and "." are also allowed), and may optionally include a "/"
+// followed by a version string. You may also put comments,
+// enclosed in parentheses, between or after the tokens.
+//
+// If you set a [property@Session:user-agent] property that has trailing
+// whitespace, #SoupSession will append its own product token
+// (eg, `libsoup/2.3.2`) to the end of the
+// header for you.
+func (x *Session) GetPropertyUserAgent() string {
+	var v gobject.Value
+	x.GetProperty("user-agent", &v)
+	return v.GetString()
 }
 
 // Emitted when a request is queued on @session.
