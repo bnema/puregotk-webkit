@@ -77,20 +77,16 @@ func activate(app *gtk.Application) {
 
 ## Generating the Bindings
 
-To regenerate the bindings from GIR files:
-
 ```bash
-# Copy GIR files from system (requires WebKitGTK dev packages)
-./copygir-webkit.sh
-
-# Generate Go bindings
-./gen.sh
+make all    # sync template, generate, build
 ```
 
-Requirements:
-- Go >= 1.20
-- [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports)
-- WebKitGTK 6 development files (for GIR files)
+Or step by step:
+```bash
+make sync      # fetch template from puregotk
+make generate  # run go generate + goimports
+make build     # build all packages
+```
 
 ## License
 
