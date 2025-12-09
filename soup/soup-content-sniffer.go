@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -61,13 +62,13 @@ func NewContentSniffer() *ContentSniffer {
 	return cls
 }
 
-var xContentSnifferSniff func(uintptr, uintptr, uintptr, uintptr) string
+var xContentSnifferSniff func(uintptr, uintptr, *glib.Bytes, **glib.HashTable) string
 
 // Sniffs @buffer to determine its Content-Type.
 //
 // The result may also be influenced by the Content-Type declared in @msg's
 // response headers.
-func (x *ContentSniffer) Sniff(MsgVar *Message, BufferVar uintptr, ParamsVar uintptr) string {
+func (x *ContentSniffer) Sniff(MsgVar *Message, BufferVar *glib.Bytes, ParamsVar **glib.HashTable) string {
 
 	cret := xContentSnifferSniff(x.GoPointer(), MsgVar.GoPointer(), BufferVar, ParamsVar)
 	return cret

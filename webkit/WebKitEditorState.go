@@ -136,6 +136,15 @@ func (c *EditorState) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// GetPropertyTypingAttributes gets the "typing-attributes" property.
+// Bitmask of #WebKitEditorTypingAttributes flags.
+// See webkit_editor_state_get_typing_attributes() for more information.
+func (x *EditorState) GetPropertyTypingAttributes() uint {
+	var v gobject.Value
+	x.GetProperty("typing-attributes", &v)
+	return v.GetUint()
+}
+
 // Emitted when the #WebKitEdtorState is changed.
 func (x *EditorState) ConnectChanged(cb *func(EditorState)) uint32 {
 	cbPtr := uintptr(unsafe.Pointer(cb))

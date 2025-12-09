@@ -33,7 +33,7 @@ import (
 //
 // See [method@Server.add_handler] and [method@Server.add_early_handler]
 // for details of what handlers can/should do.
-type ServerCallback func(uintptr, uintptr, string, uintptr, uintptr)
+type ServerCallback func(uintptr, uintptr, string, *glib.HashTable, uintptr)
 
 // A callback used to handle WebSocket requests to a #SoupServer.
 //
@@ -64,7 +64,7 @@ func (x *ServerClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideRequestStarted sets the callback function.
+// OverrideRequestStarted sets the "request_started" callback function.
 func (x *ServerClass) OverrideRequestStarted(cb func(*Server, *ServerMessage)) {
 	if cb == nil {
 		x.xRequestStarted = 0
@@ -75,7 +75,7 @@ func (x *ServerClass) OverrideRequestStarted(cb func(*Server, *ServerMessage)) {
 	}
 }
 
-// GetRequestStarted gets the callback function.
+// GetRequestStarted gets the "request_started" callback function.
 func (x *ServerClass) GetRequestStarted() func(*Server, *ServerMessage) {
 	if x.xRequestStarted == 0 {
 		return nil
@@ -87,7 +87,7 @@ func (x *ServerClass) GetRequestStarted() func(*Server, *ServerMessage) {
 	}
 }
 
-// OverrideRequestRead sets the callback function.
+// OverrideRequestRead sets the "request_read" callback function.
 func (x *ServerClass) OverrideRequestRead(cb func(*Server, *ServerMessage)) {
 	if cb == nil {
 		x.xRequestRead = 0
@@ -98,7 +98,7 @@ func (x *ServerClass) OverrideRequestRead(cb func(*Server, *ServerMessage)) {
 	}
 }
 
-// GetRequestRead gets the callback function.
+// GetRequestRead gets the "request_read" callback function.
 func (x *ServerClass) GetRequestRead() func(*Server, *ServerMessage) {
 	if x.xRequestRead == 0 {
 		return nil
@@ -110,7 +110,7 @@ func (x *ServerClass) GetRequestRead() func(*Server, *ServerMessage) {
 	}
 }
 
-// OverrideRequestFinished sets the callback function.
+// OverrideRequestFinished sets the "request_finished" callback function.
 func (x *ServerClass) OverrideRequestFinished(cb func(*Server, *ServerMessage)) {
 	if cb == nil {
 		x.xRequestFinished = 0
@@ -121,7 +121,7 @@ func (x *ServerClass) OverrideRequestFinished(cb func(*Server, *ServerMessage)) 
 	}
 }
 
-// GetRequestFinished gets the callback function.
+// GetRequestFinished gets the "request_finished" callback function.
 func (x *ServerClass) GetRequestFinished() func(*Server, *ServerMessage) {
 	if x.xRequestFinished == 0 {
 		return nil
@@ -133,7 +133,7 @@ func (x *ServerClass) GetRequestFinished() func(*Server, *ServerMessage) {
 	}
 }
 
-// OverrideRequestAborted sets the callback function.
+// OverrideRequestAborted sets the "request_aborted" callback function.
 func (x *ServerClass) OverrideRequestAborted(cb func(*Server, *ServerMessage)) {
 	if cb == nil {
 		x.xRequestAborted = 0
@@ -144,7 +144,7 @@ func (x *ServerClass) OverrideRequestAborted(cb func(*Server, *ServerMessage)) {
 	}
 }
 
-// GetRequestAborted gets the callback function.
+// GetRequestAborted gets the "request_aborted" callback function.
 func (x *ServerClass) GetRequestAborted() func(*Server, *ServerMessage) {
 	if x.xRequestAborted == 0 {
 		return nil
@@ -366,7 +366,7 @@ var xServerAddEarlyHandler func(uintptr, string, uintptr, uintptr, uintptr)
 // run as well.
 func (x *Server) AddEarlyHandler(PathVar string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddEarlyHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
+	xServerAddEarlyHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
 
 }
 
@@ -407,7 +407,7 @@ var xServerAddHandler func(uintptr, string, uintptr, uintptr, uintptr)
 // [method@MessageBody.complete] to indicate that no more chunks are coming.
 func (x *Server) AddHandler(PathVar string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
+	xServerAddHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
 
 }
 
@@ -449,7 +449,7 @@ var xServerAddWebsocketHandler func(uintptr, string, string, []string, uintptr, 
 // setting a failure status code if the handshake should be rejected.
 func (x *Server) AddWebsocketHandler(PathVar string, OriginVar string, ProtocolsVar []string, CallbackVar *ServerWebsocketCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddWebsocketHandler(x.GoPointer(), PathVar, OriginVar, ProtocolsVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
+	xServerAddWebsocketHandler(x.GoPointer(), PathVar, OriginVar, ProtocolsVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
 
 }
 
@@ -469,13 +469,13 @@ func (x *Server) Disconnect() {
 
 }
 
-var xServerGetListeners func(uintptr) uintptr
+var xServerGetListeners func(uintptr) *glib.SList
 
 // Gets @server's list of listening sockets.
 //
 // You should treat these sockets as read-only; writing to or
 // modifiying any of these sockets may cause @server to malfunction.
-func (x *Server) GetListeners() uintptr {
+func (x *Server) GetListeners() *glib.SList {
 
 	cret := xServerGetListeners(x.GoPointer())
 	return cret
@@ -524,7 +524,7 @@ func (x *Server) GetTlsDatabase() *gio.TlsDatabase {
 	return cls
 }
 
-var xServerGetUris func(uintptr) uintptr
+var xServerGetUris func(uintptr) *glib.SList
 
 // Gets a list of URIs corresponding to the interfaces @server is
 // listening on.
@@ -535,7 +535,7 @@ var xServerGetUris func(uintptr) uintptr
 // Note that if you used [method@Server.listen_all] the returned URIs will use
 // the addresses `0.0.0.0` and `::`, rather than actually returning separate
 // URIs for each interface on the system.
-func (x *Server) GetUris() uintptr {
+func (x *Server) GetUris() *glib.SList {
 
 	cret := xServerGetUris(x.GoPointer())
 	return cret
@@ -754,6 +754,90 @@ func (c *Server) GoPointer() uintptr {
 
 func (c *Server) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyRawPaths sets the "raw-paths" property.
+// If %TRUE, percent-encoding in the Request-URI path will not be
+// automatically decoded.
+func (x *Server) SetPropertyRawPaths(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("raw-paths", &v)
+}
+
+// GetPropertyRawPaths gets the "raw-paths" property.
+// If %TRUE, percent-encoding in the Request-URI path will not be
+// automatically decoded.
+func (x *Server) GetPropertyRawPaths() bool {
+	var v gobject.Value
+	x.GetProperty("raw-paths", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyServerHeader sets the "server-header" property.
+// Server header.
+//
+// If non-%NULL, the value to use for the "Server" header on
+// [class@ServerMessage]s processed by this server.
+//
+// The Server header is the server equivalent of the
+// User-Agent header, and provides information about the
+// server and its components. It contains a list of one or
+// more product tokens, separated by whitespace, with the most
+// significant product token coming first. The tokens must be
+// brief, ASCII, and mostly alphanumeric (although "-", "_",
+// and "." are also allowed), and may optionally include a "/"
+// followed by a version string. You may also put comments,
+// enclosed in parentheses, between or after the tokens.
+//
+// Some HTTP server implementations intentionally do not use
+// version numbers in their Server header, so that
+// installations running older versions of the server don't
+// end up advertising their vulnerability to specific security
+// holes.
+//
+// As with [property@Session:user_agent], if you set a
+// [property@Server:server-header] property that has trailing
+// whitespace, #SoupServer will append its own product token (eg,
+// `libsoup/2.3.2`) to the end of the header for you.
+func (x *Server) SetPropertyServerHeader(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("server-header", &v)
+}
+
+// GetPropertyServerHeader gets the "server-header" property.
+// Server header.
+//
+// If non-%NULL, the value to use for the "Server" header on
+// [class@ServerMessage]s processed by this server.
+//
+// The Server header is the server equivalent of the
+// User-Agent header, and provides information about the
+// server and its components. It contains a list of one or
+// more product tokens, separated by whitespace, with the most
+// significant product token coming first. The tokens must be
+// brief, ASCII, and mostly alphanumeric (although "-", "_",
+// and "." are also allowed), and may optionally include a "/"
+// followed by a version string. You may also put comments,
+// enclosed in parentheses, between or after the tokens.
+//
+// Some HTTP server implementations intentionally do not use
+// version numbers in their Server header, so that
+// installations running older versions of the server don't
+// end up advertising their vulnerability to specific security
+// holes.
+//
+// As with [property@Session:user_agent], if you set a
+// [property@Server:server-header] property that has trailing
+// whitespace, #SoupServer will append its own product token (eg,
+// `libsoup/2.3.2`) to the end of the header for you.
+func (x *Server) GetPropertyServerHeader() string {
+	var v gobject.Value
+	x.GetProperty("server-header", &v)
+	return v.GetString()
 }
 
 // Emitted when processing has failed for a message.

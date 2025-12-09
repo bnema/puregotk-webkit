@@ -29,7 +29,7 @@ func (x *WebViewBaseClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideWebkitReserved0 sets the callback function.
+// OverrideWebkitReserved0 sets the "_webkit_reserved0" callback function.
 func (x *WebViewBaseClass) OverrideWebkitReserved0(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved0 = 0
@@ -40,7 +40,7 @@ func (x *WebViewBaseClass) OverrideWebkitReserved0(cb func()) {
 	}
 }
 
-// GetWebkitReserved0 gets the callback function.
+// GetWebkitReserved0 gets the "_webkit_reserved0" callback function.
 func (x *WebViewBaseClass) GetWebkitReserved0() func() {
 	if x.xWebkitReserved0 == 0 {
 		return nil
@@ -52,7 +52,7 @@ func (x *WebViewBaseClass) GetWebkitReserved0() func() {
 	}
 }
 
-// OverrideWebkitReserved1 sets the callback function.
+// OverrideWebkitReserved1 sets the "_webkit_reserved1" callback function.
 func (x *WebViewBaseClass) OverrideWebkitReserved1(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved1 = 0
@@ -63,7 +63,7 @@ func (x *WebViewBaseClass) OverrideWebkitReserved1(cb func()) {
 	}
 }
 
-// GetWebkitReserved1 gets the callback function.
+// GetWebkitReserved1 gets the "_webkit_reserved1" callback function.
 func (x *WebViewBaseClass) GetWebkitReserved1() func() {
 	if x.xWebkitReserved1 == 0 {
 		return nil
@@ -75,7 +75,7 @@ func (x *WebViewBaseClass) GetWebkitReserved1() func() {
 	}
 }
 
-// OverrideWebkitReserved2 sets the callback function.
+// OverrideWebkitReserved2 sets the "_webkit_reserved2" callback function.
 func (x *WebViewBaseClass) OverrideWebkitReserved2(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved2 = 0
@@ -86,7 +86,7 @@ func (x *WebViewBaseClass) OverrideWebkitReserved2(cb func()) {
 	}
 }
 
-// GetWebkitReserved2 gets the callback function.
+// GetWebkitReserved2 gets the "_webkit_reserved2" callback function.
 func (x *WebViewBaseClass) GetWebkitReserved2() func() {
 	if x.xWebkitReserved2 == 0 {
 		return nil
@@ -98,7 +98,7 @@ func (x *WebViewBaseClass) GetWebkitReserved2() func() {
 	}
 }
 
-// OverrideWebkitReserved3 sets the callback function.
+// OverrideWebkitReserved3 sets the "_webkit_reserved3" callback function.
 func (x *WebViewBaseClass) OverrideWebkitReserved3(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved3 = 0
@@ -109,7 +109,7 @@ func (x *WebViewBaseClass) OverrideWebkitReserved3(cb func()) {
 	}
 }
 
-// GetWebkitReserved3 gets the callback function.
+// GetWebkitReserved3 gets the "_webkit_reserved3" callback function.
 func (x *WebViewBaseClass) GetWebkitReserved3() func() {
 	if x.xWebkitReserved3 == 0 {
 		return nil
@@ -213,7 +213,7 @@ func (x *WebViewBase) GetAtContext() *gtk.ATContext {
 // This functionality can be overridden by `GtkAccessible`
 // implementations, e.g. to get the bounds from an ignored
 // child widget.
-func (x *WebViewBase) GetBounds(XVar int, YVar int, WidthVar int, HeightVar int) bool {
+func (x *WebViewBase) GetBounds(XVar *int, YVar *int, WidthVar *int, HeightVar *int) bool {
 
 	cret := gtk.XGtkAccessibleGetBounds(x.GoPointer(), XVar, YVar, WidthVar, HeightVar)
 	return cret

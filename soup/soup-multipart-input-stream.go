@@ -70,7 +70,7 @@ func NewMultipartInputStream(MsgVar *Message, BaseStreamVar *gio.InputStream) *M
 	return cls
 }
 
-var xMultipartInputStreamGetHeaders func(uintptr) uintptr
+var xMultipartInputStreamGetHeaders func(uintptr) *MessageHeaders
 
 // Obtains the headers for the part currently being processed.
 //
@@ -81,7 +81,7 @@ var xMultipartInputStreamGetHeaders func(uintptr) uintptr
 //
 // Note that if a part had no headers at all an empty [struct@MessageHeaders]
 // will be returned.
-func (x *MultipartInputStream) GetHeaders() uintptr {
+func (x *MultipartInputStream) GetHeaders() *MessageHeaders {
 
 	cret := xMultipartInputStreamGetHeaders(x.GoPointer())
 	return cret
@@ -188,7 +188,7 @@ func (x *MultipartInputStream) CanPoll() bool {
 //
 // The behaviour of this method is undefined if
 // g_pollable_input_stream_can_poll() returns %FALSE for @stream.
-func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) uintptr {
+func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) *glib.Source {
 
 	cret := gio.XGPollableInputStreamCreateSource(x.GoPointer(), CancellableVar.GoPointer())
 	return cret
@@ -225,7 +225,7 @@ func (x *MultipartInputStream) IsReadable() bool {
 //
 // The behaviour of this method is undefined if
 // g_pollable_input_stream_can_poll() returns %FALSE for @stream.
-func (x *MultipartInputStream) ReadNonblocking(BufferVar []byte, CountVar uint, CancellableVar *gio.Cancellable) (int, error) {
+func (x *MultipartInputStream) ReadNonblocking(BufferVar *[]byte, CountVar uint, CancellableVar *gio.Cancellable) (int, error) {
 	var cerr *glib.Error
 
 	cret := gio.XGPollableInputStreamReadNonblocking(x.GoPointer(), BufferVar, CountVar, CancellableVar.GoPointer(), &cerr)

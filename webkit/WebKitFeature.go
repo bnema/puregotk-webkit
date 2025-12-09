@@ -134,12 +134,12 @@ func (x *Feature) GetStatus() FeatureStatus {
 	return cret
 }
 
-var xFeatureRef func(uintptr) uintptr
+var xFeatureRef func(uintptr) *Feature
 
 // Atomically acquires a reference on the given @feature.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *Feature) Ref() uintptr {
+func (x *Feature) Ref() *Feature {
 
 	cret := xFeatureRef(x.GoPointer())
 	return cret
@@ -191,10 +191,10 @@ func (x *FeatureList) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xFeatureListGet func(uintptr, uint) uintptr
+var xFeatureListGet func(uintptr, uint) *Feature
 
 // Gets a feature given its index.
-func (x *FeatureList) Get(IndexVar uint) uintptr {
+func (x *FeatureList) Get(IndexVar uint) *Feature {
 
 	cret := xFeatureListGet(x.GoPointer(), IndexVar)
 	return cret
@@ -209,12 +209,12 @@ func (x *FeatureList) GetLength() uint {
 	return cret
 }
 
-var xFeatureListRef func(uintptr) uintptr
+var xFeatureListRef func(uintptr) *FeatureList
 
 // Atomically acquires a reference on the given @feature_list.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *FeatureList) Ref() uintptr {
+func (x *FeatureList) Ref() *FeatureList {
 
 	cret := xFeatureListRef(x.GoPointer())
 	return cret

@@ -40,19 +40,19 @@ func (x *GeolocationPosition) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewGeolocationPosition func(float64, float64, float64) uintptr
+var xNewGeolocationPosition func(float64, float64, float64) *GeolocationPosition
 
 // Create a new #WebKitGeolocationPosition.
-func NewGeolocationPosition(LatitudeVar float64, LongitudeVar float64, AccuracyVar float64) uintptr {
+func NewGeolocationPosition(LatitudeVar float64, LongitudeVar float64, AccuracyVar float64) *GeolocationPosition {
 
 	cret := xNewGeolocationPosition(LatitudeVar, LongitudeVar, AccuracyVar)
 	return cret
 }
 
-var xGeolocationPositionCopy func(uintptr) uintptr
+var xGeolocationPositionCopy func(uintptr) *GeolocationPosition
 
 // Make a copy of the #WebKitGeolocationPosition.
-func (x *GeolocationPosition) Copy() uintptr {
+func (x *GeolocationPosition) Copy() *GeolocationPosition {
 
 	cret := xGeolocationPositionCopy(x.GoPointer())
 	return cret
@@ -159,10 +159,10 @@ func (x *GeolocationManager) GetEnableHighAccuracy() bool {
 	return cret
 }
 
-var xGeolocationManagerUpdatePosition func(uintptr, uintptr)
+var xGeolocationManagerUpdatePosition func(uintptr, *GeolocationPosition)
 
 // Notify @manager that position has been updated to @position.
-func (x *GeolocationManager) UpdatePosition(PositionVar uintptr) {
+func (x *GeolocationManager) UpdatePosition(PositionVar *GeolocationPosition) {
 
 	xGeolocationManagerUpdatePosition(x.GoPointer(), PositionVar)
 
@@ -177,6 +177,16 @@ func (c *GeolocationManager) GoPointer() uintptr {
 
 func (c *GeolocationManager) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// GetPropertyEnableHighAccuracy gets the "enable-high-accuracy" property.
+// Whether high accuracy is enabled. This is a read-only property that will be
+// set to %TRUE when a #WebKitGeolocationManager needs to get accurate position updates.
+// You can connect to notify::enable-high-accuracy signal to monitor it.
+func (x *GeolocationManager) GetPropertyEnableHighAccuracy() bool {
+	var v gobject.Value
+	x.GetProperty("enable-high-accuracy", &v)
+	return v.GetBoolean()
 }
 
 // The signal is emitted to notify that @manager needs to start receiving

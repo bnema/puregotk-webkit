@@ -37,12 +37,12 @@ func (x *UserContentFilter) GetIdentifier() string {
 	return cret
 }
 
-var xUserContentFilterRef func(uintptr) uintptr
+var xUserContentFilterRef func(uintptr) *UserContentFilter
 
 // Atomically increments the reference count of @user_content_filter by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *UserContentFilter) Ref() uintptr {
+func (x *UserContentFilter) Ref() *UserContentFilter {
 
 	cret := xUserContentFilterRef(x.GoPointer())
 	return cret
@@ -76,7 +76,7 @@ func (x *UserScript) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewUserScript func(string, UserContentInjectedFrames, UserScriptInjectionTime, []string, []string) uintptr
+var xNewUserScript func(string, UserContentInjectedFrames, UserScriptInjectionTime, []string, []string) *UserScript
 
 // Creates a new user script.
 //
@@ -87,29 +87,29 @@ var xNewUserScript func(string, UserContentInjectedFrames, UserScriptInjectionTi
 // URI patterns must be of the form `[protocol]://[host]/[path]`, where the
 // *host* and *path* components can contain the wildcard character (`*`) to
 // represent zero or more other characters.
-func NewUserScript(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, AllowListVar []string, BlockListVar []string) uintptr {
+func NewUserScript(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, AllowListVar []string, BlockListVar []string) *UserScript {
 
 	cret := xNewUserScript(SourceVar, InjectedFramesVar, InjectionTimeVar, AllowListVar, BlockListVar)
 	return cret
 }
 
-var xNewUserScriptForWorld func(string, UserContentInjectedFrames, UserScriptInjectionTime, string, []string, []string) uintptr
+var xNewUserScriptForWorld func(string, UserContentInjectedFrames, UserScriptInjectionTime, string, []string, []string) *UserScript
 
 // Creates a new user script for script world with name @world_name.
 //
 // See webkit_user_script_new() for a full description.
-func NewUserScriptForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, WorldNameVar string, AllowListVar []string, BlockListVar []string) uintptr {
+func NewUserScriptForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, WorldNameVar string, AllowListVar []string, BlockListVar []string) *UserScript {
 
 	cret := xNewUserScriptForWorld(SourceVar, InjectedFramesVar, InjectionTimeVar, WorldNameVar, AllowListVar, BlockListVar)
 	return cret
 }
 
-var xUserScriptRef func(uintptr) uintptr
+var xUserScriptRef func(uintptr) *UserScript
 
 // Atomically increments the reference count of @user_script by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *UserScript) Ref() uintptr {
+func (x *UserScript) Ref() *UserScript {
 
 	cret := xUserScriptRef(x.GoPointer())
 	return cret
@@ -143,7 +143,7 @@ func (x *UserStyleSheet) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewUserStyleSheet func(string, UserContentInjectedFrames, UserStyleLevel, []string, []string) uintptr
+var xNewUserStyleSheet func(string, UserContentInjectedFrames, UserStyleLevel, []string, []string) *UserStyleSheet
 
 // Creates a new user style sheet.
 //
@@ -154,30 +154,30 @@ var xNewUserStyleSheet func(string, UserContentInjectedFrames, UserStyleLevel, [
 // URI patterns must be of the form `[protocol]://[host]/[path]`, where the
 // *host* and *path* components can contain the wildcard character (`*`) to
 // represent zero or more other characters.
-func NewUserStyleSheet(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, AllowListVar []string, BlockListVar []string) uintptr {
+func NewUserStyleSheet(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, AllowListVar []string, BlockListVar []string) *UserStyleSheet {
 
 	cret := xNewUserStyleSheet(SourceVar, InjectedFramesVar, LevelVar, AllowListVar, BlockListVar)
 	return cret
 }
 
-var xNewUserStyleSheetForWorld func(string, UserContentInjectedFrames, UserStyleLevel, string, []string, []string) uintptr
+var xNewUserStyleSheetForWorld func(string, UserContentInjectedFrames, UserStyleLevel, string, []string, []string) *UserStyleSheet
 
 // Creates a new user style sheet for script world.
 //
 // Creates a new user style sheet for script world with name @world_name.
 // See webkit_user_style_sheet_new() for a full description.
-func NewUserStyleSheetForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, WorldNameVar string, AllowListVar []string, BlockListVar []string) uintptr {
+func NewUserStyleSheetForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, WorldNameVar string, AllowListVar []string, BlockListVar []string) *UserStyleSheet {
 
 	cret := xNewUserStyleSheetForWorld(SourceVar, InjectedFramesVar, LevelVar, WorldNameVar, AllowListVar, BlockListVar)
 	return cret
 }
 
-var xUserStyleSheetRef func(uintptr) uintptr
+var xUserStyleSheetRef func(uintptr) *UserStyleSheet
 
 // Atomically increments the reference count of @user_style_sheet by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *UserStyleSheet) Ref() uintptr {
+func (x *UserStyleSheet) Ref() *UserStyleSheet {
 
 	cret := xUserStyleSheetRef(x.GoPointer())
 	return cret

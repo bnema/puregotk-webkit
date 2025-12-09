@@ -144,7 +144,7 @@ func (x *WebViewClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideLoadChanged sets the callback function.
+// OverrideLoadChanged sets the "load_changed" callback function.
 func (x *WebViewClass) OverrideLoadChanged(cb func(*WebView, LoadEvent)) {
 	if cb == nil {
 		x.xLoadChanged = 0
@@ -155,7 +155,7 @@ func (x *WebViewClass) OverrideLoadChanged(cb func(*WebView, LoadEvent)) {
 	}
 }
 
-// GetLoadChanged gets the callback function.
+// GetLoadChanged gets the "load_changed" callback function.
 func (x *WebViewClass) GetLoadChanged() func(*WebView, LoadEvent) {
 	if x.xLoadChanged == 0 {
 		return nil
@@ -167,35 +167,35 @@ func (x *WebViewClass) GetLoadChanged() func(*WebView, LoadEvent) {
 	}
 }
 
-// OverrideLoadFailed sets the callback function.
-func (x *WebViewClass) OverrideLoadFailed(cb func(*WebView, LoadEvent, string, uintptr) bool) {
+// OverrideLoadFailed sets the "load_failed" callback function.
+func (x *WebViewClass) OverrideLoadFailed(cb func(*WebView, LoadEvent, string, *glib.Error) bool) {
 	if cb == nil {
 		x.xLoadFailed = 0
 	} else {
-		x.xLoadFailed = purego.NewCallback(func(WebViewVarp uintptr, LoadEventVarp LoadEvent, FailingUriVarp string, ErrorVarp uintptr) bool {
+		x.xLoadFailed = purego.NewCallback(func(WebViewVarp uintptr, LoadEventVarp LoadEvent, FailingUriVarp string, ErrorVarp *glib.Error) bool {
 			return cb(WebViewNewFromInternalPtr(WebViewVarp), LoadEventVarp, FailingUriVarp, ErrorVarp)
 		})
 	}
 }
 
-// GetLoadFailed gets the callback function.
-func (x *WebViewClass) GetLoadFailed() func(*WebView, LoadEvent, string, uintptr) bool {
+// GetLoadFailed gets the "load_failed" callback function.
+func (x *WebViewClass) GetLoadFailed() func(*WebView, LoadEvent, string, *glib.Error) bool {
 	if x.xLoadFailed == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, LoadEventVarp LoadEvent, FailingUriVarp string, ErrorVarp uintptr) bool
+	var rawCallback func(WebViewVarp uintptr, LoadEventVarp LoadEvent, FailingUriVarp string, ErrorVarp *glib.Error) bool
 	purego.RegisterFunc(&rawCallback, x.xLoadFailed)
-	return func(WebViewVar *WebView, LoadEventVar LoadEvent, FailingUriVar string, ErrorVar uintptr) bool {
+	return func(WebViewVar *WebView, LoadEventVar LoadEvent, FailingUriVar string, ErrorVar *glib.Error) bool {
 		return rawCallback(WebViewVar.GoPointer(), LoadEventVar, FailingUriVar, ErrorVar)
 	}
 }
 
-// OverrideCreate sets the callback function.
-func (x *WebViewClass) OverrideCreate(cb func(*WebView, uintptr) *gtk.Widget) {
+// OverrideCreate sets the "create" callback function.
+func (x *WebViewClass) OverrideCreate(cb func(*WebView, *NavigationAction) *gtk.Widget) {
 	if cb == nil {
 		x.xCreate = 0
 	} else {
-		x.xCreate = purego.NewCallback(func(WebViewVarp uintptr, NavigationActionVarp uintptr) uintptr {
+		x.xCreate = purego.NewCallback(func(WebViewVarp uintptr, NavigationActionVarp *NavigationAction) uintptr {
 			ret := cb(WebViewNewFromInternalPtr(WebViewVarp), NavigationActionVarp)
 			if ret == nil {
 				return 0
@@ -205,14 +205,14 @@ func (x *WebViewClass) OverrideCreate(cb func(*WebView, uintptr) *gtk.Widget) {
 	}
 }
 
-// GetCreate gets the callback function.
-func (x *WebViewClass) GetCreate() func(*WebView, uintptr) *gtk.Widget {
+// GetCreate gets the "create" callback function.
+func (x *WebViewClass) GetCreate() func(*WebView, *NavigationAction) *gtk.Widget {
 	if x.xCreate == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, NavigationActionVarp uintptr) uintptr
+	var rawCallback func(WebViewVarp uintptr, NavigationActionVarp *NavigationAction) uintptr
 	purego.RegisterFunc(&rawCallback, x.xCreate)
-	return func(WebViewVar *WebView, NavigationActionVar uintptr) *gtk.Widget {
+	return func(WebViewVar *WebView, NavigationActionVar *NavigationAction) *gtk.Widget {
 		rawRet := rawCallback(WebViewVar.GoPointer(), NavigationActionVar)
 		if rawRet == 0 {
 			return nil
@@ -223,7 +223,7 @@ func (x *WebViewClass) GetCreate() func(*WebView, uintptr) *gtk.Widget {
 	}
 }
 
-// OverrideReadyToShow sets the callback function.
+// OverrideReadyToShow sets the "ready_to_show" callback function.
 func (x *WebViewClass) OverrideReadyToShow(cb func(*WebView)) {
 	if cb == nil {
 		x.xReadyToShow = 0
@@ -234,7 +234,7 @@ func (x *WebViewClass) OverrideReadyToShow(cb func(*WebView)) {
 	}
 }
 
-// GetReadyToShow gets the callback function.
+// GetReadyToShow gets the "ready_to_show" callback function.
 func (x *WebViewClass) GetReadyToShow() func(*WebView) {
 	if x.xReadyToShow == 0 {
 		return nil
@@ -246,7 +246,7 @@ func (x *WebViewClass) GetReadyToShow() func(*WebView) {
 	}
 }
 
-// OverrideRunAsModal sets the callback function.
+// OverrideRunAsModal sets the "run_as_modal" callback function.
 func (x *WebViewClass) OverrideRunAsModal(cb func(*WebView)) {
 	if cb == nil {
 		x.xRunAsModal = 0
@@ -257,7 +257,7 @@ func (x *WebViewClass) OverrideRunAsModal(cb func(*WebView)) {
 	}
 }
 
-// GetRunAsModal gets the callback function.
+// GetRunAsModal gets the "run_as_modal" callback function.
 func (x *WebViewClass) GetRunAsModal() func(*WebView) {
 	if x.xRunAsModal == 0 {
 		return nil
@@ -269,7 +269,7 @@ func (x *WebViewClass) GetRunAsModal() func(*WebView) {
 	}
 }
 
-// OverrideClose sets the callback function.
+// OverrideClose sets the "close" callback function.
 func (x *WebViewClass) OverrideClose(cb func(*WebView)) {
 	if cb == nil {
 		x.xClose = 0
@@ -280,7 +280,7 @@ func (x *WebViewClass) OverrideClose(cb func(*WebView)) {
 	}
 }
 
-// GetClose gets the callback function.
+// GetClose gets the "close" callback function.
 func (x *WebViewClass) GetClose() func(*WebView) {
 	if x.xClose == 0 {
 		return nil
@@ -292,30 +292,30 @@ func (x *WebViewClass) GetClose() func(*WebView) {
 	}
 }
 
-// OverrideScriptDialog sets the callback function.
-func (x *WebViewClass) OverrideScriptDialog(cb func(*WebView, uintptr) bool) {
+// OverrideScriptDialog sets the "script_dialog" callback function.
+func (x *WebViewClass) OverrideScriptDialog(cb func(*WebView, *ScriptDialog) bool) {
 	if cb == nil {
 		x.xScriptDialog = 0
 	} else {
-		x.xScriptDialog = purego.NewCallback(func(WebViewVarp uintptr, DialogVarp uintptr) bool {
+		x.xScriptDialog = purego.NewCallback(func(WebViewVarp uintptr, DialogVarp *ScriptDialog) bool {
 			return cb(WebViewNewFromInternalPtr(WebViewVarp), DialogVarp)
 		})
 	}
 }
 
-// GetScriptDialog gets the callback function.
-func (x *WebViewClass) GetScriptDialog() func(*WebView, uintptr) bool {
+// GetScriptDialog gets the "script_dialog" callback function.
+func (x *WebViewClass) GetScriptDialog() func(*WebView, *ScriptDialog) bool {
 	if x.xScriptDialog == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, DialogVarp uintptr) bool
+	var rawCallback func(WebViewVarp uintptr, DialogVarp *ScriptDialog) bool
 	purego.RegisterFunc(&rawCallback, x.xScriptDialog)
-	return func(WebViewVar *WebView, DialogVar uintptr) bool {
+	return func(WebViewVar *WebView, DialogVar *ScriptDialog) bool {
 		return rawCallback(WebViewVar.GoPointer(), DialogVar)
 	}
 }
 
-// OverrideDecidePolicy sets the callback function.
+// OverrideDecidePolicy sets the "decide_policy" callback function.
 func (x *WebViewClass) OverrideDecidePolicy(cb func(*WebView, *PolicyDecision, PolicyDecisionType) bool) {
 	if cb == nil {
 		x.xDecidePolicy = 0
@@ -326,7 +326,7 @@ func (x *WebViewClass) OverrideDecidePolicy(cb func(*WebView, *PolicyDecision, P
 	}
 }
 
-// GetDecidePolicy gets the callback function.
+// GetDecidePolicy gets the "decide_policy" callback function.
 func (x *WebViewClass) GetDecidePolicy() func(*WebView, *PolicyDecision, PolicyDecisionType) bool {
 	if x.xDecidePolicy == 0 {
 		return nil
@@ -338,7 +338,7 @@ func (x *WebViewClass) GetDecidePolicy() func(*WebView, *PolicyDecision, PolicyD
 	}
 }
 
-// OverridePermissionRequest sets the callback function.
+// OverridePermissionRequest sets the "permission_request" callback function.
 func (x *WebViewClass) OverridePermissionRequest(cb func(*WebView, PermissionRequest) bool) {
 	if cb == nil {
 		x.xPermissionRequest = 0
@@ -349,7 +349,7 @@ func (x *WebViewClass) OverridePermissionRequest(cb func(*WebView, PermissionReq
 	}
 }
 
-// GetPermissionRequest gets the callback function.
+// GetPermissionRequest gets the "permission_request" callback function.
 func (x *WebViewClass) GetPermissionRequest() func(*WebView, PermissionRequest) bool {
 	if x.xPermissionRequest == 0 {
 		return nil
@@ -361,7 +361,7 @@ func (x *WebViewClass) GetPermissionRequest() func(*WebView, PermissionRequest) 
 	}
 }
 
-// OverrideMouseTargetChanged sets the callback function.
+// OverrideMouseTargetChanged sets the "mouse_target_changed" callback function.
 func (x *WebViewClass) OverrideMouseTargetChanged(cb func(*WebView, *HitTestResult, uint)) {
 	if cb == nil {
 		x.xMouseTargetChanged = 0
@@ -372,7 +372,7 @@ func (x *WebViewClass) OverrideMouseTargetChanged(cb func(*WebView, *HitTestResu
 	}
 }
 
-// GetMouseTargetChanged gets the callback function.
+// GetMouseTargetChanged gets the "mouse_target_changed" callback function.
 func (x *WebViewClass) GetMouseTargetChanged() func(*WebView, *HitTestResult, uint) {
 	if x.xMouseTargetChanged == 0 {
 		return nil
@@ -384,7 +384,7 @@ func (x *WebViewClass) GetMouseTargetChanged() func(*WebView, *HitTestResult, ui
 	}
 }
 
-// OverridePrint sets the callback function.
+// OverridePrint sets the "print" callback function.
 func (x *WebViewClass) OverridePrint(cb func(*WebView, *PrintOperation) bool) {
 	if cb == nil {
 		x.xPrint = 0
@@ -395,7 +395,7 @@ func (x *WebViewClass) OverridePrint(cb func(*WebView, *PrintOperation) bool) {
 	}
 }
 
-// GetPrint gets the callback function.
+// GetPrint gets the "print" callback function.
 func (x *WebViewClass) GetPrint() func(*WebView, *PrintOperation) bool {
 	if x.xPrint == 0 {
 		return nil
@@ -407,7 +407,7 @@ func (x *WebViewClass) GetPrint() func(*WebView, *PrintOperation) bool {
 	}
 }
 
-// OverrideResourceLoadStarted sets the callback function.
+// OverrideResourceLoadStarted sets the "resource_load_started" callback function.
 func (x *WebViewClass) OverrideResourceLoadStarted(cb func(*WebView, *WebResource, *URIRequest)) {
 	if cb == nil {
 		x.xResourceLoadStarted = 0
@@ -418,7 +418,7 @@ func (x *WebViewClass) OverrideResourceLoadStarted(cb func(*WebView, *WebResourc
 	}
 }
 
-// GetResourceLoadStarted gets the callback function.
+// GetResourceLoadStarted gets the "resource_load_started" callback function.
 func (x *WebViewClass) GetResourceLoadStarted() func(*WebView, *WebResource, *URIRequest) {
 	if x.xResourceLoadStarted == 0 {
 		return nil
@@ -430,7 +430,7 @@ func (x *WebViewClass) GetResourceLoadStarted() func(*WebView, *WebResource, *UR
 	}
 }
 
-// OverrideEnterFullscreen sets the callback function.
+// OverrideEnterFullscreen sets the "enter_fullscreen" callback function.
 func (x *WebViewClass) OverrideEnterFullscreen(cb func(*WebView) bool) {
 	if cb == nil {
 		x.xEnterFullscreen = 0
@@ -441,7 +441,7 @@ func (x *WebViewClass) OverrideEnterFullscreen(cb func(*WebView) bool) {
 	}
 }
 
-// GetEnterFullscreen gets the callback function.
+// GetEnterFullscreen gets the "enter_fullscreen" callback function.
 func (x *WebViewClass) GetEnterFullscreen() func(*WebView) bool {
 	if x.xEnterFullscreen == 0 {
 		return nil
@@ -453,7 +453,7 @@ func (x *WebViewClass) GetEnterFullscreen() func(*WebView) bool {
 	}
 }
 
-// OverrideLeaveFullscreen sets the callback function.
+// OverrideLeaveFullscreen sets the "leave_fullscreen" callback function.
 func (x *WebViewClass) OverrideLeaveFullscreen(cb func(*WebView) bool) {
 	if cb == nil {
 		x.xLeaveFullscreen = 0
@@ -464,7 +464,7 @@ func (x *WebViewClass) OverrideLeaveFullscreen(cb func(*WebView) bool) {
 	}
 }
 
-// GetLeaveFullscreen gets the callback function.
+// GetLeaveFullscreen gets the "leave_fullscreen" callback function.
 func (x *WebViewClass) GetLeaveFullscreen() func(*WebView) bool {
 	if x.xLeaveFullscreen == 0 {
 		return nil
@@ -476,7 +476,7 @@ func (x *WebViewClass) GetLeaveFullscreen() func(*WebView) bool {
 	}
 }
 
-// OverrideRunFileChooser sets the callback function.
+// OverrideRunFileChooser sets the "run_file_chooser" callback function.
 func (x *WebViewClass) OverrideRunFileChooser(cb func(*WebView, *FileChooserRequest) bool) {
 	if cb == nil {
 		x.xRunFileChooser = 0
@@ -487,7 +487,7 @@ func (x *WebViewClass) OverrideRunFileChooser(cb func(*WebView, *FileChooserRequ
 	}
 }
 
-// GetRunFileChooser gets the callback function.
+// GetRunFileChooser gets the "run_file_chooser" callback function.
 func (x *WebViewClass) GetRunFileChooser() func(*WebView, *FileChooserRequest) bool {
 	if x.xRunFileChooser == 0 {
 		return nil
@@ -499,7 +499,7 @@ func (x *WebViewClass) GetRunFileChooser() func(*WebView, *FileChooserRequest) b
 	}
 }
 
-// OverrideContextMenu sets the callback function.
+// OverrideContextMenu sets the "context_menu" callback function.
 func (x *WebViewClass) OverrideContextMenu(cb func(*WebView, *ContextMenu, *HitTestResult) bool) {
 	if cb == nil {
 		x.xContextMenu = 0
@@ -510,7 +510,7 @@ func (x *WebViewClass) OverrideContextMenu(cb func(*WebView, *ContextMenu, *HitT
 	}
 }
 
-// GetContextMenu gets the callback function.
+// GetContextMenu gets the "context_menu" callback function.
 func (x *WebViewClass) GetContextMenu() func(*WebView, *ContextMenu, *HitTestResult) bool {
 	if x.xContextMenu == 0 {
 		return nil
@@ -522,7 +522,7 @@ func (x *WebViewClass) GetContextMenu() func(*WebView, *ContextMenu, *HitTestRes
 	}
 }
 
-// OverrideContextMenuDismissed sets the callback function.
+// OverrideContextMenuDismissed sets the "context_menu_dismissed" callback function.
 func (x *WebViewClass) OverrideContextMenuDismissed(cb func(*WebView)) {
 	if cb == nil {
 		x.xContextMenuDismissed = 0
@@ -533,7 +533,7 @@ func (x *WebViewClass) OverrideContextMenuDismissed(cb func(*WebView)) {
 	}
 }
 
-// GetContextMenuDismissed gets the callback function.
+// GetContextMenuDismissed gets the "context_menu_dismissed" callback function.
 func (x *WebViewClass) GetContextMenuDismissed() func(*WebView) {
 	if x.xContextMenuDismissed == 0 {
 		return nil
@@ -545,7 +545,7 @@ func (x *WebViewClass) GetContextMenuDismissed() func(*WebView) {
 	}
 }
 
-// OverrideSubmitForm sets the callback function.
+// OverrideSubmitForm sets the "submit_form" callback function.
 func (x *WebViewClass) OverrideSubmitForm(cb func(*WebView, *FormSubmissionRequest)) {
 	if cb == nil {
 		x.xSubmitForm = 0
@@ -556,7 +556,7 @@ func (x *WebViewClass) OverrideSubmitForm(cb func(*WebView, *FormSubmissionReque
 	}
 }
 
-// GetSubmitForm gets the callback function.
+// GetSubmitForm gets the "submit_form" callback function.
 func (x *WebViewClass) GetSubmitForm() func(*WebView, *FormSubmissionRequest) {
 	if x.xSubmitForm == 0 {
 		return nil
@@ -568,7 +568,7 @@ func (x *WebViewClass) GetSubmitForm() func(*WebView, *FormSubmissionRequest) {
 	}
 }
 
-// OverrideInsecureContentDetected sets the callback function.
+// OverrideInsecureContentDetected sets the "insecure_content_detected" callback function.
 func (x *WebViewClass) OverrideInsecureContentDetected(cb func(*WebView, InsecureContentEvent)) {
 	if cb == nil {
 		x.xInsecureContentDetected = 0
@@ -579,7 +579,7 @@ func (x *WebViewClass) OverrideInsecureContentDetected(cb func(*WebView, Insecur
 	}
 }
 
-// GetInsecureContentDetected gets the callback function.
+// GetInsecureContentDetected gets the "insecure_content_detected" callback function.
 func (x *WebViewClass) GetInsecureContentDetected() func(*WebView, InsecureContentEvent) {
 	if x.xInsecureContentDetected == 0 {
 		return nil
@@ -591,7 +591,7 @@ func (x *WebViewClass) GetInsecureContentDetected() func(*WebView, InsecureConte
 	}
 }
 
-// OverrideWebProcessCrashed sets the callback function.
+// OverrideWebProcessCrashed sets the "web_process_crashed" callback function.
 func (x *WebViewClass) OverrideWebProcessCrashed(cb func(*WebView) bool) {
 	if cb == nil {
 		x.xWebProcessCrashed = 0
@@ -602,7 +602,7 @@ func (x *WebViewClass) OverrideWebProcessCrashed(cb func(*WebView) bool) {
 	}
 }
 
-// GetWebProcessCrashed gets the callback function.
+// GetWebProcessCrashed gets the "web_process_crashed" callback function.
 func (x *WebViewClass) GetWebProcessCrashed() func(*WebView) bool {
 	if x.xWebProcessCrashed == 0 {
 		return nil
@@ -614,7 +614,7 @@ func (x *WebViewClass) GetWebProcessCrashed() func(*WebView) bool {
 	}
 }
 
-// OverrideAuthenticate sets the callback function.
+// OverrideAuthenticate sets the "authenticate" callback function.
 func (x *WebViewClass) OverrideAuthenticate(cb func(*WebView, *AuthenticationRequest) bool) {
 	if cb == nil {
 		x.xAuthenticate = 0
@@ -625,7 +625,7 @@ func (x *WebViewClass) OverrideAuthenticate(cb func(*WebView, *AuthenticationReq
 	}
 }
 
-// GetAuthenticate gets the callback function.
+// GetAuthenticate gets the "authenticate" callback function.
 func (x *WebViewClass) GetAuthenticate() func(*WebView, *AuthenticationRequest) bool {
 	if x.xAuthenticate == 0 {
 		return nil
@@ -637,7 +637,7 @@ func (x *WebViewClass) GetAuthenticate() func(*WebView, *AuthenticationRequest) 
 	}
 }
 
-// OverrideLoadFailedWithTlsErrors sets the callback function.
+// OverrideLoadFailedWithTlsErrors sets the "load_failed_with_tls_errors" callback function.
 func (x *WebViewClass) OverrideLoadFailedWithTlsErrors(cb func(*WebView, string, *gio.TlsCertificate, gio.TlsCertificateFlags) bool) {
 	if cb == nil {
 		x.xLoadFailedWithTlsErrors = 0
@@ -648,7 +648,7 @@ func (x *WebViewClass) OverrideLoadFailedWithTlsErrors(cb func(*WebView, string,
 	}
 }
 
-// GetLoadFailedWithTlsErrors gets the callback function.
+// GetLoadFailedWithTlsErrors gets the "load_failed_with_tls_errors" callback function.
 func (x *WebViewClass) GetLoadFailedWithTlsErrors() func(*WebView, string, *gio.TlsCertificate, gio.TlsCertificateFlags) bool {
 	if x.xLoadFailedWithTlsErrors == 0 {
 		return nil
@@ -660,7 +660,7 @@ func (x *WebViewClass) GetLoadFailedWithTlsErrors() func(*WebView, string, *gio.
 	}
 }
 
-// OverrideShowNotification sets the callback function.
+// OverrideShowNotification sets the "show_notification" callback function.
 func (x *WebViewClass) OverrideShowNotification(cb func(*WebView, *Notification) bool) {
 	if cb == nil {
 		x.xShowNotification = 0
@@ -671,7 +671,7 @@ func (x *WebViewClass) OverrideShowNotification(cb func(*WebView, *Notification)
 	}
 }
 
-// GetShowNotification gets the callback function.
+// GetShowNotification gets the "show_notification" callback function.
 func (x *WebViewClass) GetShowNotification() func(*WebView, *Notification) bool {
 	if x.xShowNotification == 0 {
 		return nil
@@ -683,7 +683,7 @@ func (x *WebViewClass) GetShowNotification() func(*WebView, *Notification) bool 
 	}
 }
 
-// OverrideRunColorChooser sets the callback function.
+// OverrideRunColorChooser sets the "run_color_chooser" callback function.
 func (x *WebViewClass) OverrideRunColorChooser(cb func(*WebView, *ColorChooserRequest) bool) {
 	if cb == nil {
 		x.xRunColorChooser = 0
@@ -694,7 +694,7 @@ func (x *WebViewClass) OverrideRunColorChooser(cb func(*WebView, *ColorChooserRe
 	}
 }
 
-// GetRunColorChooser gets the callback function.
+// GetRunColorChooser gets the "run_color_chooser" callback function.
 func (x *WebViewClass) GetRunColorChooser() func(*WebView, *ColorChooserRequest) bool {
 	if x.xRunColorChooser == 0 {
 		return nil
@@ -706,30 +706,30 @@ func (x *WebViewClass) GetRunColorChooser() func(*WebView, *ColorChooserRequest)
 	}
 }
 
-// OverrideShowOptionMenu sets the callback function.
-func (x *WebViewClass) OverrideShowOptionMenu(cb func(*WebView, *OptionMenu, uintptr) bool) {
+// OverrideShowOptionMenu sets the "show_option_menu" callback function.
+func (x *WebViewClass) OverrideShowOptionMenu(cb func(*WebView, *OptionMenu, *gdk.Rectangle) bool) {
 	if cb == nil {
 		x.xShowOptionMenu = 0
 	} else {
-		x.xShowOptionMenu = purego.NewCallback(func(WebViewVarp uintptr, MenuVarp uintptr, RectangleVarp uintptr) bool {
+		x.xShowOptionMenu = purego.NewCallback(func(WebViewVarp uintptr, MenuVarp uintptr, RectangleVarp *gdk.Rectangle) bool {
 			return cb(WebViewNewFromInternalPtr(WebViewVarp), OptionMenuNewFromInternalPtr(MenuVarp), RectangleVarp)
 		})
 	}
 }
 
-// GetShowOptionMenu gets the callback function.
-func (x *WebViewClass) GetShowOptionMenu() func(*WebView, *OptionMenu, uintptr) bool {
+// GetShowOptionMenu gets the "show_option_menu" callback function.
+func (x *WebViewClass) GetShowOptionMenu() func(*WebView, *OptionMenu, *gdk.Rectangle) bool {
 	if x.xShowOptionMenu == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, MenuVarp uintptr, RectangleVarp uintptr) bool
+	var rawCallback func(WebViewVarp uintptr, MenuVarp uintptr, RectangleVarp *gdk.Rectangle) bool
 	purego.RegisterFunc(&rawCallback, x.xShowOptionMenu)
-	return func(WebViewVar *WebView, MenuVar *OptionMenu, RectangleVar uintptr) bool {
+	return func(WebViewVar *WebView, MenuVar *OptionMenu, RectangleVar *gdk.Rectangle) bool {
 		return rawCallback(WebViewVar.GoPointer(), MenuVar.GoPointer(), RectangleVar)
 	}
 }
 
-// OverrideWebProcessTerminated sets the callback function.
+// OverrideWebProcessTerminated sets the "web_process_terminated" callback function.
 func (x *WebViewClass) OverrideWebProcessTerminated(cb func(*WebView, WebProcessTerminationReason)) {
 	if cb == nil {
 		x.xWebProcessTerminated = 0
@@ -740,7 +740,7 @@ func (x *WebViewClass) OverrideWebProcessTerminated(cb func(*WebView, WebProcess
 	}
 }
 
-// GetWebProcessTerminated gets the callback function.
+// GetWebProcessTerminated gets the "web_process_terminated" callback function.
 func (x *WebViewClass) GetWebProcessTerminated() func(*WebView, WebProcessTerminationReason) {
 	if x.xWebProcessTerminated == 0 {
 		return nil
@@ -752,7 +752,7 @@ func (x *WebViewClass) GetWebProcessTerminated() func(*WebView, WebProcessTermin
 	}
 }
 
-// OverrideUserMessageReceived sets the callback function.
+// OverrideUserMessageReceived sets the "user_message_received" callback function.
 func (x *WebViewClass) OverrideUserMessageReceived(cb func(*WebView, *UserMessage) bool) {
 	if cb == nil {
 		x.xUserMessageReceived = 0
@@ -763,7 +763,7 @@ func (x *WebViewClass) OverrideUserMessageReceived(cb func(*WebView, *UserMessag
 	}
 }
 
-// GetUserMessageReceived gets the callback function.
+// GetUserMessageReceived gets the "user_message_received" callback function.
 func (x *WebViewClass) GetUserMessageReceived() func(*WebView, *UserMessage) bool {
 	if x.xUserMessageReceived == 0 {
 		return nil
@@ -775,30 +775,30 @@ func (x *WebViewClass) GetUserMessageReceived() func(*WebView, *UserMessage) boo
 	}
 }
 
-// OverrideQueryPermissionState sets the callback function.
-func (x *WebViewClass) OverrideQueryPermissionState(cb func(*WebView, uintptr) bool) {
+// OverrideQueryPermissionState sets the "query_permission_state" callback function.
+func (x *WebViewClass) OverrideQueryPermissionState(cb func(*WebView, *PermissionStateQuery) bool) {
 	if cb == nil {
 		x.xQueryPermissionState = 0
 	} else {
-		x.xQueryPermissionState = purego.NewCallback(func(WebViewVarp uintptr, QueryVarp uintptr) bool {
+		x.xQueryPermissionState = purego.NewCallback(func(WebViewVarp uintptr, QueryVarp *PermissionStateQuery) bool {
 			return cb(WebViewNewFromInternalPtr(WebViewVarp), QueryVarp)
 		})
 	}
 }
 
-// GetQueryPermissionState gets the callback function.
-func (x *WebViewClass) GetQueryPermissionState() func(*WebView, uintptr) bool {
+// GetQueryPermissionState gets the "query_permission_state" callback function.
+func (x *WebViewClass) GetQueryPermissionState() func(*WebView, *PermissionStateQuery) bool {
 	if x.xQueryPermissionState == 0 {
 		return nil
 	}
-	var rawCallback func(WebViewVarp uintptr, QueryVarp uintptr) bool
+	var rawCallback func(WebViewVarp uintptr, QueryVarp *PermissionStateQuery) bool
 	purego.RegisterFunc(&rawCallback, x.xQueryPermissionState)
-	return func(WebViewVar *WebView, QueryVar uintptr) bool {
+	return func(WebViewVar *WebView, QueryVar *PermissionStateQuery) bool {
 		return rawCallback(WebViewVar.GoPointer(), QueryVar)
 	}
 }
 
-// OverrideWebkitReserved0 sets the callback function.
+// OverrideWebkitReserved0 sets the "_webkit_reserved0" callback function.
 func (x *WebViewClass) OverrideWebkitReserved0(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved0 = 0
@@ -809,7 +809,7 @@ func (x *WebViewClass) OverrideWebkitReserved0(cb func()) {
 	}
 }
 
-// GetWebkitReserved0 gets the callback function.
+// GetWebkitReserved0 gets the "_webkit_reserved0" callback function.
 func (x *WebViewClass) GetWebkitReserved0() func() {
 	if x.xWebkitReserved0 == 0 {
 		return nil
@@ -821,7 +821,7 @@ func (x *WebViewClass) GetWebkitReserved0() func() {
 	}
 }
 
-// OverrideWebkitReserved1 sets the callback function.
+// OverrideWebkitReserved1 sets the "_webkit_reserved1" callback function.
 func (x *WebViewClass) OverrideWebkitReserved1(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved1 = 0
@@ -832,7 +832,7 @@ func (x *WebViewClass) OverrideWebkitReserved1(cb func()) {
 	}
 }
 
-// GetWebkitReserved1 gets the callback function.
+// GetWebkitReserved1 gets the "_webkit_reserved1" callback function.
 func (x *WebViewClass) GetWebkitReserved1() func() {
 	if x.xWebkitReserved1 == 0 {
 		return nil
@@ -844,7 +844,7 @@ func (x *WebViewClass) GetWebkitReserved1() func() {
 	}
 }
 
-// OverrideWebkitReserved2 sets the callback function.
+// OverrideWebkitReserved2 sets the "_webkit_reserved2" callback function.
 func (x *WebViewClass) OverrideWebkitReserved2(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved2 = 0
@@ -855,7 +855,7 @@ func (x *WebViewClass) OverrideWebkitReserved2(cb func()) {
 	}
 }
 
-// GetWebkitReserved2 gets the callback function.
+// GetWebkitReserved2 gets the "_webkit_reserved2" callback function.
 func (x *WebViewClass) GetWebkitReserved2() func() {
 	if x.xWebkitReserved2 == 0 {
 		return nil
@@ -867,7 +867,7 @@ func (x *WebViewClass) GetWebkitReserved2() func() {
 	}
 }
 
-// OverrideWebkitReserved3 sets the callback function.
+// OverrideWebkitReserved3 sets the "_webkit_reserved3" callback function.
 func (x *WebViewClass) OverrideWebkitReserved3(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved3 = 0
@@ -878,7 +878,7 @@ func (x *WebViewClass) OverrideWebkitReserved3(cb func()) {
 	}
 }
 
-// GetWebkitReserved3 gets the callback function.
+// GetWebkitReserved3 gets the "_webkit_reserved3" callback function.
 func (x *WebViewClass) GetWebkitReserved3() func() {
 	if x.xWebkitReserved3 == 0 {
 		return nil
@@ -890,7 +890,7 @@ func (x *WebViewClass) GetWebkitReserved3() func() {
 	}
 }
 
-// OverrideWebkitReserved4 sets the callback function.
+// OverrideWebkitReserved4 sets the "_webkit_reserved4" callback function.
 func (x *WebViewClass) OverrideWebkitReserved4(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved4 = 0
@@ -901,7 +901,7 @@ func (x *WebViewClass) OverrideWebkitReserved4(cb func()) {
 	}
 }
 
-// GetWebkitReserved4 gets the callback function.
+// GetWebkitReserved4 gets the "_webkit_reserved4" callback function.
 func (x *WebViewClass) GetWebkitReserved4() func() {
 	if x.xWebkitReserved4 == 0 {
 		return nil
@@ -913,7 +913,7 @@ func (x *WebViewClass) GetWebkitReserved4() func() {
 	}
 }
 
-// OverrideWebkitReserved5 sets the callback function.
+// OverrideWebkitReserved5 sets the "_webkit_reserved5" callback function.
 func (x *WebViewClass) OverrideWebkitReserved5(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved5 = 0
@@ -924,7 +924,7 @@ func (x *WebViewClass) OverrideWebkitReserved5(cb func()) {
 	}
 }
 
-// GetWebkitReserved5 gets the callback function.
+// GetWebkitReserved5 gets the "_webkit_reserved5" callback function.
 func (x *WebViewClass) GetWebkitReserved5() func() {
 	if x.xWebkitReserved5 == 0 {
 		return nil
@@ -936,7 +936,7 @@ func (x *WebViewClass) GetWebkitReserved5() func() {
 	}
 }
 
-// OverrideWebkitReserved6 sets the callback function.
+// OverrideWebkitReserved6 sets the "_webkit_reserved6" callback function.
 func (x *WebViewClass) OverrideWebkitReserved6(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved6 = 0
@@ -947,7 +947,7 @@ func (x *WebViewClass) OverrideWebkitReserved6(cb func()) {
 	}
 }
 
-// GetWebkitReserved6 gets the callback function.
+// GetWebkitReserved6 gets the "_webkit_reserved6" callback function.
 func (x *WebViewClass) GetWebkitReserved6() func() {
 	if x.xWebkitReserved6 == 0 {
 		return nil
@@ -959,7 +959,7 @@ func (x *WebViewClass) GetWebkitReserved6() func() {
 	}
 }
 
-// OverrideWebkitReserved7 sets the callback function.
+// OverrideWebkitReserved7 sets the "_webkit_reserved7" callback function.
 func (x *WebViewClass) OverrideWebkitReserved7(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved7 = 0
@@ -970,7 +970,7 @@ func (x *WebViewClass) OverrideWebkitReserved7(cb func()) {
 	}
 }
 
-// GetWebkitReserved7 gets the callback function.
+// GetWebkitReserved7 gets the "_webkit_reserved7" callback function.
 func (x *WebViewClass) GetWebkitReserved7() func() {
 	if x.xWebkitReserved7 == 0 {
 		return nil
@@ -982,7 +982,7 @@ func (x *WebViewClass) GetWebkitReserved7() func() {
 	}
 }
 
-// OverrideWebkitReserved8 sets the callback function.
+// OverrideWebkitReserved8 sets the "_webkit_reserved8" callback function.
 func (x *WebViewClass) OverrideWebkitReserved8(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved8 = 0
@@ -993,7 +993,7 @@ func (x *WebViewClass) OverrideWebkitReserved8(cb func()) {
 	}
 }
 
-// GetWebkitReserved8 gets the callback function.
+// GetWebkitReserved8 gets the "_webkit_reserved8" callback function.
 func (x *WebViewClass) GetWebkitReserved8() func() {
 	if x.xWebkitReserved8 == 0 {
 		return nil
@@ -1005,7 +1005,7 @@ func (x *WebViewClass) GetWebkitReserved8() func() {
 	}
 }
 
-// OverrideWebkitReserved9 sets the callback function.
+// OverrideWebkitReserved9 sets the "_webkit_reserved9" callback function.
 func (x *WebViewClass) OverrideWebkitReserved9(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved9 = 0
@@ -1016,7 +1016,7 @@ func (x *WebViewClass) OverrideWebkitReserved9(cb func()) {
 	}
 }
 
-// GetWebkitReserved9 gets the callback function.
+// GetWebkitReserved9 gets the "_webkit_reserved9" callback function.
 func (x *WebViewClass) GetWebkitReserved9() func() {
 	if x.xWebkitReserved9 == 0 {
 		return nil
@@ -1028,7 +1028,7 @@ func (x *WebViewClass) GetWebkitReserved9() func() {
 	}
 }
 
-// OverrideWebkitReserved10 sets the callback function.
+// OverrideWebkitReserved10 sets the "_webkit_reserved10" callback function.
 func (x *WebViewClass) OverrideWebkitReserved10(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved10 = 0
@@ -1039,7 +1039,7 @@ func (x *WebViewClass) OverrideWebkitReserved10(cb func()) {
 	}
 }
 
-// GetWebkitReserved10 gets the callback function.
+// GetWebkitReserved10 gets the "_webkit_reserved10" callback function.
 func (x *WebViewClass) GetWebkitReserved10() func() {
 	if x.xWebkitReserved10 == 0 {
 		return nil
@@ -1051,7 +1051,7 @@ func (x *WebViewClass) GetWebkitReserved10() func() {
 	}
 }
 
-// OverrideWebkitReserved11 sets the callback function.
+// OverrideWebkitReserved11 sets the "_webkit_reserved11" callback function.
 func (x *WebViewClass) OverrideWebkitReserved11(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved11 = 0
@@ -1062,7 +1062,7 @@ func (x *WebViewClass) OverrideWebkitReserved11(cb func()) {
 	}
 }
 
-// GetWebkitReserved11 gets the callback function.
+// GetWebkitReserved11 gets the "_webkit_reserved11" callback function.
 func (x *WebViewClass) GetWebkitReserved11() func() {
 	if x.xWebkitReserved11 == 0 {
 		return nil
@@ -1074,7 +1074,7 @@ func (x *WebViewClass) GetWebkitReserved11() func() {
 	}
 }
 
-// OverrideWebkitReserved12 sets the callback function.
+// OverrideWebkitReserved12 sets the "_webkit_reserved12" callback function.
 func (x *WebViewClass) OverrideWebkitReserved12(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved12 = 0
@@ -1085,7 +1085,7 @@ func (x *WebViewClass) OverrideWebkitReserved12(cb func()) {
 	}
 }
 
-// GetWebkitReserved12 gets the callback function.
+// GetWebkitReserved12 gets the "_webkit_reserved12" callback function.
 func (x *WebViewClass) GetWebkitReserved12() func() {
 	if x.xWebkitReserved12 == 0 {
 		return nil
@@ -1097,7 +1097,7 @@ func (x *WebViewClass) GetWebkitReserved12() func() {
 	}
 }
 
-// OverrideWebkitReserved13 sets the callback function.
+// OverrideWebkitReserved13 sets the "_webkit_reserved13" callback function.
 func (x *WebViewClass) OverrideWebkitReserved13(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved13 = 0
@@ -1108,7 +1108,7 @@ func (x *WebViewClass) OverrideWebkitReserved13(cb func()) {
 	}
 }
 
-// GetWebkitReserved13 gets the callback function.
+// GetWebkitReserved13 gets the "_webkit_reserved13" callback function.
 func (x *WebViewClass) GetWebkitReserved13() func() {
 	if x.xWebkitReserved13 == 0 {
 		return nil
@@ -1120,7 +1120,7 @@ func (x *WebViewClass) GetWebkitReserved13() func() {
 	}
 }
 
-// OverrideWebkitReserved14 sets the callback function.
+// OverrideWebkitReserved14 sets the "_webkit_reserved14" callback function.
 func (x *WebViewClass) OverrideWebkitReserved14(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved14 = 0
@@ -1131,7 +1131,7 @@ func (x *WebViewClass) OverrideWebkitReserved14(cb func()) {
 	}
 }
 
-// GetWebkitReserved14 gets the callback function.
+// GetWebkitReserved14 gets the "_webkit_reserved14" callback function.
 func (x *WebViewClass) GetWebkitReserved14() func() {
 	if x.xWebkitReserved14 == 0 {
 		return nil
@@ -1143,7 +1143,7 @@ func (x *WebViewClass) GetWebkitReserved14() func() {
 	}
 }
 
-// OverrideWebkitReserved15 sets the callback function.
+// OverrideWebkitReserved15 sets the "_webkit_reserved15" callback function.
 func (x *WebViewClass) OverrideWebkitReserved15(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved15 = 0
@@ -1154,7 +1154,7 @@ func (x *WebViewClass) OverrideWebkitReserved15(cb func()) {
 	}
 }
 
-// GetWebkitReserved15 gets the callback function.
+// GetWebkitReserved15 gets the "_webkit_reserved15" callback function.
 func (x *WebViewClass) GetWebkitReserved15() func() {
 	if x.xWebkitReserved15 == 0 {
 		return nil
@@ -1166,7 +1166,7 @@ func (x *WebViewClass) GetWebkitReserved15() func() {
 	}
 }
 
-// OverrideWebkitReserved16 sets the callback function.
+// OverrideWebkitReserved16 sets the "_webkit_reserved16" callback function.
 func (x *WebViewClass) OverrideWebkitReserved16(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved16 = 0
@@ -1177,7 +1177,7 @@ func (x *WebViewClass) OverrideWebkitReserved16(cb func()) {
 	}
 }
 
-// GetWebkitReserved16 gets the callback function.
+// GetWebkitReserved16 gets the "_webkit_reserved16" callback function.
 func (x *WebViewClass) GetWebkitReserved16() func() {
 	if x.xWebkitReserved16 == 0 {
 		return nil
@@ -1189,7 +1189,7 @@ func (x *WebViewClass) GetWebkitReserved16() func() {
 	}
 }
 
-// OverrideWebkitReserved17 sets the callback function.
+// OverrideWebkitReserved17 sets the "_webkit_reserved17" callback function.
 func (x *WebViewClass) OverrideWebkitReserved17(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved17 = 0
@@ -1200,7 +1200,7 @@ func (x *WebViewClass) OverrideWebkitReserved17(cb func()) {
 	}
 }
 
-// GetWebkitReserved17 gets the callback function.
+// GetWebkitReserved17 gets the "_webkit_reserved17" callback function.
 func (x *WebViewClass) GetWebkitReserved17() func() {
 	if x.xWebkitReserved17 == 0 {
 		return nil
@@ -1212,7 +1212,7 @@ func (x *WebViewClass) GetWebkitReserved17() func() {
 	}
 }
 
-// OverrideWebkitReserved18 sets the callback function.
+// OverrideWebkitReserved18 sets the "_webkit_reserved18" callback function.
 func (x *WebViewClass) OverrideWebkitReserved18(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved18 = 0
@@ -1223,7 +1223,7 @@ func (x *WebViewClass) OverrideWebkitReserved18(cb func()) {
 	}
 }
 
-// GetWebkitReserved18 gets the callback function.
+// GetWebkitReserved18 gets the "_webkit_reserved18" callback function.
 func (x *WebViewClass) GetWebkitReserved18() func() {
 	if x.xWebkitReserved18 == 0 {
 		return nil
@@ -1235,7 +1235,7 @@ func (x *WebViewClass) GetWebkitReserved18() func() {
 	}
 }
 
-// OverrideWebkitReserved19 sets the callback function.
+// OverrideWebkitReserved19 sets the "_webkit_reserved19" callback function.
 func (x *WebViewClass) OverrideWebkitReserved19(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved19 = 0
@@ -1246,7 +1246,7 @@ func (x *WebViewClass) OverrideWebkitReserved19(cb func()) {
 	}
 }
 
-// GetWebkitReserved19 gets the callback function.
+// GetWebkitReserved19 gets the "_webkit_reserved19" callback function.
 func (x *WebViewClass) GetWebkitReserved19() func() {
 	if x.xWebkitReserved19 == 0 {
 		return nil
@@ -1258,7 +1258,7 @@ func (x *WebViewClass) GetWebkitReserved19() func() {
 	}
 }
 
-// OverrideWebkitReserved20 sets the callback function.
+// OverrideWebkitReserved20 sets the "_webkit_reserved20" callback function.
 func (x *WebViewClass) OverrideWebkitReserved20(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved20 = 0
@@ -1269,7 +1269,7 @@ func (x *WebViewClass) OverrideWebkitReserved20(cb func()) {
 	}
 }
 
-// GetWebkitReserved20 gets the callback function.
+// GetWebkitReserved20 gets the "_webkit_reserved20" callback function.
 func (x *WebViewClass) GetWebkitReserved20() func() {
 	if x.xWebkitReserved20 == 0 {
 		return nil
@@ -1281,7 +1281,7 @@ func (x *WebViewClass) GetWebkitReserved20() func() {
 	}
 }
 
-// OverrideWebkitReserved21 sets the callback function.
+// OverrideWebkitReserved21 sets the "_webkit_reserved21" callback function.
 func (x *WebViewClass) OverrideWebkitReserved21(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved21 = 0
@@ -1292,7 +1292,7 @@ func (x *WebViewClass) OverrideWebkitReserved21(cb func()) {
 	}
 }
 
-// GetWebkitReserved21 gets the callback function.
+// GetWebkitReserved21 gets the "_webkit_reserved21" callback function.
 func (x *WebViewClass) GetWebkitReserved21() func() {
 	if x.xWebkitReserved21 == 0 {
 		return nil
@@ -1304,7 +1304,7 @@ func (x *WebViewClass) GetWebkitReserved21() func() {
 	}
 }
 
-// OverrideWebkitReserved22 sets the callback function.
+// OverrideWebkitReserved22 sets the "_webkit_reserved22" callback function.
 func (x *WebViewClass) OverrideWebkitReserved22(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved22 = 0
@@ -1315,7 +1315,7 @@ func (x *WebViewClass) OverrideWebkitReserved22(cb func()) {
 	}
 }
 
-// GetWebkitReserved22 gets the callback function.
+// GetWebkitReserved22 gets the "_webkit_reserved22" callback function.
 func (x *WebViewClass) GetWebkitReserved22() func() {
 	if x.xWebkitReserved22 == 0 {
 		return nil
@@ -1327,7 +1327,7 @@ func (x *WebViewClass) GetWebkitReserved22() func() {
 	}
 }
 
-// OverrideWebkitReserved23 sets the callback function.
+// OverrideWebkitReserved23 sets the "_webkit_reserved23" callback function.
 func (x *WebViewClass) OverrideWebkitReserved23(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved23 = 0
@@ -1338,7 +1338,7 @@ func (x *WebViewClass) OverrideWebkitReserved23(cb func()) {
 	}
 }
 
-// GetWebkitReserved23 gets the callback function.
+// GetWebkitReserved23 gets the "_webkit_reserved23" callback function.
 func (x *WebViewClass) GetWebkitReserved23() func() {
 	if x.xWebkitReserved23 == 0 {
 		return nil
@@ -1350,7 +1350,7 @@ func (x *WebViewClass) GetWebkitReserved23() func() {
 	}
 }
 
-// OverrideWebkitReserved24 sets the callback function.
+// OverrideWebkitReserved24 sets the "_webkit_reserved24" callback function.
 func (x *WebViewClass) OverrideWebkitReserved24(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved24 = 0
@@ -1361,7 +1361,7 @@ func (x *WebViewClass) OverrideWebkitReserved24(cb func()) {
 	}
 }
 
-// GetWebkitReserved24 gets the callback function.
+// GetWebkitReserved24 gets the "_webkit_reserved24" callback function.
 func (x *WebViewClass) GetWebkitReserved24() func() {
 	if x.xWebkitReserved24 == 0 {
 		return nil
@@ -1373,7 +1373,7 @@ func (x *WebViewClass) GetWebkitReserved24() func() {
 	}
 }
 
-// OverrideWebkitReserved25 sets the callback function.
+// OverrideWebkitReserved25 sets the "_webkit_reserved25" callback function.
 func (x *WebViewClass) OverrideWebkitReserved25(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved25 = 0
@@ -1384,7 +1384,7 @@ func (x *WebViewClass) OverrideWebkitReserved25(cb func()) {
 	}
 }
 
-// GetWebkitReserved25 gets the callback function.
+// GetWebkitReserved25 gets the "_webkit_reserved25" callback function.
 func (x *WebViewClass) GetWebkitReserved25() func() {
 	if x.xWebkitReserved25 == 0 {
 		return nil
@@ -1396,7 +1396,7 @@ func (x *WebViewClass) GetWebkitReserved25() func() {
 	}
 }
 
-// OverrideWebkitReserved26 sets the callback function.
+// OverrideWebkitReserved26 sets the "_webkit_reserved26" callback function.
 func (x *WebViewClass) OverrideWebkitReserved26(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved26 = 0
@@ -1407,7 +1407,7 @@ func (x *WebViewClass) OverrideWebkitReserved26(cb func()) {
 	}
 }
 
-// GetWebkitReserved26 gets the callback function.
+// GetWebkitReserved26 gets the "_webkit_reserved26" callback function.
 func (x *WebViewClass) GetWebkitReserved26() func() {
 	if x.xWebkitReserved26 == 0 {
 		return nil
@@ -1419,7 +1419,7 @@ func (x *WebViewClass) GetWebkitReserved26() func() {
 	}
 }
 
-// OverrideWebkitReserved27 sets the callback function.
+// OverrideWebkitReserved27 sets the "_webkit_reserved27" callback function.
 func (x *WebViewClass) OverrideWebkitReserved27(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved27 = 0
@@ -1430,7 +1430,7 @@ func (x *WebViewClass) OverrideWebkitReserved27(cb func()) {
 	}
 }
 
-// GetWebkitReserved27 gets the callback function.
+// GetWebkitReserved27 gets the "_webkit_reserved27" callback function.
 func (x *WebViewClass) GetWebkitReserved27() func() {
 	if x.xWebkitReserved27 == 0 {
 		return nil
@@ -1442,7 +1442,7 @@ func (x *WebViewClass) GetWebkitReserved27() func() {
 	}
 }
 
-// OverrideWebkitReserved28 sets the callback function.
+// OverrideWebkitReserved28 sets the "_webkit_reserved28" callback function.
 func (x *WebViewClass) OverrideWebkitReserved28(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved28 = 0
@@ -1453,7 +1453,7 @@ func (x *WebViewClass) OverrideWebkitReserved28(cb func()) {
 	}
 }
 
-// GetWebkitReserved28 gets the callback function.
+// GetWebkitReserved28 gets the "_webkit_reserved28" callback function.
 func (x *WebViewClass) GetWebkitReserved28() func() {
 	if x.xWebkitReserved28 == 0 {
 		return nil
@@ -1465,7 +1465,7 @@ func (x *WebViewClass) GetWebkitReserved28() func() {
 	}
 }
 
-// OverrideWebkitReserved29 sets the callback function.
+// OverrideWebkitReserved29 sets the "_webkit_reserved29" callback function.
 func (x *WebViewClass) OverrideWebkitReserved29(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved29 = 0
@@ -1476,7 +1476,7 @@ func (x *WebViewClass) OverrideWebkitReserved29(cb func()) {
 	}
 }
 
-// GetWebkitReserved29 gets the callback function.
+// GetWebkitReserved29 gets the "_webkit_reserved29" callback function.
 func (x *WebViewClass) GetWebkitReserved29() func() {
 	if x.xWebkitReserved29 == 0 {
 		return nil
@@ -1488,7 +1488,7 @@ func (x *WebViewClass) GetWebkitReserved29() func() {
 	}
 }
 
-// OverrideWebkitReserved30 sets the callback function.
+// OverrideWebkitReserved30 sets the "_webkit_reserved30" callback function.
 func (x *WebViewClass) OverrideWebkitReserved30(cb func()) {
 	if cb == nil {
 		x.xWebkitReserved30 = 0
@@ -1499,7 +1499,7 @@ func (x *WebViewClass) OverrideWebkitReserved30(cb func()) {
 	}
 }
 
-// GetWebkitReserved30 gets the callback function.
+// GetWebkitReserved30 gets the "_webkit_reserved30" callback function.
 func (x *WebViewClass) GetWebkitReserved30() func() {
 	if x.xWebkitReserved30 == 0 {
 		return nil
@@ -1775,7 +1775,7 @@ func NewWebView() *WebView {
 	return cls
 }
 
-var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, uintptr, string, string, uintptr, uintptr, uintptr)
+var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, *glib.Variant, string, string, uintptr, uintptr, uintptr)
 
 // Asynchronously call @body with @arguments in the script world with name @world_name of the main frame current context in @web_view.
 // The @arguments values must be one of the following types, or contain only the following GVariant types: number, string and dictionary.
@@ -1839,7 +1839,7 @@ var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, uintptr, stri
 //	}
 //
 // ```
-func (x *WebView) CallAsyncJavascriptFunction(BodyVar string, LengthVar int, ArgumentsVar uintptr, WorldNameVar string, SourceUriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *WebView) CallAsyncJavascriptFunction(BodyVar string, LengthVar int, ArgumentsVar *glib.Variant, WorldNameVar string, SourceUriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
 	xWebViewCallAsyncJavascriptFunction(x.GoPointer(), BodyVar, LengthVar, ArgumentsVar, WorldNameVar, SourceUriVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 
@@ -2076,14 +2076,14 @@ func (x *WebView) GetBackForwardList() *BackForwardList {
 	return cls
 }
 
-var xWebViewGetBackgroundColor func(uintptr, uintptr)
+var xWebViewGetBackgroundColor func(uintptr, *gdk.RGBA)
 
 // Gets the color that is used to draw the @web_view background.
 //
 // Gets the color that is used to draw the @web_view background before
 // the actual contents are rendered.
 // For more information see also webkit_web_view_set_background_color()
-func (x *WebView) GetBackgroundColor(RgbaVar uintptr) {
+func (x *WebView) GetBackgroundColor(RgbaVar *gdk.RGBA) {
 
 	xWebViewGetBackgroundColor(x.GoPointer(), RgbaVar)
 
@@ -2319,10 +2319,10 @@ func (x *WebView) GetPageId() uint64 {
 	return cret
 }
 
-var xWebViewGetSessionState func(uintptr) uintptr
+var xWebViewGetSessionState func(uintptr) *WebViewSessionState
 
 // Gets the current session state of @web_view
-func (x *WebView) GetSessionState() uintptr {
+func (x *WebView) GetSessionState() *WebViewSessionState {
 
 	cret := xWebViewGetSessionState(x.GoPointer())
 	return cret
@@ -2394,12 +2394,12 @@ func (x *WebView) GetSnapshotFinish(ResultVar gio.AsyncResult) (*gdk.Texture, er
 
 }
 
-var xWebViewGetThemeColor func(uintptr, uintptr) bool
+var xWebViewGetThemeColor func(uintptr, *gdk.RGBA) bool
 
 // Gets the theme color that is specified by the content in the @web_view.
 // If the @web_view doesn't have a theme color it will fill the @rgba
 // with transparent black content.
-func (x *WebView) GetThemeColor(RgbaVar uintptr) bool {
+func (x *WebView) GetThemeColor(RgbaVar *gdk.RGBA) bool {
 
 	cret := xWebViewGetThemeColor(x.GoPointer(), RgbaVar)
 	return cret
@@ -2417,7 +2417,7 @@ func (x *WebView) GetTitle() string {
 	return cret
 }
 
-var xWebViewGetTlsInfo func(uintptr, uintptr, *gio.TlsCertificateFlags) bool
+var xWebViewGetTlsInfo func(uintptr, **gio.TlsCertificate, *gio.TlsCertificateFlags) bool
 
 // Retrieves the #GTlsCertificate associated with the main resource of @web_view.
 //
@@ -2437,7 +2437,7 @@ var xWebViewGetTlsInfo func(uintptr, uintptr, *gio.TlsCertificateFlags) bool
 // which case subresources that fail certificate verification will be blocked.
 func (x *WebView) GetTlsInfo(CertificateVar **gio.TlsCertificate, ErrorsVar *gio.TlsCertificateFlags) bool {
 
-	cret := xWebViewGetTlsInfo(x.GoPointer(), *gobject.ConvertPtr(CertificateVar), ErrorsVar)
+	cret := xWebViewGetTlsInfo(x.GoPointer(), CertificateVar, ErrorsVar)
 	return cret
 }
 
@@ -2695,7 +2695,7 @@ func (x *WebView) LoadAlternateHtml(ContentVar string, ContentUriVar string, Bas
 
 }
 
-var xWebViewLoadBytes func(uintptr, uintptr, string, string, string)
+var xWebViewLoadBytes func(uintptr, *glib.Bytes, string, string, string)
 
 // Load the specified @bytes into @web_view using the given @mime_type and @encoding.
 //
@@ -2703,7 +2703,7 @@ var xWebViewLoadBytes func(uintptr, uintptr, string, string, string)
 // When @encoding is %NULL, it defaults to "UTF-8".
 // When @base_uri is %NULL, it defaults to "about:blank".
 // You can monitor the load operation by connecting to #WebKitWebView::load-changed signal.
-func (x *WebView) LoadBytes(BytesVar uintptr, MimeTypeVar string, EncodingVar string, BaseUriVar string) {
+func (x *WebView) LoadBytes(BytesVar *glib.Bytes, MimeTypeVar string, EncodingVar string, BaseUriVar string) {
 
 	xWebViewLoadBytes(x.GoPointer(), BytesVar, MimeTypeVar, EncodingVar, BaseUriVar)
 
@@ -2784,10 +2784,10 @@ func (x *WebView) ReloadBypassCache() {
 
 }
 
-var xWebViewRestoreSessionState func(uintptr, uintptr)
+var xWebViewRestoreSessionState func(uintptr, *WebViewSessionState)
 
 // Restore the @web_view session state from @state
-func (x *WebView) RestoreSessionState(StateVar uintptr) {
+func (x *WebView) RestoreSessionState(StateVar *WebViewSessionState) {
 
 	xWebViewRestoreSessionState(x.GoPointer(), StateVar)
 
@@ -2897,7 +2897,7 @@ func (x *WebView) SendMessageToPageFinish(ResultVar gio.AsyncResult) (*UserMessa
 
 }
 
-var xWebViewSetBackgroundColor func(uintptr, uintptr)
+var xWebViewSetBackgroundColor func(uintptr, *gdk.RGBA)
 
 // Sets the color that will be used to draw the @web_view background.
 //
@@ -2905,7 +2905,7 @@ var xWebViewSetBackgroundColor func(uintptr, uintptr)
 // the actual contents are rendered. Note that if the web page loaded in @web_view
 // specifies a background color, it will take precedence over the @rgba color.
 // By default the @web_view background color is opaque white.
-func (x *WebView) SetBackgroundColor(RgbaVar uintptr) {
+func (x *WebView) SetBackgroundColor(RgbaVar *gdk.RGBA) {
 
 	xWebViewSetBackgroundColor(x.GoPointer(), RgbaVar)
 
@@ -3104,6 +3104,213 @@ func (c *WebView) GoPointer() uintptr {
 
 func (c *WebView) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyDefaultContentSecurityPolicy sets the "default-content-security-policy" property.
+// The default Content-Security-Policy used by the webview as if it were set
+// by an HTTP header.
+//
+// This applies to all content loaded including through navigation or via the various
+// webkit_web_view_load_\* APIs. However do note that many WebKit APIs bypass
+// Content-Security-Policy in general such as #WebKitUserContentManager and
+// webkit_web_view_run_javascript().
+//
+// Policies are additive so if a website sets its own policy it still applies
+// on top of the policy set here.
+func (x *WebView) SetPropertyDefaultContentSecurityPolicy(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("default-content-security-policy", &v)
+}
+
+// GetPropertyDefaultContentSecurityPolicy gets the "default-content-security-policy" property.
+// The default Content-Security-Policy used by the webview as if it were set
+// by an HTTP header.
+//
+// This applies to all content loaded including through navigation or via the various
+// webkit_web_view_load_\* APIs. However do note that many WebKit APIs bypass
+// Content-Security-Policy in general such as #WebKitUserContentManager and
+// webkit_web_view_run_javascript().
+//
+// Policies are additive so if a website sets its own policy it still applies
+// on top of the policy set here.
+func (x *WebView) GetPropertyDefaultContentSecurityPolicy() string {
+	var v gobject.Value
+	x.GetProperty("default-content-security-policy", &v)
+	return v.GetString()
+}
+
+// SetPropertyEditable sets the "editable" property.
+// Whether the pages loaded inside #WebKitWebView are editable. For more
+// information see webkit_web_view_set_editable().
+func (x *WebView) SetPropertyEditable(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("editable", &v)
+}
+
+// GetPropertyEditable gets the "editable" property.
+// Whether the pages loaded inside #WebKitWebView are editable. For more
+// information see webkit_web_view_set_editable().
+func (x *WebView) GetPropertyEditable() bool {
+	var v gobject.Value
+	x.GetProperty("editable", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyEstimatedLoadProgress gets the "estimated-load-progress" property.
+// An estimate of the percent completion for the current loading operation.
+// This value will range from 0.0 to 1.0 and, once a load completes,
+// will remain at 1.0 until a new load starts, at which point it
+// will be reset to 0.0.
+// The value is an estimate based on the total number of bytes expected
+// to be received for a document, including all its possible subresources
+// and child documents.
+func (x *WebView) GetPropertyEstimatedLoadProgress() float64 {
+	var v gobject.Value
+	x.GetProperty("estimated-load-progress", &v)
+	return v.GetDouble()
+}
+
+// SetPropertyIsControlledByAutomation sets the "is-controlled-by-automation" property.
+// Whether the #WebKitWebView is controlled by automation tools (e.g. WebDriver, Selenium). This is
+// required for views returned as a response to #WebKitAutomationSession::create-web-view signal,
+// alongside any view you want to control during an automation session.
+//
+// As a %G_PARAM_CONSTRUCT_ONLY, you need to set it during construction and it can't be modified.
+//
+// If #WebKitWebView:related-view is also passed during construction, #WebKitWebView:is-controlled-by-automation
+// ignores its own parameter and inherits directly from the related view #WebKitWebView:is-controlled-by-automation
+// property. This is the recommended way when creating new views as a response to the #WebKitWebView::create
+// signal. For example, as response to JavaScript `window.open()` calls during an automation session.
+func (x *WebView) SetPropertyIsControlledByAutomation(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("is-controlled-by-automation", &v)
+}
+
+// GetPropertyIsControlledByAutomation gets the "is-controlled-by-automation" property.
+// Whether the #WebKitWebView is controlled by automation tools (e.g. WebDriver, Selenium). This is
+// required for views returned as a response to #WebKitAutomationSession::create-web-view signal,
+// alongside any view you want to control during an automation session.
+//
+// As a %G_PARAM_CONSTRUCT_ONLY, you need to set it during construction and it can't be modified.
+//
+// If #WebKitWebView:related-view is also passed during construction, #WebKitWebView:is-controlled-by-automation
+// ignores its own parameter and inherits directly from the related view #WebKitWebView:is-controlled-by-automation
+// property. This is the recommended way when creating new views as a response to the #WebKitWebView::create
+// signal. For example, as response to JavaScript `window.open()` calls during an automation session.
+func (x *WebView) GetPropertyIsControlledByAutomation() bool {
+	var v gobject.Value
+	x.GetProperty("is-controlled-by-automation", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyIsLoading gets the "is-loading" property.
+// Whether the #WebKitWebView is currently loading a page. This property becomes
+// %TRUE as soon as a new load operation is requested and before the
+// #WebKitWebView::load-changed signal is emitted with %WEBKIT_LOAD_STARTED and
+// at that point the active URI is the requested one.
+// When the load operation finishes the property is set to %FALSE before
+// #WebKitWebView::load-changed is emitted with %WEBKIT_LOAD_FINISHED.
+func (x *WebView) GetPropertyIsLoading() bool {
+	var v gobject.Value
+	x.GetProperty("is-loading", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyIsMuted sets the "is-muted" property.
+// Whether the #WebKitWebView audio is muted. When %TRUE, audio is silenced.
+// It may still be playing, i.e. #WebKitWebView:is-playing-audio may be %TRUE.
+func (x *WebView) SetPropertyIsMuted(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("is-muted", &v)
+}
+
+// GetPropertyIsMuted gets the "is-muted" property.
+// Whether the #WebKitWebView audio is muted. When %TRUE, audio is silenced.
+// It may still be playing, i.e. #WebKitWebView:is-playing-audio may be %TRUE.
+func (x *WebView) GetPropertyIsMuted() bool {
+	var v gobject.Value
+	x.GetProperty("is-muted", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyIsPlayingAudio gets the "is-playing-audio" property.
+// Whether the #WebKitWebView is currently playing audio from a page.
+// This property becomes %TRUE as soon as web content starts playing any
+// kind of audio. When a page is no longer playing any kind of sound,
+// the property is set back to %FALSE.
+func (x *WebView) GetPropertyIsPlayingAudio() bool {
+	var v gobject.Value
+	x.GetProperty("is-playing-audio", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyIsWebProcessResponsive gets the "is-web-process-responsive" property.
+// Whether the web process currently associated to the #WebKitWebView is responsive.
+func (x *WebView) GetPropertyIsWebProcessResponsive() bool {
+	var v gobject.Value
+	x.GetProperty("is-web-process-responsive", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyPageId gets the "page-id" property.
+// The identifier of the #WebKitWebPage corresponding to the #WebKitWebView.
+func (x *WebView) GetPropertyPageId() uint64 {
+	var v gobject.Value
+	x.GetProperty("page-id", &v)
+	return v.GetUint64()
+}
+
+// GetPropertyThemeColor gets the "theme-color" property.
+// The theme color of the WebView's current page.
+func (x *WebView) GetPropertyThemeColor() uintptr {
+	var v gobject.Value
+	x.GetProperty("theme-color", &v)
+	return v.GetPointer()
+}
+
+// GetPropertyTitle gets the "title" property.
+// The main frame document title of this #WebKitWebView. If
+// the title has not been received yet, it will be %NULL.
+func (x *WebView) GetPropertyTitle() string {
+	var v gobject.Value
+	x.GetProperty("title", &v)
+	return v.GetString()
+}
+
+// GetPropertyUri gets the "uri" property.
+// The current active URI of the #WebKitWebView.
+// See webkit_web_view_get_uri() for more details.
+func (x *WebView) GetPropertyUri() string {
+	var v gobject.Value
+	x.GetProperty("uri", &v)
+	return v.GetString()
+}
+
+// SetPropertyZoomLevel sets the "zoom-level" property.
+// The zoom level of the #WebKitWebView content.
+// See webkit_web_view_set_zoom_level() for more details.
+func (x *WebView) SetPropertyZoomLevel(value float64) {
+	var v gobject.Value
+	v.Init(gobject.TypeDoubleVal)
+	v.SetDouble(value)
+	x.SetProperty("zoom-level", &v)
+}
+
+// GetPropertyZoomLevel gets the "zoom-level" property.
+// The zoom level of the #WebKitWebView content.
+// See webkit_web_view_set_zoom_level() for more details.
+func (x *WebView) GetPropertyZoomLevel() float64 {
+	var v gobject.Value
+	x.GetProperty("zoom-level", &v)
+	return v.GetDouble()
 }
 
 // This signal is emitted when the user is challenged with HTTP
@@ -4061,7 +4268,7 @@ func (x *WebView) GetAtContext() *gtk.ATContext {
 // This functionality can be overridden by `GtkAccessible`
 // implementations, e.g. to get the bounds from an ignored
 // child widget.
-func (x *WebView) GetBounds(XVar int, YVar int, WidthVar int, HeightVar int) bool {
+func (x *WebView) GetBounds(XVar *int, YVar *int, WidthVar *int, HeightVar *int) bool {
 
 	cret := gtk.XGtkAccessibleGetBounds(x.GoPointer(), XVar, YVar, WidthVar, HeightVar)
 	return cret

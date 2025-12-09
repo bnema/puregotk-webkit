@@ -4,6 +4,7 @@ package soup
 import (
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 )
 
 const (
@@ -17,18 +18,18 @@ const (
 	FORM_MIME_TYPE_URLENCODED string = "application/x-www-form-urlencoded"
 )
 
-var xFormDecode func(string) uintptr
+var xFormDecode func(string) *glib.HashTable
 
 // Decodes @form.
 //
 // which is an urlencoded dataset as defined in the HTML 4.01 spec.
-func FormDecode(EncodedFormVar string) uintptr {
+func FormDecode(EncodedFormVar string) *glib.HashTable {
 
 	cret := xFormDecode(EncodedFormVar)
 	return cret
 }
 
-var xFormDecodeMultipart func(uintptr, string, string, string, uintptr) uintptr
+var xFormDecodeMultipart func(*Multipart, string, *string, *string, **glib.Bytes) *glib.HashTable
 
 // Decodes the "multipart/form-data" request in @multipart.
 //
@@ -49,7 +50,7 @@ var xFormDecodeMultipart func(uintptr, string, string, string, uintptr) uintptr
 // If you have a form with more than one file upload control, you will
 // need to decode it manually, using [ctor@Multipart.new_from_message]
 // and [method@Multipart.get_part].
-func FormDecodeMultipart(MultipartVar uintptr, FileControlNameVar string, FilenameVar string, ContentTypeVar string, FileVar uintptr) uintptr {
+func FormDecodeMultipart(MultipartVar *Multipart, FileControlNameVar string, FilenameVar *string, ContentTypeVar *string, FileVar **glib.Bytes) *glib.HashTable {
 
 	cret := xFormDecodeMultipart(MultipartVar, FileControlNameVar, FilenameVar, ContentTypeVar, FileVar)
 	return cret
@@ -74,7 +75,7 @@ func FormEncode(FirstFieldVar string, varArgs ...interface{}) string {
 	return cret
 }
 
-var xFormEncodeDatalist func(uintptr) string
+var xFormEncodeDatalist func(**glib.Data) string
 
 // Encodes @form_data_set into a value of type
 // "application/x-www-form-urlencoded".
@@ -84,13 +85,13 @@ var xFormEncodeDatalist func(uintptr) string
 // some situations.
 //
 // See also: [ctor@Message.new_from_encoded_form].
-func FormEncodeDatalist(FormDataSetVar uintptr) string {
+func FormEncodeDatalist(FormDataSetVar **glib.Data) string {
 
 	cret := xFormEncodeDatalist(FormDataSetVar)
 	return cret
 }
 
-var xFormEncodeHash func(uintptr) string
+var xFormEncodeHash func(*glib.HashTable) string
 
 // Encodes @form_data_set into a value of type
 // "application/x-www-form-urlencoded".
@@ -103,7 +104,7 @@ var xFormEncodeHash func(uintptr) string
 // ordering of the form fields, use [func@form_encode_datalist].
 //
 // See also: [ctor@Message.new_from_encoded_form].
-func FormEncodeHash(FormDataSetVar uintptr) string {
+func FormEncodeHash(FormDataSetVar *glib.HashTable) string {
 
 	cret := xFormEncodeHash(FormDataSetVar)
 	return cret

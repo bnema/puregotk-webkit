@@ -56,10 +56,10 @@ func UserMessageNewFromInternalPtr(ptr uintptr) *UserMessage {
 	return cls
 }
 
-var xNewUserMessage func(string, uintptr) uintptr
+var xNewUserMessage func(string, *glib.Variant) uintptr
 
 // Create a new #WebKitUserMessage with @name.
-func NewUserMessage(NameVar string, ParametersVar uintptr) *UserMessage {
+func NewUserMessage(NameVar string, ParametersVar *glib.Variant) *UserMessage {
 	var cls *UserMessage
 
 	cret := xNewUserMessage(NameVar, ParametersVar)
@@ -73,10 +73,10 @@ func NewUserMessage(NameVar string, ParametersVar uintptr) *UserMessage {
 	return cls
 }
 
-var xNewUserMessageWithFdList func(string, uintptr, uintptr) uintptr
+var xNewUserMessageWithFdList func(string, *glib.Variant, uintptr) uintptr
 
 // Create a new #WebKitUserMessage including also a list of UNIX file descriptors to be sent.
-func NewUserMessageWithFdList(NameVar string, ParametersVar uintptr, FdListVar *gio.UnixFDList) *UserMessage {
+func NewUserMessageWithFdList(NameVar string, ParametersVar *glib.Variant, FdListVar *gio.UnixFDList) *UserMessage {
 	var cls *UserMessage
 
 	cret := xNewUserMessageWithFdList(NameVar, ParametersVar, FdListVar.GoPointer())
@@ -116,10 +116,10 @@ func (x *UserMessage) GetName() string {
 	return cret
 }
 
-var xUserMessageGetParameters func(uintptr) uintptr
+var xUserMessageGetParameters func(uintptr) *glib.Variant
 
 // Get the @message parameters.
-func (x *UserMessage) GetParameters() uintptr {
+func (x *UserMessage) GetParameters() *glib.Variant {
 
 	cret := xUserMessageGetParameters(x.GoPointer())
 	return cret
@@ -147,6 +147,44 @@ func (c *UserMessage) GoPointer() uintptr {
 
 func (c *UserMessage) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyName sets the "name" property.
+// The name of the user message.
+func (x *UserMessage) SetPropertyName(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("name", &v)
+}
+
+// GetPropertyName gets the "name" property.
+// The name of the user message.
+func (x *UserMessage) GetPropertyName() string {
+	var v gobject.Value
+	x.GetProperty("name", &v)
+	return v.GetString()
+}
+
+// SetPropertyParameters sets the "parameters" property.
+// The parameters of the user message as a #GVariant, or %NULL
+// if the message doesn't include parameters. Note that only complete types are
+// allowed.
+func (x *UserMessage) SetPropertyParameters(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("parameters", &v)
+}
+
+// GetPropertyParameters gets the "parameters" property.
+// The parameters of the user message as a #GVariant, or %NULL
+// if the message doesn't include parameters. Note that only complete types are
+// allowed.
+func (x *UserMessage) GetPropertyParameters() uintptr {
+	var v gobject.Value
+	x.GetProperty("parameters", &v)
+	return v.GetPointer()
 }
 
 var xUserMessageErrorQuark func() glib.Quark

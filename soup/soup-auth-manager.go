@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -63,7 +64,7 @@ func (x *AuthManager) ClearCachedCredentials() {
 
 }
 
-var xAuthManagerUseAuth func(uintptr, uintptr, uintptr)
+var xAuthManagerUseAuth func(uintptr, *glib.Uri, uintptr)
 
 // Records that @auth is to be used under @uri, as though a
 // WWW-Authenticate header had been received at that URI.
@@ -75,7 +76,7 @@ var xAuthManagerUseAuth func(uintptr, uintptr, uintptr)
 // This is only useful for authentication types where the initial
 // Authorization header does not depend on any additional information
 // from the server. (Eg, Basic or NTLM, but not Digest.)
-func (x *AuthManager) UseAuth(UriVar uintptr, AuthVar *Auth) {
+func (x *AuthManager) UseAuth(UriVar *glib.Uri, AuthVar *Auth) {
 
 	xAuthManagerUseAuth(x.GoPointer(), UriVar, AuthVar.GoPointer())
 

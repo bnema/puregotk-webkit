@@ -8,6 +8,7 @@ import (
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gio"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -45,13 +46,13 @@ func ContextMenuItemNewFromInternalPtr(ptr uintptr) *ContextMenuItem {
 	return cls
 }
 
-var xNewContextMenuItemFromGaction func(uintptr, string, uintptr) uintptr
+var xNewContextMenuItemFromGaction func(uintptr, string, *glib.Variant) uintptr
 
 // Creates a new #WebKitContextMenuItem for the given @action and @label.
 //
 // On activation
 // @target will be passed as parameter to the callback.
-func NewContextMenuItemFromGaction(ActionVar gio.Action, LabelVar string, TargetVar uintptr) *ContextMenuItem {
+func NewContextMenuItemFromGaction(ActionVar gio.Action, LabelVar string, TargetVar *glib.Variant) *ContextMenuItem {
 	var cls *ContextMenuItem
 
 	cret := xNewContextMenuItemFromGaction(ActionVar.GoPointer(), LabelVar, TargetVar)

@@ -86,13 +86,13 @@ func AuthenticationRequestNewFromInternalPtr(ptr uintptr) *AuthenticationRequest
 	return cls
 }
 
-var xAuthenticationRequestAuthenticate func(uintptr, uintptr)
+var xAuthenticationRequestAuthenticate func(uintptr, *Credential)
 
 // Authenticate the #WebKitAuthenticationRequest.
 //
 // Authenticate the #WebKitAuthenticationRequest using the #WebKitCredential
 // supplied. To continue without credentials, pass %NULL as @credential.
-func (x *AuthenticationRequest) Authenticate(CredentialVar uintptr) {
+func (x *AuthenticationRequest) Authenticate(CredentialVar *Credential) {
 
 	xAuthenticationRequestAuthenticate(x.GoPointer(), CredentialVar)
 
@@ -153,14 +153,14 @@ func (x *AuthenticationRequest) GetPort() uint {
 	return cret
 }
 
-var xAuthenticationRequestGetProposedCredential func(uintptr) uintptr
+var xAuthenticationRequestGetProposedCredential func(uintptr) *Credential
 
 // Get the #WebKitCredential of the proposed authentication challenge.
 //
 // Get the #WebKitCredential of the proposed authentication challenge that was
 // stored from a previous session. The client can use this directly for
 // authentication or construct their own #WebKitCredential.
-func (x *AuthenticationRequest) GetProposedCredential() uintptr {
+func (x *AuthenticationRequest) GetProposedCredential() *Credential {
 
 	cret := xAuthenticationRequestGetProposedCredential(x.GoPointer())
 	return cret
@@ -184,10 +184,10 @@ func (x *AuthenticationRequest) GetScheme() AuthenticationScheme {
 	return cret
 }
 
-var xAuthenticationRequestGetSecurityOrigin func(uintptr) uintptr
+var xAuthenticationRequestGetSecurityOrigin func(uintptr) *SecurityOrigin
 
 // Get the #WebKitSecurityOrigin that this authentication challenge is applicable to.
-func (x *AuthenticationRequest) GetSecurityOrigin() uintptr {
+func (x *AuthenticationRequest) GetSecurityOrigin() *SecurityOrigin {
 
 	cret := xAuthenticationRequestGetSecurityOrigin(x.GoPointer())
 	return cret
@@ -231,7 +231,7 @@ func (x *AuthenticationRequest) SetCanSaveCredentials(EnabledVar bool) {
 
 }
 
-var xAuthenticationRequestSetProposedCredential func(uintptr, uintptr)
+var xAuthenticationRequestSetProposedCredential func(uintptr, *Credential)
 
 // Set the #WebKitCredential of the proposed authentication challenge.
 //
@@ -241,7 +241,7 @@ var xAuthenticationRequestSetProposedCredential func(uintptr, uintptr)
 // webkit_authentication_request_get_proposed_credential() already contains previously-stored
 // credentials.)
 // Passing a %NULL @credential will clear the proposed credential.
-func (x *AuthenticationRequest) SetProposedCredential(CredentialVar uintptr) {
+func (x *AuthenticationRequest) SetProposedCredential(CredentialVar *Credential) {
 
 	xAuthenticationRequestSetProposedCredential(x.GoPointer(), CredentialVar)
 

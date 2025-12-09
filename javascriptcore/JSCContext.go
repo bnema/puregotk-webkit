@@ -112,7 +112,7 @@ func NewContextWithVirtualMachine(VmVar *VirtualMachine) *Context {
 	return cls
 }
 
-var xContextCheckSyntax func(uintptr, string, int, CheckSyntaxMode, string, uint, uintptr) CheckSyntaxResult
+var xContextCheckSyntax func(uintptr, string, int, CheckSyntaxMode, string, uint, **Exception) CheckSyntaxResult
 
 // Check the given @code in @context for syntax errors. The @line_number is the starting line number in @uri;
 // the value is one-based so the first line is 1. @uri and @line_number are only used to fill the @exception.
@@ -120,7 +120,7 @@ var xContextCheckSyntax func(uintptr, string, int, CheckSyntaxMode, string, uint
 // @exception to ignore the error details.
 func (x *Context) CheckSyntax(CodeVar string, LengthVar int, ModeVar CheckSyntaxMode, UriVar string, LineNumberVar uint, ExceptionVar **Exception) CheckSyntaxResult {
 
-	cret := xContextCheckSyntax(x.GoPointer(), CodeVar, LengthVar, ModeVar, UriVar, LineNumberVar, *gobject.ConvertPtr(ExceptionVar))
+	cret := xContextCheckSyntax(x.GoPointer(), CodeVar, LengthVar, ModeVar, UriVar, LineNumberVar, ExceptionVar)
 	return cret
 }
 
@@ -149,7 +149,7 @@ func (x *Context) Evaluate(CodeVar string, LengthVar int) *Value {
 	return cls
 }
 
-var xContextEvaluateInObject func(uintptr, string, int, uintptr, uintptr, string, uint, uintptr) uintptr
+var xContextEvaluateInObject func(uintptr, string, int, uintptr, uintptr, string, uint, **Value) uintptr
 
 // Evaluate @code and create an new object where symbols defined in @code will be added as properties,
 // instead of being added to @context global object. The new object is returned as @object parameter.
@@ -159,7 +159,7 @@ var xContextEvaluateInObject func(uintptr, string, int, uintptr, uintptr, string
 func (x *Context) EvaluateInObject(CodeVar string, LengthVar int, ObjectInstanceVar uintptr, ObjectClassVar *Class, UriVar string, LineNumberVar uint, ObjectVar **Value) *Value {
 	var cls *Value
 
-	cret := xContextEvaluateInObject(x.GoPointer(), CodeVar, LengthVar, ObjectInstanceVar, ObjectClassVar.GoPointer(), UriVar, LineNumberVar, *gobject.ConvertPtr(ObjectVar))
+	cret := xContextEvaluateInObject(x.GoPointer(), CodeVar, LengthVar, ObjectInstanceVar, ObjectClassVar.GoPointer(), UriVar, LineNumberVar, ObjectVar)
 
 	if cret == 0 {
 		return nil
@@ -279,7 +279,7 @@ func (x *Context) PushExceptionHandler(HandlerVar *ExceptionHandler, UserDataVar
 
 }
 
-var xContextRegisterClass func(uintptr, string, uintptr, uintptr, uintptr) uintptr
+var xContextRegisterClass func(uintptr, string, uintptr, *ClassVTable, uintptr) uintptr
 
 // Register a custom class in @context using the given @name. If the new class inherits from
 // another #JSCClass, the parent should be passed as @parent_class, otherwise %NULL should be
@@ -287,7 +287,7 @@ var xContextRegisterClass func(uintptr, string, uintptr, uintptr, uintptr) uintp
 // the class, for example, to handle external properties not added to the prototype.
 // When an instance of the #JSCClass is cleared in the context, @destroy_notify is called with
 // the instance as parameter.
-func (x *Context) RegisterClass(NameVar string, ParentClassVar *Class, VtableVar uintptr, DestroyNotifyVar *glib.DestroyNotify) *Class {
+func (x *Context) RegisterClass(NameVar string, ParentClassVar *Class, VtableVar *ClassVTable, DestroyNotifyVar *glib.DestroyNotify) *Class {
 	var cls *Class
 
 	cret := xContextRegisterClass(x.GoPointer(), NameVar, ParentClassVar.GoPointer(), VtableVar, glib.NewCallbackNullable(DestroyNotifyVar))

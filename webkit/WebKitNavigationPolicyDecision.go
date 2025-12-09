@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -41,10 +42,10 @@ func NavigationPolicyDecisionNewFromInternalPtr(ptr uintptr) *NavigationPolicyDe
 	return cls
 }
 
-var xNavigationPolicyDecisionGetNavigationAction func(uintptr) uintptr
+var xNavigationPolicyDecisionGetNavigationAction func(uintptr) *NavigationAction
 
 // Gets the value of the #WebKitNavigationPolicyDecision:navigation-action property.
-func (x *NavigationPolicyDecision) GetNavigationAction() uintptr {
+func (x *NavigationPolicyDecision) GetNavigationAction() *NavigationAction {
 
 	cret := xNavigationPolicyDecisionGetNavigationAction(x.GoPointer())
 	return cret
@@ -59,6 +60,14 @@ func (c *NavigationPolicyDecision) GoPointer() uintptr {
 
 func (c *NavigationPolicyDecision) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// GetPropertyNavigationAction gets the "navigation-action" property.
+// The #WebKitNavigationAction that triggered this policy decision.
+func (x *NavigationPolicyDecision) GetPropertyNavigationAction() uintptr {
+	var v gobject.Value
+	x.GetProperty("navigation-action", &v)
+	return v.GetPointer()
 }
 
 func init() {

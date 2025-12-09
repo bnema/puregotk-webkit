@@ -169,11 +169,11 @@ func NewMessageFromEncodedForm(MethodVar string, UriStringVar string, EncodedFor
 	return cls
 }
 
-var xNewMessageFromMultipart func(string, uintptr) uintptr
+var xNewMessageFromMultipart func(string, *Multipart) uintptr
 
 // Creates a new #SoupMessage and sets it up to send @multipart to
 // @uri_string via POST.
-func NewMessageFromMultipart(UriStringVar string, MultipartVar uintptr) *Message {
+func NewMessageFromMultipart(UriStringVar string, MultipartVar *Multipart) *Message {
 	var cls *Message
 
 	cret := xNewMessageFromMultipart(UriStringVar, MultipartVar)
@@ -186,10 +186,10 @@ func NewMessageFromMultipart(UriStringVar string, MultipartVar uintptr) *Message
 	return cls
 }
 
-var xNewMessageFromUri func(string, uintptr) uintptr
+var xNewMessageFromUri func(string, *glib.Uri) uintptr
 
 // Creates a new empty #SoupMessage, which will connect to @uri.
-func NewMessageFromUri(MethodVar string, UriVar uintptr) *Message {
+func NewMessageFromUri(MethodVar string, UriVar *glib.Uri) *Message {
 	var cls *Message
 
 	cret := xNewMessageFromUri(MethodVar, UriVar)
@@ -202,11 +202,11 @@ func NewMessageFromUri(MethodVar string, UriVar uintptr) *Message {
 	return cls
 }
 
-var xNewMessageOptionsPing func(uintptr) uintptr
+var xNewMessageOptionsPing func(*glib.Uri) uintptr
 
 // Creates a new #SoupMessage to send `OPTIONS *` to a server. The path of
 // @base_uri will be ignored.
-func NewMessageOptionsPing(BaseUriVar uintptr) *Message {
+func NewMessageOptionsPing(BaseUriVar *glib.Uri) *Message {
 	var cls *Message
 
 	cret := xNewMessageOptionsPing(BaseUriVar)
@@ -287,10 +287,10 @@ func (x *Message) GetConnectionId() uint64 {
 	return cret
 }
 
-var xMessageGetFirstParty func(uintptr) uintptr
+var xMessageGetFirstParty func(uintptr) *glib.Uri
 
 // Gets @msg's first-party [struct@GLib.Uri].
-func (x *Message) GetFirstParty() uintptr {
+func (x *Message) GetFirstParty() *glib.Uri {
 
 	cret := xMessageGetFirstParty(x.GoPointer())
 	return cret
@@ -355,13 +355,13 @@ func (x *Message) GetMethod() string {
 	return cret
 }
 
-var xMessageGetMetrics func(uintptr) uintptr
+var xMessageGetMetrics func(uintptr) *MessageMetrics
 
 // Get the [struct@MessageMetrics] of @msg.
 //
 // If the flag %SOUP_MESSAGE_COLLECT_METRICS is not enabled for @msg this will
 // return %NULL.
-func (x *Message) GetMetrics() uintptr {
+func (x *Message) GetMetrics() *MessageMetrics {
 
 	cret := xMessageGetMetrics(x.GoPointer())
 	return cret
@@ -411,28 +411,28 @@ func (x *Message) GetRemoteAddress() *gio.SocketAddress {
 	return cls
 }
 
-var xMessageGetRequestHeaders func(uintptr) uintptr
+var xMessageGetRequestHeaders func(uintptr) *MessageHeaders
 
 // Returns the headers sent with the request.
-func (x *Message) GetRequestHeaders() uintptr {
+func (x *Message) GetRequestHeaders() *MessageHeaders {
 
 	cret := xMessageGetRequestHeaders(x.GoPointer())
 	return cret
 }
 
-var xMessageGetResponseHeaders func(uintptr) uintptr
+var xMessageGetResponseHeaders func(uintptr) *MessageHeaders
 
 // Returns the headers recieved with the response.
-func (x *Message) GetResponseHeaders() uintptr {
+func (x *Message) GetResponseHeaders() *MessageHeaders {
 
 	cret := xMessageGetResponseHeaders(x.GoPointer())
 	return cret
 }
 
-var xMessageGetSiteForCookies func(uintptr) uintptr
+var xMessageGetSiteForCookies func(uintptr) *glib.Uri
 
 // Gets @msg's site for cookies #GUri.
-func (x *Message) GetSiteForCookies() uintptr {
+func (x *Message) GetSiteForCookies() *glib.Uri {
 
 	cret := xMessageGetSiteForCookies(x.GoPointer())
 	return cret
@@ -498,10 +498,10 @@ func (x *Message) GetTlsProtocolVersion() gio.TlsProtocolVersion {
 	return cret
 }
 
-var xMessageGetUri func(uintptr) uintptr
+var xMessageGetUri func(uintptr) *glib.Uri
 
 // Gets @msg's URI.
-func (x *Message) GetUri() uintptr {
+func (x *Message) GetUri() *glib.Uri {
 
 	cret := xMessageGetUri(x.GoPointer())
 	return cret
@@ -549,13 +549,13 @@ func (x *Message) RemoveFlags(FlagsVar MessageFlags) {
 
 }
 
-var xMessageSetFirstParty func(uintptr, uintptr)
+var xMessageSetFirstParty func(uintptr, *glib.Uri)
 
 // Sets @first_party as the main document #GUri for @msg.
 //
 // For details of when and how this is used refer to the documentation for
 // [enum@CookieJarAcceptPolicy].
-func (x *Message) SetFirstParty(FirstPartyVar uintptr) {
+func (x *Message) SetFirstParty(FirstPartyVar *glib.Uri) {
 
 	xMessageSetFirstParty(x.GoPointer(), FirstPartyVar)
 
@@ -649,7 +649,7 @@ func (x *Message) SetRequestBody(ContentTypeVar string, StreamVar *gio.InputStre
 
 }
 
-var xMessageSetRequestBodyFromBytes func(uintptr, string, uintptr)
+var xMessageSetRequestBodyFromBytes func(uintptr, string, *glib.Bytes)
 
 // Set the request body of a #SoupMessage from [struct@GLib.Bytes].
 //
@@ -657,13 +657,13 @@ var xMessageSetRequestBodyFromBytes func(uintptr, string, uintptr)
 // not be changed if present.
 // The request body needs to be set again in case @msg is restarted
 // (in case of redirection or authentication).
-func (x *Message) SetRequestBodyFromBytes(ContentTypeVar string, BytesVar uintptr) {
+func (x *Message) SetRequestBodyFromBytes(ContentTypeVar string, BytesVar *glib.Bytes) {
 
 	xMessageSetRequestBodyFromBytes(x.GoPointer(), ContentTypeVar, BytesVar)
 
 }
 
-var xMessageSetSiteForCookies func(uintptr, uintptr)
+var xMessageSetSiteForCookies func(uintptr, *glib.Uri)
 
 // Sets @site_for_cookies as the policy URL for same-site cookies for @msg.
 //
@@ -674,7 +674,7 @@ var xMessageSetSiteForCookies func(uintptr, uintptr)
 //
 // See the [same-site spec](https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00)
 // for more information.
-func (x *Message) SetSiteForCookies(SiteForCookiesVar uintptr) {
+func (x *Message) SetSiteForCookies(SiteForCookiesVar *glib.Uri) {
 
 	xMessageSetSiteForCookies(x.GoPointer(), SiteForCookiesVar)
 
@@ -696,13 +696,13 @@ func (x *Message) SetTlsClientCertificate(CertificateVar *gio.TlsCertificate) {
 
 }
 
-var xMessageSetUri func(uintptr, uintptr)
+var xMessageSetUri func(uintptr, *glib.Uri)
 
 // Sets @msg's URI to @uri.
 //
 // If @msg has already been sent and you want to re-send it with the new URI,
 // you need to send it again.
-func (x *Message) SetUri(UriVar uintptr) {
+func (x *Message) SetUri(UriVar *glib.Uri) {
 
 	xMessageSetUri(x.GoPointer(), UriVar)
 
@@ -730,6 +730,160 @@ func (c *Message) GoPointer() uintptr {
 
 func (c *Message) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyFirstParty sets the "first-party" property.
+// The [struct@GLib.Uri] loaded in the application when the message was
+// queued.
+func (x *Message) SetPropertyFirstParty(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("first-party", &v)
+}
+
+// GetPropertyFirstParty gets the "first-party" property.
+// The [struct@GLib.Uri] loaded in the application when the message was
+// queued.
+func (x *Message) GetPropertyFirstParty() uintptr {
+	var v gobject.Value
+	x.GetProperty("first-party", &v)
+	return v.GetPointer()
+}
+
+// SetPropertyIsOptionsPing sets the "is-options-ping" property.
+// Whether the message is an OPTIONS ping.
+//
+// The #SoupMessage is intended to be used to send
+// `OPTIONS *` to a server. When set to %TRUE, the
+// path of [property@Message:uri] will be ignored and
+// [property@Message:method] set to %SOUP_METHOD_OPTIONS.
+func (x *Message) SetPropertyIsOptionsPing(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("is-options-ping", &v)
+}
+
+// GetPropertyIsOptionsPing gets the "is-options-ping" property.
+// Whether the message is an OPTIONS ping.
+//
+// The #SoupMessage is intended to be used to send
+// `OPTIONS *` to a server. When set to %TRUE, the
+// path of [property@Message:uri] will be ignored and
+// [property@Message:method] set to %SOUP_METHOD_OPTIONS.
+func (x *Message) GetPropertyIsOptionsPing() bool {
+	var v gobject.Value
+	x.GetProperty("is-options-ping", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyIsTopLevelNavigation sets the "is-top-level-navigation" property.
+// Set when the message is navigating between top level domains.
+func (x *Message) SetPropertyIsTopLevelNavigation(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("is-top-level-navigation", &v)
+}
+
+// GetPropertyIsTopLevelNavigation gets the "is-top-level-navigation" property.
+// Set when the message is navigating between top level domains.
+func (x *Message) GetPropertyIsTopLevelNavigation() bool {
+	var v gobject.Value
+	x.GetProperty("is-top-level-navigation", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyMethod sets the "method" property.
+// The message's HTTP method.
+func (x *Message) SetPropertyMethod(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("method", &v)
+}
+
+// GetPropertyMethod gets the "method" property.
+// The message's HTTP method.
+func (x *Message) GetPropertyMethod() string {
+	var v gobject.Value
+	x.GetProperty("method", &v)
+	return v.GetString()
+}
+
+// GetPropertyReasonPhrase gets the "reason-phrase" property.
+// The HTTP response reason phrase.
+func (x *Message) GetPropertyReasonPhrase() string {
+	var v gobject.Value
+	x.GetProperty("reason-phrase", &v)
+	return v.GetString()
+}
+
+// GetPropertyRequestHeaders gets the "request-headers" property.
+// The HTTP request headers.
+func (x *Message) GetPropertyRequestHeaders() uintptr {
+	var v gobject.Value
+	x.GetProperty("request-headers", &v)
+	return v.GetPointer()
+}
+
+// GetPropertyResponseHeaders gets the "response-headers" property.
+// The HTTP response headers.
+func (x *Message) GetPropertyResponseHeaders() uintptr {
+	var v gobject.Value
+	x.GetProperty("response-headers", &v)
+	return v.GetPointer()
+}
+
+// SetPropertySiteForCookies sets the "site-for-cookies" property.
+// Site used to compare cookies against. Used for SameSite cookie support.
+func (x *Message) SetPropertySiteForCookies(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("site-for-cookies", &v)
+}
+
+// GetPropertySiteForCookies gets the "site-for-cookies" property.
+// Site used to compare cookies against. Used for SameSite cookie support.
+func (x *Message) GetPropertySiteForCookies() uintptr {
+	var v gobject.Value
+	x.GetProperty("site-for-cookies", &v)
+	return v.GetPointer()
+}
+
+// GetPropertyStatusCode gets the "status-code" property.
+// The HTTP response status code.
+func (x *Message) GetPropertyStatusCode() uint {
+	var v gobject.Value
+	x.GetProperty("status-code", &v)
+	return v.GetUint()
+}
+
+// GetPropertyTlsCiphersuiteName gets the "tls-ciphersuite-name" property.
+// The Name of TLS ciphersuite negotiated for this message connection.
+func (x *Message) GetPropertyTlsCiphersuiteName() string {
+	var v gobject.Value
+	x.GetProperty("tls-ciphersuite-name", &v)
+	return v.GetString()
+}
+
+// SetPropertyUri sets the "uri" property.
+// The message's Request-URI.
+func (x *Message) SetPropertyUri(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("uri", &v)
+}
+
+// GetPropertyUri gets the "uri" property.
+// The message's Request-URI.
+func (x *Message) GetPropertyUri() uintptr {
+	var v gobject.Value
+	x.GetProperty("uri", &v)
+	return v.GetPointer()
 }
 
 // Emitted during the @msg's connection TLS handshake

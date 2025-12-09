@@ -107,6 +107,38 @@ func (c *Notification) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// GetPropertyBody gets the "body" property.
+// The body for the notification.
+func (x *Notification) GetPropertyBody() string {
+	var v gobject.Value
+	x.GetProperty("body", &v)
+	return v.GetString()
+}
+
+// GetPropertyId gets the "id" property.
+// The unique id for the notification.
+func (x *Notification) GetPropertyId() uint64 {
+	var v gobject.Value
+	x.GetProperty("id", &v)
+	return v.GetUint64()
+}
+
+// GetPropertyTag gets the "tag" property.
+// The tag identifier for the notification.
+func (x *Notification) GetPropertyTag() string {
+	var v gobject.Value
+	x.GetProperty("tag", &v)
+	return v.GetString()
+}
+
+// GetPropertyTitle gets the "title" property.
+// The title for the notification.
+func (x *Notification) GetPropertyTitle() string {
+	var v gobject.Value
+	x.GetProperty("title", &v)
+	return v.GetString()
+}
+
 // Emitted when a notification has been clicked. See webkit_notification_clicked().
 func (x *Notification) ConnectClicked(cb *func(Notification)) uint32 {
 	cbPtr := uintptr(unsafe.Pointer(cb))

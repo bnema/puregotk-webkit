@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -41,13 +42,13 @@ func (x *MessageBody) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewMessageBody func() uintptr
+var xNewMessageBody func() *MessageBody
 
 // Creates a new #SoupMessageBody.
 //
 // [class@Message] uses this internally; you
 // will not normally need to call it yourself.
-func NewMessageBody() uintptr {
+func NewMessageBody() *MessageBody {
 
 	cret := xNewMessageBody()
 	return cret
@@ -62,10 +63,10 @@ func (x *MessageBody) Append(UseVar MemoryUse, DataVar []byte, LengthVar uint) {
 
 }
 
-var xMessageBodyAppendBytes func(uintptr, uintptr)
+var xMessageBodyAppendBytes func(uintptr, *glib.Bytes)
 
 // Appends the data from @buffer to @body.
-func (x *MessageBody) AppendBytes(BufferVar uintptr) {
+func (x *MessageBody) AppendBytes(BufferVar *glib.Bytes) {
 
 	xMessageBodyAppendBytes(x.GoPointer(), BufferVar)
 
@@ -95,14 +96,14 @@ func (x *MessageBody) Complete() {
 
 }
 
-var xMessageBodyFlatten func(uintptr) uintptr
+var xMessageBodyFlatten func(uintptr) *glib.Bytes
 
 // Fills in @body's data field with a buffer containing all of the
 // data in @body.
 //
 // Adds an additional `\0` byte not counted by @body's
 // length field.
-func (x *MessageBody) Flatten() uintptr {
+func (x *MessageBody) Flatten() *glib.Bytes {
 
 	cret := xMessageBodyFlatten(x.GoPointer())
 	return cret
@@ -119,7 +120,7 @@ func (x *MessageBody) GetAccumulate() bool {
 	return cret
 }
 
-var xMessageBodyGetChunk func(uintptr, int64) uintptr
+var xMessageBodyGetChunk func(uintptr, int64) *glib.Bytes
 
 // Gets a [struct@GLib.Bytes] containing data from @body starting at @offset.
 //
@@ -137,13 +138,13 @@ var xMessageBodyGetChunk func(uintptr, int64) uintptr
 // [method@MessageBody.get_chunk] will return %NULL (indicating that
 // @body may still potentially have more data, but that data is not
 // currently available).
-func (x *MessageBody) GetChunk(OffsetVar int64) uintptr {
+func (x *MessageBody) GetChunk(OffsetVar int64) *glib.Bytes {
 
 	cret := xMessageBodyGetChunk(x.GoPointer(), OffsetVar)
 	return cret
 }
 
-var xMessageBodyGotChunk func(uintptr, uintptr)
+var xMessageBodyGotChunk func(uintptr, *glib.Bytes)
 
 // Handles the #SoupMessageBody part of receiving a chunk of data from
 // the network.
@@ -154,16 +155,16 @@ var xMessageBodyGotChunk func(uintptr, uintptr)
 //
 // This is a low-level method which you should not normally need to
 // use.
-func (x *MessageBody) GotChunk(ChunkVar uintptr) {
+func (x *MessageBody) GotChunk(ChunkVar *glib.Bytes) {
 
 	xMessageBodyGotChunk(x.GoPointer(), ChunkVar)
 
 }
 
-var xMessageBodyRef func(uintptr) uintptr
+var xMessageBodyRef func(uintptr) *MessageBody
 
 // Atomically increments the reference count of @body by one.
-func (x *MessageBody) Ref() uintptr {
+func (x *MessageBody) Ref() *MessageBody {
 
 	cret := xMessageBodyRef(x.GoPointer())
 	return cret
@@ -211,7 +212,7 @@ func (x *MessageBody) Unref() {
 
 }
 
-var xMessageBodyWroteChunk func(uintptr, uintptr)
+var xMessageBodyWroteChunk func(uintptr, *glib.Bytes)
 
 // Handles the #SoupMessageBody part of writing a chunk of data to the
 // network.
@@ -222,7 +223,7 @@ var xMessageBodyWroteChunk func(uintptr, uintptr)
 // This is a low-level method which you should not need to use, and
 // there are further restrictions on its proper use which are not
 // documented here.
-func (x *MessageBody) WroteChunk(ChunkVar uintptr) {
+func (x *MessageBody) WroteChunk(ChunkVar *glib.Bytes) {
 
 	xMessageBodyWroteChunk(x.GoPointer(), ChunkVar)
 

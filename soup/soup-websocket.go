@@ -157,7 +157,7 @@ func WebsocketClientPrepareHandshake(MsgVar *Message, OriginVar string, Protocol
 
 }
 
-var xWebsocketClientVerifyHandshake func(uintptr, []gobject.TypeClass, uintptr, **glib.Error) bool
+var xWebsocketClientVerifyHandshake func(uintptr, []gobject.TypeClass, **glib.List, **glib.Error) bool
 
 // Looks at the response status code and headers in @msg and
 // determines if they contain a valid WebSocket handshake response
@@ -170,7 +170,7 @@ var xWebsocketClientVerifyHandshake func(uintptr, []gobject.TypeClass, uintptr, 
 // This is a low-level function; if you use
 // [method@Session.websocket_connect_async] to create a WebSocket
 // connection, it will call this for you.
-func WebsocketClientVerifyHandshake(MsgVar *Message, SupportedExtensionsVar []gobject.TypeClass, AcceptedExtensionsVar uintptr) (bool, error) {
+func WebsocketClientVerifyHandshake(MsgVar *Message, SupportedExtensionsVar []gobject.TypeClass, AcceptedExtensionsVar **glib.List) (bool, error) {
 	var cerr *glib.Error
 
 	cret := xWebsocketClientVerifyHandshake(MsgVar.GoPointer(), SupportedExtensionsVar, AcceptedExtensionsVar, &cerr)
@@ -220,7 +220,7 @@ func WebsocketServerCheckHandshake(MsgVar *ServerMessage, OriginVar string, Prot
 
 }
 
-var xWebsocketServerProcessHandshake func(uintptr, string, []string, []gobject.TypeClass, uintptr) bool
+var xWebsocketServerProcessHandshake func(uintptr, string, []string, []gobject.TypeClass, **glib.List) bool
 
 // Examines the method and request headers in @msg and (assuming @msg
 // contains a valid handshake request), fills in the handshake
@@ -237,7 +237,7 @@ var xWebsocketServerProcessHandshake func(uintptr, string, []string, []gobject.T
 // This is a low-level function; if you use
 // [method@Server.add_websocket_handler] to handle accepting WebSocket
 // connections, it will call this for you.
-func WebsocketServerProcessHandshake(MsgVar *ServerMessage, ExpectedOriginVar string, ProtocolsVar []string, SupportedExtensionsVar []gobject.TypeClass, AcceptedExtensionsVar uintptr) bool {
+func WebsocketServerProcessHandshake(MsgVar *ServerMessage, ExpectedOriginVar string, ProtocolsVar []string, SupportedExtensionsVar []gobject.TypeClass, AcceptedExtensionsVar **glib.List) bool {
 
 	cret := xWebsocketServerProcessHandshake(MsgVar.GoPointer(), ExpectedOriginVar, ProtocolsVar, SupportedExtensionsVar, AcceptedExtensionsVar)
 	return cret

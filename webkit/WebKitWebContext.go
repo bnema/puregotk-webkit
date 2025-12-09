@@ -223,7 +223,7 @@ func (x *WebContext) GetTimeZoneOverride() string {
 	return cret
 }
 
-var xWebContextInitializeNotificationPermissions func(uintptr, uintptr, uintptr)
+var xWebContextInitializeNotificationPermissions func(uintptr, *glib.List, *glib.List)
 
 // Sets initial desktop notification permissions for the @context.
 //
@@ -241,7 +241,7 @@ var xWebContextInitializeNotificationPermissions func(uintptr, uintptr, uintptr)
 // #WebKitWebContext::initialize-notification-permissions so as to
 // ensure that new web processes receive the most recent set of
 // permissions.
-func (x *WebContext) InitializeNotificationPermissions(AllowedOriginsVar uintptr, DisallowedOriginsVar uintptr) {
+func (x *WebContext) InitializeNotificationPermissions(AllowedOriginsVar *glib.List, DisallowedOriginsVar *glib.List) {
 
 	xWebContextInitializeNotificationPermissions(x.GoPointer(), AllowedOriginsVar, DisallowedOriginsVar)
 
@@ -302,7 +302,7 @@ var xWebContextRegisterUriScheme func(uintptr, string, uintptr, uintptr, uintptr
 // ```
 func (x *WebContext) RegisterUriScheme(SchemeVar string, CallbackVar *URISchemeRequestCallback, UserDataVar uintptr, UserDataDestroyFuncVar *glib.DestroyNotify) {
 
-	xWebContextRegisterUriScheme(x.GoPointer(), SchemeVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(UserDataDestroyFuncVar))
+	xWebContextRegisterUriScheme(x.GoPointer(), SchemeVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(UserDataDestroyFuncVar))
 
 }
 
@@ -426,7 +426,7 @@ func (x *WebContext) SetWebProcessExtensionsDirectory(DirectoryVar string) {
 
 }
 
-var xWebContextSetWebProcessExtensionsInitializationUserData func(uintptr, uintptr)
+var xWebContextSetWebProcessExtensionsInitializationUserData func(uintptr, *glib.Variant)
 
 // Set user data to be passed to Web Extensions on initialization.
 //
@@ -436,7 +436,7 @@ var xWebContextSetWebProcessExtensionsInitializationUserData func(uintptr, uintp
 // otherwise it will not have any effect. You can connect to
 // #WebKitWebContext::initialize-web-process-extensions to call this method
 // before anything is loaded.
-func (x *WebContext) SetWebProcessExtensionsInitializationUserData(UserDataVar uintptr) {
+func (x *WebContext) SetWebProcessExtensionsInitializationUserData(UserDataVar *glib.Variant) {
 
 	xWebContextSetWebProcessExtensionsInitializationUserData(x.GoPointer(), UserDataVar)
 
@@ -451,6 +451,46 @@ func (c *WebContext) GoPointer() uintptr {
 
 func (c *WebContext) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyMemoryPressureSettings sets the "memory-pressure-settings" property.
+// The #WebKitMemoryPressureSettings applied to the web processes created by this context.
+func (x *WebContext) SetPropertyMemoryPressureSettings(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("memory-pressure-settings", &v)
+}
+
+// SetPropertyTimeZoneOverride sets the "time-zone-override" property.
+// The timezone override for this web context. Setting this property provides a better
+// alternative to configure the timezone information for all webviews managed by the WebContext.
+// The other, less optimal, approach is to globally set the TZ environment variable in the
+// process before creating the context. However this approach might not be very convenient and
+// can have side-effects in your application.
+//
+// The expected values for this property are defined in the IANA timezone database. See this
+// wikipedia page for instance, https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+func (x *WebContext) SetPropertyTimeZoneOverride(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("time-zone-override", &v)
+}
+
+// GetPropertyTimeZoneOverride gets the "time-zone-override" property.
+// The timezone override for this web context. Setting this property provides a better
+// alternative to configure the timezone information for all webviews managed by the WebContext.
+// The other, less optimal, approach is to globally set the TZ environment variable in the
+// process before creating the context. However this approach might not be very convenient and
+// can have side-effects in your application.
+//
+// The expected values for this property are defined in the IANA timezone database. See this
+// wikipedia page for instance, https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+func (x *WebContext) GetPropertyTimeZoneOverride() string {
+	var v gobject.Value
+	x.GetProperty("time-zone-override", &v)
+	return v.GetString()
 }
 
 // This signal is emitted when a new automation request is made.

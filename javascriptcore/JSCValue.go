@@ -379,10 +379,10 @@ func NewValueString(ContextVar *Context, StringVar string) *Value {
 	return cls
 }
 
-var xNewValueStringFromBytes func(uintptr, uintptr) uintptr
+var xNewValueStringFromBytes func(uintptr, *glib.Bytes) uintptr
 
 // Create a new #JSCValue from @bytes.
-func NewValueStringFromBytes(ContextVar *Context, BytesVar uintptr) *Value {
+func NewValueStringFromBytes(ContextVar *Context, BytesVar *glib.Bytes) *Value {
 	var cls *Value
 
 	cret := xNewValueStringFromBytes(ContextVar.GoPointer(), BytesVar)
@@ -434,7 +434,7 @@ func NewValueUndefined(ContextVar *Context) *Value {
 	return cls
 }
 
-var xValueArrayBufferGetData func(uintptr, uint) uintptr
+var xValueArrayBufferGetData func(uintptr, *uint) uintptr
 
 // Gets a pointer to memory that contains the array buffer data.
 //
@@ -451,7 +451,7 @@ var xValueArrayBufferGetData func(uintptr, uint) uintptr
 // in JSC being called, the contents of the memory region might be modified in
 // the meantime. Consider taking a copy of the data and using the copy instead
 // in asynchronous code.
-func (x *Value) ArrayBufferGetData(SizeVar uint) uintptr {
+func (x *Value) ArrayBufferGetData(SizeVar *uint) uintptr {
 
 	cret := xValueArrayBufferGetData(x.GoPointer(), SizeVar)
 	return cret
@@ -900,11 +900,11 @@ func (x *Value) ToString() string {
 	return cret
 }
 
-var xValueToStringAsBytes func(uintptr) uintptr
+var xValueToStringAsBytes func(uintptr) *glib.Bytes
 
 // Convert @value to a string and return the results as #GBytes. This is needed
 // to handle strings with null characters.
-func (x *Value) ToStringAsBytes() uintptr {
+func (x *Value) ToStringAsBytes() *glib.Bytes {
 
 	cret := xValueToStringAsBytes(x.GoPointer())
 	return cret
@@ -926,7 +926,7 @@ func (x *Value) TypedArrayGetBuffer() *Value {
 	return cls
 }
 
-var xValueTypedArrayGetData func(uintptr, uint) uintptr
+var xValueTypedArrayGetData func(uintptr, *uint) uintptr
 
 // Obtains a pointer to the memory region that holds the elements of the typed
 // array; modifications done to them will be visible to JavaScript code. If
@@ -954,7 +954,7 @@ var xValueTypedArrayGetData func(uintptr, uint) uintptr
 // Note that the pointer returned by this function is not guaranteed to remain
 // the same after calls to other JSC API functions. See
 // jsc_value_array_buffer_get_data() for details.
-func (x *Value) TypedArrayGetData(LengthVar uint) uintptr {
+func (x *Value) TypedArrayGetData(LengthVar *uint) uintptr {
 
 	cret := xValueTypedArrayGetData(x.GoPointer(), LengthVar)
 	return cret

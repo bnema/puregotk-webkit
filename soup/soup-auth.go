@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -41,53 +42,53 @@ func (x *AuthClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideUpdate sets the callback function.
-func (x *AuthClass) OverrideUpdate(cb func(*Auth, *Message, uintptr) bool) {
+// OverrideUpdate sets the "update" callback function.
+func (x *AuthClass) OverrideUpdate(cb func(*Auth, *Message, *glib.HashTable) bool) {
 	if cb == nil {
 		x.xUpdate = 0
 	} else {
-		x.xUpdate = purego.NewCallback(func(AuthVarp uintptr, MsgVarp uintptr, AuthHeaderVarp uintptr) bool {
+		x.xUpdate = purego.NewCallback(func(AuthVarp uintptr, MsgVarp uintptr, AuthHeaderVarp *glib.HashTable) bool {
 			return cb(AuthNewFromInternalPtr(AuthVarp), MessageNewFromInternalPtr(MsgVarp), AuthHeaderVarp)
 		})
 	}
 }
 
-// GetUpdate gets the callback function.
-func (x *AuthClass) GetUpdate() func(*Auth, *Message, uintptr) bool {
+// GetUpdate gets the "update" callback function.
+func (x *AuthClass) GetUpdate() func(*Auth, *Message, *glib.HashTable) bool {
 	if x.xUpdate == 0 {
 		return nil
 	}
-	var rawCallback func(AuthVarp uintptr, MsgVarp uintptr, AuthHeaderVarp uintptr) bool
+	var rawCallback func(AuthVarp uintptr, MsgVarp uintptr, AuthHeaderVarp *glib.HashTable) bool
 	purego.RegisterFunc(&rawCallback, x.xUpdate)
-	return func(AuthVar *Auth, MsgVar *Message, AuthHeaderVar uintptr) bool {
+	return func(AuthVar *Auth, MsgVar *Message, AuthHeaderVar *glib.HashTable) bool {
 		return rawCallback(AuthVar.GoPointer(), MsgVar.GoPointer(), AuthHeaderVar)
 	}
 }
 
-// OverrideGetProtectionSpace sets the callback function.
-func (x *AuthClass) OverrideGetProtectionSpace(cb func(*Auth, uintptr) uintptr) {
+// OverrideGetProtectionSpace sets the "get_protection_space" callback function.
+func (x *AuthClass) OverrideGetProtectionSpace(cb func(*Auth, *glib.Uri) *glib.SList) {
 	if cb == nil {
 		x.xGetProtectionSpace = 0
 	} else {
-		x.xGetProtectionSpace = purego.NewCallback(func(AuthVarp uintptr, SourceUriVarp uintptr) uintptr {
+		x.xGetProtectionSpace = purego.NewCallback(func(AuthVarp uintptr, SourceUriVarp *glib.Uri) *glib.SList {
 			return cb(AuthNewFromInternalPtr(AuthVarp), SourceUriVarp)
 		})
 	}
 }
 
-// GetGetProtectionSpace gets the callback function.
-func (x *AuthClass) GetGetProtectionSpace() func(*Auth, uintptr) uintptr {
+// GetGetProtectionSpace gets the "get_protection_space" callback function.
+func (x *AuthClass) GetGetProtectionSpace() func(*Auth, *glib.Uri) *glib.SList {
 	if x.xGetProtectionSpace == 0 {
 		return nil
 	}
-	var rawCallback func(AuthVarp uintptr, SourceUriVarp uintptr) uintptr
+	var rawCallback func(AuthVarp uintptr, SourceUriVarp *glib.Uri) *glib.SList
 	purego.RegisterFunc(&rawCallback, x.xGetProtectionSpace)
-	return func(AuthVar *Auth, SourceUriVar uintptr) uintptr {
+	return func(AuthVar *Auth, SourceUriVar *glib.Uri) *glib.SList {
 		return rawCallback(AuthVar.GoPointer(), SourceUriVar)
 	}
 }
 
-// OverrideAuthenticate sets the callback function.
+// OverrideAuthenticate sets the "authenticate" callback function.
 func (x *AuthClass) OverrideAuthenticate(cb func(*Auth, string, string)) {
 	if cb == nil {
 		x.xAuthenticate = 0
@@ -98,7 +99,7 @@ func (x *AuthClass) OverrideAuthenticate(cb func(*Auth, string, string)) {
 	}
 }
 
-// GetAuthenticate gets the callback function.
+// GetAuthenticate gets the "authenticate" callback function.
 func (x *AuthClass) GetAuthenticate() func(*Auth, string, string) {
 	if x.xAuthenticate == 0 {
 		return nil
@@ -110,7 +111,7 @@ func (x *AuthClass) GetAuthenticate() func(*Auth, string, string) {
 	}
 }
 
-// OverrideIsAuthenticated sets the callback function.
+// OverrideIsAuthenticated sets the "is_authenticated" callback function.
 func (x *AuthClass) OverrideIsAuthenticated(cb func(*Auth) bool) {
 	if cb == nil {
 		x.xIsAuthenticated = 0
@@ -121,7 +122,7 @@ func (x *AuthClass) OverrideIsAuthenticated(cb func(*Auth) bool) {
 	}
 }
 
-// GetIsAuthenticated gets the callback function.
+// GetIsAuthenticated gets the "is_authenticated" callback function.
 func (x *AuthClass) GetIsAuthenticated() func(*Auth) bool {
 	if x.xIsAuthenticated == 0 {
 		return nil
@@ -133,7 +134,7 @@ func (x *AuthClass) GetIsAuthenticated() func(*Auth) bool {
 	}
 }
 
-// OverrideGetAuthorization sets the callback function.
+// OverrideGetAuthorization sets the "get_authorization" callback function.
 func (x *AuthClass) OverrideGetAuthorization(cb func(*Auth, *Message) string) {
 	if cb == nil {
 		x.xGetAuthorization = 0
@@ -144,7 +145,7 @@ func (x *AuthClass) OverrideGetAuthorization(cb func(*Auth, *Message) string) {
 	}
 }
 
-// GetGetAuthorization gets the callback function.
+// GetGetAuthorization gets the "get_authorization" callback function.
 func (x *AuthClass) GetGetAuthorization() func(*Auth, *Message) string {
 	if x.xGetAuthorization == 0 {
 		return nil
@@ -156,7 +157,7 @@ func (x *AuthClass) GetGetAuthorization() func(*Auth, *Message) string {
 	}
 }
 
-// OverrideIsReady sets the callback function.
+// OverrideIsReady sets the "is_ready" callback function.
 func (x *AuthClass) OverrideIsReady(cb func(*Auth, *Message) bool) {
 	if cb == nil {
 		x.xIsReady = 0
@@ -167,7 +168,7 @@ func (x *AuthClass) OverrideIsReady(cb func(*Auth, *Message) bool) {
 	}
 }
 
-// GetIsReady gets the callback function.
+// GetIsReady gets the "is_ready" callback function.
 func (x *AuthClass) GetIsReady() func(*Auth, *Message) bool {
 	if x.xIsReady == 0 {
 		return nil
@@ -179,7 +180,7 @@ func (x *AuthClass) GetIsReady() func(*Auth, *Message) bool {
 	}
 }
 
-// OverrideCanAuthenticate sets the callback function.
+// OverrideCanAuthenticate sets the "can_authenticate" callback function.
 func (x *AuthClass) OverrideCanAuthenticate(cb func(*Auth) bool) {
 	if cb == nil {
 		x.xCanAuthenticate = 0
@@ -190,7 +191,7 @@ func (x *AuthClass) OverrideCanAuthenticate(cb func(*Auth) bool) {
 	}
 }
 
-// GetCanAuthenticate gets the callback function.
+// GetCanAuthenticate gets the "can_authenticate" callback function.
 func (x *AuthClass) GetCanAuthenticate() func(*Auth) bool {
 	if x.xCanAuthenticate == 0 {
 		return nil
@@ -281,10 +282,10 @@ func (x *Auth) Cancel() {
 
 }
 
-var xAuthFreeProtectionSpace func(uintptr, uintptr)
+var xAuthFreeProtectionSpace func(uintptr, *glib.SList)
 
 // Frees @space.
-func (x *Auth) FreeProtectionSpace(SpaceVar uintptr) {
+func (x *Auth) FreeProtectionSpace(SpaceVar *glib.SList) {
 
 	xAuthFreeProtectionSpace(x.GoPointer(), SpaceVar)
 
@@ -325,14 +326,14 @@ func (x *Auth) GetInfo() string {
 	return cret
 }
 
-var xAuthGetProtectionSpace func(uintptr, uintptr) uintptr
+var xAuthGetProtectionSpace func(uintptr, *glib.Uri) *glib.SList
 
 // Returns a list of paths on the server which @auth extends over.
 //
 // (All subdirectories of these paths are also assumed to be part
 // of @auth's protection space, unless otherwise discovered not to
 // be.)
-func (x *Auth) GetProtectionSpace(SourceUriVar uintptr) uintptr {
+func (x *Auth) GetProtectionSpace(SourceUriVar *glib.Uri) *glib.SList {
 
 	cret := xAuthGetProtectionSpace(x.GoPointer(), SourceUriVar)
 	return cret
@@ -423,6 +424,81 @@ func (c *Auth) GoPointer() uintptr {
 
 func (c *Auth) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyAuthority sets the "authority" property.
+// The authority (host:port) being authenticated to.
+func (x *Auth) SetPropertyAuthority(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("authority", &v)
+}
+
+// GetPropertyAuthority gets the "authority" property.
+// The authority (host:port) being authenticated to.
+func (x *Auth) GetPropertyAuthority() string {
+	var v gobject.Value
+	x.GetProperty("authority", &v)
+	return v.GetString()
+}
+
+// GetPropertyIsAuthenticated gets the "is-authenticated" property.
+// Whether or not the auth has been authenticated.
+func (x *Auth) GetPropertyIsAuthenticated() bool {
+	var v gobject.Value
+	x.GetProperty("is-authenticated", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertyIsCancelled gets the "is-cancelled" property.
+// Whether or not the auth has been cancelled.
+func (x *Auth) GetPropertyIsCancelled() bool {
+	var v gobject.Value
+	x.GetProperty("is-cancelled", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyIsForProxy sets the "is-for-proxy" property.
+// Whether or not the auth is for a proxy server.
+func (x *Auth) SetPropertyIsForProxy(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("is-for-proxy", &v)
+}
+
+// GetPropertyIsForProxy gets the "is-for-proxy" property.
+// Whether or not the auth is for a proxy server.
+func (x *Auth) GetPropertyIsForProxy() bool {
+	var v gobject.Value
+	x.GetProperty("is-for-proxy", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyRealm sets the "realm" property.
+// The authentication realm.
+func (x *Auth) SetPropertyRealm(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("realm", &v)
+}
+
+// GetPropertyRealm gets the "realm" property.
+// The authentication realm.
+func (x *Auth) GetPropertyRealm() string {
+	var v gobject.Value
+	x.GetProperty("realm", &v)
+	return v.GetString()
+}
+
+// GetPropertySchemeName gets the "scheme-name" property.
+// The authentication scheme name.
+func (x *Auth) GetPropertySchemeName() string {
+	var v gobject.Value
+	x.GetProperty("scheme-name", &v)
+	return v.GetString()
 }
 
 func init() {

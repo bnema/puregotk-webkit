@@ -37,13 +37,13 @@ func (x *ITPFirstParty) GetDomain() string {
 	return cret
 }
 
-var xITPFirstPartyGetLastUpdateTime func(uintptr) uintptr
+var xITPFirstPartyGetLastUpdateTime func(uintptr) *glib.DateTime
 
 // Get the last time a #WebKitITPThirdParty has been seen under @itp_first_party.
 //
 // Each @WebKitITPFirstParty is created by webkit_itp_third_party_get_first_parties() and
 // therefore corresponds to exactly one #WebKitITPThirdParty.
-func (x *ITPFirstParty) GetLastUpdateTime() uintptr {
+func (x *ITPFirstParty) GetLastUpdateTime() *glib.DateTime {
 
 	cret := xITPFirstPartyGetLastUpdateTime(x.GoPointer())
 	return cret
@@ -61,12 +61,12 @@ func (x *ITPFirstParty) GetWebsiteDataAccessAllowed() bool {
 	return cret
 }
 
-var xITPFirstPartyRef func(uintptr) uintptr
+var xITPFirstPartyRef func(uintptr) *ITPFirstParty
 
 // Atomically increments the reference count of @itp_first_party by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *ITPFirstParty) Ref() uintptr {
+func (x *ITPFirstParty) Ref() *ITPFirstParty {
 
 	cret := xITPFirstPartyRef(x.GoPointer())
 	return cret
@@ -109,21 +109,21 @@ func (x *ITPThirdParty) GetDomain() string {
 	return cret
 }
 
-var xITPThirdPartyGetFirstParties func(uintptr) uintptr
+var xITPThirdPartyGetFirstParties func(uintptr) *glib.List
 
 // Get the list of #WebKitITPFirstParty under which @itp_third_party has been seen.
-func (x *ITPThirdParty) GetFirstParties() uintptr {
+func (x *ITPThirdParty) GetFirstParties() *glib.List {
 
 	cret := xITPThirdPartyGetFirstParties(x.GoPointer())
 	return cret
 }
 
-var xITPThirdPartyRef func(uintptr) uintptr
+var xITPThirdPartyRef func(uintptr) *ITPThirdParty
 
 // Atomically increments the reference count of @itp_third_party by one.
 //
 // This function is MT-safe and may be called from any thread.
-func (x *ITPThirdParty) Ref() uintptr {
+func (x *ITPThirdParty) Ref() *ITPThirdParty {
 
 	cret := xITPThirdPartyRef(x.GoPointer())
 	return cret
@@ -246,10 +246,10 @@ func (x *WebsiteDataManager) Fetch(TypesVar WebsiteDataTypes, CancellableVar *gi
 
 }
 
-var xWebsiteDataManagerFetchFinish func(uintptr, uintptr, **glib.Error) uintptr
+var xWebsiteDataManagerFetchFinish func(uintptr, uintptr, **glib.Error) *glib.List
 
 // Finish an asynchronous operation started with webkit_website_data_manager_fetch().
-func (x *WebsiteDataManager) FetchFinish(ResultVar gio.AsyncResult) (uintptr, error) {
+func (x *WebsiteDataManager) FetchFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
 	var cerr *glib.Error
 
 	cret := xWebsiteDataManagerFetchFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -319,10 +319,10 @@ func (x *WebsiteDataManager) GetItpSummary(CancellableVar *gio.Cancellable, Call
 
 }
 
-var xWebsiteDataManagerGetItpSummaryFinish func(uintptr, uintptr, **glib.Error) uintptr
+var xWebsiteDataManagerGetItpSummaryFinish func(uintptr, uintptr, **glib.Error) *glib.List
 
 // Finish an asynchronous operation started with webkit_website_data_manager_get_itp_summary().
-func (x *WebsiteDataManager) GetItpSummaryFinish(ResultVar gio.AsyncResult) (uintptr, error) {
+func (x *WebsiteDataManager) GetItpSummaryFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
 	var cerr *glib.Error
 
 	cret := xWebsiteDataManagerGetItpSummaryFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -344,7 +344,7 @@ func (x *WebsiteDataManager) IsEphemeral() bool {
 	return cret
 }
 
-var xWebsiteDataManagerRemove func(uintptr, WebsiteDataTypes, uintptr, uintptr, uintptr, uintptr)
+var xWebsiteDataManagerRemove func(uintptr, WebsiteDataTypes, *glib.List, uintptr, uintptr, uintptr)
 
 // Asynchronously removes the website data in the given @website_data list.
 //
@@ -353,7 +353,7 @@ var xWebsiteDataManagerRemove func(uintptr, WebsiteDataTypes, uintptr, uintptr, 
 //
 // When the operation is finished, @callback will be called. You can then call
 // webkit_website_data_manager_remove_finish() to get the result of the operation.
-func (x *WebsiteDataManager) Remove(TypesVar WebsiteDataTypes, WebsiteDataVar uintptr, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *WebsiteDataManager) Remove(TypesVar WebsiteDataTypes, WebsiteDataVar *glib.List, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
 	xWebsiteDataManagerRemove(x.GoPointer(), TypesVar, WebsiteDataVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 
@@ -395,6 +395,87 @@ func (c *WebsiteDataManager) GoPointer() uintptr {
 
 func (c *WebsiteDataManager) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyBaseCacheDirectory sets the "base-cache-directory" property.
+// The base directory for caches. If %NULL, a default location will be used.
+func (x *WebsiteDataManager) SetPropertyBaseCacheDirectory(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("base-cache-directory", &v)
+}
+
+// GetPropertyBaseCacheDirectory gets the "base-cache-directory" property.
+// The base directory for caches. If %NULL, a default location will be used.
+func (x *WebsiteDataManager) GetPropertyBaseCacheDirectory() string {
+	var v gobject.Value
+	x.GetProperty("base-cache-directory", &v)
+	return v.GetString()
+}
+
+// SetPropertyBaseDataDirectory sets the "base-data-directory" property.
+// The base directory for website data. If %NULL, a default location will be used.
+func (x *WebsiteDataManager) SetPropertyBaseDataDirectory(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("base-data-directory", &v)
+}
+
+// GetPropertyBaseDataDirectory gets the "base-data-directory" property.
+// The base directory for website data. If %NULL, a default location will be used.
+func (x *WebsiteDataManager) GetPropertyBaseDataDirectory() string {
+	var v gobject.Value
+	x.GetProperty("base-data-directory", &v)
+	return v.GetString()
+}
+
+// SetPropertyIsEphemeral sets the "is-ephemeral" property.
+// Whether the #WebKitWebsiteDataManager is ephemeral. An ephemeral #WebKitWebsiteDataManager
+// handles all websites data as non-persistent, and nothing will be written to the client
+// storage. Note that if you create an ephemeral #WebKitWebsiteDataManager all other construction
+// parameters to configure data directories will be ignored.
+func (x *WebsiteDataManager) SetPropertyIsEphemeral(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("is-ephemeral", &v)
+}
+
+// GetPropertyIsEphemeral gets the "is-ephemeral" property.
+// Whether the #WebKitWebsiteDataManager is ephemeral. An ephemeral #WebKitWebsiteDataManager
+// handles all websites data as non-persistent, and nothing will be written to the client
+// storage. Note that if you create an ephemeral #WebKitWebsiteDataManager all other construction
+// parameters to configure data directories will be ignored.
+func (x *WebsiteDataManager) GetPropertyIsEphemeral() bool {
+	var v gobject.Value
+	x.GetProperty("is-ephemeral", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyOriginStorageRatio sets the "origin-storage-ratio" property.
+// The percentage of volume space that can be used for data storage for every domain.
+// If the maximum storage is reached the storage request will fail with a QuotaExceededError exception.
+// A value of 0.0 means that data storage is not allowed. A value of -1.0, which is the default,
+// means WebKit will use the default quota (1 GiB).
+func (x *WebsiteDataManager) SetPropertyOriginStorageRatio(value float64) {
+	var v gobject.Value
+	v.Init(gobject.TypeDoubleVal)
+	v.SetDouble(value)
+	x.SetProperty("origin-storage-ratio", &v)
+}
+
+// SetPropertyTotalStorageRatio sets the "total-storage-ratio" property.
+// The percentage of volume space that can be used for data storage for all domains.
+// If the maximum storage is reached the eviction will happen.
+// A value of 0.0 means that data storage is not allowed. A value of -1.0, which is the default,
+// means there's no limit for the total storage.
+func (x *WebsiteDataManager) SetPropertyTotalStorageRatio(value float64) {
+	var v gobject.Value
+	v.Init(gobject.TypeDoubleVal)
+	v.SetDouble(value)
+	x.SetProperty("total-storage-ratio", &v)
 }
 
 func init() {

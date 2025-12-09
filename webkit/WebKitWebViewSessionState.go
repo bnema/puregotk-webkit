@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -25,31 +26,31 @@ func (x *WebViewSessionState) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewWebViewSessionState func(uintptr) uintptr
+var xNewWebViewSessionState func(*glib.Bytes) *WebViewSessionState
 
 // Creates a new #WebKitWebViewSessionState from serialized data.
-func NewWebViewSessionState(DataVar uintptr) uintptr {
+func NewWebViewSessionState(DataVar *glib.Bytes) *WebViewSessionState {
 
 	cret := xNewWebViewSessionState(DataVar)
 	return cret
 }
 
-var xWebViewSessionStateRef func(uintptr) uintptr
+var xWebViewSessionStateRef func(uintptr) *WebViewSessionState
 
 // Atomically increments the reference count of @state by one.
 //
 // This
 // function is MT-safe and may be called from any thread.
-func (x *WebViewSessionState) Ref() uintptr {
+func (x *WebViewSessionState) Ref() *WebViewSessionState {
 
 	cret := xWebViewSessionStateRef(x.GoPointer())
 	return cret
 }
 
-var xWebViewSessionStateSerialize func(uintptr) uintptr
+var xWebViewSessionStateSerialize func(uintptr) *glib.Bytes
 
 // Serializes a #WebKitWebViewSessionState.
-func (x *WebViewSessionState) Serialize() uintptr {
+func (x *WebViewSessionState) Serialize() *glib.Bytes {
 
 	cret := xWebViewSessionStateSerialize(x.GoPointer())
 	return cret

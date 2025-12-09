@@ -5,6 +5,7 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
@@ -58,10 +59,10 @@ func NewURIRequest(UriVar string) *URIRequest {
 	return cls
 }
 
-var xURIRequestGetHttpHeaders func(uintptr) uintptr
+var xURIRequestGetHttpHeaders func(uintptr) *soup.MessageHeaders
 
 // Get the HTTP headers of a #WebKitURIRequest as a #SoupMessageHeaders.
-func (x *URIRequest) GetHttpHeaders() uintptr {
+func (x *URIRequest) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURIRequestGetHttpHeaders(x.GoPointer())
 	return cret
@@ -103,6 +104,23 @@ func (c *URIRequest) GoPointer() uintptr {
 
 func (c *URIRequest) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyUri sets the "uri" property.
+// The URI to which the request will be made.
+func (x *URIRequest) SetPropertyUri(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("uri", &v)
+}
+
+// GetPropertyUri gets the "uri" property.
+// The URI to which the request will be made.
+func (x *URIRequest) GetPropertyUri() string {
+	var v gobject.Value
+	x.GetProperty("uri", &v)
+	return v.GetString()
 }
 
 func init() {

@@ -62,34 +62,34 @@ func OptionsForeach(FunctionVar *OptionsFunc, UserDataVar uintptr) {
 
 }
 
-var xOptionsGetBoolean func(string, bool) bool
+var xOptionsGetBoolean func(string, *bool) bool
 
 // Get @option as a #gboolean value.
-func OptionsGetBoolean(OptionVar string, ValueVar bool) bool {
+func OptionsGetBoolean(OptionVar string, ValueVar *bool) bool {
 
 	cret := xOptionsGetBoolean(OptionVar, ValueVar)
 	return cret
 }
 
-var xOptionsGetDouble func(string, float64) bool
+var xOptionsGetDouble func(string, *float64) bool
 
 // Get @option as a #gdouble value.
-func OptionsGetDouble(OptionVar string, ValueVar float64) bool {
+func OptionsGetDouble(OptionVar string, ValueVar *float64) bool {
 
 	cret := xOptionsGetDouble(OptionVar, ValueVar)
 	return cret
 }
 
-var xOptionsGetInt func(string, int) bool
+var xOptionsGetInt func(string, *int) bool
 
 // Get @option as a #gint value.
-func OptionsGetInt(OptionVar string, ValueVar int) bool {
+func OptionsGetInt(OptionVar string, ValueVar *int) bool {
 
 	cret := xOptionsGetInt(OptionVar, ValueVar)
 	return cret
 }
 
-var xOptionsGetOptionGroup func() uintptr
+var xOptionsGetOptionGroup func() *glib.OptionGroup
 
 // Create a #GOptionGroup to handle JSCOptions as command line arguments.
 // The options will be exposed as command line arguments with the form
@@ -98,46 +98,46 @@ var xOptionsGetOptionGroup func() uintptr
 // corresponding option during command line parsing. Applications only need to
 // pass the returned group to g_option_context_add_group(), and the rest will
 // be taken care for automatically.
-func OptionsGetOptionGroup() uintptr {
+func OptionsGetOptionGroup() *glib.OptionGroup {
 
 	cret := xOptionsGetOptionGroup()
 	return cret
 }
 
-var xOptionsGetRangeString func(string, string) bool
+var xOptionsGetRangeString func(string, *string) bool
 
 // Get @option as a range string. The string must be in the
 // format &lt;emphasis&gt;[!]&amp;lt;low&amp;gt;[:&amp;lt;high&amp;gt;]&lt;/emphasis&gt; where low and high are #guint values.
 // Values between low and high (both included) will be considered in
 // the range, unless &lt;emphasis&gt;!&lt;/emphasis&gt; is used to invert the range.
-func OptionsGetRangeString(OptionVar string, ValueVar string) bool {
+func OptionsGetRangeString(OptionVar string, ValueVar *string) bool {
 
 	cret := xOptionsGetRangeString(OptionVar, ValueVar)
 	return cret
 }
 
-var xOptionsGetSize func(string, uint) bool
+var xOptionsGetSize func(string, *uint) bool
 
 // Get @option as a #gsize value.
-func OptionsGetSize(OptionVar string, ValueVar uint) bool {
+func OptionsGetSize(OptionVar string, ValueVar *uint) bool {
 
 	cret := xOptionsGetSize(OptionVar, ValueVar)
 	return cret
 }
 
-var xOptionsGetString func(string, string) bool
+var xOptionsGetString func(string, *string) bool
 
 // Get @option as a string.
-func OptionsGetString(OptionVar string, ValueVar string) bool {
+func OptionsGetString(OptionVar string, ValueVar *string) bool {
 
 	cret := xOptionsGetString(OptionVar, ValueVar)
 	return cret
 }
 
-var xOptionsGetUint func(string, uint) bool
+var xOptionsGetUint func(string, *uint) bool
 
 // Get @option as a #guint value.
-func OptionsGetUint(OptionVar string, ValueVar uint) bool {
+func OptionsGetUint(OptionVar string, ValueVar *uint) bool {
 
 	cret := xOptionsGetUint(OptionVar, ValueVar)
 	return cret

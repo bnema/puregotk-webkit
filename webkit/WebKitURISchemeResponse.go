@@ -5,6 +5,7 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gio"
@@ -75,13 +76,13 @@ func (x *URISchemeResponse) SetContentType(ContentTypeVar string) {
 
 }
 
-var xURISchemeResponseSetHttpHeaders func(uintptr, uintptr)
+var xURISchemeResponseSetHttpHeaders func(uintptr, *soup.MessageHeaders)
 
 // Assign the provided #SoupMessageHeaders to the response.
 //
 // @headers need to be of the type %SOUP_MESSAGE_HEADERS_RESPONSE.
 // Any existing headers will be overwritten.
-func (x *URISchemeResponse) SetHttpHeaders(HeadersVar uintptr) {
+func (x *URISchemeResponse) SetHttpHeaders(HeadersVar *soup.MessageHeaders) {
 
 	xURISchemeResponseSetHttpHeaders(x.GoPointer(), HeadersVar)
 
@@ -107,6 +108,15 @@ func (c *URISchemeResponse) GoPointer() uintptr {
 
 func (c *URISchemeResponse) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyStreamLength sets the "stream-length" property.
+// The input stream length in bytes, `-1` for unknown length.
+func (x *URISchemeResponse) SetPropertyStreamLength(value int64) {
+	var v gobject.Value
+	v.Init(gobject.TypeInt64Val)
+	v.SetInt64(value)
+	x.SetProperty("stream-length", &v)
 }
 
 func init() {

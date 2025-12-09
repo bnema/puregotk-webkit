@@ -5,9 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gio"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -57,10 +59,10 @@ func (x *URISchemeRequest) Finish(StreamVar *gio.InputStream, StreamLengthVar in
 
 }
 
-var xURISchemeRequestFinishError func(uintptr, uintptr)
+var xURISchemeRequestFinishError func(uintptr, *glib.Error)
 
 // Finish a #WebKitURISchemeRequest with a #GError.
-func (x *URISchemeRequest) FinishError(ErrorVar uintptr) {
+func (x *URISchemeRequest) FinishError(ErrorVar *glib.Error) {
 
 	xURISchemeRequestFinishError(x.GoPointer(), ErrorVar)
 
@@ -91,10 +93,10 @@ func (x *URISchemeRequest) GetHttpBody() *gio.InputStream {
 	return cls
 }
 
-var xURISchemeRequestGetHttpHeaders func(uintptr) uintptr
+var xURISchemeRequestGetHttpHeaders func(uintptr) *soup.MessageHeaders
 
 // Get the #SoupMessageHeaders of the request.
-func (x *URISchemeRequest) GetHttpHeaders() uintptr {
+func (x *URISchemeRequest) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURISchemeRequestGetHttpHeaders(x.GoPointer())
 	return cret

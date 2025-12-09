@@ -166,6 +166,37 @@ func (c *FileChooserRequest) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// GetPropertyMimeTypes gets the "mime-types" property.
+// A %NULL-terminated array of strings containing the list of MIME
+// types the file chooser dialog should handle. See
+// webkit_file_chooser_request_get_mime_types() for more details.
+func (x *FileChooserRequest) GetPropertyMimeTypes() []string {
+	var v gobject.Value
+	x.GetProperty("mime-types", &v)
+	return core.GoStringSlice(v.GetBoxed())
+}
+
+// GetPropertySelectMultiple gets the "select-multiple" property.
+// Whether the file chooser should allow selecting multiple
+// files. See
+// webkit_file_chooser_request_get_select_multiple() for
+// more details.
+func (x *FileChooserRequest) GetPropertySelectMultiple() bool {
+	var v gobject.Value
+	x.GetProperty("select-multiple", &v)
+	return v.GetBoolean()
+}
+
+// GetPropertySelectedFiles gets the "selected-files" property.
+// A %NULL-terminated array of strings containing the list of
+// selected files associated to the current request. See
+// webkit_file_chooser_request_get_selected_files() for more details.
+func (x *FileChooserRequest) GetPropertySelectedFiles() []string {
+	var v gobject.Value
+	x.GetProperty("selected-files", &v)
+	return core.GoStringSlice(v.GetBoxed())
+}
+
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
 	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})

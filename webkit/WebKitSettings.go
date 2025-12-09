@@ -104,7 +104,7 @@ func NewSettingsWithSettings(FirstSettingNameVar string, varArgs ...interface{})
 	return cls
 }
 
-var xSettingsApplyFromKeyFile func(uintptr, uintptr, string, **glib.Error) bool
+var xSettingsApplyFromKeyFile func(uintptr, *glib.KeyFile, string, **glib.Error) bool
 
 // Reads the contents of the given @group_name from the given @key_file and apply the value of
 // each key/value to the corresponding property on the @settings.
@@ -114,7 +114,7 @@ var xSettingsApplyFromKeyFile func(uintptr, uintptr, string, **glib.Error) bool
 // %FALSE.
 //
 // Supported value types are strings (unquoted), booleans (0, 1, true, false) and unsigned integers.
-func (x *Settings) ApplyFromKeyFile(KeyFileVar uintptr, GroupNameVar string) (bool, error) {
+func (x *Settings) ApplyFromKeyFile(KeyFileVar *glib.KeyFile, GroupNameVar string) (bool, error) {
 	var cerr *glib.Error
 
 	cret := xSettingsApplyFromKeyFile(x.GoPointer(), KeyFileVar, GroupNameVar, &cerr)
@@ -494,10 +494,10 @@ func (x *Settings) GetFantasyFontFamily() string {
 	return cret
 }
 
-var xSettingsGetFeatureEnabled func(uintptr, uintptr) bool
+var xSettingsGetFeatureEnabled func(uintptr, *Feature) bool
 
 // Gets whether a feature is enabled.
-func (x *Settings) GetFeatureEnabled(FeatureVar uintptr) bool {
+func (x *Settings) GetFeatureEnabled(FeatureVar *Feature) bool {
 
 	cret := xSettingsGetFeatureEnabled(x.GoPointer(), FeatureVar)
 	return cret
@@ -1018,7 +1018,7 @@ func (x *Settings) SetFantasyFontFamily(FantasyFontFamilyVar string) {
 
 }
 
-var xSettingsSetFeatureEnabled func(uintptr, uintptr, bool)
+var xSettingsSetFeatureEnabled func(uintptr, *Feature, bool)
 
 // Enables or disables a feature.
 //
@@ -1026,7 +1026,7 @@ var xSettingsSetFeatureEnabled func(uintptr, uintptr, bool)
 // [id@webkit_settings_get_feature_enabled]. To reset a feature to its
 // initial status, pass the value returned by
 // [id@webkit_feature_get_default_value] as the @enabled parameter.
-func (x *Settings) SetFeatureEnabled(FeatureVar uintptr, EnabledVar bool) {
+func (x *Settings) SetFeatureEnabled(FeatureVar *Feature, EnabledVar bool) {
 
 	xSettingsSetFeatureEnabled(x.GoPointer(), FeatureVar, EnabledVar)
 
@@ -1200,6 +1200,1210 @@ func (c *Settings) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
 }
 
+// SetPropertyAllowFileAccessFromFileUrls sets the "allow-file-access-from-file-urls" property.
+// Whether file access is allowed from file URLs. By default, when
+// something is loaded in a #WebKitWebView using a file URI, cross
+// origin requests to other file resources are not allowed. This
+// setting allows you to change that behaviour, so that it would be
+// possible to do a XMLHttpRequest of a local file, for example.
+func (x *Settings) SetPropertyAllowFileAccessFromFileUrls(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("allow-file-access-from-file-urls", &v)
+}
+
+// GetPropertyAllowFileAccessFromFileUrls gets the "allow-file-access-from-file-urls" property.
+// Whether file access is allowed from file URLs. By default, when
+// something is loaded in a #WebKitWebView using a file URI, cross
+// origin requests to other file resources are not allowed. This
+// setting allows you to change that behaviour, so that it would be
+// possible to do a XMLHttpRequest of a local file, for example.
+func (x *Settings) GetPropertyAllowFileAccessFromFileUrls() bool {
+	var v gobject.Value
+	x.GetProperty("allow-file-access-from-file-urls", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyAllowModalDialogs sets the "allow-modal-dialogs" property.
+// Determine whether it's allowed to create and run modal dialogs
+// from a #WebKitWebView through JavaScript with
+// &lt;function&gt;window.showModalDialog&lt;/function&gt;. If it's set to
+// %FALSE, the associated #WebKitWebView won't be able to create
+// new modal dialogs, so not even the #WebKitWebView::create
+// signal will be emitted.
+func (x *Settings) SetPropertyAllowModalDialogs(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("allow-modal-dialogs", &v)
+}
+
+// GetPropertyAllowModalDialogs gets the "allow-modal-dialogs" property.
+// Determine whether it's allowed to create and run modal dialogs
+// from a #WebKitWebView through JavaScript with
+// &lt;function&gt;window.showModalDialog&lt;/function&gt;. If it's set to
+// %FALSE, the associated #WebKitWebView won't be able to create
+// new modal dialogs, so not even the #WebKitWebView::create
+// signal will be emitted.
+func (x *Settings) GetPropertyAllowModalDialogs() bool {
+	var v gobject.Value
+	x.GetProperty("allow-modal-dialogs", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyAllowTopNavigationToDataUrls sets the "allow-top-navigation-to-data-urls" property.
+// Whether or not the top frame is allowed to navigate to data URLs. It is disabled by default
+// due to the risk it poses when loading untrusted URLs, with data URLs being used in scamming
+// and phishing attacks. In contrast, a scenario where it could be enabled could be an app that
+// embeds a WebView and you have control of the pages being show instead of a generic browser.
+func (x *Settings) SetPropertyAllowTopNavigationToDataUrls(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("allow-top-navigation-to-data-urls", &v)
+}
+
+// GetPropertyAllowTopNavigationToDataUrls gets the "allow-top-navigation-to-data-urls" property.
+// Whether or not the top frame is allowed to navigate to data URLs. It is disabled by default
+// due to the risk it poses when loading untrusted URLs, with data URLs being used in scamming
+// and phishing attacks. In contrast, a scenario where it could be enabled could be an app that
+// embeds a WebView and you have control of the pages being show instead of a generic browser.
+func (x *Settings) GetPropertyAllowTopNavigationToDataUrls() bool {
+	var v gobject.Value
+	x.GetProperty("allow-top-navigation-to-data-urls", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyAllowUniversalAccessFromFileUrls sets the "allow-universal-access-from-file-urls" property.
+// Whether or not JavaScript running in the context of a file scheme URL
+// should be allowed to access content from any origin.  By default, when
+// something is loaded in a #WebKitWebView using a file scheme URL,
+// access to the local file system and arbitrary local storage is not
+// allowed. This setting allows you to change that behaviour, so that
+// it would be possible to use local storage, for example.
+func (x *Settings) SetPropertyAllowUniversalAccessFromFileUrls(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("allow-universal-access-from-file-urls", &v)
+}
+
+// GetPropertyAllowUniversalAccessFromFileUrls gets the "allow-universal-access-from-file-urls" property.
+// Whether or not JavaScript running in the context of a file scheme URL
+// should be allowed to access content from any origin.  By default, when
+// something is loaded in a #WebKitWebView using a file scheme URL,
+// access to the local file system and arbitrary local storage is not
+// allowed. This setting allows you to change that behaviour, so that
+// it would be possible to use local storage, for example.
+func (x *Settings) GetPropertyAllowUniversalAccessFromFileUrls() bool {
+	var v gobject.Value
+	x.GetProperty("allow-universal-access-from-file-urls", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyAutoLoadImages sets the "auto-load-images" property.
+// Determines whether images should be automatically loaded or not.
+// On devices where network bandwidth is of concern, it might be
+// useful to turn this property off.
+func (x *Settings) SetPropertyAutoLoadImages(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("auto-load-images", &v)
+}
+
+// GetPropertyAutoLoadImages gets the "auto-load-images" property.
+// Determines whether images should be automatically loaded or not.
+// On devices where network bandwidth is of concern, it might be
+// useful to turn this property off.
+func (x *Settings) GetPropertyAutoLoadImages() bool {
+	var v gobject.Value
+	x.GetProperty("auto-load-images", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyCursiveFontFamily sets the "cursive-font-family" property.
+// The font family used as the default for content using a cursive font.
+func (x *Settings) SetPropertyCursiveFontFamily(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("cursive-font-family", &v)
+}
+
+// GetPropertyCursiveFontFamily gets the "cursive-font-family" property.
+// The font family used as the default for content using a cursive font.
+func (x *Settings) GetPropertyCursiveFontFamily() string {
+	var v gobject.Value
+	x.GetProperty("cursive-font-family", &v)
+	return v.GetString()
+}
+
+// SetPropertyDefaultCharset sets the "default-charset" property.
+// The default text charset used when interpreting content with an unspecified charset.
+func (x *Settings) SetPropertyDefaultCharset(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("default-charset", &v)
+}
+
+// GetPropertyDefaultCharset gets the "default-charset" property.
+// The default text charset used when interpreting content with an unspecified charset.
+func (x *Settings) GetPropertyDefaultCharset() string {
+	var v gobject.Value
+	x.GetProperty("default-charset", &v)
+	return v.GetString()
+}
+
+// SetPropertyDefaultFontFamily sets the "default-font-family" property.
+// The font family to use as the default for content that does not specify a font.
+func (x *Settings) SetPropertyDefaultFontFamily(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("default-font-family", &v)
+}
+
+// GetPropertyDefaultFontFamily gets the "default-font-family" property.
+// The font family to use as the default for content that does not specify a font.
+func (x *Settings) GetPropertyDefaultFontFamily() string {
+	var v gobject.Value
+	x.GetProperty("default-font-family", &v)
+	return v.GetString()
+}
+
+// SetPropertyDefaultFontSize sets the "default-font-size" property.
+// The default font size in pixels to use for content displayed if
+// no font size is specified.
+func (x *Settings) SetPropertyDefaultFontSize(value uint) {
+	var v gobject.Value
+	v.Init(gobject.TypeUintVal)
+	v.SetUint(value)
+	x.SetProperty("default-font-size", &v)
+}
+
+// GetPropertyDefaultFontSize gets the "default-font-size" property.
+// The default font size in pixels to use for content displayed if
+// no font size is specified.
+func (x *Settings) GetPropertyDefaultFontSize() uint {
+	var v gobject.Value
+	x.GetProperty("default-font-size", &v)
+	return v.GetUint()
+}
+
+// SetPropertyDefaultMonospaceFontSize sets the "default-monospace-font-size" property.
+// The default font size in pixels to use for content displayed in
+// monospace font if no font size is specified.
+func (x *Settings) SetPropertyDefaultMonospaceFontSize(value uint) {
+	var v gobject.Value
+	v.Init(gobject.TypeUintVal)
+	v.SetUint(value)
+	x.SetProperty("default-monospace-font-size", &v)
+}
+
+// GetPropertyDefaultMonospaceFontSize gets the "default-monospace-font-size" property.
+// The default font size in pixels to use for content displayed in
+// monospace font if no font size is specified.
+func (x *Settings) GetPropertyDefaultMonospaceFontSize() uint {
+	var v gobject.Value
+	x.GetProperty("default-monospace-font-size", &v)
+	return v.GetUint()
+}
+
+// SetPropertyDisableWebSecurity sets the "disable-web-security" property.
+// Enable or disable support for Web Security on pages.
+//
+// This setting disables the same-origin policy, allowing every website full control over
+// all other websites. This is for use in special environments where you wish to disable
+// all security and allow websites to hack each other. It is impossible to use this setting
+// securely.
+func (x *Settings) SetPropertyDisableWebSecurity(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("disable-web-security", &v)
+}
+
+// GetPropertyDisableWebSecurity gets the "disable-web-security" property.
+// Enable or disable support for Web Security on pages.
+//
+// This setting disables the same-origin policy, allowing every website full control over
+// all other websites. This is for use in special environments where you wish to disable
+// all security and allow websites to hack each other. It is impossible to use this setting
+// securely.
+func (x *Settings) GetPropertyDisableWebSecurity() bool {
+	var v gobject.Value
+	x.GetProperty("disable-web-security", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyDrawCompositingIndicators sets the "draw-compositing-indicators" property.
+// Whether to draw compositing borders and repaint counters on layers drawn
+// with accelerated compositing. This is useful for debugging issues related
+// to web content that is composited with the GPU.
+func (x *Settings) SetPropertyDrawCompositingIndicators(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("draw-compositing-indicators", &v)
+}
+
+// GetPropertyDrawCompositingIndicators gets the "draw-compositing-indicators" property.
+// Whether to draw compositing borders and repaint counters on layers drawn
+// with accelerated compositing. This is useful for debugging issues related
+// to web content that is composited with the GPU.
+func (x *Settings) GetPropertyDrawCompositingIndicators() bool {
+	var v gobject.Value
+	x.GetProperty("draw-compositing-indicators", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnable2dCanvasAcceleration sets the "enable-2d-canvas-acceleration" property.
+// Enable or disable 2D canvas acceleration.
+// If this setting is enabled, the 2D canvas will be accelerated even if Skia CPU
+// is used for rendering. However, the canvas can be unaccelerated even when this setting
+// is enabled, for other reasons like its size or when willReadFrequently property is used.
+func (x *Settings) SetPropertyEnable2dCanvasAcceleration(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-2d-canvas-acceleration", &v)
+}
+
+// GetPropertyEnable2dCanvasAcceleration gets the "enable-2d-canvas-acceleration" property.
+// Enable or disable 2D canvas acceleration.
+// If this setting is enabled, the 2D canvas will be accelerated even if Skia CPU
+// is used for rendering. However, the canvas can be unaccelerated even when this setting
+// is enabled, for other reasons like its size or when willReadFrequently property is used.
+func (x *Settings) GetPropertyEnable2dCanvasAcceleration() bool {
+	var v gobject.Value
+	x.GetProperty("enable-2d-canvas-acceleration", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableBackForwardNavigationGestures sets the "enable-back-forward-navigation-gestures" property.
+// Enable or disable horizontal swipe gesture for back-forward navigation.
+func (x *Settings) SetPropertyEnableBackForwardNavigationGestures(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-back-forward-navigation-gestures", &v)
+}
+
+// GetPropertyEnableBackForwardNavigationGestures gets the "enable-back-forward-navigation-gestures" property.
+// Enable or disable horizontal swipe gesture for back-forward navigation.
+func (x *Settings) GetPropertyEnableBackForwardNavigationGestures() bool {
+	var v gobject.Value
+	x.GetProperty("enable-back-forward-navigation-gestures", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableCaretBrowsing sets the "enable-caret-browsing" property.
+// Whether to enable accessibility enhanced keyboard navigation.
+func (x *Settings) SetPropertyEnableCaretBrowsing(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-caret-browsing", &v)
+}
+
+// GetPropertyEnableCaretBrowsing gets the "enable-caret-browsing" property.
+// Whether to enable accessibility enhanced keyboard navigation.
+func (x *Settings) GetPropertyEnableCaretBrowsing() bool {
+	var v gobject.Value
+	x.GetProperty("enable-caret-browsing", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableDeveloperExtras sets the "enable-developer-extras" property.
+// Determines whether or not developer tools, such as the Web Inspector, are enabled.
+func (x *Settings) SetPropertyEnableDeveloperExtras(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-developer-extras", &v)
+}
+
+// GetPropertyEnableDeveloperExtras gets the "enable-developer-extras" property.
+// Determines whether or not developer tools, such as the Web Inspector, are enabled.
+func (x *Settings) GetPropertyEnableDeveloperExtras() bool {
+	var v gobject.Value
+	x.GetProperty("enable-developer-extras", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableDnsPrefetching sets the "enable-dns-prefetching" property.
+// Determines whether or not to prefetch domain names. DNS prefetching attempts
+// to resolve domain names before a user tries to follow a link.
+func (x *Settings) SetPropertyEnableDnsPrefetching(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-dns-prefetching", &v)
+}
+
+// GetPropertyEnableDnsPrefetching gets the "enable-dns-prefetching" property.
+// Determines whether or not to prefetch domain names. DNS prefetching attempts
+// to resolve domain names before a user tries to follow a link.
+func (x *Settings) GetPropertyEnableDnsPrefetching() bool {
+	var v gobject.Value
+	x.GetProperty("enable-dns-prefetching", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableEncryptedMedia sets the "enable-encrypted-media" property.
+// Enable or disable support for Encrypted Media API on pages.
+// EncryptedMedia is an experimental JavaScript API for playing encrypted media in HTML.
+// This property will only work as intended if the EncryptedMedia feature is enabled at build time
+// with the ENABLE_ENCRYPTED_MEDIA flag.
+//
+// See https://www.w3.org/TR/encrypted-media/
+func (x *Settings) SetPropertyEnableEncryptedMedia(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-encrypted-media", &v)
+}
+
+// GetPropertyEnableEncryptedMedia gets the "enable-encrypted-media" property.
+// Enable or disable support for Encrypted Media API on pages.
+// EncryptedMedia is an experimental JavaScript API for playing encrypted media in HTML.
+// This property will only work as intended if the EncryptedMedia feature is enabled at build time
+// with the ENABLE_ENCRYPTED_MEDIA flag.
+//
+// See https://www.w3.org/TR/encrypted-media/
+func (x *Settings) GetPropertyEnableEncryptedMedia() bool {
+	var v gobject.Value
+	x.GetProperty("enable-encrypted-media", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableFullscreen sets the "enable-fullscreen" property.
+// Whether to enable the Javascript Fullscreen API. The API
+// allows any HTML element to request fullscreen display. See also
+// the current draft of the spec:
+// http://www.w3.org/TR/fullscreen/
+func (x *Settings) SetPropertyEnableFullscreen(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-fullscreen", &v)
+}
+
+// GetPropertyEnableFullscreen gets the "enable-fullscreen" property.
+// Whether to enable the Javascript Fullscreen API. The API
+// allows any HTML element to request fullscreen display. See also
+// the current draft of the spec:
+// http://www.w3.org/TR/fullscreen/
+func (x *Settings) GetPropertyEnableFullscreen() bool {
+	var v gobject.Value
+	x.GetProperty("enable-fullscreen", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableHtml5Database sets the "enable-html5-database" property.
+// Whether to enable HTML5 client-side SQL database support (IndexedDB).
+func (x *Settings) SetPropertyEnableHtml5Database(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-html5-database", &v)
+}
+
+// GetPropertyEnableHtml5Database gets the "enable-html5-database" property.
+// Whether to enable HTML5 client-side SQL database support (IndexedDB).
+func (x *Settings) GetPropertyEnableHtml5Database() bool {
+	var v gobject.Value
+	x.GetProperty("enable-html5-database", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableHtml5LocalStorage sets the "enable-html5-local-storage" property.
+// Whether to enable HTML5 local storage support. Local storage provides
+// simple synchronous storage access.
+//
+// HTML5 local storage specification is available at
+// http://dev.w3.org/html5/webstorage/.
+func (x *Settings) SetPropertyEnableHtml5LocalStorage(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-html5-local-storage", &v)
+}
+
+// GetPropertyEnableHtml5LocalStorage gets the "enable-html5-local-storage" property.
+// Whether to enable HTML5 local storage support. Local storage provides
+// simple synchronous storage access.
+//
+// HTML5 local storage specification is available at
+// http://dev.w3.org/html5/webstorage/.
+func (x *Settings) GetPropertyEnableHtml5LocalStorage() bool {
+	var v gobject.Value
+	x.GetProperty("enable-html5-local-storage", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableHyperlinkAuditing sets the "enable-hyperlink-auditing" property.
+// Determines whether or not hyperlink auditing is enabled.
+//
+// The hyperlink auditing specification is available at
+// http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing.
+func (x *Settings) SetPropertyEnableHyperlinkAuditing(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-hyperlink-auditing", &v)
+}
+
+// GetPropertyEnableHyperlinkAuditing gets the "enable-hyperlink-auditing" property.
+// Determines whether or not hyperlink auditing is enabled.
+//
+// The hyperlink auditing specification is available at
+// http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing.
+func (x *Settings) GetPropertyEnableHyperlinkAuditing() bool {
+	var v gobject.Value
+	x.GetProperty("enable-hyperlink-auditing", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableJavascript sets the "enable-javascript" property.
+// Determines whether or not JavaScript executes within a page.
+func (x *Settings) SetPropertyEnableJavascript(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-javascript", &v)
+}
+
+// GetPropertyEnableJavascript gets the "enable-javascript" property.
+// Determines whether or not JavaScript executes within a page.
+func (x *Settings) GetPropertyEnableJavascript() bool {
+	var v gobject.Value
+	x.GetProperty("enable-javascript", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableJavascriptMarkup sets the "enable-javascript-markup" property.
+// Determines whether or not JavaScript markup is allowed in document. When this setting is disabled,
+// all JavaScript-related elements and attributes are removed from the document during parsing. Note that
+// executing JavaScript is still allowed if #WebKitSettings:enable-javascript is %TRUE.
+func (x *Settings) SetPropertyEnableJavascriptMarkup(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-javascript-markup", &v)
+}
+
+// GetPropertyEnableJavascriptMarkup gets the "enable-javascript-markup" property.
+// Determines whether or not JavaScript markup is allowed in document. When this setting is disabled,
+// all JavaScript-related elements and attributes are removed from the document during parsing. Note that
+// executing JavaScript is still allowed if #WebKitSettings:enable-javascript is %TRUE.
+func (x *Settings) GetPropertyEnableJavascriptMarkup() bool {
+	var v gobject.Value
+	x.GetProperty("enable-javascript-markup", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableMedia sets the "enable-media" property.
+// Enable or disable support for media playback on pages. This setting is enabled by
+// default. Disabling it means `&lt;audio&gt;`, `&lt;track&gt;` and `&lt;video&gt;` elements will have
+// playback support disabled.
+func (x *Settings) SetPropertyEnableMedia(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-media", &v)
+}
+
+// GetPropertyEnableMedia gets the "enable-media" property.
+// Enable or disable support for media playback on pages. This setting is enabled by
+// default. Disabling it means `&lt;audio&gt;`, `&lt;track&gt;` and `&lt;video&gt;` elements will have
+// playback support disabled.
+func (x *Settings) GetPropertyEnableMedia() bool {
+	var v gobject.Value
+	x.GetProperty("enable-media", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableMediaCapabilities sets the "enable-media-capabilities" property.
+// Enable or disable support for MediaCapabilities on pages. This
+// specification intends to provide APIs to allow websites to make an optimal
+// decision when picking media content for the user. The APIs will expose
+// information about the decoding and encoding capabilities for a given format
+// but also output capabilities to find the best match based on the device’s
+// display.
+//
+// See also https://wicg.github.io/media-capabilities/
+func (x *Settings) SetPropertyEnableMediaCapabilities(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-media-capabilities", &v)
+}
+
+// GetPropertyEnableMediaCapabilities gets the "enable-media-capabilities" property.
+// Enable or disable support for MediaCapabilities on pages. This
+// specification intends to provide APIs to allow websites to make an optimal
+// decision when picking media content for the user. The APIs will expose
+// information about the decoding and encoding capabilities for a given format
+// but also output capabilities to find the best match based on the device’s
+// display.
+//
+// See also https://wicg.github.io/media-capabilities/
+func (x *Settings) GetPropertyEnableMediaCapabilities() bool {
+	var v gobject.Value
+	x.GetProperty("enable-media-capabilities", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableMediaStream sets the "enable-media-stream" property.
+// Enable or disable support for MediaStream on pages. MediaStream
+// is an experimental proposal for allowing web pages to access
+// audio and video devices for capture.
+//
+// See also http://dev.w3.org/2011/webrtc/editor/getusermedia.html
+func (x *Settings) SetPropertyEnableMediaStream(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-media-stream", &v)
+}
+
+// GetPropertyEnableMediaStream gets the "enable-media-stream" property.
+// Enable or disable support for MediaStream on pages. MediaStream
+// is an experimental proposal for allowing web pages to access
+// audio and video devices for capture.
+//
+// See also http://dev.w3.org/2011/webrtc/editor/getusermedia.html
+func (x *Settings) GetPropertyEnableMediaStream() bool {
+	var v gobject.Value
+	x.GetProperty("enable-media-stream", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableMediasource sets the "enable-mediasource" property.
+// Enable or disable support for MediaSource on pages. MediaSource
+// extends HTMLMediaElement to allow JavaScript to generate media
+// streams for playback.
+//
+// See also http://www.w3.org/TR/media-source/
+func (x *Settings) SetPropertyEnableMediasource(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-mediasource", &v)
+}
+
+// GetPropertyEnableMediasource gets the "enable-mediasource" property.
+// Enable or disable support for MediaSource on pages. MediaSource
+// extends HTMLMediaElement to allow JavaScript to generate media
+// streams for playback.
+//
+// See also http://www.w3.org/TR/media-source/
+func (x *Settings) GetPropertyEnableMediasource() bool {
+	var v gobject.Value
+	x.GetProperty("enable-mediasource", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableMockCaptureDevices sets the "enable-mock-capture-devices" property.
+// Enable or disable the Mock Capture Devices. Those are fake
+// Microphone and Camera devices to be used as MediaStream
+// sources.
+func (x *Settings) SetPropertyEnableMockCaptureDevices(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-mock-capture-devices", &v)
+}
+
+// GetPropertyEnableMockCaptureDevices gets the "enable-mock-capture-devices" property.
+// Enable or disable the Mock Capture Devices. Those are fake
+// Microphone and Camera devices to be used as MediaStream
+// sources.
+func (x *Settings) GetPropertyEnableMockCaptureDevices() bool {
+	var v gobject.Value
+	x.GetProperty("enable-mock-capture-devices", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableOfflineWebApplicationCache sets the "enable-offline-web-application-cache" property.
+// Unsupported setting. This property does nothing.
+func (x *Settings) SetPropertyEnableOfflineWebApplicationCache(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-offline-web-application-cache", &v)
+}
+
+// GetPropertyEnableOfflineWebApplicationCache gets the "enable-offline-web-application-cache" property.
+// Unsupported setting. This property does nothing.
+func (x *Settings) GetPropertyEnableOfflineWebApplicationCache() bool {
+	var v gobject.Value
+	x.GetProperty("enable-offline-web-application-cache", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnablePageCache sets the "enable-page-cache" property.
+// Enable or disable the page cache. Disabling the page cache is
+// generally only useful for special circumstances like low-memory
+// scenarios or special purpose applications like static HTML
+// viewers. This setting only controls the Page Cache, this cache
+// is different than the disk-based or memory-based traditional
+// resource caches, its point is to make going back and forth
+// between pages much faster. For details about the different types
+// of caches and their purposes see:
+// http://webkit.org/blog/427/webkit-page-cache-i-the-basics/
+func (x *Settings) SetPropertyEnablePageCache(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-page-cache", &v)
+}
+
+// GetPropertyEnablePageCache gets the "enable-page-cache" property.
+// Enable or disable the page cache. Disabling the page cache is
+// generally only useful for special circumstances like low-memory
+// scenarios or special purpose applications like static HTML
+// viewers. This setting only controls the Page Cache, this cache
+// is different than the disk-based or memory-based traditional
+// resource caches, its point is to make going back and forth
+// between pages much faster. For details about the different types
+// of caches and their purposes see:
+// http://webkit.org/blog/427/webkit-page-cache-i-the-basics/
+func (x *Settings) GetPropertyEnablePageCache() bool {
+	var v gobject.Value
+	x.GetProperty("enable-page-cache", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableResizableTextAreas sets the "enable-resizable-text-areas" property.
+// Determines whether or not text areas can be resized.
+func (x *Settings) SetPropertyEnableResizableTextAreas(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-resizable-text-areas", &v)
+}
+
+// GetPropertyEnableResizableTextAreas gets the "enable-resizable-text-areas" property.
+// Determines whether or not text areas can be resized.
+func (x *Settings) GetPropertyEnableResizableTextAreas() bool {
+	var v gobject.Value
+	x.GetProperty("enable-resizable-text-areas", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableSiteSpecificQuirks sets the "enable-site-specific-quirks" property.
+// Whether to turn on site-specific quirks. Turning this on will
+// tell WebKit to use some site-specific workarounds for
+// better web compatibility. For example, older versions of
+// MediaWiki will incorrectly send to WebKit a CSS file with KHTML
+// workarounds. By turning on site-specific quirks, WebKit will
+// special-case this and other cases to make some specific sites work.
+func (x *Settings) SetPropertyEnableSiteSpecificQuirks(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-site-specific-quirks", &v)
+}
+
+// GetPropertyEnableSiteSpecificQuirks gets the "enable-site-specific-quirks" property.
+// Whether to turn on site-specific quirks. Turning this on will
+// tell WebKit to use some site-specific workarounds for
+// better web compatibility. For example, older versions of
+// MediaWiki will incorrectly send to WebKit a CSS file with KHTML
+// workarounds. By turning on site-specific quirks, WebKit will
+// special-case this and other cases to make some specific sites work.
+func (x *Settings) GetPropertyEnableSiteSpecificQuirks() bool {
+	var v gobject.Value
+	x.GetProperty("enable-site-specific-quirks", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableSmoothScrolling sets the "enable-smooth-scrolling" property.
+// Enable or disable smooth scrolling.
+func (x *Settings) SetPropertyEnableSmoothScrolling(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-smooth-scrolling", &v)
+}
+
+// GetPropertyEnableSmoothScrolling gets the "enable-smooth-scrolling" property.
+// Enable or disable smooth scrolling.
+func (x *Settings) GetPropertyEnableSmoothScrolling() bool {
+	var v gobject.Value
+	x.GetProperty("enable-smooth-scrolling", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableSpatialNavigation sets the "enable-spatial-navigation" property.
+// Whether to enable Spatial Navigation. This feature consists in the ability
+// to navigate between focusable elements in a Web page, such as hyperlinks
+// and form controls, by using Left, Right, Up and Down arrow keys.
+// For example, if an user presses the Right key, heuristics determine whether
+// there is an element they might be trying to reach towards the right, and if
+// there are multiple elements, which element they probably wants.
+func (x *Settings) SetPropertyEnableSpatialNavigation(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-spatial-navigation", &v)
+}
+
+// GetPropertyEnableSpatialNavigation gets the "enable-spatial-navigation" property.
+// Whether to enable Spatial Navigation. This feature consists in the ability
+// to navigate between focusable elements in a Web page, such as hyperlinks
+// and form controls, by using Left, Right, Up and Down arrow keys.
+// For example, if an user presses the Right key, heuristics determine whether
+// there is an element they might be trying to reach towards the right, and if
+// there are multiple elements, which element they probably wants.
+func (x *Settings) GetPropertyEnableSpatialNavigation() bool {
+	var v gobject.Value
+	x.GetProperty("enable-spatial-navigation", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableTabsToLinks sets the "enable-tabs-to-links" property.
+// Determines whether the tab key cycles through the elements on the page.
+// When this setting is enabled, users will be able to focus the next element
+// in the page by pressing the tab key. If the selected element is editable,
+// then pressing tab key will insert the tab character.
+func (x *Settings) SetPropertyEnableTabsToLinks(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-tabs-to-links", &v)
+}
+
+// GetPropertyEnableTabsToLinks gets the "enable-tabs-to-links" property.
+// Determines whether the tab key cycles through the elements on the page.
+// When this setting is enabled, users will be able to focus the next element
+// in the page by pressing the tab key. If the selected element is editable,
+// then pressing tab key will insert the tab character.
+func (x *Settings) GetPropertyEnableTabsToLinks() bool {
+	var v gobject.Value
+	x.GetProperty("enable-tabs-to-links", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableWebaudio sets the "enable-webaudio" property.
+// Enable or disable support for WebAudio on pages. WebAudio is an
+// API for processing and synthesizing audio in web applications
+//
+// See also https://webaudio.github.io/web-audio-api
+func (x *Settings) SetPropertyEnableWebaudio(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-webaudio", &v)
+}
+
+// GetPropertyEnableWebaudio gets the "enable-webaudio" property.
+// Enable or disable support for WebAudio on pages. WebAudio is an
+// API for processing and synthesizing audio in web applications
+//
+// See also https://webaudio.github.io/web-audio-api
+func (x *Settings) GetPropertyEnableWebaudio() bool {
+	var v gobject.Value
+	x.GetProperty("enable-webaudio", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableWebgl sets the "enable-webgl" property.
+// Enable or disable support for WebGL on pages. WebGL enables web
+// content to use an API based on OpenGL ES 2.0.
+func (x *Settings) SetPropertyEnableWebgl(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-webgl", &v)
+}
+
+// GetPropertyEnableWebgl gets the "enable-webgl" property.
+// Enable or disable support for WebGL on pages. WebGL enables web
+// content to use an API based on OpenGL ES 2.0.
+func (x *Settings) GetPropertyEnableWebgl() bool {
+	var v gobject.Value
+	x.GetProperty("enable-webgl", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableWebrtc sets the "enable-webrtc" property.
+// Enable WebRTC support for loaded pages.
+//
+// Enabling this setting implies that [property@Settings:enable-media-stream]
+// will be enabled as well.
+//
+// See also https://www.w3.org/TR/webrtc/
+func (x *Settings) SetPropertyEnableWebrtc(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-webrtc", &v)
+}
+
+// GetPropertyEnableWebrtc gets the "enable-webrtc" property.
+// Enable WebRTC support for loaded pages.
+//
+// Enabling this setting implies that [property@Settings:enable-media-stream]
+// will be enabled as well.
+//
+// See also https://www.w3.org/TR/webrtc/
+func (x *Settings) GetPropertyEnableWebrtc() bool {
+	var v gobject.Value
+	x.GetProperty("enable-webrtc", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyEnableWriteConsoleMessagesToStdout sets the "enable-write-console-messages-to-stdout" property.
+// Enable or disable writing console messages to stdout. These are messages
+// sent to the console with console.log and related methods.
+func (x *Settings) SetPropertyEnableWriteConsoleMessagesToStdout(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("enable-write-console-messages-to-stdout", &v)
+}
+
+// GetPropertyEnableWriteConsoleMessagesToStdout gets the "enable-write-console-messages-to-stdout" property.
+// Enable or disable writing console messages to stdout. These are messages
+// sent to the console with console.log and related methods.
+func (x *Settings) GetPropertyEnableWriteConsoleMessagesToStdout() bool {
+	var v gobject.Value
+	x.GetProperty("enable-write-console-messages-to-stdout", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyFantasyFontFamily sets the "fantasy-font-family" property.
+// The font family used as the default for content using a fantasy font.
+func (x *Settings) SetPropertyFantasyFontFamily(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("fantasy-font-family", &v)
+}
+
+// GetPropertyFantasyFontFamily gets the "fantasy-font-family" property.
+// The font family used as the default for content using a fantasy font.
+func (x *Settings) GetPropertyFantasyFontFamily() string {
+	var v gobject.Value
+	x.GetProperty("fantasy-font-family", &v)
+	return v.GetString()
+}
+
+// SetPropertyJavascriptCanAccessClipboard sets the "javascript-can-access-clipboard" property.
+// Whether JavaScript can access the clipboard. The default value is %FALSE. If
+// set to %TRUE, document.execCommand() allows cut, copy and paste commands.
+func (x *Settings) SetPropertyJavascriptCanAccessClipboard(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("javascript-can-access-clipboard", &v)
+}
+
+// GetPropertyJavascriptCanAccessClipboard gets the "javascript-can-access-clipboard" property.
+// Whether JavaScript can access the clipboard. The default value is %FALSE. If
+// set to %TRUE, document.execCommand() allows cut, copy and paste commands.
+func (x *Settings) GetPropertyJavascriptCanAccessClipboard() bool {
+	var v gobject.Value
+	x.GetProperty("javascript-can-access-clipboard", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyJavascriptCanOpenWindowsAutomatically sets the "javascript-can-open-windows-automatically" property.
+// Whether JavaScript can open popup windows automatically without user
+// intervention.
+func (x *Settings) SetPropertyJavascriptCanOpenWindowsAutomatically(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("javascript-can-open-windows-automatically", &v)
+}
+
+// GetPropertyJavascriptCanOpenWindowsAutomatically gets the "javascript-can-open-windows-automatically" property.
+// Whether JavaScript can open popup windows automatically without user
+// intervention.
+func (x *Settings) GetPropertyJavascriptCanOpenWindowsAutomatically() bool {
+	var v gobject.Value
+	x.GetProperty("javascript-can-open-windows-automatically", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyLoadIconsIgnoringImageLoadSetting sets the "load-icons-ignoring-image-load-setting" property.
+// Unsupported setting. This property does nothing.
+func (x *Settings) SetPropertyLoadIconsIgnoringImageLoadSetting(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("load-icons-ignoring-image-load-setting", &v)
+}
+
+// GetPropertyLoadIconsIgnoringImageLoadSetting gets the "load-icons-ignoring-image-load-setting" property.
+// Unsupported setting. This property does nothing.
+func (x *Settings) GetPropertyLoadIconsIgnoringImageLoadSetting() bool {
+	var v gobject.Value
+	x.GetProperty("load-icons-ignoring-image-load-setting", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyMediaContentTypesRequiringHardwareSupport sets the "media-content-types-requiring-hardware-support" property.
+// List of media content types requiring hardware support, split by semicolons (:).
+// For example: 'video/webm; codecs="vp*":video/mp4; codecs="avc*":video/&amp;ast; codecs="av1*"'.
+func (x *Settings) SetPropertyMediaContentTypesRequiringHardwareSupport(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("media-content-types-requiring-hardware-support", &v)
+}
+
+// GetPropertyMediaContentTypesRequiringHardwareSupport gets the "media-content-types-requiring-hardware-support" property.
+// List of media content types requiring hardware support, split by semicolons (:).
+// For example: 'video/webm; codecs="vp*":video/mp4; codecs="avc*":video/&amp;ast; codecs="av1*"'.
+func (x *Settings) GetPropertyMediaContentTypesRequiringHardwareSupport() string {
+	var v gobject.Value
+	x.GetProperty("media-content-types-requiring-hardware-support", &v)
+	return v.GetString()
+}
+
+// SetPropertyMediaPlaybackAllowsInline sets the "media-playback-allows-inline" property.
+// Whether media playback is full-screen only or inline playback is allowed.
+// This is %TRUE by default, so media playback can be inline. Setting it to
+// %FALSE allows specifying that media playback should be always fullscreen.
+func (x *Settings) SetPropertyMediaPlaybackAllowsInline(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("media-playback-allows-inline", &v)
+}
+
+// GetPropertyMediaPlaybackAllowsInline gets the "media-playback-allows-inline" property.
+// Whether media playback is full-screen only or inline playback is allowed.
+// This is %TRUE by default, so media playback can be inline. Setting it to
+// %FALSE allows specifying that media playback should be always fullscreen.
+func (x *Settings) GetPropertyMediaPlaybackAllowsInline() bool {
+	var v gobject.Value
+	x.GetProperty("media-playback-allows-inline", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyMediaPlaybackRequiresUserGesture sets the "media-playback-requires-user-gesture" property.
+// Whether a user gesture (such as clicking the play button)
+// would be required to start media playback or load media. This is off
+// by default, so media playback could start automatically.
+// Setting it on requires a gesture by the user to start playback, or to
+// load the media.
+func (x *Settings) SetPropertyMediaPlaybackRequiresUserGesture(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("media-playback-requires-user-gesture", &v)
+}
+
+// GetPropertyMediaPlaybackRequiresUserGesture gets the "media-playback-requires-user-gesture" property.
+// Whether a user gesture (such as clicking the play button)
+// would be required to start media playback or load media. This is off
+// by default, so media playback could start automatically.
+// Setting it on requires a gesture by the user to start playback, or to
+// load the media.
+func (x *Settings) GetPropertyMediaPlaybackRequiresUserGesture() bool {
+	var v gobject.Value
+	x.GetProperty("media-playback-requires-user-gesture", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyMinimumFontSize sets the "minimum-font-size" property.
+// The minimum font size in pixels used to display text. This setting
+// controls the absolute smallest size. Values other than 0 can
+// potentially break page layouts.
+func (x *Settings) SetPropertyMinimumFontSize(value uint) {
+	var v gobject.Value
+	v.Init(gobject.TypeUintVal)
+	v.SetUint(value)
+	x.SetProperty("minimum-font-size", &v)
+}
+
+// GetPropertyMinimumFontSize gets the "minimum-font-size" property.
+// The minimum font size in pixels used to display text. This setting
+// controls the absolute smallest size. Values other than 0 can
+// potentially break page layouts.
+func (x *Settings) GetPropertyMinimumFontSize() uint {
+	var v gobject.Value
+	x.GetProperty("minimum-font-size", &v)
+	return v.GetUint()
+}
+
+// SetPropertyMonospaceFontFamily sets the "monospace-font-family" property.
+// The font family used as the default for content using a monospace font.
+func (x *Settings) SetPropertyMonospaceFontFamily(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("monospace-font-family", &v)
+}
+
+// GetPropertyMonospaceFontFamily gets the "monospace-font-family" property.
+// The font family used as the default for content using a monospace font.
+func (x *Settings) GetPropertyMonospaceFontFamily() string {
+	var v gobject.Value
+	x.GetProperty("monospace-font-family", &v)
+	return v.GetString()
+}
+
+// SetPropertyPictographFontFamily sets the "pictograph-font-family" property.
+// The font family used as the default for content using a pictograph font.
+func (x *Settings) SetPropertyPictographFontFamily(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("pictograph-font-family", &v)
+}
+
+// GetPropertyPictographFontFamily gets the "pictograph-font-family" property.
+// The font family used as the default for content using a pictograph font.
+func (x *Settings) GetPropertyPictographFontFamily() string {
+	var v gobject.Value
+	x.GetProperty("pictograph-font-family", &v)
+	return v.GetString()
+}
+
+// SetPropertyPrintBackgrounds sets the "print-backgrounds" property.
+// Whether background images should be drawn during printing.
+func (x *Settings) SetPropertyPrintBackgrounds(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("print-backgrounds", &v)
+}
+
+// GetPropertyPrintBackgrounds gets the "print-backgrounds" property.
+// Whether background images should be drawn during printing.
+func (x *Settings) GetPropertyPrintBackgrounds() bool {
+	var v gobject.Value
+	x.GetProperty("print-backgrounds", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertySansSerifFontFamily sets the "sans-serif-font-family" property.
+// The font family used as the default for content using a sans-serif font.
+func (x *Settings) SetPropertySansSerifFontFamily(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("sans-serif-font-family", &v)
+}
+
+// GetPropertySansSerifFontFamily gets the "sans-serif-font-family" property.
+// The font family used as the default for content using a sans-serif font.
+func (x *Settings) GetPropertySansSerifFontFamily() string {
+	var v gobject.Value
+	x.GetProperty("sans-serif-font-family", &v)
+	return v.GetString()
+}
+
+// SetPropertySerifFontFamily sets the "serif-font-family" property.
+// The font family used as the default for content using a serif font.
+func (x *Settings) SetPropertySerifFontFamily(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("serif-font-family", &v)
+}
+
+// GetPropertySerifFontFamily gets the "serif-font-family" property.
+// The font family used as the default for content using a serif font.
+func (x *Settings) GetPropertySerifFontFamily() string {
+	var v gobject.Value
+	x.GetProperty("serif-font-family", &v)
+	return v.GetString()
+}
+
+// SetPropertyUserAgent sets the "user-agent" property.
+// The user-agent string used by WebKit. Unusual user-agent strings may cause web
+// content to render incorrectly or fail to run, as many web pages are written to
+// parse the user-agent strings of only the most popular browsers. Therefore, it's
+// typically better to not completely override the standard user-agent, but to use
+// webkit_settings_set_user_agent_with_application_details() instead.
+//
+// If this property is set to the empty string or %NULL, it will revert to the standard
+// user-agent.
+func (x *Settings) SetPropertyUserAgent(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("user-agent", &v)
+}
+
+// GetPropertyUserAgent gets the "user-agent" property.
+// The user-agent string used by WebKit. Unusual user-agent strings may cause web
+// content to render incorrectly or fail to run, as many web pages are written to
+// parse the user-agent strings of only the most popular browsers. Therefore, it's
+// typically better to not completely override the standard user-agent, but to use
+// webkit_settings_set_user_agent_with_application_details() instead.
+//
+// If this property is set to the empty string or %NULL, it will revert to the standard
+// user-agent.
+func (x *Settings) GetPropertyUserAgent() string {
+	var v gobject.Value
+	x.GetProperty("user-agent", &v)
+	return v.GetString()
+}
+
+// SetPropertyWebrtcUdpPortsRange sets the "webrtc-udp-ports-range" property.
+// Allow customization of the WebRTC UDP ports range.
+//
+// In some constrained environments where a firewall blocks UDP network traffic excepted on a
+// specific port range, this settings can be used to give hints to the WebRTC backend regarding
+// which ports to allocate. The format is min-port:max-port, so for instance 20000:30000. The
+// default empty string value means the OS will use no hints from the WebRTC backend. Using 0
+// for one of the values is allowed and means the value is unspecified.
+func (x *Settings) SetPropertyWebrtcUdpPortsRange(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("webrtc-udp-ports-range", &v)
+}
+
+// GetPropertyWebrtcUdpPortsRange gets the "webrtc-udp-ports-range" property.
+// Allow customization of the WebRTC UDP ports range.
+//
+// In some constrained environments where a firewall blocks UDP network traffic excepted on a
+// specific port range, this settings can be used to give hints to the WebRTC backend regarding
+// which ports to allocate. The format is min-port:max-port, so for instance 20000:30000. The
+// default empty string value means the OS will use no hints from the WebRTC backend. Using 0
+// for one of the values is allowed and means the value is unspecified.
+func (x *Settings) GetPropertyWebrtcUdpPortsRange() string {
+	var v gobject.Value
+	x.GetProperty("webrtc-udp-ports-range", &v)
+	return v.GetString()
+}
+
+// SetPropertyZoomTextOnly sets the "zoom-text-only" property.
+// Whether #WebKitWebView:zoom-level affects only the
+// text of the page or all the contents. Other contents containing text
+// like form controls will be also affected by zoom factor when
+// this property is enabled.
+func (x *Settings) SetPropertyZoomTextOnly(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("zoom-text-only", &v)
+}
+
+// GetPropertyZoomTextOnly gets the "zoom-text-only" property.
+// Whether #WebKitWebView:zoom-level affects only the
+// text of the page or all the contents. Other contents containing text
+// like form controls will be also affected by zoom factor when
+// this property is enabled.
+func (x *Settings) GetPropertyZoomTextOnly() bool {
+	var v gobject.Value
+	x.GetProperty("zoom-text-only", &v)
+	return v.GetBoolean()
+}
+
 var xSettingsFontSizeToPixels func(uint32) uint32
 
 // Convert @points to the equivalent value in pixels.
@@ -1226,7 +2430,7 @@ func SettingsFontSizeToPoints(PixelsVar uint32) uint32 {
 	return cret
 }
 
-var xSettingsGetAllFeatures func() uintptr
+var xSettingsGetAllFeatures func() *FeatureList
 
 // Gets the list of all available WebKit features.
 //
@@ -1237,13 +2441,13 @@ var xSettingsGetAllFeatures func() uintptr
 // Note that most applications should use
 // [func@Settings.get_development_features] and
 // [func@Settings.get_experimental_features] instead.
-func SettingsGetAllFeatures() uintptr {
+func SettingsGetAllFeatures() *FeatureList {
 
 	cret := xSettingsGetAllFeatures()
 	return cret
 }
 
-var xSettingsGetDevelopmentFeatures func() uintptr
+var xSettingsGetDevelopmentFeatures func() *FeatureList
 
 // Gets the list of available development WebKit features.
 //
@@ -1252,13 +2456,13 @@ var xSettingsGetDevelopmentFeatures func() uintptr
 // web and WebKit developers might find useful, but in general should
 // *not* be exposed to end users; see [enum@FeatureStatus] for
 // more details.
-func SettingsGetDevelopmentFeatures() uintptr {
+func SettingsGetDevelopmentFeatures() *FeatureList {
 
 	cret := xSettingsGetDevelopmentFeatures()
 	return cret
 }
 
-var xSettingsGetExperimentalFeatures func() uintptr
+var xSettingsGetExperimentalFeatures func() *FeatureList
 
 // Gets the list of available experimental WebKit features.
 //
@@ -1266,7 +2470,7 @@ var xSettingsGetExperimentalFeatures func() uintptr
 // [func@Settings.get_all_features], and includes those which
 // certain applications may want to expose to end users; see
 // [enum@FeatureStatus] for more details.
-func SettingsGetExperimentalFeatures() uintptr {
+func SettingsGetExperimentalFeatures() *FeatureList {
 
 	cret := xSettingsGetExperimentalFeatures()
 	return cret

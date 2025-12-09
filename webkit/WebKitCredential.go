@@ -27,41 +27,41 @@ func (x *Credential) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewCredential func(string, string, CredentialPersistence) uintptr
+var xNewCredential func(string, string, CredentialPersistence) *Credential
 
 // Create a new credential from the provided username, password and persistence mode.
-func NewCredential(UsernameVar string, PasswordVar string, PersistenceVar CredentialPersistence) uintptr {
+func NewCredential(UsernameVar string, PasswordVar string, PersistenceVar CredentialPersistence) *Credential {
 
 	cret := xNewCredential(UsernameVar, PasswordVar, PersistenceVar)
 	return cret
 }
 
-var xNewCredentialForCertificate func(uintptr, CredentialPersistence) uintptr
+var xNewCredentialForCertificate func(uintptr, CredentialPersistence) *Credential
 
 // Create a new credential from the @certificate and persistence mode.
 //
 // Note that %WEBKIT_CREDENTIAL_PERSISTENCE_PERMANENT is not supported for certificate credentials.
-func NewCredentialForCertificate(CertificateVar *gio.TlsCertificate, PersistenceVar CredentialPersistence) uintptr {
+func NewCredentialForCertificate(CertificateVar *gio.TlsCertificate, PersistenceVar CredentialPersistence) *Credential {
 
 	cret := xNewCredentialForCertificate(CertificateVar.GoPointer(), PersistenceVar)
 	return cret
 }
 
-var xNewCredentialForCertificatePin func(string, CredentialPersistence) uintptr
+var xNewCredentialForCertificatePin func(string, CredentialPersistence) *Credential
 
 // Create a new credential from the provided PIN and persistence mode.
 //
 // Note that %WEBKIT_CREDENTIAL_PERSISTENCE_PERMANENT is not supported for certificate pin credentials.
-func NewCredentialForCertificatePin(PinVar string, PersistenceVar CredentialPersistence) uintptr {
+func NewCredentialForCertificatePin(PinVar string, PersistenceVar CredentialPersistence) *Credential {
 
 	cret := xNewCredentialForCertificatePin(PinVar, PersistenceVar)
 	return cret
 }
 
-var xCredentialCopy func(uintptr) uintptr
+var xCredentialCopy func(uintptr) *Credential
 
 // Make a copy of the #WebKitCredential.
-func (x *Credential) Copy() uintptr {
+func (x *Credential) Copy() *Credential {
 
 	cret := xCredentialCopy(x.GoPointer())
 	return cret

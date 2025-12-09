@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -71,6 +72,23 @@ func (c *CookieJarText) GoPointer() uintptr {
 
 func (c *CookieJarText) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyFilename sets the "filename" property.
+// Cookie-storage filename.
+func (x *CookieJarText) SetPropertyFilename(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("filename", &v)
+}
+
+// GetPropertyFilename gets the "filename" property.
+// Cookie-storage filename.
+func (x *CookieJarText) GetPropertyFilename() string {
+	var v gobject.Value
+	x.GetProperty("filename", &v)
+	return v.GetString()
 }
 
 func init() {

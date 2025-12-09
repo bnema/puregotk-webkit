@@ -6,9 +6,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/bnema/puregotk-webkit/internal/gir/pass"
-	"github.com/bnema/puregotk-webkit/internal/gir/types"
-	"github.com/bnema/puregotk-webkit/internal/gir/util"
+	"github.com/jwijenbergh/puregotk/pkg/gir/pass"
+	"github.com/jwijenbergh/puregotk/pkg/gir/util"
 )
 
 //go:generate go run gen.go
@@ -46,7 +45,7 @@ func main() {
 	p.First()
 
 	// Filter to only generate WebKit namespaces
-	var filtered []types.Repository
+	var filtered []pass.Repository
 	for _, r := range p.Parsed {
 		ns := r.Namespaces[0].Name
 		if localNamespaces[ns] {
@@ -63,6 +62,10 @@ func main() {
 		"convcd":   util.ConvertArgsCommaDeref,
 		"convd":    util.ConvertArgsDeref,
 		"convcbne": util.ConvertCallbackArgsNoErr,
+		"propsset": util.PropertyScalarSet,
+		"propsget": util.PropertyScalarGet,
+		"propvset": util.PropertyVectorSet,
+		"propvget": util.PropertyVectorGet,
 	}).ParseFiles("templates/go")
 	if err != nil {
 		panic(err)

@@ -8,6 +8,7 @@ import (
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/glib"
+	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -83,7 +84,7 @@ var xAuthDomainDigestSetAuthCallback func(uintptr, uintptr, uintptr, uintptr)
 // set the callback at construct time.
 func (x *AuthDomainDigest) SetAuthCallback(CallbackVar *AuthDomainDigestAuthCallback, UserDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
 
-	xAuthDomainDigestSetAuthCallback(x.GoPointer(), glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DnotifyVar))
+	xAuthDomainDigestSetAuthCallback(x.GoPointer(), glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DnotifyVar))
 
 }
 
@@ -96,6 +97,23 @@ func (c *AuthDomainDigest) GoPointer() uintptr {
 
 func (c *AuthDomainDigest) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyAuthData sets the "auth-data" property.
+// The data to pass to the [callback@AuthDomainDigestAuthCallback].
+func (x *AuthDomainDigest) SetPropertyAuthData(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("auth-data", &v)
+}
+
+// GetPropertyAuthData gets the "auth-data" property.
+// The data to pass to the [callback@AuthDomainDigestAuthCallback].
+func (x *AuthDomainDigest) GetPropertyAuthData() uintptr {
+	var v gobject.Value
+	x.GetProperty("auth-data", &v)
+	return v.GetPointer()
 }
 
 var xAuthDomainDigestEncodePassword func(string, string, string) string

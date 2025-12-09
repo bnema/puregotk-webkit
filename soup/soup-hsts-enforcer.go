@@ -31,7 +31,7 @@ func (x *HSTSEnforcerClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-// OverrideIsPersistent sets the callback function.
+// OverrideIsPersistent sets the "is_persistent" callback function.
 // The @is_persistent function advertises whether the enforcer is persistent or
 // whether changes made to it will be lost when the underlying [class@Session] is finished.
 func (x *HSTSEnforcerClass) OverrideIsPersistent(cb func(*HSTSEnforcer) bool) {
@@ -44,7 +44,7 @@ func (x *HSTSEnforcerClass) OverrideIsPersistent(cb func(*HSTSEnforcer) bool) {
 	}
 }
 
-// GetIsPersistent gets the callback function.
+// GetIsPersistent gets the "is_persistent" callback function.
 // The @is_persistent function advertises whether the enforcer is persistent or
 // whether changes made to it will be lost when the underlying [class@Session] is finished.
 func (x *HSTSEnforcerClass) GetIsPersistent() func(*HSTSEnforcer) bool {
@@ -58,7 +58,7 @@ func (x *HSTSEnforcerClass) GetIsPersistent() func(*HSTSEnforcer) bool {
 	}
 }
 
-// OverrideHasValidPolicy sets the callback function.
+// OverrideHasValidPolicy sets the "has_valid_policy" callback function.
 // The @has_valid_policy function is called to check whether there is a valid
 // policy for the given domain. This method should return %TRUE for #SoupHSTSEnforcer to
 // change the scheme of the #GUri in the #SoupMessage to HTTPS. Implementations might want to
@@ -74,7 +74,7 @@ func (x *HSTSEnforcerClass) OverrideHasValidPolicy(cb func(*HSTSEnforcer, string
 	}
 }
 
-// GetHasValidPolicy gets the callback function.
+// GetHasValidPolicy gets the "has_valid_policy" callback function.
 // The @has_valid_policy function is called to check whether there is a valid
 // policy for the given domain. This method should return %TRUE for #SoupHSTSEnforcer to
 // change the scheme of the #GUri in the #SoupMessage to HTTPS. Implementations might want to
@@ -91,27 +91,27 @@ func (x *HSTSEnforcerClass) GetHasValidPolicy() func(*HSTSEnforcer, string) bool
 	}
 }
 
-// OverrideChanged sets the callback function.
+// OverrideChanged sets the "changed" callback function.
 // The class closure for the #SoupHSTSEnforcer::changed signal.
-func (x *HSTSEnforcerClass) OverrideChanged(cb func(*HSTSEnforcer, uintptr, uintptr)) {
+func (x *HSTSEnforcerClass) OverrideChanged(cb func(*HSTSEnforcer, *HSTSPolicy, *HSTSPolicy)) {
 	if cb == nil {
 		x.xChanged = 0
 	} else {
-		x.xChanged = purego.NewCallback(func(EnforcerVarp uintptr, OldPolicyVarp uintptr, NewPolicyVarp uintptr) {
+		x.xChanged = purego.NewCallback(func(EnforcerVarp uintptr, OldPolicyVarp *HSTSPolicy, NewPolicyVarp *HSTSPolicy) {
 			cb(HSTSEnforcerNewFromInternalPtr(EnforcerVarp), OldPolicyVarp, NewPolicyVarp)
 		})
 	}
 }
 
-// GetChanged gets the callback function.
+// GetChanged gets the "changed" callback function.
 // The class closure for the #SoupHSTSEnforcer::changed signal.
-func (x *HSTSEnforcerClass) GetChanged() func(*HSTSEnforcer, uintptr, uintptr) {
+func (x *HSTSEnforcerClass) GetChanged() func(*HSTSEnforcer, *HSTSPolicy, *HSTSPolicy) {
 	if x.xChanged == 0 {
 		return nil
 	}
-	var rawCallback func(EnforcerVarp uintptr, OldPolicyVarp uintptr, NewPolicyVarp uintptr)
+	var rawCallback func(EnforcerVarp uintptr, OldPolicyVarp *HSTSPolicy, NewPolicyVarp *HSTSPolicy)
 	purego.RegisterFunc(&rawCallback, x.xChanged)
-	return func(EnforcerVar *HSTSEnforcer, OldPolicyVar uintptr, NewPolicyVar uintptr) {
+	return func(EnforcerVar *HSTSEnforcer, OldPolicyVar *HSTSPolicy, NewPolicyVar *HSTSPolicy) {
 		rawCallback(EnforcerVar.GoPointer(), OldPolicyVar, NewPolicyVar)
 	}
 }
@@ -173,19 +173,19 @@ func NewHSTSEnforcer() *HSTSEnforcer {
 	return cls
 }
 
-var xHSTSEnforcerGetDomains func(uintptr, bool) uintptr
+var xHSTSEnforcerGetDomains func(uintptr, bool) *glib.List
 
 // Gets a list of domains for which there are policies in @enforcer.
-func (x *HSTSEnforcer) GetDomains(SessionPoliciesVar bool) uintptr {
+func (x *HSTSEnforcer) GetDomains(SessionPoliciesVar bool) *glib.List {
 
 	cret := xHSTSEnforcerGetDomains(x.GoPointer(), SessionPoliciesVar)
 	return cret
 }
 
-var xHSTSEnforcerGetPolicies func(uintptr, bool) uintptr
+var xHSTSEnforcerGetPolicies func(uintptr, bool) *glib.List
 
 // Gets a list with the policies in @enforcer.
-func (x *HSTSEnforcer) GetPolicies(SessionPoliciesVar bool) uintptr {
+func (x *HSTSEnforcer) GetPolicies(SessionPoliciesVar bool) *glib.List {
 
 	cret := xHSTSEnforcerGetPolicies(x.GoPointer(), SessionPoliciesVar)
 	return cret
@@ -209,7 +209,7 @@ func (x *HSTSEnforcer) IsPersistent() bool {
 	return cret
 }
 
-var xHSTSEnforcerSetPolicy func(uintptr, uintptr)
+var xHSTSEnforcerSetPolicy func(uintptr, *HSTSPolicy)
 
 // Sets @policy to @hsts_enforcer.
 //
@@ -219,7 +219,7 @@ var xHSTSEnforcerSetPolicy func(uintptr, uintptr)
 // one created with [ctor@HSTSPolicy.new_session_policy], the policy will not
 // expire and will be enforced during the lifetime of @hsts_enforcer's
 // [class@Session].
-func (x *HSTSEnforcer) SetPolicy(PolicyVar uintptr) {
+func (x *HSTSEnforcer) SetPolicy(PolicyVar *HSTSPolicy) {
 
 	xHSTSEnforcerSetPolicy(x.GoPointer(), PolicyVar)
 

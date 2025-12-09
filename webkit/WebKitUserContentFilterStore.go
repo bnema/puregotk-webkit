@@ -120,11 +120,11 @@ func (x *UserContentFilterStore) Load(IdentifierVar string, CancellableVar *gio.
 
 }
 
-var xUserContentFilterStoreLoadFinish func(uintptr, uintptr, **glib.Error) uintptr
+var xUserContentFilterStoreLoadFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
 
 // Finishes an asynchronous filter load previously started with
 // webkit_user_content_filter_store_load().
-func (x *UserContentFilterStore) LoadFinish(ResultVar gio.AsyncResult) (uintptr, error) {
+func (x *UserContentFilterStore) LoadFinish(ResultVar gio.AsyncResult) (*UserContentFilter, error) {
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreLoadFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -163,7 +163,7 @@ func (x *UserContentFilterStore) RemoveFinish(ResultVar gio.AsyncResult) (bool, 
 
 }
 
-var xUserContentFilterStoreSave func(uintptr, string, uintptr, uintptr, uintptr, uintptr)
+var xUserContentFilterStoreSave func(uintptr, string, *glib.Bytes, uintptr, uintptr, uintptr)
 
 // Asynchronously save a content filter from a set source rule.
 //
@@ -177,17 +177,17 @@ var xUserContentFilterStoreSave func(uintptr, string, uintptr, uintptr, uintptr,
 //
 // When the operation is finished, @callback will be invoked, which then can use
 // webkit_user_content_filter_store_save_finish() to obtain the resulting filter.
-func (x *UserContentFilterStore) Save(IdentifierVar string, SourceVar uintptr, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *UserContentFilterStore) Save(IdentifierVar string, SourceVar *glib.Bytes, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
 	xUserContentFilterStoreSave(x.GoPointer(), IdentifierVar, SourceVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 
 }
 
-var xUserContentFilterStoreSaveFinish func(uintptr, uintptr, **glib.Error) uintptr
+var xUserContentFilterStoreSaveFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
 
 // Finishes an asynchronous filter save previously started with
 // webkit_user_content_filter_store_save().
-func (x *UserContentFilterStore) SaveFinish(ResultVar gio.AsyncResult) (uintptr, error) {
+func (x *UserContentFilterStore) SaveFinish(ResultVar gio.AsyncResult) (*UserContentFilter, error) {
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreSaveFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -214,11 +214,11 @@ func (x *UserContentFilterStore) SaveFromFile(IdentifierVar string, FileVar gio.
 
 }
 
-var xUserContentFilterStoreSaveFromFileFinish func(uintptr, uintptr, **glib.Error) uintptr
+var xUserContentFilterStoreSaveFromFileFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
 
 // Finishes and asynchronous filter save previously started with
 // webkit_user_content_filter_store_save_from_file().
-func (x *UserContentFilterStore) SaveFromFileFinish(ResultVar gio.AsyncResult) (uintptr, error) {
+func (x *UserContentFilterStore) SaveFromFileFinish(ResultVar gio.AsyncResult) (*UserContentFilter, error) {
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreSaveFromFileFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -238,6 +238,25 @@ func (c *UserContentFilterStore) GoPointer() uintptr {
 
 func (c *UserContentFilterStore) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyPath sets the "path" property.
+// The directory used for filter storage. This path is used as the base
+// directory where user content filters are stored on disk.
+func (x *UserContentFilterStore) SetPropertyPath(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("path", &v)
+}
+
+// GetPropertyPath gets the "path" property.
+// The directory used for filter storage. This path is used as the base
+// directory where user content filters are stored on disk.
+func (x *UserContentFilterStore) GetPropertyPath() string {
+	var v gobject.Value
+	x.GetProperty("path", &v)
+	return v.GetString()
 }
 
 func init() {

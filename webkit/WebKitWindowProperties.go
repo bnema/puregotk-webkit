@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/gdk"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -102,10 +103,10 @@ func (x *WindowProperties) GetFullscreen() bool {
 	return cret
 }
 
-var xWindowPropertiesGetGeometry func(uintptr, uintptr)
+var xWindowPropertiesGetGeometry func(uintptr, *gdk.Rectangle)
 
 // Get the geometry the window should have on the screen when shown.
-func (x *WindowProperties) GetGeometry(GeometryVar uintptr) {
+func (x *WindowProperties) GetGeometry(GeometryVar *gdk.Rectangle) {
 
 	xWindowPropertiesGetGeometry(x.GoPointer(), GeometryVar)
 
@@ -174,6 +175,142 @@ func (c *WindowProperties) GoPointer() uintptr {
 
 func (c *WindowProperties) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyFullscreen sets the "fullscreen" property.
+// Whether window will be displayed fullscreen.
+func (x *WindowProperties) SetPropertyFullscreen(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("fullscreen", &v)
+}
+
+// GetPropertyFullscreen gets the "fullscreen" property.
+// Whether window will be displayed fullscreen.
+func (x *WindowProperties) GetPropertyFullscreen() bool {
+	var v gobject.Value
+	x.GetProperty("fullscreen", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyGeometry sets the "geometry" property.
+// The size and position of the window on the screen.
+func (x *WindowProperties) SetPropertyGeometry(value uintptr) {
+	var v gobject.Value
+	v.Init(gobject.TypePointerVal)
+	v.SetPointer(value)
+	x.SetProperty("geometry", &v)
+}
+
+// GetPropertyGeometry gets the "geometry" property.
+// The size and position of the window on the screen.
+func (x *WindowProperties) GetPropertyGeometry() uintptr {
+	var v gobject.Value
+	x.GetProperty("geometry", &v)
+	return v.GetPointer()
+}
+
+// SetPropertyLocationbarVisible sets the "locationbar-visible" property.
+// Whether the locationbar should be visible for the window.
+func (x *WindowProperties) SetPropertyLocationbarVisible(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("locationbar-visible", &v)
+}
+
+// GetPropertyLocationbarVisible gets the "locationbar-visible" property.
+// Whether the locationbar should be visible for the window.
+func (x *WindowProperties) GetPropertyLocationbarVisible() bool {
+	var v gobject.Value
+	x.GetProperty("locationbar-visible", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyMenubarVisible sets the "menubar-visible" property.
+// Whether the menubar should be visible for the window.
+func (x *WindowProperties) SetPropertyMenubarVisible(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("menubar-visible", &v)
+}
+
+// GetPropertyMenubarVisible gets the "menubar-visible" property.
+// Whether the menubar should be visible for the window.
+func (x *WindowProperties) GetPropertyMenubarVisible() bool {
+	var v gobject.Value
+	x.GetProperty("menubar-visible", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyResizable sets the "resizable" property.
+// Whether the window can be resized.
+func (x *WindowProperties) SetPropertyResizable(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("resizable", &v)
+}
+
+// GetPropertyResizable gets the "resizable" property.
+// Whether the window can be resized.
+func (x *WindowProperties) GetPropertyResizable() bool {
+	var v gobject.Value
+	x.GetProperty("resizable", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyScrollbarsVisible sets the "scrollbars-visible" property.
+// Whether the scrollbars should be visible for the window.
+func (x *WindowProperties) SetPropertyScrollbarsVisible(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("scrollbars-visible", &v)
+}
+
+// GetPropertyScrollbarsVisible gets the "scrollbars-visible" property.
+// Whether the scrollbars should be visible for the window.
+func (x *WindowProperties) GetPropertyScrollbarsVisible() bool {
+	var v gobject.Value
+	x.GetProperty("scrollbars-visible", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyStatusbarVisible sets the "statusbar-visible" property.
+// Whether the statusbar should be visible for the window.
+func (x *WindowProperties) SetPropertyStatusbarVisible(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("statusbar-visible", &v)
+}
+
+// GetPropertyStatusbarVisible gets the "statusbar-visible" property.
+// Whether the statusbar should be visible for the window.
+func (x *WindowProperties) GetPropertyStatusbarVisible() bool {
+	var v gobject.Value
+	x.GetProperty("statusbar-visible", &v)
+	return v.GetBoolean()
+}
+
+// SetPropertyToolbarVisible sets the "toolbar-visible" property.
+// Whether the toolbar should be visible for the window.
+func (x *WindowProperties) SetPropertyToolbarVisible(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("toolbar-visible", &v)
+}
+
+// GetPropertyToolbarVisible gets the "toolbar-visible" property.
+// Whether the toolbar should be visible for the window.
+func (x *WindowProperties) GetPropertyToolbarVisible() bool {
+	var v gobject.Value
+	x.GetProperty("toolbar-visible", &v)
+	return v.GetBoolean()
 }
 
 func init() {

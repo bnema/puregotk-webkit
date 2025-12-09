@@ -45,7 +45,7 @@ func FormSubmissionRequestNewFromInternalPtr(ptr uintptr) *FormSubmissionRequest
 	return cls
 }
 
-var xFormSubmissionRequestListTextFields func(uintptr, []string, []string) bool
+var xFormSubmissionRequestListTextFields func(uintptr, *[]string, *[]string) bool
 
 // Get lists of the text fields contained in the form associated to @request.
 //
@@ -55,7 +55,7 @@ var xFormSubmissionRequestListTextFields func(uintptr, []string, []string) bool
 //
 // If this function returns %FALSE, then both @field_names and
 // @field_values will be empty.
-func (x *FormSubmissionRequest) ListTextFields(FieldNamesVar []string, FieldValuesVar []string) bool {
+func (x *FormSubmissionRequest) ListTextFields(FieldNamesVar *[]string, FieldValuesVar *[]string) bool {
 
 	cret := xFormSubmissionRequestListTextFields(x.GoPointer(), FieldNamesVar, FieldValuesVar)
 	return cret

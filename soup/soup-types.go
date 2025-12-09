@@ -7,6 +7,7 @@ import (
 
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
+	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
 
@@ -48,7 +49,7 @@ func (x *Cookie) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewCookie func(string, string, string, string, int) uintptr
+var xNewCookie func(string, string, string, string, int) *Cookie
 
 // Creates a new #SoupCookie with the given attributes.
 //
@@ -71,29 +72,29 @@ var xNewCookie func(string, string, string, string, int) uintptr
 //
 // As of version 3.4.0 the default value of a cookie's same-site-policy
 // is %SOUP_SAME_SITE_POLICY_LAX.
-func NewCookie(NameVar string, ValueVar string, DomainVar string, PathVar string, MaxAgeVar int) uintptr {
+func NewCookie(NameVar string, ValueVar string, DomainVar string, PathVar string, MaxAgeVar int) *Cookie {
 
 	cret := xNewCookie(NameVar, ValueVar, DomainVar, PathVar, MaxAgeVar)
 	return cret
 }
 
-var xCookieAppliesToUri func(uintptr, uintptr) bool
+var xCookieAppliesToUri func(uintptr, *glib.Uri) bool
 
 // Tests if @cookie should be sent to @uri.
 //
 // (At the moment, this does not check that @cookie's domain matches
 // @uri, because it assumes that the caller has already done that.
 // But don't rely on that; it may change in the future.)
-func (x *Cookie) AppliesToUri(UriVar uintptr) bool {
+func (x *Cookie) AppliesToUri(UriVar *glib.Uri) bool {
 
 	cret := xCookieAppliesToUri(x.GoPointer(), UriVar)
 	return cret
 }
 
-var xCookieCopy func(uintptr) uintptr
+var xCookieCopy func(uintptr) *Cookie
 
 // Copies @cookie.
-func (x *Cookie) Copy() uintptr {
+func (x *Cookie) Copy() *Cookie {
 
 	cret := xCookieCopy(x.GoPointer())
 	return cret
@@ -111,13 +112,13 @@ func (x *Cookie) DomainMatches(HostVar string) bool {
 	return cret
 }
 
-var xCookieEqual func(uintptr, uintptr) bool
+var xCookieEqual func(uintptr, *Cookie) bool
 
 // Tests if @cookie1 and @cookie2 are equal.
 //
 // Note that currently, this does not check that the cookie domains
 // match. This may change in the future.
-func (x *Cookie) Equal(Cookie2Var uintptr) bool {
+func (x *Cookie) Equal(Cookie2Var *Cookie) bool {
 
 	cret := xCookieEqual(x.GoPointer(), Cookie2Var)
 	return cret
@@ -141,10 +142,10 @@ func (x *Cookie) GetDomain() string {
 	return cret
 }
 
-var xCookieGetExpires func(uintptr) uintptr
+var xCookieGetExpires func(uintptr) *glib.DateTime
 
 // Gets @cookie's expiration time.
-func (x *Cookie) GetExpires() uintptr {
+func (x *Cookie) GetExpires() *glib.DateTime {
 
 	cret := xCookieGetExpires(x.GoPointer())
 	return cret
@@ -213,7 +214,7 @@ func (x *Cookie) SetDomain(DomainVar string) {
 
 }
 
-var xCookieSetExpires func(uintptr, uintptr)
+var xCookieSetExpires func(uintptr, *glib.DateTime)
 
 // Sets @cookie's expiration time to @expires.
 //
@@ -221,7 +222,7 @@ var xCookieSetExpires func(uintptr, uintptr)
 // end of the client's session.
 //
 // (This sets the same property as [method@Cookie.set_max_age].)
-func (x *Cookie) SetExpires(ExpiresVar uintptr) {
+func (x *Cookie) SetExpires(ExpiresVar *glib.DateTime) {
 
 	xCookieSetExpires(x.GoPointer(), ExpiresVar)
 
@@ -360,7 +361,7 @@ func (x *HSTSPolicy) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewHSTSPolicy func(string, uint32, bool) uintptr
+var xNewHSTSPolicy func(string, uint32, bool) *HSTSPolicy
 
 // Creates a new #SoupHSTSPolicy with the given attributes.
 //
@@ -373,35 +374,35 @@ var xNewHSTSPolicy func(string, uint32, bool) uintptr
 //
 // If @include_subdomains is %TRUE, the strict transport security policy
 // must also be enforced on all subdomains of @domain.
-func NewHSTSPolicy(DomainVar string, MaxAgeVar uint32, IncludeSubdomainsVar bool) uintptr {
+func NewHSTSPolicy(DomainVar string, MaxAgeVar uint32, IncludeSubdomainsVar bool) *HSTSPolicy {
 
 	cret := xNewHSTSPolicy(DomainVar, MaxAgeVar, IncludeSubdomainsVar)
 	return cret
 }
 
-var xNewHSTSPolicyFromResponse func(uintptr) uintptr
+var xNewHSTSPolicyFromResponse func(uintptr) *HSTSPolicy
 
 // Parses @msg's first "Strict-Transport-Security" response header and
 // returns a #SoupHSTSPolicy.
-func NewHSTSPolicyFromResponse(MsgVar *Message) uintptr {
+func NewHSTSPolicyFromResponse(MsgVar *Message) *HSTSPolicy {
 
 	cret := xNewHSTSPolicyFromResponse(MsgVar.GoPointer())
 	return cret
 }
 
-var xNewHSTSPolicyFull func(string, uint32, uintptr, bool) uintptr
+var xNewHSTSPolicyFull func(string, uint32, *glib.DateTime, bool) *HSTSPolicy
 
 // Full version of [ctor@HSTSPolicy.new], to use with an existing
 // expiration date.
 //
 // See [ctor@HSTSPolicy.new] for details.
-func NewHSTSPolicyFull(DomainVar string, MaxAgeVar uint32, ExpiresVar uintptr, IncludeSubdomainsVar bool) uintptr {
+func NewHSTSPolicyFull(DomainVar string, MaxAgeVar uint32, ExpiresVar *glib.DateTime, IncludeSubdomainsVar bool) *HSTSPolicy {
 
 	cret := xNewHSTSPolicyFull(DomainVar, MaxAgeVar, ExpiresVar, IncludeSubdomainsVar)
 	return cret
 }
 
-var xNewHSTSPolicySessionPolicy func(string, bool) uintptr
+var xNewHSTSPolicySessionPolicy func(string, bool) *HSTSPolicy
 
 // Creates a new session #SoupHSTSPolicy with the given attributes.
 //
@@ -416,25 +417,25 @@ var xNewHSTSPolicySessionPolicy func(string, bool) uintptr
 //
 // If @include_subdomains is %TRUE, the strict transport security policy
 // must also be enforced on all subdomains of @domain.
-func NewHSTSPolicySessionPolicy(DomainVar string, IncludeSubdomainsVar bool) uintptr {
+func NewHSTSPolicySessionPolicy(DomainVar string, IncludeSubdomainsVar bool) *HSTSPolicy {
 
 	cret := xNewHSTSPolicySessionPolicy(DomainVar, IncludeSubdomainsVar)
 	return cret
 }
 
-var xHSTSPolicyCopy func(uintptr) uintptr
+var xHSTSPolicyCopy func(uintptr) *HSTSPolicy
 
 // Copies @policy.
-func (x *HSTSPolicy) Copy() uintptr {
+func (x *HSTSPolicy) Copy() *HSTSPolicy {
 
 	cret := xHSTSPolicyCopy(x.GoPointer())
 	return cret
 }
 
-var xHSTSPolicyEqual func(uintptr, uintptr) bool
+var xHSTSPolicyEqual func(uintptr, *HSTSPolicy) bool
 
 // Tests if @policy1 and @policy2 are equal.
-func (x *HSTSPolicy) Equal(Policy2Var uintptr) bool {
+func (x *HSTSPolicy) Equal(Policy2Var *HSTSPolicy) bool {
 
 	cret := xHSTSPolicyEqual(x.GoPointer(), Policy2Var)
 	return cret
@@ -458,10 +459,10 @@ func (x *HSTSPolicy) GetDomain() string {
 	return cret
 }
 
-var xHSTSPolicyGetExpires func(uintptr) uintptr
+var xHSTSPolicyGetExpires func(uintptr) *glib.DateTime
 
 // Returns the expiration date for @policy.
-func (x *HSTSPolicy) GetExpires() uintptr {
+func (x *HSTSPolicy) GetExpires() *glib.DateTime {
 
 	cret := xHSTSPolicyGetExpires(x.GoPointer())
 	return cret
@@ -535,10 +536,10 @@ func (x *MessageMetrics) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xMessageMetricsCopy func(uintptr) uintptr
+var xMessageMetricsCopy func(uintptr) *MessageMetrics
 
 // Copies @metrics.
-func (x *MessageMetrics) Copy() uintptr {
+func (x *MessageMetrics) Copy() *MessageMetrics {
 
 	cret := xMessageMetricsCopy(x.GoPointer())
 	return cret

@@ -153,10 +153,10 @@ func (x *NetworkSession) GetItpSummary(CancellableVar *gio.Cancellable, Callback
 
 }
 
-var xNetworkSessionGetItpSummaryFinish func(uintptr, uintptr, **glib.Error) uintptr
+var xNetworkSessionGetItpSummaryFinish func(uintptr, uintptr, **glib.Error) *glib.List
 
 // Finish an asynchronous operation started with webkit_network_session_get_itp_summary().
-func (x *NetworkSession) GetItpSummaryFinish(ResultVar gio.AsyncResult) (uintptr, error) {
+func (x *NetworkSession) GetItpSummaryFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
 	var cerr *glib.Error
 
 	cret := xNetworkSessionGetItpSummaryFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -252,7 +252,7 @@ func (x *NetworkSession) SetPersistentCredentialStorageEnabled(EnabledVar bool) 
 
 }
 
-var xNetworkSessionSetProxySettings func(uintptr, NetworkProxyMode, uintptr)
+var xNetworkSessionSetProxySettings func(uintptr, NetworkProxyMode, *NetworkProxySettings)
 
 // Set the network proxy settings to be used by connections started in @session session.
 //
@@ -263,7 +263,7 @@ var xNetworkSessionSetProxySettings func(uintptr, NetworkProxyMode, uintptr)
 // or %WEBKIT_NETWORK_PROXY_MODE_CUSTOM to provide your own proxy settings.
 // When @proxy_mode is %WEBKIT_NETWORK_PROXY_MODE_CUSTOM @proxy_settings must be
 // a valid #WebKitNetworkProxySettings; otherwise, @proxy_settings must be %NULL.
-func (x *NetworkSession) SetProxySettings(ProxyModeVar NetworkProxyMode, ProxySettingsVar uintptr) {
+func (x *NetworkSession) SetProxySettings(ProxyModeVar NetworkProxyMode, ProxySettingsVar *NetworkProxySettings) {
 
 	xNetworkSessionSetProxySettings(x.GoPointer(), ProxyModeVar, ProxySettingsVar)
 
@@ -287,6 +287,41 @@ func (c *NetworkSession) GoPointer() uintptr {
 
 func (c *NetworkSession) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+// SetPropertyCacheDirectory sets the "cache-directory" property.
+// The base caches directory used to create the #WebKitWebsiteDataManager. If %NULL, a default location will be used.
+func (x *NetworkSession) SetPropertyCacheDirectory(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("cache-directory", &v)
+}
+
+// SetPropertyDataDirectory sets the "data-directory" property.
+// The base data directory used to create the #WebKitWebsiteDataManager. If %NULL, a default location will be used.
+func (x *NetworkSession) SetPropertyDataDirectory(value string) {
+	var v gobject.Value
+	v.Init(gobject.TypeStringVal)
+	v.SetString(value)
+	x.SetProperty("data-directory", &v)
+}
+
+// SetPropertyIsEphemeral sets the "is-ephemeral" property.
+// Whether to create an ephermeral #WebKitWebsiteDataManager for the session.
+func (x *NetworkSession) SetPropertyIsEphemeral(value bool) {
+	var v gobject.Value
+	v.Init(gobject.TypeBooleanVal)
+	v.SetBoolean(value)
+	x.SetProperty("is-ephemeral", &v)
+}
+
+// GetPropertyIsEphemeral gets the "is-ephemeral" property.
+// Whether to create an ephermeral #WebKitWebsiteDataManager for the session.
+func (x *NetworkSession) GetPropertyIsEphemeral() bool {
+	var v gobject.Value
+	x.GetProperty("is-ephemeral", &v)
+	return v.GetBoolean()
 }
 
 // This signal is emitted when a new download request is made.
@@ -328,7 +363,7 @@ func NetworkSessionGetDefault() *NetworkSession {
 	return cls
 }
 
-var xNetworkSessionSetMemoryPressureSettings func(uintptr)
+var xNetworkSessionSetMemoryPressureSettings func(*MemoryPressureSettings)
 
 // Sets @settings as the #WebKitMemoryPressureSettings.
 //
@@ -342,7 +377,7 @@ var xNetworkSessionSetMemoryPressureSettings func(uintptr)
 // be enabled only if custom settings have been set using this function. After that, in order
 // to remove the custom settings and disable the periodic check, this function must be called
 // passing %NULL as the value of @settings.
-func NetworkSessionSetMemoryPressureSettings(SettingsVar uintptr) {
+func NetworkSessionSetMemoryPressureSettings(SettingsVar *MemoryPressureSettings) {
 
 	xNetworkSessionSetMemoryPressureSettings(SettingsVar)
 
