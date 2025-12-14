@@ -184,7 +184,37 @@ var xLoggerSetPrinter func(uintptr, uintptr, uintptr, uintptr)
 // the log to go to `stdout`.
 func (x *Logger) SetPrinter(PrinterVar *LoggerPrinter, PrinterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xLoggerSetPrinter(x.GoPointer(), glib.NewCallback(PrinterVar), PrinterDataVar, glib.NewCallback(DestroyVar))
+	var PrinterVarRef uintptr
+	if PrinterVar != nil {
+		PrinterVarPtr := uintptr(unsafe.Pointer(PrinterVar))
+		if cbRefPtr, ok := glib.GetCallback(PrinterVarPtr); ok {
+			PrinterVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 LoggerLogLevel, arg2 byte, arg3 string, arg4 uintptr) {
+				cbFn := *PrinterVar
+				cbFn(arg0, arg1, arg2, arg3, arg4)
+			}
+			PrinterVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(PrinterVarPtr, PrinterVarRef)
+		}
+	}
+
+	var DestroyVarRef uintptr
+	if DestroyVar != nil {
+		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
+			DestroyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyVar
+				cbFn(arg0)
+			}
+			DestroyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+		}
+	}
+
+	xLoggerSetPrinter(x.GoPointer(), PrinterVarRef, PrinterDataVar, DestroyVarRef)
 
 }
 
@@ -198,7 +228,37 @@ var xLoggerSetRequestFilter func(uintptr, uintptr, uintptr, uintptr)
 // level passed to [ctor@Logger.new].)
 func (x *Logger) SetRequestFilter(RequestFilterVar *LoggerFilter, FilterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xLoggerSetRequestFilter(x.GoPointer(), glib.NewCallback(RequestFilterVar), FilterDataVar, glib.NewCallback(DestroyVar))
+	var RequestFilterVarRef uintptr
+	if RequestFilterVar != nil {
+		RequestFilterVarPtr := uintptr(unsafe.Pointer(RequestFilterVar))
+		if cbRefPtr, ok := glib.GetCallback(RequestFilterVarPtr); ok {
+			RequestFilterVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) LoggerLogLevel {
+				cbFn := *RequestFilterVar
+				return cbFn(arg0, arg1, arg2)
+			}
+			RequestFilterVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(RequestFilterVarPtr, RequestFilterVarRef)
+		}
+	}
+
+	var DestroyVarRef uintptr
+	if DestroyVar != nil {
+		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
+			DestroyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyVar
+				cbFn(arg0)
+			}
+			DestroyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+		}
+	}
+
+	xLoggerSetRequestFilter(x.GoPointer(), RequestFilterVarRef, FilterDataVar, DestroyVarRef)
 
 }
 
@@ -212,7 +272,37 @@ var xLoggerSetResponseFilter func(uintptr, uintptr, uintptr, uintptr)
 // the level passed to [ctor@Logger.new].)
 func (x *Logger) SetResponseFilter(ResponseFilterVar *LoggerFilter, FilterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xLoggerSetResponseFilter(x.GoPointer(), glib.NewCallback(ResponseFilterVar), FilterDataVar, glib.NewCallback(DestroyVar))
+	var ResponseFilterVarRef uintptr
+	if ResponseFilterVar != nil {
+		ResponseFilterVarPtr := uintptr(unsafe.Pointer(ResponseFilterVar))
+		if cbRefPtr, ok := glib.GetCallback(ResponseFilterVarPtr); ok {
+			ResponseFilterVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) LoggerLogLevel {
+				cbFn := *ResponseFilterVar
+				return cbFn(arg0, arg1, arg2)
+			}
+			ResponseFilterVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(ResponseFilterVarPtr, ResponseFilterVarRef)
+		}
+	}
+
+	var DestroyVarRef uintptr
+	if DestroyVar != nil {
+		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
+			DestroyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyVar
+				cbFn(arg0)
+			}
+			DestroyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+		}
+	}
+
+	xLoggerSetResponseFilter(x.GoPointer(), ResponseFilterVarRef, FilterDataVar, DestroyVarRef)
 
 }
 

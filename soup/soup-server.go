@@ -336,7 +336,7 @@ func (x *Server) AddAuthDomain(AuthDomainVar *AuthDomain) {
 
 }
 
-var xServerAddEarlyHandler func(uintptr, string, uintptr, uintptr, uintptr)
+var xServerAddEarlyHandler func(uintptr, uintptr, uintptr, uintptr, uintptr)
 
 // Adds an "early" handler to @server for requests prefixed by @path.
 //
@@ -364,13 +364,43 @@ var xServerAddEarlyHandler func(uintptr, string, uintptr, uintptr, uintptr)
 // long as you have not set the status-code by the time
 // [signal@ServerMessage::got-body] is emitted, the non-early handler will be
 // run as well.
-func (x *Server) AddEarlyHandler(PathVar string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
+func (x *Server) AddEarlyHandler(PathVar *string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddEarlyHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 *glib.HashTable, arg4 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2, arg3, arg4)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyVarRef uintptr
+	if DestroyVar != nil {
+		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
+			DestroyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyVar
+				cbFn(arg0)
+			}
+			DestroyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+		}
+	}
+
+	xServerAddEarlyHandler(x.GoPointer(), core.NullableStringToPtr(PathVar), CallbackVarRef, UserDataVar, DestroyVarRef)
 
 }
 
-var xServerAddHandler func(uintptr, string, uintptr, uintptr, uintptr)
+var xServerAddHandler func(uintptr, uintptr, uintptr, uintptr, uintptr)
 
 // Adds a handler to @server for requests prefixed by @path.
 //
@@ -405,9 +435,39 @@ var xServerAddHandler func(uintptr, string, uintptr, uintptr, uintptr)
 // will automatically pause the message if it is using chunked encoding but no
 // more chunks are available.) When you are done, call
 // [method@MessageBody.complete] to indicate that no more chunks are coming.
-func (x *Server) AddHandler(PathVar string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
+func (x *Server) AddHandler(PathVar *string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddHandler(x.GoPointer(), PathVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 *glib.HashTable, arg4 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2, arg3, arg4)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyVarRef uintptr
+	if DestroyVar != nil {
+		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
+			DestroyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyVar
+				cbFn(arg0)
+			}
+			DestroyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+		}
+	}
+
+	xServerAddHandler(x.GoPointer(), core.NullableStringToPtr(PathVar), CallbackVarRef, UserDataVar, DestroyVarRef)
 
 }
 
@@ -427,7 +487,7 @@ func (x *Server) AddWebsocketExtension(ExtensionTypeVar types.GType) {
 
 }
 
-var xServerAddWebsocketHandler func(uintptr, string, string, []string, uintptr, uintptr, uintptr)
+var xServerAddWebsocketHandler func(uintptr, uintptr, uintptr, []string, uintptr, uintptr, uintptr)
 
 // Adds a WebSocket handler to @server for requests prefixed by @path.
 //
@@ -447,9 +507,39 @@ var xServerAddWebsocketHandler func(uintptr, string, string, []string, uintptr, 
 // handled by adding a normal handler to @path, and having it perform
 // whatever checks are needed and
 // setting a failure status code if the handshake should be rejected.
-func (x *Server) AddWebsocketHandler(PathVar string, OriginVar string, ProtocolsVar []string, CallbackVar *ServerWebsocketCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
+func (x *Server) AddWebsocketHandler(PathVar *string, OriginVar *string, ProtocolsVar []string, CallbackVar *ServerWebsocketCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
 
-	xServerAddWebsocketHandler(x.GoPointer(), PathVar, OriginVar, ProtocolsVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DestroyVar))
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 uintptr, arg4 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2, arg3, arg4)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyVarRef uintptr
+	if DestroyVar != nil {
+		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
+			DestroyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyVar
+				cbFn(arg0)
+			}
+			DestroyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+		}
+	}
+
+	xServerAddWebsocketHandler(x.GoPointer(), core.NullableStringToPtr(PathVar), core.NullableStringToPtr(OriginVar), ProtocolsVar, CallbackVarRef, UserDataVar, DestroyVarRef)
 
 }
 
@@ -804,7 +894,7 @@ func (x *Server) GetPropertyRawPaths() bool {
 func (x *Server) SetPropertyServerHeader(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("server-header", &v)
 }
 

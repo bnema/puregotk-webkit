@@ -279,25 +279,25 @@ func (x *ServerMessage) SetRedirect(StatusCodeVar uint, RedirectUriVar string) {
 
 }
 
-var xServerMessageSetResponse func(uintptr, string, MemoryUse, string, uint)
+var xServerMessageSetResponse func(uintptr, uintptr, MemoryUse, uintptr, uint)
 
 // Convenience function to set the response body of a #SoupServerMessage. If
 // @content_type is %NULL, the response body must be empty as well.
-func (x *ServerMessage) SetResponse(ContentTypeVar string, RespUseVar MemoryUse, RespBodyVar string, RespLengthVar uint) {
+func (x *ServerMessage) SetResponse(ContentTypeVar *string, RespUseVar MemoryUse, RespBodyVar *string, RespLengthVar uint) {
 
-	xServerMessageSetResponse(x.GoPointer(), ContentTypeVar, RespUseVar, RespBodyVar, RespLengthVar)
+	xServerMessageSetResponse(x.GoPointer(), core.NullableStringToPtr(ContentTypeVar), RespUseVar, core.NullableStringToPtr(RespBodyVar), RespLengthVar)
 
 }
 
-var xServerMessageSetStatus func(uintptr, uint, string)
+var xServerMessageSetStatus func(uintptr, uint, uintptr)
 
 // Sets @msg's status code to @status_code.
 //
 // If @status_code is a known value and @reason_phrase is %NULL, the
 // reason_phrase will be set automatically.
-func (x *ServerMessage) SetStatus(StatusCodeVar uint, ReasonPhraseVar string) {
+func (x *ServerMessage) SetStatus(StatusCodeVar uint, ReasonPhraseVar *string) {
 
-	xServerMessageSetStatus(x.GoPointer(), StatusCodeVar, ReasonPhraseVar)
+	xServerMessageSetStatus(x.GoPointer(), StatusCodeVar, core.NullableStringToPtr(ReasonPhraseVar))
 
 }
 

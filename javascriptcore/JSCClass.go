@@ -284,7 +284,7 @@ func ClassNewFromInternalPtr(ptr uintptr) *Class {
 	return cls
 }
 
-var xClassAddConstructor func(uintptr, string, uintptr, uintptr, uintptr, types.GType, uint, ...interface{}) uintptr
+var xClassAddConstructor func(uintptr, uintptr, uintptr, uintptr, uintptr, types.GType, uint, ...interface{}) uintptr
 
 // Add a constructor to @jsc_class. If @name is %NULL, the class name will be used. When &lt;function&gt;new&lt;/function&gt;
 // is used with the constructor or jsc_value_constructor_call() is called, @callback is invoked receiving the
@@ -296,10 +296,40 @@ var xClassAddConstructor func(uintptr, string, uintptr, uintptr, uintptr, types.
 //
 // Note that the value returned by @callback is adopted by @jsc_class, and the #GDestroyNotify passed to
 // jsc_context_register_class() is responsible for disposing of it.
-func (x *Class) AddConstructor(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParamsVar uint, varArgs ...interface{}) *Value {
+func (x *Class) AddConstructor(NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParamsVar uint, varArgs ...interface{}) *Value {
 	var cls *Value
 
-	cret := xClassAddConstructor(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParamsVar, varArgs...)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	cret := xClassAddConstructor(x.GoPointer(), core.NullableStringToPtr(NameVar), CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParamsVar, varArgs...)
 
 	if cret == 0 {
 		return nil
@@ -309,7 +339,7 @@ func (x *Class) AddConstructor(NameVar string, CallbackVar *gobject.Callback, Us
 	return cls
 }
 
-var xClassAddConstructorVariadic func(uintptr, string, uintptr, uintptr, uintptr, types.GType) uintptr
+var xClassAddConstructorVariadic func(uintptr, uintptr, uintptr, uintptr, uintptr, types.GType) uintptr
 
 // Add a constructor to @jsc_class. If @name is %NULL, the class name will be used. When &lt;function&gt;new&lt;/function&gt;
 // is used with the constructor or jsc_value_constructor_call() is called, @callback is invoked receiving
@@ -321,10 +351,40 @@ var xClassAddConstructorVariadic func(uintptr, string, uintptr, uintptr, uintptr
 //
 // Note that the value returned by @callback is adopted by @jsc_class, and the #GDestroyNotify passed to
 // jsc_context_register_class() is responsible for disposing of it.
-func (x *Class) AddConstructorVariadic(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType) *Value {
+func (x *Class) AddConstructorVariadic(NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType) *Value {
 	var cls *Value
 
-	cret := xClassAddConstructorVariadic(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	cret := xClassAddConstructorVariadic(x.GoPointer(), core.NullableStringToPtr(NameVar), CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar)
 
 	if cret == 0 {
 		return nil
@@ -334,7 +394,7 @@ func (x *Class) AddConstructorVariadic(NameVar string, CallbackVar *gobject.Call
 	return cls
 }
 
-var xClassAddConstructorv func(uintptr, string, uintptr, uintptr, uintptr, types.GType, uint, []types.GType) uintptr
+var xClassAddConstructorv func(uintptr, uintptr, uintptr, uintptr, uintptr, types.GType, uint, []types.GType) uintptr
 
 // Add a constructor to @jsc_class. If @name is %NULL, the class name will be used. When &lt;function&gt;new&lt;/function&gt;
 // is used with the constructor or jsc_value_constructor_call() is called, @callback is invoked receiving the
@@ -346,10 +406,40 @@ var xClassAddConstructorv func(uintptr, string, uintptr, uintptr, uintptr, types
 //
 // Note that the value returned by @callback is adopted by @jsc_class, and the #GDestroyNotify passed to
 // jsc_context_register_class() is responsible for disposing of it.
-func (x *Class) AddConstructorv(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParametersVar uint, ParameterTypesVar []types.GType) *Value {
+func (x *Class) AddConstructorv(NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParametersVar uint, ParameterTypesVar []types.GType) *Value {
 	var cls *Value
 
-	cret := xClassAddConstructorv(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParametersVar, ParameterTypesVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	cret := xClassAddConstructorv(x.GoPointer(), core.NullableStringToPtr(NameVar), CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParametersVar, ParameterTypesVar)
 
 	if cret == 0 {
 		return nil
@@ -372,7 +462,37 @@ var xClassAddMethod func(uintptr, string, uintptr, uintptr, uintptr, types.GType
 // with jsc_value_new_object() that receives the copy as the instance parameter.
 func (x *Class) AddMethod(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParamsVar uint, varArgs ...interface{}) {
 
-	xClassAddMethod(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParamsVar, varArgs...)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	xClassAddMethod(x.GoPointer(), NameVar, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParamsVar, varArgs...)
 
 }
 
@@ -389,7 +509,37 @@ var xClassAddMethodVariadic func(uintptr, string, uintptr, uintptr, uintptr, typ
 // with jsc_value_new_object() that receives the copy as the instance parameter.
 func (x *Class) AddMethodVariadic(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType) {
 
-	xClassAddMethodVariadic(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	xClassAddMethodVariadic(x.GoPointer(), NameVar, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar)
 
 }
 
@@ -406,7 +556,37 @@ var xClassAddMethodv func(uintptr, string, uintptr, uintptr, uintptr, types.GTyp
 // with jsc_value_new_object() that receives the copy as the instance parameter.
 func (x *Class) AddMethodv(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParametersVar uint, ParameterTypesVar []types.GType) {
 
-	xClassAddMethodv(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParametersVar, ParameterTypesVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	xClassAddMethodv(x.GoPointer(), NameVar, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParametersVar, ParameterTypesVar)
 
 }
 
@@ -424,7 +604,52 @@ var xClassAddProperty func(uintptr, string, types.GType, uintptr, uintptr, uintp
 // with jsc_value_new_object() that receives the copy as the instance parameter.
 func (x *Class) AddProperty(NameVar string, PropertyTypeVar types.GType, GetterVar *gobject.Callback, SetterVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify) {
 
-	xClassAddProperty(x.GoPointer(), NameVar, PropertyTypeVar, glib.NewCallbackNullable(GetterVar), glib.NewCallbackNullable(SetterVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar))
+	var GetterVarRef uintptr
+	if GetterVar != nil {
+		GetterVarPtr := uintptr(unsafe.Pointer(GetterVar))
+		if cbRefPtr, ok := glib.GetCallback(GetterVarPtr); ok {
+			GetterVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *GetterVar
+				cbFn()
+			}
+			GetterVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(GetterVarPtr, GetterVarRef)
+		}
+	}
+
+	var SetterVarRef uintptr
+	if SetterVar != nil {
+		SetterVarPtr := uintptr(unsafe.Pointer(SetterVar))
+		if cbRefPtr, ok := glib.GetCallback(SetterVarPtr); ok {
+			SetterVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *SetterVar
+				cbFn()
+			}
+			SetterVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(SetterVarPtr, SetterVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	xClassAddProperty(x.GoPointer(), NameVar, PropertyTypeVar, GetterVarRef, SetterVarRef, UserDataVar, DestroyNotifyVarRef)
 
 }
 
@@ -470,7 +695,7 @@ func (c *Class) SetGoPointer(ptr uintptr) {
 func (x *Class) SetPropertyName(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("name", &v)
 }
 

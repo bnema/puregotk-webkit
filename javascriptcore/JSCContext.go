@@ -275,7 +275,37 @@ var xContextPushExceptionHandler func(uintptr, uintptr, uintptr, uintptr)
 // is removed from the context, @destroy_notify i called with @user_data as parameter.
 func (x *Context) PushExceptionHandler(HandlerVar *ExceptionHandler, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify) {
 
-	xContextPushExceptionHandler(x.GoPointer(), glib.NewCallback(HandlerVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar))
+	var HandlerVarRef uintptr
+	if HandlerVar != nil {
+		HandlerVarPtr := uintptr(unsafe.Pointer(HandlerVar))
+		if cbRefPtr, ok := glib.GetCallback(HandlerVarPtr); ok {
+			HandlerVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *HandlerVar
+				cbFn(arg0, arg1, arg2)
+			}
+			HandlerVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(HandlerVarPtr, HandlerVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	xContextPushExceptionHandler(x.GoPointer(), HandlerVarRef, UserDataVar, DestroyNotifyVarRef)
 
 }
 
@@ -290,7 +320,22 @@ var xContextRegisterClass func(uintptr, string, uintptr, *ClassVTable, uintptr) 
 func (x *Context) RegisterClass(NameVar string, ParentClassVar *Class, VtableVar *ClassVTable, DestroyNotifyVar *glib.DestroyNotify) *Class {
 	var cls *Class
 
-	cret := xContextRegisterClass(x.GoPointer(), NameVar, ParentClassVar.GoPointer(), VtableVar, glib.NewCallbackNullable(DestroyNotifyVar))
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	cret := xContextRegisterClass(x.GoPointer(), NameVar, ParentClassVar.GoPointer(), VtableVar, DestroyNotifyVarRef)
 
 	if cret == 0 {
 		return nil

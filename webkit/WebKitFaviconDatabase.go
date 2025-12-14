@@ -101,7 +101,22 @@ var xFaviconDatabaseGetFavicon func(uintptr, string, uintptr, uintptr, uintptr)
 // to get the result of the operation.
 func (x *FaviconDatabase) GetFavicon(PageUriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xFaviconDatabaseGetFavicon(x.GoPointer(), PageUriVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xFaviconDatabaseGetFavicon(x.GoPointer(), PageUriVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 

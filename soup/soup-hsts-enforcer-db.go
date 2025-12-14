@@ -80,7 +80,7 @@ func (c *HSTSEnforcerDB) SetGoPointer(ptr uintptr) {
 func (x *HSTSEnforcerDB) SetPropertyFilename(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("filename", &v)
 }
 

@@ -92,7 +92,22 @@ var xMessageHeadersForeach func(uintptr, uintptr, uintptr)
 // You may not modify the headers from @func.
 func (x *MessageHeaders) Foreach(FuncVar *MessageHeadersForeachFunc, UserDataVar uintptr) {
 
-	xMessageHeadersForeach(x.GoPointer(), glib.NewCallback(FuncVar), UserDataVar)
+	var FuncVarRef uintptr
+	if FuncVar != nil {
+		FuncVarPtr := uintptr(unsafe.Pointer(FuncVar))
+		if cbRefPtr, ok := glib.GetCallback(FuncVarPtr); ok {
+			FuncVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 string, arg1 string, arg2 uintptr) {
+				cbFn := *FuncVar
+				cbFn(arg0, arg1, arg2)
+			}
+			FuncVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(FuncVarPtr, FuncVarRef)
+		}
+	}
+
+	xMessageHeadersForeach(x.GoPointer(), FuncVarRef, UserDataVar)
 
 }
 

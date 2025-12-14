@@ -143,7 +143,22 @@ var xNewValueArrayBuffer func(uintptr, uintptr, uint, uintptr, uintptr) uintptr
 func NewValueArrayBuffer(ContextVar *Context, DataVar uintptr, SizeVar uint, DestroyNotifyVar *glib.DestroyNotify, UserDataVar uintptr) *Value {
 	var cls *Value
 
-	cret := xNewValueArrayBuffer(ContextVar.GoPointer(), DataVar, SizeVar, glib.NewCallbackNullable(DestroyNotifyVar), UserDataVar)
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	cret := xNewValueArrayBuffer(ContextVar.GoPointer(), DataVar, SizeVar, DestroyNotifyVarRef, UserDataVar)
 
 	if cret == 0 {
 		return nil
@@ -220,7 +235,7 @@ func NewValueFromJson(ContextVar *Context, JsonVar string) *Value {
 	return cls
 }
 
-var xNewValueFunction func(uintptr, string, uintptr, uintptr, uintptr, types.GType, uint, ...interface{}) uintptr
+var xNewValueFunction func(uintptr, uintptr, uintptr, uintptr, uintptr, types.GType, uint, ...interface{}) uintptr
 
 // Create a function in @context. If @name is %NULL an anonymous function will be created.
 // When the function is called by JavaScript or jsc_value_function_call(), @callback is called
@@ -231,10 +246,40 @@ var xNewValueFunction func(uintptr, string, uintptr, uintptr, uintptr, types.GTy
 // %G_TYPE_POINTER instead of the actual boxed #GType to ensure that the instance owned by #JSCClass is used.
 // If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a #JSCValue created
 // with jsc_value_new_object() that receives the copy as instance parameter.
-func NewValueFunction(ContextVar *Context, NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParamsVar uint, varArgs ...interface{}) *Value {
+func NewValueFunction(ContextVar *Context, NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParamsVar uint, varArgs ...interface{}) *Value {
 	var cls *Value
 
-	cret := xNewValueFunction(ContextVar.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParamsVar, varArgs...)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	cret := xNewValueFunction(ContextVar.GoPointer(), core.NullableStringToPtr(NameVar), CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParamsVar, varArgs...)
 
 	if cret == 0 {
 		return nil
@@ -244,7 +289,7 @@ func NewValueFunction(ContextVar *Context, NameVar string, CallbackVar *gobject.
 	return cls
 }
 
-var xNewValueFunctionVariadic func(uintptr, string, uintptr, uintptr, uintptr, types.GType) uintptr
+var xNewValueFunctionVariadic func(uintptr, uintptr, uintptr, uintptr, uintptr, types.GType) uintptr
 
 // Create a function in @context. If @name is %NULL an anonymous function will be created.
 // When the function is called by JavaScript or jsc_value_function_call(), @callback is called
@@ -255,10 +300,40 @@ var xNewValueFunctionVariadic func(uintptr, string, uintptr, uintptr, uintptr, t
 // %G_TYPE_POINTER instead of the actual boxed #GType to ensure that the instance owned by #JSCClass is used.
 // If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a #JSCValue created
 // with jsc_value_new_object() that receives the copy as instance parameter.
-func NewValueFunctionVariadic(ContextVar *Context, NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType) *Value {
+func NewValueFunctionVariadic(ContextVar *Context, NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType) *Value {
 	var cls *Value
 
-	cret := xNewValueFunctionVariadic(ContextVar.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	cret := xNewValueFunctionVariadic(ContextVar.GoPointer(), core.NullableStringToPtr(NameVar), CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar)
 
 	if cret == 0 {
 		return nil
@@ -268,7 +343,7 @@ func NewValueFunctionVariadic(ContextVar *Context, NameVar string, CallbackVar *
 	return cls
 }
 
-var xNewValueFunctionv func(uintptr, string, uintptr, uintptr, uintptr, types.GType, uint, []types.GType) uintptr
+var xNewValueFunctionv func(uintptr, uintptr, uintptr, uintptr, uintptr, types.GType, uint, []types.GType) uintptr
 
 // Create a function in @context. If @name is %NULL an anonymous function will be created.
 // When the function is called by JavaScript or jsc_value_function_call(), @callback is called
@@ -279,10 +354,40 @@ var xNewValueFunctionv func(uintptr, string, uintptr, uintptr, uintptr, types.GT
 // %G_TYPE_POINTER instead of the actual boxed #GType to ensure that the instance owned by #JSCClass is used.
 // If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a #JSCValue created
 // with jsc_value_new_object() that receives the copy as instance parameter.
-func NewValueFunctionv(ContextVar *Context, NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParametersVar uint, ParameterTypesVar []types.GType) *Value {
+func NewValueFunctionv(ContextVar *Context, NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParametersVar uint, ParameterTypesVar []types.GType) *Value {
 	var cls *Value
 
-	cret := xNewValueFunctionv(ContextVar.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParametersVar, ParameterTypesVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	cret := xNewValueFunctionv(ContextVar.GoPointer(), core.NullableStringToPtr(NameVar), CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParametersVar, ParameterTypesVar)
 
 	if cret == 0 {
 		return nil
@@ -352,7 +457,22 @@ var xNewValuePromise func(uintptr, uintptr, uintptr) uintptr
 func NewValuePromise(ContextVar *Context, ExecutorVar *Executor, UserDataVar uintptr) *Value {
 	var cls *Value
 
-	cret := xNewValuePromise(ContextVar.GoPointer(), glib.NewCallback(ExecutorVar), UserDataVar)
+	var ExecutorVarRef uintptr
+	if ExecutorVar != nil {
+		ExecutorVarPtr := uintptr(unsafe.Pointer(ExecutorVar))
+		if cbRefPtr, ok := glib.GetCallback(ExecutorVarPtr); ok {
+			ExecutorVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *ExecutorVar
+				cbFn(arg0, arg1, arg2)
+			}
+			ExecutorVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(ExecutorVarPtr, ExecutorVarRef)
+		}
+	}
+
+	cret := xNewValuePromise(ContextVar.GoPointer(), ExecutorVarRef, UserDataVar)
 
 	if cret == 0 {
 		return nil
@@ -362,14 +482,14 @@ func NewValuePromise(ContextVar *Context, ExecutorVar *Executor, UserDataVar uin
 	return cls
 }
 
-var xNewValueString func(uintptr, string) uintptr
+var xNewValueString func(uintptr, uintptr) uintptr
 
 // Create a new #JSCValue from @string. If you need to create a #JSCValue from a
 // string containing null characters, use jsc_value_new_string_from_bytes() instead.
-func NewValueString(ContextVar *Context, StringVar string) *Value {
+func NewValueString(ContextVar *Context, StringVar *string) *Value {
 	var cls *Value
 
-	cret := xNewValueString(ContextVar.GoPointer(), StringVar)
+	cret := xNewValueString(ContextVar.GoPointer(), core.NullableStringToPtr(StringVar))
 
 	if cret == 0 {
 		return nil
@@ -705,7 +825,52 @@ var xValueObjectDefinePropertyAccessor func(uintptr, string, ValuePropertyFlags,
 // first parameter. Use jsc_class_add_property() if you want to add property accessor invoked as a method.
 func (x *Value) ObjectDefinePropertyAccessor(PropertyNameVar string, FlagsVar ValuePropertyFlags, PropertyTypeVar types.GType, GetterVar *gobject.Callback, SetterVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify) {
 
-	xValueObjectDefinePropertyAccessor(x.GoPointer(), PropertyNameVar, FlagsVar, PropertyTypeVar, glib.NewCallbackNullable(GetterVar), glib.NewCallbackNullable(SetterVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar))
+	var GetterVarRef uintptr
+	if GetterVar != nil {
+		GetterVarPtr := uintptr(unsafe.Pointer(GetterVar))
+		if cbRefPtr, ok := glib.GetCallback(GetterVarPtr); ok {
+			GetterVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *GetterVar
+				cbFn()
+			}
+			GetterVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(GetterVarPtr, GetterVarRef)
+		}
+	}
+
+	var SetterVarRef uintptr
+	if SetterVar != nil {
+		SetterVarPtr := uintptr(unsafe.Pointer(SetterVar))
+		if cbRefPtr, ok := glib.GetCallback(SetterVarPtr); ok {
+			SetterVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *SetterVar
+				cbFn()
+			}
+			SetterVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(SetterVarPtr, SetterVarRef)
+		}
+	}
+
+	var DestroyNotifyVarRef uintptr
+	if DestroyNotifyVar != nil {
+		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
+			DestroyNotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DestroyNotifyVar
+				cbFn(arg0)
+			}
+			DestroyNotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+		}
+	}
+
+	xValueObjectDefinePropertyAccessor(x.GoPointer(), PropertyNameVar, FlagsVar, PropertyTypeVar, GetterVarRef, SetterVarRef, UserDataVar, DestroyNotifyVarRef)
 
 }
 

@@ -237,7 +237,22 @@ var xMessageAddHeaderHandler func(uintptr, string, string, uintptr, uintptr) uin
 // a header named @header.
 func (x *Message) AddHeaderHandler(SignalVar string, HeaderVar string, CallbackVar *gobject.Callback, UserDataVar uintptr) uint {
 
-	cret := xMessageAddHeaderHandler(x.GoPointer(), SignalVar, HeaderVar, glib.NewCallback(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	cret := xMessageAddHeaderHandler(x.GoPointer(), SignalVar, HeaderVar, CallbackVarRef, UserDataVar)
 	return cret
 }
 
@@ -252,7 +267,22 @@ var xMessageAddStatusCodeHandler func(uintptr, string, uint, uintptr, uintptr) u
 // is set (this means it can't be a "wrote" signal).
 func (x *Message) AddStatusCodeHandler(SignalVar string, StatusCodeVar uint, CallbackVar *gobject.Callback, UserDataVar uintptr) uint {
 
-	cret := xMessageAddStatusCodeHandler(x.GoPointer(), SignalVar, StatusCodeVar, glib.NewCallback(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func() {
+				cbFn := *CallbackVar
+				cbFn()
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	cret := xMessageAddStatusCodeHandler(x.GoPointer(), SignalVar, StatusCodeVar, CallbackVarRef, UserDataVar)
 	return cret
 }
 
@@ -635,7 +665,7 @@ func (x *Message) SetPriority(PriorityVar MessagePriority) {
 
 }
 
-var xMessageSetRequestBody func(uintptr, string, uintptr, int)
+var xMessageSetRequestBody func(uintptr, uintptr, uintptr, int)
 
 // Set the request body of a #SoupMessage.
 //
@@ -643,13 +673,13 @@ var xMessageSetRequestBody func(uintptr, string, uintptr, int)
 // not be changed if present.
 // The request body needs to be set again in case @msg is restarted
 // (in case of redirection or authentication).
-func (x *Message) SetRequestBody(ContentTypeVar string, StreamVar *gio.InputStream, ContentLengthVar int) {
+func (x *Message) SetRequestBody(ContentTypeVar *string, StreamVar *gio.InputStream, ContentLengthVar int) {
 
-	xMessageSetRequestBody(x.GoPointer(), ContentTypeVar, StreamVar.GoPointer(), ContentLengthVar)
+	xMessageSetRequestBody(x.GoPointer(), core.NullableStringToPtr(ContentTypeVar), StreamVar.GoPointer(), ContentLengthVar)
 
 }
 
-var xMessageSetRequestBodyFromBytes func(uintptr, string, *glib.Bytes)
+var xMessageSetRequestBodyFromBytes func(uintptr, uintptr, *glib.Bytes)
 
 // Set the request body of a #SoupMessage from [struct@GLib.Bytes].
 //
@@ -657,9 +687,9 @@ var xMessageSetRequestBodyFromBytes func(uintptr, string, *glib.Bytes)
 // not be changed if present.
 // The request body needs to be set again in case @msg is restarted
 // (in case of redirection or authentication).
-func (x *Message) SetRequestBodyFromBytes(ContentTypeVar string, BytesVar *glib.Bytes) {
+func (x *Message) SetRequestBodyFromBytes(ContentTypeVar *string, BytesVar *glib.Bytes) {
 
-	xMessageSetRequestBodyFromBytes(x.GoPointer(), ContentTypeVar, BytesVar)
+	xMessageSetRequestBodyFromBytes(x.GoPointer(), core.NullableStringToPtr(ContentTypeVar), BytesVar)
 
 }
 
@@ -800,7 +830,7 @@ func (x *Message) GetPropertyIsTopLevelNavigation() bool {
 func (x *Message) SetPropertyMethod(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("method", &v)
 }
 

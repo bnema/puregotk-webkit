@@ -1775,7 +1775,7 @@ func NewWebView() *WebView {
 	return cls
 }
 
-var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, *glib.Variant, string, string, uintptr, uintptr, uintptr)
+var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, *glib.Variant, uintptr, uintptr, uintptr, uintptr, uintptr)
 
 // Asynchronously call @body with @arguments in the script world with name @world_name of the main frame current context in @web_view.
 // The @arguments values must be one of the following types, or contain only the following GVariant types: number, string and dictionary.
@@ -1839,9 +1839,24 @@ var xWebViewCallAsyncJavascriptFunction func(uintptr, string, int, *glib.Variant
 //	}
 //
 // ```
-func (x *WebView) CallAsyncJavascriptFunction(BodyVar string, LengthVar int, ArgumentsVar *glib.Variant, WorldNameVar string, SourceUriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *WebView) CallAsyncJavascriptFunction(BodyVar string, LengthVar int, ArgumentsVar *glib.Variant, WorldNameVar *string, SourceUriVar *string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xWebViewCallAsyncJavascriptFunction(x.GoPointer(), BodyVar, LengthVar, ArgumentsVar, WorldNameVar, SourceUriVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xWebViewCallAsyncJavascriptFunction(x.GoPointer(), BodyVar, LengthVar, ArgumentsVar, core.NullableStringToPtr(WorldNameVar), core.NullableStringToPtr(SourceUriVar), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -1874,7 +1889,22 @@ var xWebViewCanExecuteEditingCommand func(uintptr, string, uintptr, uintptr, uin
 // webkit_web_view_can_execute_editing_command_finish() to get the result of the operation.
 func (x *WebView) CanExecuteEditingCommand(CommandVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xWebViewCanExecuteEditingCommand(x.GoPointer(), CommandVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xWebViewCanExecuteEditingCommand(x.GoPointer(), CommandVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -1935,7 +1965,7 @@ func (x *WebView) DownloadUri(UriVar string) *Download {
 	return cls
 }
 
-var xWebViewEvaluateJavascript func(uintptr, string, int, string, string, uintptr, uintptr, uintptr)
+var xWebViewEvaluateJavascript func(uintptr, string, int, uintptr, uintptr, uintptr, uintptr, uintptr)
 
 // Asynchronously evaluate @script in the script world with name @world_name of the main frame current context in @web_view.
 // If @world_name is %NULL, the default world is used. Any value that is not %NULL is a distinct world.
@@ -1996,9 +2026,24 @@ var xWebViewEvaluateJavascript func(uintptr, string, int, string, string, uintpt
 //	}
 //
 // ```
-func (x *WebView) EvaluateJavascript(ScriptVar string, LengthVar int, WorldNameVar string, SourceUriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *WebView) EvaluateJavascript(ScriptVar string, LengthVar int, WorldNameVar *string, SourceUriVar *string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xWebViewEvaluateJavascript(x.GoPointer(), ScriptVar, LengthVar, WorldNameVar, SourceUriVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xWebViewEvaluateJavascript(x.GoPointer(), ScriptVar, LengthVar, core.NullableStringToPtr(WorldNameVar), core.NullableStringToPtr(SourceUriVar), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -2369,7 +2414,22 @@ var xWebViewGetSnapshot func(uintptr, SnapshotRegion, SnapshotOptions, uintptr, 
 // operation.
 func (x *WebView) GetSnapshot(RegionVar SnapshotRegion, OptionsVar SnapshotOptions, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xWebViewGetSnapshot(x.GoPointer(), RegionVar, OptionsVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xWebViewGetSnapshot(x.GoPointer(), RegionVar, OptionsVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -2681,7 +2741,7 @@ func (x *WebView) IsPlayingAudio() bool {
 	return cret
 }
 
-var xWebViewLoadAlternateHtml func(uintptr, string, string, string)
+var xWebViewLoadAlternateHtml func(uintptr, string, string, uintptr)
 
 // Load the given @content string for the URI @content_uri.
 //
@@ -2689,13 +2749,13 @@ var xWebViewLoadAlternateHtml func(uintptr, string, string, string)
 // When this method is called from #WebKitWebView::load-failed signal to show an
 // error page, then the back-forward list is maintained appropriately.
 // For everything else this method works the same way as webkit_web_view_load_html().
-func (x *WebView) LoadAlternateHtml(ContentVar string, ContentUriVar string, BaseUriVar string) {
+func (x *WebView) LoadAlternateHtml(ContentVar string, ContentUriVar string, BaseUriVar *string) {
 
-	xWebViewLoadAlternateHtml(x.GoPointer(), ContentVar, ContentUriVar, BaseUriVar)
+	xWebViewLoadAlternateHtml(x.GoPointer(), ContentVar, ContentUriVar, core.NullableStringToPtr(BaseUriVar))
 
 }
 
-var xWebViewLoadBytes func(uintptr, *glib.Bytes, string, string, string)
+var xWebViewLoadBytes func(uintptr, *glib.Bytes, uintptr, uintptr, uintptr)
 
 // Load the specified @bytes into @web_view using the given @mime_type and @encoding.
 //
@@ -2703,13 +2763,13 @@ var xWebViewLoadBytes func(uintptr, *glib.Bytes, string, string, string)
 // When @encoding is %NULL, it defaults to "UTF-8".
 // When @base_uri is %NULL, it defaults to "about:blank".
 // You can monitor the load operation by connecting to #WebKitWebView::load-changed signal.
-func (x *WebView) LoadBytes(BytesVar *glib.Bytes, MimeTypeVar string, EncodingVar string, BaseUriVar string) {
+func (x *WebView) LoadBytes(BytesVar *glib.Bytes, MimeTypeVar *string, EncodingVar *string, BaseUriVar *string) {
 
-	xWebViewLoadBytes(x.GoPointer(), BytesVar, MimeTypeVar, EncodingVar, BaseUriVar)
+	xWebViewLoadBytes(x.GoPointer(), BytesVar, core.NullableStringToPtr(MimeTypeVar), core.NullableStringToPtr(EncodingVar), core.NullableStringToPtr(BaseUriVar))
 
 }
 
-var xWebViewLoadHtml func(uintptr, string, string)
+var xWebViewLoadHtml func(uintptr, string, uintptr)
 
 // Load the given @content string with the specified @base_uri.
 //
@@ -2721,9 +2781,9 @@ var xWebViewLoadHtml func(uintptr, string, string)
 // directory than @base_uri you can build a data URI for them. When @base_uri is %NULL,
 // it defaults to "about:blank". The mime type of the document will be "text/html".
 // You can monitor the load operation by connecting to #WebKitWebView::load-changed signal.
-func (x *WebView) LoadHtml(ContentVar string, BaseUriVar string) {
+func (x *WebView) LoadHtml(ContentVar string, BaseUriVar *string) {
 
-	xWebViewLoadHtml(x.GoPointer(), ContentVar, BaseUriVar)
+	xWebViewLoadHtml(x.GoPointer(), ContentVar, core.NullableStringToPtr(BaseUriVar))
 
 }
 
@@ -2806,7 +2866,22 @@ var xWebViewSave func(uintptr, SaveMode, uintptr, uintptr, uintptr)
 // operation.
 func (x *WebView) Save(SaveModeVar SaveMode, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xWebViewSave(x.GoPointer(), SaveModeVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xWebViewSave(x.GoPointer(), SaveModeVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -2844,7 +2919,22 @@ var xWebViewSaveToFile func(uintptr, uintptr, SaveMode, uintptr, uintptr, uintpt
 // operation.
 func (x *WebView) SaveToFile(FileVar gio.File, SaveModeVar SaveMode, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xWebViewSaveToFile(x.GoPointer(), FileVar.GoPointer(), SaveModeVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xWebViewSaveToFile(x.GoPointer(), FileVar.GoPointer(), SaveModeVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -2872,7 +2962,22 @@ var xWebViewSendMessageToPage func(uintptr, uintptr, uintptr, uintptr, uintptr)
 // webkit_web_view_send_message_to_page_finish() to get the message reply.
 func (x *WebView) SendMessageToPage(MessageVar *UserMessage, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xWebViewSendMessageToPage(x.GoPointer(), MessageVar.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xWebViewSendMessageToPage(x.GoPointer(), MessageVar.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -2948,7 +3053,7 @@ func (x *WebView) SetCorsAllowlist(AllowlistVar []string) {
 
 }
 
-var xWebViewSetCustomCharset func(uintptr, string)
+var xWebViewSetCustomCharset func(uintptr, uintptr)
 
 // Sets the current custom character encoding override of @web_view.
 //
@@ -2956,9 +3061,9 @@ var xWebViewSetCustomCharset func(uintptr, string)
 // META tags. Calling this method will stop any current load operation and reload the
 // current page. Setting the custom character encoding to %NULL removes the character
 // encoding override.
-func (x *WebView) SetCustomCharset(CharsetVar string) {
+func (x *WebView) SetCustomCharset(CharsetVar *string) {
 
-	xWebViewSetCustomCharset(x.GoPointer(), CharsetVar)
+	xWebViewSetCustomCharset(x.GoPointer(), core.NullableStringToPtr(CharsetVar))
 
 }
 
@@ -3120,7 +3225,7 @@ func (c *WebView) SetGoPointer(ptr uintptr) {
 func (x *WebView) SetPropertyDefaultContentSecurityPolicy(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("default-content-security-policy", &v)
 }
 

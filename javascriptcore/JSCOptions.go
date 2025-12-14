@@ -2,6 +2,8 @@
 package javascriptcore
 
 import (
+	"unsafe"
+
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/glib"
@@ -58,7 +60,22 @@ var xOptionsForeach func(uintptr, uintptr)
 // stop early if @function returns %FALSE.
 func OptionsForeach(FunctionVar *OptionsFunc, UserDataVar uintptr) {
 
-	xOptionsForeach(glib.NewCallback(FunctionVar), UserDataVar)
+	var FunctionVarRef uintptr
+	if FunctionVar != nil {
+		FunctionVarPtr := uintptr(unsafe.Pointer(FunctionVar))
+		if cbRefPtr, ok := glib.GetCallback(FunctionVarPtr); ok {
+			FunctionVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 string, arg1 OptionType, arg2 string, arg3 uintptr) bool {
+				cbFn := *FunctionVar
+				return cbFn(arg0, arg1, arg2, arg3)
+			}
+			FunctionVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(FunctionVarPtr, FunctionVarRef)
+		}
+	}
+
+	xOptionsForeach(FunctionVarRef, UserDataVar)
 
 }
 

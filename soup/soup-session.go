@@ -675,7 +675,22 @@ var xSessionPreconnectAsync func(uintptr, uintptr, int, uintptr, uintptr, uintpt
 // The operation finishes when the connection is done or an error occurred.
 func (x *Session) PreconnectAsync(MsgVar *Message, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xSessionPreconnectAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xSessionPreconnectAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -786,7 +801,22 @@ var xSessionSendAndReadAsync func(uintptr, uintptr, int, uintptr, uintptr, uintp
 // See [method@Session.send] for more details on the general semantics.
 func (x *Session) SendAndReadAsync(MsgVar *Message, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xSessionSendAndReadAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xSessionSendAndReadAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -831,7 +861,22 @@ var xSessionSendAndSpliceAsync func(uintptr, uintptr, uintptr, gio.OutputStreamS
 // See [method@Session.send] for more details on the general semantics.
 func (x *Session) SendAndSpliceAsync(MsgVar *Message, OutStreamVar *gio.OutputStream, FlagsVar gio.OutputStreamSpliceFlags, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xSessionSendAndSpliceAsync(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xSessionSendAndSpliceAsync(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -861,7 +906,22 @@ var xSessionSendAsync func(uintptr, uintptr, int, uintptr, uintptr, uintptr)
 // See [method@Session.send] for more details on the general semantics.
 func (x *Session) SendAsync(MsgVar *Message, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xSessionSendAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xSessionSendAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -992,7 +1052,7 @@ func (x *Session) SetUserAgent(UserAgentVar string) {
 
 }
 
-var xSessionWebsocketConnectAsync func(uintptr, uintptr, string, []string, int, uintptr, uintptr, uintptr)
+var xSessionWebsocketConnectAsync func(uintptr, uintptr, uintptr, []string, int, uintptr, uintptr, uintptr)
 
 // Asynchronously creates a [class@WebsocketConnection] to communicate with a
 // remote server.
@@ -1011,9 +1071,24 @@ var xSessionWebsocketConnectAsync func(uintptr, uintptr, string, []string, int, 
 // @msg will contain the complete response headers and body from the server's
 // response, and [method@Session.websocket_connect_finish] will return
 // %SOUP_WEBSOCKET_ERROR_NOT_WEBSOCKET.
-func (x *Session) WebsocketConnectAsync(MsgVar *Message, OriginVar string, ProtocolsVar []string, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+func (x *Session) WebsocketConnectAsync(MsgVar *Message, OriginVar *string, ProtocolsVar []string, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xSessionWebsocketConnectAsync(x.GoPointer(), MsgVar.GoPointer(), OriginVar, ProtocolsVar, IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xSessionWebsocketConnectAsync(x.GoPointer(), MsgVar.GoPointer(), core.NullableStringToPtr(OriginVar), ProtocolsVar, IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -1061,7 +1136,7 @@ func (c *Session) SetGoPointer(ptr uintptr) {
 func (x *Session) SetPropertyAcceptLanguage(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("accept-language", &v)
 }
 
@@ -1240,7 +1315,7 @@ func (x *Session) GetPropertyTimeout() uint {
 func (x *Session) SetPropertyUserAgent(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("user-agent", &v)
 }
 

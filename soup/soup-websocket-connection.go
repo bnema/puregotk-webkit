@@ -61,16 +61,16 @@ func WebsocketConnectionNewFromInternalPtr(ptr uintptr) *WebsocketConnection {
 	return cls
 }
 
-var xNewWebsocketConnection func(uintptr, *glib.Uri, WebsocketConnectionType, string, string, *glib.List) uintptr
+var xNewWebsocketConnection func(uintptr, *glib.Uri, WebsocketConnectionType, uintptr, uintptr, *glib.List) uintptr
 
 // Creates a #SoupWebsocketConnection on @stream with the given active @extensions.
 //
 // This should be called after completing the handshake to begin using the WebSocket
 // protocol.
-func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar *glib.Uri, TypeVar WebsocketConnectionType, OriginVar string, ProtocolVar string, ExtensionsVar *glib.List) *WebsocketConnection {
+func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar *glib.Uri, TypeVar WebsocketConnectionType, OriginVar *string, ProtocolVar *string, ExtensionsVar *glib.List) *WebsocketConnection {
 	var cls *WebsocketConnection
 
-	cret := xNewWebsocketConnection(StreamVar.GoPointer(), UriVar, TypeVar, OriginVar, ProtocolVar, ExtensionsVar)
+	cret := xNewWebsocketConnection(StreamVar.GoPointer(), UriVar, TypeVar, core.NullableStringToPtr(OriginVar), core.NullableStringToPtr(ProtocolVar), ExtensionsVar)
 
 	if cret == 0 {
 		return nil
@@ -80,7 +80,7 @@ func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar *glib.Uri, TypeVar W
 	return cls
 }
 
-var xWebsocketConnectionClose func(uintptr, uint16, string)
+var xWebsocketConnectionClose func(uintptr, uint16, uintptr)
 
 // Close the connection in an orderly fashion.
 //
@@ -92,9 +92,9 @@ var xWebsocketConnectionClose func(uintptr, uint16, string)
 // If @code is %SOUP_WEBSOCKET_CLOSE_NO_STATUS a close message with no body
 // (without code and data) is sent.
 // Note that the @data must be UTF-8 valid.
-func (x *WebsocketConnection) Close(CodeVar uint16, DataVar string) {
+func (x *WebsocketConnection) Close(CodeVar uint16, DataVar *string) {
 
-	xWebsocketConnectionClose(x.GoPointer(), CodeVar, DataVar)
+	xWebsocketConnectionClose(x.GoPointer(), CodeVar, core.NullableStringToPtr(DataVar))
 
 }
 
@@ -407,7 +407,7 @@ func (x *WebsocketConnection) GetPropertyMaxIncomingPayloadSize() uint64 {
 func (x *WebsocketConnection) SetPropertyOrigin(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("origin", &v)
 }
 
@@ -425,7 +425,7 @@ func (x *WebsocketConnection) GetPropertyOrigin() string {
 func (x *WebsocketConnection) SetPropertyProtocol(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("protocol", &v)
 }
 

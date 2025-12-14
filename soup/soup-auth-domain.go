@@ -285,7 +285,37 @@ var xAuthDomainSetFilter func(uintptr, uintptr, uintptr, uintptr)
 // used to set the filter at construct time.
 func (x *AuthDomain) SetFilter(FilterVar *AuthDomainFilter, FilterDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
 
-	xAuthDomainSetFilter(x.GoPointer(), glib.NewCallback(FilterVar), FilterDataVar, glib.NewCallback(DnotifyVar))
+	var FilterVarRef uintptr
+	if FilterVar != nil {
+		FilterVarPtr := uintptr(unsafe.Pointer(FilterVar))
+		if cbRefPtr, ok := glib.GetCallback(FilterVarPtr); ok {
+			FilterVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) bool {
+				cbFn := *FilterVar
+				return cbFn(arg0, arg1, arg2)
+			}
+			FilterVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(FilterVarPtr, FilterVarRef)
+		}
+	}
+
+	var DnotifyVarRef uintptr
+	if DnotifyVar != nil {
+		DnotifyVarPtr := uintptr(unsafe.Pointer(DnotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DnotifyVarPtr); ok {
+			DnotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DnotifyVar
+				cbFn(arg0)
+			}
+			DnotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DnotifyVarPtr, DnotifyVarRef)
+		}
+	}
+
+	xAuthDomainSetFilter(x.GoPointer(), FilterVarRef, FilterDataVar, DnotifyVarRef)
 
 }
 
@@ -300,7 +330,37 @@ var xAuthDomainSetGenericAuthCallback func(uintptr, uintptr, uintptr, uintptr)
 // should do.
 func (x *AuthDomain) SetGenericAuthCallback(AuthCallbackVar *AuthDomainGenericAuthCallback, AuthDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
 
-	xAuthDomainSetGenericAuthCallback(x.GoPointer(), glib.NewCallback(AuthCallbackVar), AuthDataVar, glib.NewCallback(DnotifyVar))
+	var AuthCallbackVarRef uintptr
+	if AuthCallbackVar != nil {
+		AuthCallbackVarPtr := uintptr(unsafe.Pointer(AuthCallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(AuthCallbackVarPtr); ok {
+			AuthCallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 uintptr) bool {
+				cbFn := *AuthCallbackVar
+				return cbFn(arg0, arg1, arg2, arg3)
+			}
+			AuthCallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(AuthCallbackVarPtr, AuthCallbackVarRef)
+		}
+	}
+
+	var DnotifyVarRef uintptr
+	if DnotifyVar != nil {
+		DnotifyVarPtr := uintptr(unsafe.Pointer(DnotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DnotifyVarPtr); ok {
+			DnotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DnotifyVar
+				cbFn(arg0)
+			}
+			DnotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DnotifyVarPtr, DnotifyVarRef)
+		}
+	}
+
+	xAuthDomainSetGenericAuthCallback(x.GoPointer(), AuthCallbackVarRef, AuthDataVar, DnotifyVarRef)
 
 }
 
@@ -371,7 +431,7 @@ func (x *AuthDomain) GetPropertyProxy() bool {
 func (x *AuthDomain) SetPropertyRealm(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("realm", &v)
 }
 

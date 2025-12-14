@@ -40,7 +40,7 @@ func NetworkSessionNewFromInternalPtr(ptr uintptr) *NetworkSession {
 	return cls
 }
 
-var xNewNetworkSession func(string, string) uintptr
+var xNewNetworkSession func(uintptr, uintptr) uintptr
 
 // Creates a new #WebKitNetworkSession with a persistent #WebKitWebsiteDataManager.
 // The parameters @data_directory and @cache_directory will be used as construct
@@ -51,10 +51,10 @@ var xNewNetworkSession func(string, string) uintptr
 // non ephemeral sessions.
 //
 // It must be passed as construct parameter of a #WebKitWebView.
-func NewNetworkSession(DataDirectoryVar string, CacheDirectoryVar string) *NetworkSession {
+func NewNetworkSession(DataDirectoryVar *string, CacheDirectoryVar *string) *NetworkSession {
 	var cls *NetworkSession
 
-	cret := xNewNetworkSession(DataDirectoryVar, CacheDirectoryVar)
+	cret := xNewNetworkSession(core.NullableStringToPtr(DataDirectoryVar), core.NullableStringToPtr(CacheDirectoryVar))
 
 	if cret == 0 {
 		return nil
@@ -149,7 +149,22 @@ var xNetworkSessionGetItpSummary func(uintptr, uintptr, uintptr, uintptr)
 // webkit_network_session_get_itp_summary_finish() to get the result of the operation.
 func (x *NetworkSession) GetItpSummary(CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
 
-	xNetworkSessionGetItpSummary(x.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1, arg2)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	xNetworkSessionGetItpSummary(x.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
 
 }
 
@@ -294,7 +309,7 @@ func (c *NetworkSession) SetGoPointer(ptr uintptr) {
 func (x *NetworkSession) SetPropertyCacheDirectory(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("cache-directory", &v)
 }
 
@@ -303,7 +318,7 @@ func (x *NetworkSession) SetPropertyCacheDirectory(value string) {
 func (x *NetworkSession) SetPropertyDataDirectory(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("data-directory", &v)
 }
 

@@ -84,7 +84,37 @@ var xAuthDomainDigestSetAuthCallback func(uintptr, uintptr, uintptr, uintptr)
 // set the callback at construct time.
 func (x *AuthDomainDigest) SetAuthCallback(CallbackVar *AuthDomainDigestAuthCallback, UserDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
 
-	xAuthDomainDigestSetAuthCallback(x.GoPointer(), glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(DnotifyVar))
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 uintptr) string {
+				cbFn := *CallbackVar
+				return cbFn(arg0, arg1, arg2, arg3)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var DnotifyVarRef uintptr
+	if DnotifyVar != nil {
+		DnotifyVarPtr := uintptr(unsafe.Pointer(DnotifyVar))
+		if cbRefPtr, ok := glib.GetCallback(DnotifyVarPtr); ok {
+			DnotifyVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *DnotifyVar
+				cbFn(arg0)
+			}
+			DnotifyVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(DnotifyVarPtr, DnotifyVarRef)
+		}
+	}
+
+	xAuthDomainDigestSetAuthCallback(x.GoPointer(), CallbackVarRef, UserDataVar, DnotifyVarRef)
 
 }
 

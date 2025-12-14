@@ -111,7 +111,7 @@ func (c *URIRequest) SetGoPointer(ptr uintptr) {
 func (x *URIRequest) SetPropertyUri(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("uri", &v)
 }
 

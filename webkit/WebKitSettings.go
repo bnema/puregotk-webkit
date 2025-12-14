@@ -1068,12 +1068,12 @@ func (x *Settings) SetLoadIconsIgnoringImageLoadSetting(EnabledVar bool) {
 
 }
 
-var xSettingsSetMediaContentTypesRequiringHardwareSupport func(uintptr, string)
+var xSettingsSetMediaContentTypesRequiringHardwareSupport func(uintptr, uintptr)
 
 // Set the #WebKitSettings:media-content-types-requiring-hardware-support property.
-func (x *Settings) SetMediaContentTypesRequiringHardwareSupport(ContentTypesVar string) {
+func (x *Settings) SetMediaContentTypesRequiringHardwareSupport(ContentTypesVar *string) {
 
-	xSettingsSetMediaContentTypesRequiringHardwareSupport(x.GoPointer(), ContentTypesVar)
+	xSettingsSetMediaContentTypesRequiringHardwareSupport(x.GoPointer(), core.NullableStringToPtr(ContentTypesVar))
 
 }
 
@@ -1149,25 +1149,25 @@ func (x *Settings) SetSerifFontFamily(SerifFontFamilyVar string) {
 
 }
 
-var xSettingsSetUserAgent func(uintptr, string)
+var xSettingsSetUserAgent func(uintptr, uintptr)
 
 // Set the #WebKitSettings:user-agent property.
-func (x *Settings) SetUserAgent(UserAgentVar string) {
+func (x *Settings) SetUserAgent(UserAgentVar *string) {
 
-	xSettingsSetUserAgent(x.GoPointer(), UserAgentVar)
+	xSettingsSetUserAgent(x.GoPointer(), core.NullableStringToPtr(UserAgentVar))
 
 }
 
-var xSettingsSetUserAgentWithApplicationDetails func(uintptr, string, string)
+var xSettingsSetUserAgentWithApplicationDetails func(uintptr, uintptr, uintptr)
 
 // Set the #WebKitSettings:user-agent property by appending the application details.
 //
 // Set the #WebKitSettings:user-agent property by appending the application details to the default user
 // agent. If no application name or version is given, the default user agent used will be used. If only
 // the version is given, the default engine version is used with the given application name.
-func (x *Settings) SetUserAgentWithApplicationDetails(ApplicationNameVar string, ApplicationVersionVar string) {
+func (x *Settings) SetUserAgentWithApplicationDetails(ApplicationNameVar *string, ApplicationVersionVar *string) {
 
-	xSettingsSetUserAgentWithApplicationDetails(x.GoPointer(), ApplicationNameVar, ApplicationVersionVar)
+	xSettingsSetUserAgentWithApplicationDetails(x.GoPointer(), core.NullableStringToPtr(ApplicationNameVar), core.NullableStringToPtr(ApplicationVersionVar))
 
 }
 
@@ -1328,7 +1328,7 @@ func (x *Settings) GetPropertyAutoLoadImages() bool {
 func (x *Settings) SetPropertyCursiveFontFamily(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("cursive-font-family", &v)
 }
 
@@ -1345,7 +1345,7 @@ func (x *Settings) GetPropertyCursiveFontFamily() string {
 func (x *Settings) SetPropertyDefaultCharset(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("default-charset", &v)
 }
 
@@ -1362,7 +1362,7 @@ func (x *Settings) GetPropertyDefaultCharset() string {
 func (x *Settings) SetPropertyDefaultFontFamily(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("default-font-family", &v)
 }
 
@@ -2083,7 +2083,7 @@ func (x *Settings) GetPropertyEnableWriteConsoleMessagesToStdout() bool {
 func (x *Settings) SetPropertyFantasyFontFamily(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("fantasy-font-family", &v)
 }
 
@@ -2156,7 +2156,7 @@ func (x *Settings) GetPropertyLoadIconsIgnoringImageLoadSetting() bool {
 func (x *Settings) SetPropertyMediaContentTypesRequiringHardwareSupport(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("media-content-types-requiring-hardware-support", &v)
 }
 
@@ -2241,7 +2241,7 @@ func (x *Settings) GetPropertyMinimumFontSize() uint {
 func (x *Settings) SetPropertyMonospaceFontFamily(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("monospace-font-family", &v)
 }
 
@@ -2258,7 +2258,7 @@ func (x *Settings) GetPropertyMonospaceFontFamily() string {
 func (x *Settings) SetPropertyPictographFontFamily(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("pictograph-font-family", &v)
 }
 
@@ -2292,7 +2292,7 @@ func (x *Settings) GetPropertyPrintBackgrounds() bool {
 func (x *Settings) SetPropertySansSerifFontFamily(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("sans-serif-font-family", &v)
 }
 
@@ -2309,7 +2309,7 @@ func (x *Settings) GetPropertySansSerifFontFamily() string {
 func (x *Settings) SetPropertySerifFontFamily(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("serif-font-family", &v)
 }
 
@@ -2333,7 +2333,7 @@ func (x *Settings) GetPropertySerifFontFamily() string {
 func (x *Settings) SetPropertyUserAgent(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("user-agent", &v)
 }
 
@@ -2363,7 +2363,7 @@ func (x *Settings) GetPropertyUserAgent() string {
 func (x *Settings) SetPropertyWebrtcUdpPortsRange(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("webrtc-udp-ports-range", &v)
 }
 

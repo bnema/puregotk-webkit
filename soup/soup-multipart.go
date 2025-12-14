@@ -60,14 +60,14 @@ func NewMultipartFromMessage(HeadersVar *MessageHeaders, BodyVar *glib.Bytes) *M
 	return cret
 }
 
-var xMultipartAppendFormFile func(uintptr, string, string, string, *glib.Bytes)
+var xMultipartAppendFormFile func(uintptr, string, uintptr, uintptr, *glib.Bytes)
 
 // Adds a new MIME part containing @body to @multipart
 //
 // Uses "Content-Disposition: form-data", as per the HTML forms specification.
-func (x *Multipart) AppendFormFile(ControlNameVar string, FilenameVar string, ContentTypeVar string, BodyVar *glib.Bytes) {
+func (x *Multipart) AppendFormFile(ControlNameVar string, FilenameVar *string, ContentTypeVar *string, BodyVar *glib.Bytes) {
 
-	xMultipartAppendFormFile(x.GoPointer(), ControlNameVar, FilenameVar, ContentTypeVar, BodyVar)
+	xMultipartAppendFormFile(x.GoPointer(), ControlNameVar, core.NullableStringToPtr(FilenameVar), core.NullableStringToPtr(ContentTypeVar), BodyVar)
 
 }
 

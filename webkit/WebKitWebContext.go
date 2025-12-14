@@ -302,7 +302,37 @@ var xWebContextRegisterUriScheme func(uintptr, string, uintptr, uintptr, uintptr
 // ```
 func (x *WebContext) RegisterUriScheme(SchemeVar string, CallbackVar *URISchemeRequestCallback, UserDataVar uintptr, UserDataDestroyFuncVar *glib.DestroyNotify) {
 
-	xWebContextRegisterUriScheme(x.GoPointer(), SchemeVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallback(UserDataDestroyFuncVar))
+	var CallbackVarRef uintptr
+	if CallbackVar != nil {
+		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
+		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
+			CallbackVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr, arg1 uintptr) {
+				cbFn := *CallbackVar
+				cbFn(arg0, arg1)
+			}
+			CallbackVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+		}
+	}
+
+	var UserDataDestroyFuncVarRef uintptr
+	if UserDataDestroyFuncVar != nil {
+		UserDataDestroyFuncVarPtr := uintptr(unsafe.Pointer(UserDataDestroyFuncVar))
+		if cbRefPtr, ok := glib.GetCallback(UserDataDestroyFuncVarPtr); ok {
+			UserDataDestroyFuncVarRef = cbRefPtr
+		} else {
+			fcb := func(arg0 uintptr) {
+				cbFn := *UserDataDestroyFuncVar
+				cbFn(arg0)
+			}
+			UserDataDestroyFuncVarRef = purego.NewCallback(fcb)
+			glib.SaveCallback(UserDataDestroyFuncVarPtr, UserDataDestroyFuncVarRef)
+		}
+	}
+
+	xWebContextRegisterUriScheme(x.GoPointer(), SchemeVar, CallbackVarRef, UserDataVar, UserDataDestroyFuncVarRef)
 
 }
 
@@ -474,7 +504,7 @@ func (x *WebContext) SetPropertyMemoryPressureSettings(value uintptr) {
 func (x *WebContext) SetPropertyTimeZoneOverride(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("time-zone-override", &v)
 }
 

@@ -165,7 +165,7 @@ func (x *UserContentManager) AddStyleSheet(StylesheetVar *UserStyleSheet) {
 
 }
 
-var xUserContentManagerRegisterScriptMessageHandler func(uintptr, string, string) bool
+var xUserContentManagerRegisterScriptMessageHandler func(uintptr, string, uintptr) bool
 
 // Registers a new user script message handler in script world.
 //
@@ -195,13 +195,13 @@ var xUserContentManagerRegisterScriptMessageHandler func(uintptr, string, string
 //
 // The registered handler can be unregistered by using
 // webkit_user_content_manager_unregister_script_message_handler().
-func (x *UserContentManager) RegisterScriptMessageHandler(NameVar string, WorldNameVar string) bool {
+func (x *UserContentManager) RegisterScriptMessageHandler(NameVar string, WorldNameVar *string) bool {
 
-	cret := xUserContentManagerRegisterScriptMessageHandler(x.GoPointer(), NameVar, WorldNameVar)
+	cret := xUserContentManagerRegisterScriptMessageHandler(x.GoPointer(), NameVar, core.NullableStringToPtr(WorldNameVar))
 	return cret
 }
 
-var xUserContentManagerRegisterScriptMessageHandlerWithReply func(uintptr, string, string) bool
+var xUserContentManagerRegisterScriptMessageHandlerWithReply func(uintptr, string, uintptr) bool
 
 // Registers a new user script message handler in script world with name @world_name.
 //
@@ -218,9 +218,9 @@ var xUserContentManagerRegisterScriptMessageHandlerWithReply func(uintptr, strin
 //
 // The registered handler can be unregistered by using
 // webkit_user_content_manager_unregister_script_message_handler().
-func (x *UserContentManager) RegisterScriptMessageHandlerWithReply(NameVar string, WorldNameVar string) bool {
+func (x *UserContentManager) RegisterScriptMessageHandlerWithReply(NameVar string, WorldNameVar *string) bool {
 
-	cret := xUserContentManagerRegisterScriptMessageHandlerWithReply(x.GoPointer(), NameVar, WorldNameVar)
+	cret := xUserContentManagerRegisterScriptMessageHandlerWithReply(x.GoPointer(), NameVar, core.NullableStringToPtr(WorldNameVar))
 	return cret
 }
 
@@ -299,7 +299,7 @@ func (x *UserContentManager) RemoveStyleSheet(StylesheetVar *UserStyleSheet) {
 
 }
 
-var xUserContentManagerUnregisterScriptMessageHandler func(uintptr, string, string)
+var xUserContentManagerUnregisterScriptMessageHandler func(uintptr, string, uintptr)
 
 // Unregisters a previously registered message handler in script world with name @world_name.
 // If %NULL is passed as the @world_name, the default world will be used.
@@ -310,9 +310,9 @@ var xUserContentManagerUnregisterScriptMessageHandler func(uintptr, string, stri
 // unless the handler name is registered again.
 //
 // See also webkit_user_content_manager_register_script_message_handler().
-func (x *UserContentManager) UnregisterScriptMessageHandler(NameVar string, WorldNameVar string) {
+func (x *UserContentManager) UnregisterScriptMessageHandler(NameVar string, WorldNameVar *string) {
 
-	xUserContentManagerUnregisterScriptMessageHandler(x.GoPointer(), NameVar, WorldNameVar)
+	xUserContentManagerUnregisterScriptMessageHandler(x.GoPointer(), NameVar, core.NullableStringToPtr(WorldNameVar))
 
 }
 

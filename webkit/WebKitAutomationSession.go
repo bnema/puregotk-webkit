@@ -115,7 +115,7 @@ func (c *AutomationSession) SetGoPointer(ptr uintptr) {
 func (x *AutomationSession) SetPropertyId(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("id", &v)
 }
 

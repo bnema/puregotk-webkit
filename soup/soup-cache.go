@@ -104,13 +104,13 @@ func CacheNewFromInternalPtr(ptr uintptr) *Cache {
 	return cls
 }
 
-var xNewCache func(string, CacheType) uintptr
+var xNewCache func(uintptr, CacheType) uintptr
 
 // Creates a new #SoupCache.
-func NewCache(CacheDirVar string, CacheTypeVar CacheType) *Cache {
+func NewCache(CacheDirVar *string, CacheTypeVar CacheType) *Cache {
 	var cls *Cache
 
-	cret := xNewCache(CacheDirVar, CacheTypeVar)
+	cret := xNewCache(core.NullableStringToPtr(CacheDirVar), CacheTypeVar)
 
 	if cret == 0 {
 		return nil
@@ -208,7 +208,7 @@ func (c *Cache) SetGoPointer(ptr uintptr) {
 func (x *Cache) SetPropertyCacheDir(value string) {
 	var v gobject.Value
 	v.Init(gobject.TypeStringVal)
-	v.SetString(value)
+	v.SetString(&value)
 	x.SetProperty("cache-dir", &v)
 }
 

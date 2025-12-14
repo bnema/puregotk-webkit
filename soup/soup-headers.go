@@ -37,7 +37,7 @@ func HeaderFreeParamList(ParamListVar *glib.HashTable) {
 
 }
 
-var xHeaderGStringAppendParam func(*glib.String, string, string)
+var xHeaderGStringAppendParam func(*glib.String, string, uintptr)
 
 // Appends something like `name=value` to @string, taking care to quote @value
 // if needed, and if so, to escape any quotes or backslashes in @value.
@@ -49,9 +49,9 @@ var xHeaderGStringAppendParam func(*glib.String, string, string)
 // "filename" parameter.
 //
 // If @value is %NULL, this will just append @name to @string.
-func HeaderGStringAppendParam(StringVar *glib.String, NameVar string, ValueVar string) {
+func HeaderGStringAppendParam(StringVar *glib.String, NameVar string, ValueVar *string) {
 
-	xHeaderGStringAppendParam(StringVar, NameVar, ValueVar)
+	xHeaderGStringAppendParam(StringVar, NameVar, core.NullableStringToPtr(ValueVar))
 
 }
 
