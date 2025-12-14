@@ -14,7 +14,7 @@ const (
 	// Like webkit_get_micro_version(), but from the headers used at
 	// application compile time, rather than from the library linked
 	// against at application run time.
-	MICRO_VERSION int = 2
+	MICRO_VERSION int = 3
 	// Like webkit_get_minor_version(), but from the headers used at
 	// application compile time, rather than from the library linked
 	// against at application run time.
