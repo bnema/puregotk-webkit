@@ -5,24 +5,109 @@ import (
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 )
 
-// NewWebViewWithRelatedView creates a new WebView that shares the same
-// WebContext and NetworkSession as the provided related view. This is required
-// for popup windows (window.open/target=_blank) to share cookies/session data.
-func NewWebViewWithRelatedView(relatedView *WebView) *WebView {
-	if relatedView == nil {
+// WebViewOptions contains construct-only properties for creating a WebView.
+// All fields are optional - only non-nil values will be applied.
+type WebViewOptions struct {
+	// NetworkSession for cookie/data persistence. Required for persistent sessions.
+	NetworkSession *NetworkSession
+
+	// UserContentManager for script injection and content filtering.
+	UserContentManager *UserContentManager
+
+	// RelatedView to share WebContext and NetworkSession with (for popups).
+	RelatedView *WebView
+
+	// WebsitePolicies for autoplay and other website-specific policies.
+	WebsitePolicies *WebsitePolicies
+
+	// DefaultContentSecurityPolicy sets the default CSP for all pages.
+	DefaultContentSecurityPolicy string
+
+	// IsControlledByAutomation enables automation/WebDriver mode.
+	IsControlledByAutomation bool
+
+	// AutomationPresentationType specifies window vs tab presentation for automation.
+	AutomationPresentationType AutomationBrowsingContextPresentation
+}
+
+// NewWebViewWithOptions creates a new WebView with the specified construct-only properties.
+// This is the most flexible way to create a WebView, allowing any combination of options.
+func NewWebViewWithOptions(opts *WebViewOptions) *WebView {
+	if opts == nil {
 		return NewWebView()
 	}
 
-	var relatedValue gobject.Value
-	relatedValue.Init(WebViewGLibType())
-	parentObj := gobject.Object{Ptr: relatedView.GoPointer()}
-	relatedValue.SetObject(&parentObj)
+	var names []string
+	var values []gobject.Value
+
+	if opts.NetworkSession != nil {
+		var v gobject.Value
+		v.Init(NetworkSessionGLibType())
+		obj := gobject.Object{Ptr: opts.NetworkSession.GoPointer()}
+		v.SetObject(&obj)
+		names = append(names, "network-session")
+		values = append(values, v)
+	}
+
+	if opts.UserContentManager != nil {
+		var v gobject.Value
+		v.Init(UserContentManagerGLibType())
+		obj := gobject.Object{Ptr: opts.UserContentManager.GoPointer()}
+		v.SetObject(&obj)
+		names = append(names, "user-content-manager")
+		values = append(values, v)
+	}
+
+	if opts.RelatedView != nil {
+		var v gobject.Value
+		v.Init(WebViewGLibType())
+		obj := gobject.Object{Ptr: opts.RelatedView.GoPointer()}
+		v.SetObject(&obj)
+		names = append(names, "related-view")
+		values = append(values, v)
+	}
+
+	if opts.WebsitePolicies != nil {
+		var v gobject.Value
+		v.Init(WebsitePoliciesGLibType())
+		obj := gobject.Object{Ptr: opts.WebsitePolicies.GoPointer()}
+		v.SetObject(&obj)
+		names = append(names, "website-policies")
+		values = append(values, v)
+	}
+
+	if opts.DefaultContentSecurityPolicy != "" {
+		var v gobject.Value
+		v.Init(gobject.TypeStringVal)
+		v.SetString(&opts.DefaultContentSecurityPolicy)
+		names = append(names, "default-content-security-policy")
+		values = append(values, v)
+	}
+
+	if opts.IsControlledByAutomation {
+		var v gobject.Value
+		v.Init(gobject.TypeBooleanVal)
+		v.SetBoolean(true)
+		names = append(names, "is-controlled-by-automation")
+		values = append(values, v)
+
+		// Also set automation presentation type when automation is enabled
+		var vType gobject.Value
+		vType.Init(AutomationBrowsingContextPresentationGLibType())
+		vType.SetEnum(int(opts.AutomationPresentationType))
+		names = append(names, "automation-presentation-type")
+		values = append(values, vType)
+	}
+
+	if len(names) == 0 {
+		return NewWebView()
+	}
 
 	obj := gobject.NewObjectWithProperties(
 		WebViewGLibType(),
-		1,
-		[]string{"related-view"},
-		[]gobject.Value{relatedValue},
+		uint(len(names)),
+		names,
+		values,
 	)
 	if obj == nil {
 		return nil
@@ -33,6 +118,25 @@ func NewWebViewWithRelatedView(relatedView *WebView) *WebView {
 	view := &WebView{}
 	view.Ptr = obj.Ptr
 	return view
+}
+
+// NewWebViewWithRelatedView creates a new WebView that shares the same
+// WebContext and NetworkSession as the provided related view. This is required
+// for popup windows (window.open/target=_blank) to share cookies/session data.
+func NewWebViewWithRelatedView(relatedView *WebView) *WebView {
+	if relatedView == nil {
+		return NewWebView()
+	}
+	return NewWebViewWithOptions(&WebViewOptions{RelatedView: relatedView})
+}
+
+// NewWebViewWithNetworkSession creates a new WebView using the specified NetworkSession.
+// This is required for cookie/data persistence across sessions.
+func NewWebViewWithNetworkSession(session *NetworkSession) *WebView {
+	if session == nil {
+		return NewWebView()
+	}
+	return NewWebViewWithOptions(&WebViewOptions{NetworkSession: session})
 }
 
 // NavigationActionFromPointer wraps a raw pointer from the "create" signal into
