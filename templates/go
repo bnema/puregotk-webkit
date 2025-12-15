@@ -4,21 +4,30 @@ package {{.PkgName}}
 {{ $NotGObject := ne .PkgName "gobject" }}
 {{ $NotGLib := ne .PkgName "glib" }}
 {{ $HasSignals := false }}
+{{ $HasDetailedSignals := false }}
 {{range .Classes -}}
   {{if .Signals}}
     {{ $HasSignals = true }}
+  {{end}}
+  {{range .Signals}}
+    {{if .Detailed}}
+      {{ $HasDetailedSignals = true }}
+    {{end}}
   {{end}}
 {{end}}
 {{ $HasCallbacks := or .HasReceiverCallbacks .HasFunctionCallbacks }}
 {{ $NeedsUnsafe := or .Records $HasSignals $HasCallbacks }}
 {{ $NeedsPurego := or .NeedsInit $HasSignals $HasCallbacks }}
 {{ $NeedsCore := or .NeedsInit .NeedsCore }}
-{{ $AnyImports := or $NeedsCore .Records $HasSignals $HasCallbacks }}
+{{ $AnyImports := or $NeedsCore .Records $HasSignals $HasCallbacks $HasDetailedSignals }}
 
 {{if $AnyImports}}
 import (
 {{- if $NeedsUnsafe}}
 	"unsafe"
+{{- end}}
+{{- if $HasDetailedSignals}}
+	"fmt"
 {{- end}}
 {{- if .Records}}
 	"structs"
@@ -437,6 +446,34 @@ func (x *{{$outer.Name}}) Connect{{.Name}}(cb *func({{$outer.Name}} {{convc .Arg
      {{if $NotGLib}}glib.{{end}}SaveCallback(cbPtr, cbRefPtr)
      return {{if $NotGObject}}gobject.{{end}}SignalConnect(x.GoPointer(), "{{.CName}}", cbRefPtr)
 }
+{{if .Detailed}}
+// Connect{{.Name}}WithDetail connects to the "{{.CName}}" signal with a detail string.
+// The detail is appended as "{{.CName}}::<detail>".
+func (x *{{$outer.Name}}) Connect{{.Name}}WithDetail(detail string, cb *func({{$outer.Name}} {{convc .Args.API.Types}}) {{.Ret.Value}}) uint32 {
+     cbPtr := uintptr(unsafe.Pointer(cb))
+     signalName := fmt.Sprintf("{{.CName}}::%s", detail)
+     if cbRefPtr, ok := {{if $NotGLib}}glib.{{end}}GetCallback(cbPtr); ok {
+          return {{if $NotGObject}}gobject.{{end}}SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+     }
+
+     fcb := func(clsPtr uintptr {{convc .Args.Pure.Full}}) {{.Ret.Raw}} {
+          fa := {{$outer.Name}}{}
+          fa.Ptr = clsPtr
+          cbFn := *cb
+          {{if .Ret.Class}}
+          {{.Name}}Cls := cbFn(fa {{convc .Args.Pure.Call}})
+          return {{.Name}}Cls.Ptr
+          {{else if .Ret.Value}}
+          return cbFn(fa {{convc .Args.Pure.Call}})
+          {{else}}
+          cbFn(fa {{convc .Args.Pure.Call}})
+          {{end}}
+     }
+     cbRefPtr := purego.NewCallback(fcb)
+     {{if $NotGLib}}glib.{{end}}SaveCallback(cbPtr, cbRefPtr)
+     return {{if $NotGObject}}gobject.{{end}}SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+}
+{{end}}
 {{end}}
 
 {{range .Interfaces -}}

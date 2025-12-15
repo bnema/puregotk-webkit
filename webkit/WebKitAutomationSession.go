@@ -2,6 +2,7 @@
 package webkit
 
 import (
+	"fmt"
 	"structs"
 	"unsafe"
 
@@ -157,6 +158,29 @@ func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) Web
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallback(cbPtr, cbRefPtr)
 	return gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
+}
+
+// ConnectCreateWebViewWithDetail connects to the "create-web-view" signal with a detail string.
+// The detail is appended as "create-web-view::<detail>".
+func (x *AutomationSession) ConnectCreateWebViewWithDetail(detail string, cb *func(AutomationSession) WebView) uint32 {
+	cbPtr := uintptr(unsafe.Pointer(cb))
+	signalName := fmt.Sprintf("create-web-view::%s", detail)
+	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
+		return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	}
+
+	fcb := func(clsPtr uintptr) uintptr {
+		fa := AutomationSession{}
+		fa.Ptr = clsPtr
+		cbFn := *cb
+
+		CreateWebViewCls := cbFn(fa)
+		return CreateWebViewCls.Ptr
+
+	}
+	cbRefPtr := purego.NewCallback(fcb)
+	glib.SaveCallback(cbPtr, cbRefPtr)
+	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
 }
 
 // This signal is emitted when the given automation session is about to finish.

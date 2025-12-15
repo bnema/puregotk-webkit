@@ -2,6 +2,7 @@
 package webkit
 
 import (
+	"fmt"
 	"structs"
 	"unsafe"
 
@@ -350,6 +351,28 @@ func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentMa
 	return gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
 }
 
+// ConnectScriptMessageReceivedWithDetail connects to the "script-message-received" signal with a detail string.
+// The detail is appended as "script-message-received::<detail>".
+func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail string, cb *func(UserContentManager, uintptr)) uint32 {
+	cbPtr := uintptr(unsafe.Pointer(cb))
+	signalName := fmt.Sprintf("script-message-received::%s", detail)
+	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
+		return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	}
+
+	fcb := func(clsPtr uintptr, ValueVarp uintptr) {
+		fa := UserContentManager{}
+		fa.Ptr = clsPtr
+		cbFn := *cb
+
+		cbFn(fa, ValueVarp)
+
+	}
+	cbRefPtr := purego.NewCallback(fcb)
+	glib.SaveCallback(cbPtr, cbRefPtr)
+	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+}
+
 // This signal is emitted when JavaScript in a web view calls
 // &lt;code&gt;window.webkit.messageHandlers.&lt;name&gt;.postMessage()&lt;/code&gt;, after registering
 // &lt;code&gt;&lt;name&gt;&lt;/code&gt; using
@@ -379,6 +402,28 @@ func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(User
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallback(cbPtr, cbRefPtr)
 	return gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
+}
+
+// ConnectScriptMessageWithReplyReceivedWithDetail connects to the "script-message-with-reply-received" signal with a detail string.
+// The detail is appended as "script-message-with-reply-received::<detail>".
+func (x *UserContentManager) ConnectScriptMessageWithReplyReceivedWithDetail(detail string, cb *func(UserContentManager, uintptr, uintptr) bool) uint32 {
+	cbPtr := uintptr(unsafe.Pointer(cb))
+	signalName := fmt.Sprintf("script-message-with-reply-received::%s", detail)
+	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
+		return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	}
+
+	fcb := func(clsPtr uintptr, ValueVarp uintptr, ReplyVarp uintptr) bool {
+		fa := UserContentManager{}
+		fa.Ptr = clsPtr
+		cbFn := *cb
+
+		return cbFn(fa, ValueVarp, ReplyVarp)
+
+	}
+	cbRefPtr := purego.NewCallback(fcb)
+	glib.SaveCallback(cbPtr, cbRefPtr)
+	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
 }
 
 func init() {
