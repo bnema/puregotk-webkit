@@ -146,6 +146,7 @@ var xExceptionGetBacktraceString func(uintptr) string
 func (x *Exception) GetBacktraceString() string {
 
 	cret := xExceptionGetBacktraceString(x.GoPointer())
+
 	return cret
 }
 
@@ -155,6 +156,7 @@ var xExceptionGetColumnNumber func(uintptr) uint
 func (x *Exception) GetColumnNumber() uint {
 
 	cret := xExceptionGetColumnNumber(x.GoPointer())
+
 	return cret
 }
 
@@ -164,6 +166,7 @@ var xExceptionGetLineNumber func(uintptr) uint
 func (x *Exception) GetLineNumber() uint {
 
 	cret := xExceptionGetLineNumber(x.GoPointer())
+
 	return cret
 }
 
@@ -173,6 +176,7 @@ var xExceptionGetMessage func(uintptr) string
 func (x *Exception) GetMessage() string {
 
 	cret := xExceptionGetMessage(x.GoPointer())
+
 	return cret
 }
 
@@ -182,6 +186,7 @@ var xExceptionGetName func(uintptr) string
 func (x *Exception) GetName() string {
 
 	cret := xExceptionGetName(x.GoPointer())
+
 	return cret
 }
 
@@ -191,6 +196,7 @@ var xExceptionGetSourceUri func(uintptr) string
 func (x *Exception) GetSourceUri() string {
 
 	cret := xExceptionGetSourceUri(x.GoPointer())
+
 	return cret
 }
 
@@ -201,6 +207,7 @@ var xExceptionReport func(uintptr) string
 func (x *Exception) Report() string {
 
 	cret := xExceptionReport(x.GoPointer())
+
 	return cret
 }
 
@@ -210,6 +217,7 @@ var xExceptionToString func(uintptr) string
 func (x *Exception) ToString() string {
 
 	cret := xExceptionToString(x.GoPointer())
+
 	return cret
 }
 

@@ -182,6 +182,7 @@ var xStatusGetPhrase func(uint) string
 func StatusGetPhrase(StatusCodeVar uint) string {
 
 	cret := xStatusGetPhrase(StatusCodeVar)
+
 	return cret
 }
 

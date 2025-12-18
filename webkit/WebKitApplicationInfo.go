@@ -31,6 +31,7 @@ var xNewApplicationInfo func() *ApplicationInfo
 func NewApplicationInfo() *ApplicationInfo {
 
 	cret := xNewApplicationInfo()
+
 	return cret
 }
 
@@ -43,6 +44,7 @@ var xApplicationInfoGetName func(uintptr) string
 func (x *ApplicationInfo) GetName() string {
 
 	cret := xApplicationInfoGetName(x.GoPointer())
+
 	return cret
 }
 
@@ -64,6 +66,7 @@ var xApplicationInfoRef func(uintptr) *ApplicationInfo
 func (x *ApplicationInfo) Ref() *ApplicationInfo {
 
 	cret := xApplicationInfoRef(x.GoPointer())
+
 	return cret
 }
 

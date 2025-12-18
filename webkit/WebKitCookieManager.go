@@ -119,6 +119,7 @@ func (x *CookieManager) AddCookieFinish(ResultVar gio.AsyncResult) (bool, error)
 	var cerr *glib.Error
 
 	cret := xCookieManagerAddCookieFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -160,6 +161,7 @@ func (x *CookieManager) DeleteCookieFinish(ResultVar gio.AsyncResult) (bool, err
 	var cerr *glib.Error
 
 	cret := xCookieManagerDeleteCookieFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -205,6 +207,7 @@ func (x *CookieManager) GetAcceptPolicyFinish(ResultVar gio.AsyncResult) (Cookie
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetAcceptPolicyFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -249,6 +252,7 @@ func (x *CookieManager) GetAllCookiesFinish(ResultVar gio.AsyncResult) (*glib.Li
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetAllCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -296,6 +300,7 @@ func (x *CookieManager) GetCookiesFinish(ResultVar gio.AsyncResult) (*glib.List,
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -337,6 +342,7 @@ func (x *CookieManager) ReplaceCookiesFinish(ResultVar gio.AsyncResult) (bool, e
 	var cerr *glib.Error
 
 	cret := xCookieManagerReplaceCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}

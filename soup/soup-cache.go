@@ -2,6 +2,7 @@
 package soup
 
 import (
+	"runtime"
 	"structs"
 	"unsafe"
 
@@ -110,7 +111,11 @@ var xNewCache func(uintptr, CacheType) uintptr
 func NewCache(CacheDirVar *string, CacheTypeVar CacheType) *Cache {
 	var cls *Cache
 
-	cret := xNewCache(core.NullableStringToPtr(CacheDirVar), CacheTypeVar)
+	CacheDirVarPtr, CacheDirVarBytes := core.NullableStringToPtr(CacheDirVar)
+
+	cret := xNewCache(CacheDirVarPtr, CacheTypeVar)
+
+	runtime.KeepAlive(CacheDirVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -169,6 +174,7 @@ var xCacheGetMaxSize func(uintptr) uint
 func (x *Cache) GetMaxSize() uint {
 
 	cret := xCacheGetMaxSize(x.GoPointer())
+
 	return cret
 }
 

@@ -51,6 +51,7 @@ var xURIResponseGetContentLength func(uintptr) uint64
 func (x *URIResponse) GetContentLength() uint64 {
 
 	cret := xURIResponseGetContentLength(x.GoPointer())
+
 	return cret
 }
 
@@ -60,6 +61,7 @@ var xURIResponseGetHttpHeaders func(uintptr) *soup.MessageHeaders
 func (x *URIResponse) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURIResponseGetHttpHeaders(x.GoPointer())
+
 	return cret
 }
 
@@ -69,6 +71,7 @@ var xURIResponseGetMimeType func(uintptr) string
 func (x *URIResponse) GetMimeType() string {
 
 	cret := xURIResponseGetMimeType(x.GoPointer())
+
 	return cret
 }
 
@@ -83,6 +86,7 @@ var xURIResponseGetStatusCode func(uintptr) uint
 func (x *URIResponse) GetStatusCode() uint {
 
 	cret := xURIResponseGetStatusCode(x.GoPointer())
+
 	return cret
 }
 
@@ -96,6 +100,7 @@ var xURIResponseGetSuggestedFilename func(uintptr) string
 func (x *URIResponse) GetSuggestedFilename() string {
 
 	cret := xURIResponseGetSuggestedFilename(x.GoPointer())
+
 	return cret
 }
 
@@ -105,6 +110,7 @@ var xURIResponseGetUri func(uintptr) string
 func (x *URIResponse) GetUri() string {
 
 	cret := xURIResponseGetUri(x.GoPointer())
+
 	return cret
 }
 

@@ -2,6 +2,8 @@
 package soup
 
 import (
+	"runtime"
+
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/glib"
@@ -153,7 +155,11 @@ var xWebsocketClientPrepareHandshake func(uintptr, uintptr, []string, []gobject.
 // will call this for you.
 func WebsocketClientPrepareHandshake(MsgVar *Message, OriginVar *string, ProtocolsVar []string, SupportedExtensionsVar []gobject.TypeClass) {
 
-	xWebsocketClientPrepareHandshake(MsgVar.GoPointer(), core.NullableStringToPtr(OriginVar), ProtocolsVar, SupportedExtensionsVar)
+	OriginVarPtr, OriginVarBytes := core.NullableStringToPtr(OriginVar)
+
+	xWebsocketClientPrepareHandshake(MsgVar.GoPointer(), OriginVarPtr, ProtocolsVar, SupportedExtensionsVar)
+
+	runtime.KeepAlive(OriginVarBytes)
 
 }
 
@@ -174,6 +180,7 @@ func WebsocketClientVerifyHandshake(MsgVar *Message, SupportedExtensionsVar []go
 	var cerr *glib.Error
 
 	cret := xWebsocketClientVerifyHandshake(MsgVar.GoPointer(), SupportedExtensionsVar, AcceptedExtensionsVar, &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -187,6 +194,7 @@ var xWebsocketErrorQuark func() glib.Quark
 func WebsocketErrorQuark() glib.Quark {
 
 	cret := xWebsocketErrorQuark()
+
 	return cret
 }
 
@@ -212,7 +220,12 @@ var xWebsocketServerCheckHandshake func(uintptr, uintptr, []string, []gobject.Ty
 func WebsocketServerCheckHandshake(MsgVar *ServerMessage, OriginVar *string, ProtocolsVar []string, SupportedExtensionsVar []gobject.TypeClass) (bool, error) {
 	var cerr *glib.Error
 
-	cret := xWebsocketServerCheckHandshake(MsgVar.GoPointer(), core.NullableStringToPtr(OriginVar), ProtocolsVar, SupportedExtensionsVar, &cerr)
+	OriginVarPtr, OriginVarBytes := core.NullableStringToPtr(OriginVar)
+
+	cret := xWebsocketServerCheckHandshake(MsgVar.GoPointer(), OriginVarPtr, ProtocolsVar, SupportedExtensionsVar, &cerr)
+
+	runtime.KeepAlive(OriginVarBytes)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -239,7 +252,12 @@ var xWebsocketServerProcessHandshake func(uintptr, uintptr, []string, []gobject.
 // connections, it will call this for you.
 func WebsocketServerProcessHandshake(MsgVar *ServerMessage, ExpectedOriginVar *string, ProtocolsVar []string, SupportedExtensionsVar []gobject.TypeClass, AcceptedExtensionsVar **glib.List) bool {
 
-	cret := xWebsocketServerProcessHandshake(MsgVar.GoPointer(), core.NullableStringToPtr(ExpectedOriginVar), ProtocolsVar, SupportedExtensionsVar, AcceptedExtensionsVar)
+	ExpectedOriginVarPtr, ExpectedOriginVarBytes := core.NullableStringToPtr(ExpectedOriginVar)
+
+	cret := xWebsocketServerProcessHandshake(MsgVar.GoPointer(), ExpectedOriginVarPtr, ProtocolsVar, SupportedExtensionsVar, AcceptedExtensionsVar)
+
+	runtime.KeepAlive(ExpectedOriginVarBytes)
+
 	return cret
 }
 

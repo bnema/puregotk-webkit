@@ -46,6 +46,7 @@ var xNewGeolocationPosition func(float64, float64, float64) *GeolocationPosition
 func NewGeolocationPosition(LatitudeVar float64, LongitudeVar float64, AccuracyVar float64) *GeolocationPosition {
 
 	cret := xNewGeolocationPosition(LatitudeVar, LongitudeVar, AccuracyVar)
+
 	return cret
 }
 
@@ -55,6 +56,7 @@ var xGeolocationPositionCopy func(uintptr) *GeolocationPosition
 func (x *GeolocationPosition) Copy() *GeolocationPosition {
 
 	cret := xGeolocationPositionCopy(x.GoPointer())
+
 	return cret
 }
 
@@ -156,6 +158,7 @@ var xGeolocationManagerGetEnableHighAccuracy func(uintptr) bool
 func (x *GeolocationManager) GetEnableHighAccuracy() bool {
 
 	cret := xGeolocationManagerGetEnableHighAccuracy(x.GoPointer())
+
 	return cret
 }
 

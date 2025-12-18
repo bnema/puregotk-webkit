@@ -185,6 +185,7 @@ var xDownloadErrorQuark func() glib.Quark
 func DownloadErrorQuark() glib.Quark {
 
 	cret := xDownloadErrorQuark()
+
 	return cret
 }
 
@@ -194,6 +195,7 @@ var xJavascriptErrorQuark func() glib.Quark
 func JavascriptErrorQuark() glib.Quark {
 
 	cret := xJavascriptErrorQuark()
+
 	return cret
 }
 
@@ -203,6 +205,7 @@ var xMediaErrorQuark func() glib.Quark
 func MediaErrorQuark() glib.Quark {
 
 	cret := xMediaErrorQuark()
+
 	return cret
 }
 
@@ -212,6 +215,7 @@ var xNetworkErrorQuark func() glib.Quark
 func NetworkErrorQuark() glib.Quark {
 
 	cret := xNetworkErrorQuark()
+
 	return cret
 }
 
@@ -221,6 +225,7 @@ var xPolicyErrorQuark func() glib.Quark
 func PolicyErrorQuark() glib.Quark {
 
 	cret := xPolicyErrorQuark()
+
 	return cret
 }
 
@@ -230,6 +235,7 @@ var xPrintErrorQuark func() glib.Quark
 func PrintErrorQuark() glib.Quark {
 
 	cret := xPrintErrorQuark()
+
 	return cret
 }
 
@@ -239,6 +245,7 @@ var xSnapshotErrorQuark func() glib.Quark
 func SnapshotErrorQuark() glib.Quark {
 
 	cret := xSnapshotErrorQuark()
+
 	return cret
 }
 
@@ -248,6 +255,7 @@ var xUserContentFilterErrorQuark func() glib.Quark
 func UserContentFilterErrorQuark() glib.Quark {
 
 	cret := xUserContentFilterErrorQuark()
+
 	return cret
 }
 
@@ -257,6 +265,7 @@ var xWebExtensionMatchPatternErrorQuark func() glib.Quark
 func WebExtensionMatchPatternErrorQuark() glib.Quark {
 
 	cret := xWebExtensionMatchPatternErrorQuark()
+
 	return cret
 }
 

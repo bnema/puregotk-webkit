@@ -2,6 +2,7 @@
 package webkit
 
 import (
+	"runtime"
 	"structs"
 	"unsafe"
 
@@ -118,6 +119,7 @@ func (x *Settings) ApplyFromKeyFile(KeyFileVar *glib.KeyFile, GroupNameVar strin
 	var cerr *glib.Error
 
 	cret := xSettingsApplyFromKeyFile(x.GoPointer(), KeyFileVar, GroupNameVar, &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -131,6 +133,7 @@ var xSettingsGetAllowFileAccessFromFileUrls func(uintptr) bool
 func (x *Settings) GetAllowFileAccessFromFileUrls() bool {
 
 	cret := xSettingsGetAllowFileAccessFromFileUrls(x.GoPointer())
+
 	return cret
 }
 
@@ -140,6 +143,7 @@ var xSettingsGetAllowModalDialogs func(uintptr) bool
 func (x *Settings) GetAllowModalDialogs() bool {
 
 	cret := xSettingsGetAllowModalDialogs(x.GoPointer())
+
 	return cret
 }
 
@@ -149,6 +153,7 @@ var xSettingsGetAllowTopNavigationToDataUrls func(uintptr) bool
 func (x *Settings) GetAllowTopNavigationToDataUrls() bool {
 
 	cret := xSettingsGetAllowTopNavigationToDataUrls(x.GoPointer())
+
 	return cret
 }
 
@@ -158,6 +163,7 @@ var xSettingsGetAllowUniversalAccessFromFileUrls func(uintptr) bool
 func (x *Settings) GetAllowUniversalAccessFromFileUrls() bool {
 
 	cret := xSettingsGetAllowUniversalAccessFromFileUrls(x.GoPointer())
+
 	return cret
 }
 
@@ -167,6 +173,7 @@ var xSettingsGetAutoLoadImages func(uintptr) bool
 func (x *Settings) GetAutoLoadImages() bool {
 
 	cret := xSettingsGetAutoLoadImages(x.GoPointer())
+
 	return cret
 }
 
@@ -176,6 +183,7 @@ var xSettingsGetCursiveFontFamily func(uintptr) string
 func (x *Settings) GetCursiveFontFamily() string {
 
 	cret := xSettingsGetCursiveFontFamily(x.GoPointer())
+
 	return cret
 }
 
@@ -185,6 +193,7 @@ var xSettingsGetDefaultCharset func(uintptr) string
 func (x *Settings) GetDefaultCharset() string {
 
 	cret := xSettingsGetDefaultCharset(x.GoPointer())
+
 	return cret
 }
 
@@ -194,6 +203,7 @@ var xSettingsGetDefaultFontFamily func(uintptr) string
 func (x *Settings) GetDefaultFontFamily() string {
 
 	cret := xSettingsGetDefaultFontFamily(x.GoPointer())
+
 	return cret
 }
 
@@ -203,6 +213,7 @@ var xSettingsGetDefaultFontSize func(uintptr) uint32
 func (x *Settings) GetDefaultFontSize() uint32 {
 
 	cret := xSettingsGetDefaultFontSize(x.GoPointer())
+
 	return cret
 }
 
@@ -212,6 +223,7 @@ var xSettingsGetDefaultMonospaceFontSize func(uintptr) uint32
 func (x *Settings) GetDefaultMonospaceFontSize() uint32 {
 
 	cret := xSettingsGetDefaultMonospaceFontSize(x.GoPointer())
+
 	return cret
 }
 
@@ -221,6 +233,7 @@ var xSettingsGetDisableWebSecurity func(uintptr) bool
 func (x *Settings) GetDisableWebSecurity() bool {
 
 	cret := xSettingsGetDisableWebSecurity(x.GoPointer())
+
 	return cret
 }
 
@@ -230,6 +243,7 @@ var xSettingsGetDrawCompositingIndicators func(uintptr) bool
 func (x *Settings) GetDrawCompositingIndicators() bool {
 
 	cret := xSettingsGetDrawCompositingIndicators(x.GoPointer())
+
 	return cret
 }
 
@@ -239,6 +253,7 @@ var xSettingsGetEnable2dCanvasAcceleration func(uintptr) bool
 func (x *Settings) GetEnable2dCanvasAcceleration() bool {
 
 	cret := xSettingsGetEnable2dCanvasAcceleration(x.GoPointer())
+
 	return cret
 }
 
@@ -248,6 +263,7 @@ var xSettingsGetEnableBackForwardNavigationGestures func(uintptr) bool
 func (x *Settings) GetEnableBackForwardNavigationGestures() bool {
 
 	cret := xSettingsGetEnableBackForwardNavigationGestures(x.GoPointer())
+
 	return cret
 }
 
@@ -257,6 +273,7 @@ var xSettingsGetEnableCaretBrowsing func(uintptr) bool
 func (x *Settings) GetEnableCaretBrowsing() bool {
 
 	cret := xSettingsGetEnableCaretBrowsing(x.GoPointer())
+
 	return cret
 }
 
@@ -266,6 +283,7 @@ var xSettingsGetEnableDeveloperExtras func(uintptr) bool
 func (x *Settings) GetEnableDeveloperExtras() bool {
 
 	cret := xSettingsGetEnableDeveloperExtras(x.GoPointer())
+
 	return cret
 }
 
@@ -275,6 +293,7 @@ var xSettingsGetEnableDnsPrefetching func(uintptr) bool
 func (x *Settings) GetEnableDnsPrefetching() bool {
 
 	cret := xSettingsGetEnableDnsPrefetching(x.GoPointer())
+
 	return cret
 }
 
@@ -284,6 +303,7 @@ var xSettingsGetEnableEncryptedMedia func(uintptr) bool
 func (x *Settings) GetEnableEncryptedMedia() bool {
 
 	cret := xSettingsGetEnableEncryptedMedia(x.GoPointer())
+
 	return cret
 }
 
@@ -293,6 +313,7 @@ var xSettingsGetEnableFullscreen func(uintptr) bool
 func (x *Settings) GetEnableFullscreen() bool {
 
 	cret := xSettingsGetEnableFullscreen(x.GoPointer())
+
 	return cret
 }
 
@@ -302,6 +323,7 @@ var xSettingsGetEnableHtml5Database func(uintptr) bool
 func (x *Settings) GetEnableHtml5Database() bool {
 
 	cret := xSettingsGetEnableHtml5Database(x.GoPointer())
+
 	return cret
 }
 
@@ -311,6 +333,7 @@ var xSettingsGetEnableHtml5LocalStorage func(uintptr) bool
 func (x *Settings) GetEnableHtml5LocalStorage() bool {
 
 	cret := xSettingsGetEnableHtml5LocalStorage(x.GoPointer())
+
 	return cret
 }
 
@@ -320,6 +343,7 @@ var xSettingsGetEnableHyperlinkAuditing func(uintptr) bool
 func (x *Settings) GetEnableHyperlinkAuditing() bool {
 
 	cret := xSettingsGetEnableHyperlinkAuditing(x.GoPointer())
+
 	return cret
 }
 
@@ -329,6 +353,7 @@ var xSettingsGetEnableJavascript func(uintptr) bool
 func (x *Settings) GetEnableJavascript() bool {
 
 	cret := xSettingsGetEnableJavascript(x.GoPointer())
+
 	return cret
 }
 
@@ -338,6 +363,7 @@ var xSettingsGetEnableJavascriptMarkup func(uintptr) bool
 func (x *Settings) GetEnableJavascriptMarkup() bool {
 
 	cret := xSettingsGetEnableJavascriptMarkup(x.GoPointer())
+
 	return cret
 }
 
@@ -347,6 +373,7 @@ var xSettingsGetEnableMedia func(uintptr) bool
 func (x *Settings) GetEnableMedia() bool {
 
 	cret := xSettingsGetEnableMedia(x.GoPointer())
+
 	return cret
 }
 
@@ -356,6 +383,7 @@ var xSettingsGetEnableMediaCapabilities func(uintptr) bool
 func (x *Settings) GetEnableMediaCapabilities() bool {
 
 	cret := xSettingsGetEnableMediaCapabilities(x.GoPointer())
+
 	return cret
 }
 
@@ -365,6 +393,7 @@ var xSettingsGetEnableMediaStream func(uintptr) bool
 func (x *Settings) GetEnableMediaStream() bool {
 
 	cret := xSettingsGetEnableMediaStream(x.GoPointer())
+
 	return cret
 }
 
@@ -374,6 +403,7 @@ var xSettingsGetEnableMediasource func(uintptr) bool
 func (x *Settings) GetEnableMediasource() bool {
 
 	cret := xSettingsGetEnableMediasource(x.GoPointer())
+
 	return cret
 }
 
@@ -383,6 +413,7 @@ var xSettingsGetEnableMockCaptureDevices func(uintptr) bool
 func (x *Settings) GetEnableMockCaptureDevices() bool {
 
 	cret := xSettingsGetEnableMockCaptureDevices(x.GoPointer())
+
 	return cret
 }
 
@@ -392,6 +423,7 @@ var xSettingsGetEnableOfflineWebApplicationCache func(uintptr) bool
 func (x *Settings) GetEnableOfflineWebApplicationCache() bool {
 
 	cret := xSettingsGetEnableOfflineWebApplicationCache(x.GoPointer())
+
 	return cret
 }
 
@@ -401,6 +433,7 @@ var xSettingsGetEnablePageCache func(uintptr) bool
 func (x *Settings) GetEnablePageCache() bool {
 
 	cret := xSettingsGetEnablePageCache(x.GoPointer())
+
 	return cret
 }
 
@@ -410,6 +443,7 @@ var xSettingsGetEnableResizableTextAreas func(uintptr) bool
 func (x *Settings) GetEnableResizableTextAreas() bool {
 
 	cret := xSettingsGetEnableResizableTextAreas(x.GoPointer())
+
 	return cret
 }
 
@@ -419,6 +453,7 @@ var xSettingsGetEnableSiteSpecificQuirks func(uintptr) bool
 func (x *Settings) GetEnableSiteSpecificQuirks() bool {
 
 	cret := xSettingsGetEnableSiteSpecificQuirks(x.GoPointer())
+
 	return cret
 }
 
@@ -428,6 +463,7 @@ var xSettingsGetEnableSmoothScrolling func(uintptr) bool
 func (x *Settings) GetEnableSmoothScrolling() bool {
 
 	cret := xSettingsGetEnableSmoothScrolling(x.GoPointer())
+
 	return cret
 }
 
@@ -437,6 +473,7 @@ var xSettingsGetEnableSpatialNavigation func(uintptr) bool
 func (x *Settings) GetEnableSpatialNavigation() bool {
 
 	cret := xSettingsGetEnableSpatialNavigation(x.GoPointer())
+
 	return cret
 }
 
@@ -446,6 +483,7 @@ var xSettingsGetEnableTabsToLinks func(uintptr) bool
 func (x *Settings) GetEnableTabsToLinks() bool {
 
 	cret := xSettingsGetEnableTabsToLinks(x.GoPointer())
+
 	return cret
 }
 
@@ -455,6 +493,7 @@ var xSettingsGetEnableWebaudio func(uintptr) bool
 func (x *Settings) GetEnableWebaudio() bool {
 
 	cret := xSettingsGetEnableWebaudio(x.GoPointer())
+
 	return cret
 }
 
@@ -464,6 +503,7 @@ var xSettingsGetEnableWebgl func(uintptr) bool
 func (x *Settings) GetEnableWebgl() bool {
 
 	cret := xSettingsGetEnableWebgl(x.GoPointer())
+
 	return cret
 }
 
@@ -473,6 +513,7 @@ var xSettingsGetEnableWebrtc func(uintptr) bool
 func (x *Settings) GetEnableWebrtc() bool {
 
 	cret := xSettingsGetEnableWebrtc(x.GoPointer())
+
 	return cret
 }
 
@@ -482,6 +523,7 @@ var xSettingsGetEnableWriteConsoleMessagesToStdout func(uintptr) bool
 func (x *Settings) GetEnableWriteConsoleMessagesToStdout() bool {
 
 	cret := xSettingsGetEnableWriteConsoleMessagesToStdout(x.GoPointer())
+
 	return cret
 }
 
@@ -491,6 +533,7 @@ var xSettingsGetFantasyFontFamily func(uintptr) string
 func (x *Settings) GetFantasyFontFamily() string {
 
 	cret := xSettingsGetFantasyFontFamily(x.GoPointer())
+
 	return cret
 }
 
@@ -500,6 +543,7 @@ var xSettingsGetFeatureEnabled func(uintptr, *Feature) bool
 func (x *Settings) GetFeatureEnabled(FeatureVar *Feature) bool {
 
 	cret := xSettingsGetFeatureEnabled(x.GoPointer(), FeatureVar)
+
 	return cret
 }
 
@@ -509,6 +553,7 @@ var xSettingsGetHardwareAccelerationPolicy func(uintptr) HardwareAccelerationPol
 func (x *Settings) GetHardwareAccelerationPolicy() HardwareAccelerationPolicy {
 
 	cret := xSettingsGetHardwareAccelerationPolicy(x.GoPointer())
+
 	return cret
 }
 
@@ -518,6 +563,7 @@ var xSettingsGetJavascriptCanAccessClipboard func(uintptr) bool
 func (x *Settings) GetJavascriptCanAccessClipboard() bool {
 
 	cret := xSettingsGetJavascriptCanAccessClipboard(x.GoPointer())
+
 	return cret
 }
 
@@ -527,6 +573,7 @@ var xSettingsGetJavascriptCanOpenWindowsAutomatically func(uintptr) bool
 func (x *Settings) GetJavascriptCanOpenWindowsAutomatically() bool {
 
 	cret := xSettingsGetJavascriptCanOpenWindowsAutomatically(x.GoPointer())
+
 	return cret
 }
 
@@ -536,6 +583,7 @@ var xSettingsGetLoadIconsIgnoringImageLoadSetting func(uintptr) bool
 func (x *Settings) GetLoadIconsIgnoringImageLoadSetting() bool {
 
 	cret := xSettingsGetLoadIconsIgnoringImageLoadSetting(x.GoPointer())
+
 	return cret
 }
 
@@ -545,6 +593,7 @@ var xSettingsGetMediaContentTypesRequiringHardwareSupport func(uintptr) string
 func (x *Settings) GetMediaContentTypesRequiringHardwareSupport() string {
 
 	cret := xSettingsGetMediaContentTypesRequiringHardwareSupport(x.GoPointer())
+
 	return cret
 }
 
@@ -554,6 +603,7 @@ var xSettingsGetMediaPlaybackAllowsInline func(uintptr) bool
 func (x *Settings) GetMediaPlaybackAllowsInline() bool {
 
 	cret := xSettingsGetMediaPlaybackAllowsInline(x.GoPointer())
+
 	return cret
 }
 
@@ -563,6 +613,7 @@ var xSettingsGetMediaPlaybackRequiresUserGesture func(uintptr) bool
 func (x *Settings) GetMediaPlaybackRequiresUserGesture() bool {
 
 	cret := xSettingsGetMediaPlaybackRequiresUserGesture(x.GoPointer())
+
 	return cret
 }
 
@@ -572,6 +623,7 @@ var xSettingsGetMinimumFontSize func(uintptr) uint32
 func (x *Settings) GetMinimumFontSize() uint32 {
 
 	cret := xSettingsGetMinimumFontSize(x.GoPointer())
+
 	return cret
 }
 
@@ -581,6 +633,7 @@ var xSettingsGetMonospaceFontFamily func(uintptr) string
 func (x *Settings) GetMonospaceFontFamily() string {
 
 	cret := xSettingsGetMonospaceFontFamily(x.GoPointer())
+
 	return cret
 }
 
@@ -590,6 +643,7 @@ var xSettingsGetPictographFontFamily func(uintptr) string
 func (x *Settings) GetPictographFontFamily() string {
 
 	cret := xSettingsGetPictographFontFamily(x.GoPointer())
+
 	return cret
 }
 
@@ -599,6 +653,7 @@ var xSettingsGetPrintBackgrounds func(uintptr) bool
 func (x *Settings) GetPrintBackgrounds() bool {
 
 	cret := xSettingsGetPrintBackgrounds(x.GoPointer())
+
 	return cret
 }
 
@@ -608,6 +663,7 @@ var xSettingsGetSansSerifFontFamily func(uintptr) string
 func (x *Settings) GetSansSerifFontFamily() string {
 
 	cret := xSettingsGetSansSerifFontFamily(x.GoPointer())
+
 	return cret
 }
 
@@ -617,6 +673,7 @@ var xSettingsGetSerifFontFamily func(uintptr) string
 func (x *Settings) GetSerifFontFamily() string {
 
 	cret := xSettingsGetSerifFontFamily(x.GoPointer())
+
 	return cret
 }
 
@@ -626,6 +683,7 @@ var xSettingsGetUserAgent func(uintptr) string
 func (x *Settings) GetUserAgent() string {
 
 	cret := xSettingsGetUserAgent(x.GoPointer())
+
 	return cret
 }
 
@@ -635,6 +693,7 @@ var xSettingsGetWebrtcUdpPortsRange func(uintptr) string
 func (x *Settings) GetWebrtcUdpPortsRange() string {
 
 	cret := xSettingsGetWebrtcUdpPortsRange(x.GoPointer())
+
 	return cret
 }
 
@@ -644,6 +703,7 @@ var xSettingsGetZoomTextOnly func(uintptr) bool
 func (x *Settings) GetZoomTextOnly() bool {
 
 	cret := xSettingsGetZoomTextOnly(x.GoPointer())
+
 	return cret
 }
 
@@ -1073,7 +1133,11 @@ var xSettingsSetMediaContentTypesRequiringHardwareSupport func(uintptr, uintptr)
 // Set the #WebKitSettings:media-content-types-requiring-hardware-support property.
 func (x *Settings) SetMediaContentTypesRequiringHardwareSupport(ContentTypesVar *string) {
 
-	xSettingsSetMediaContentTypesRequiringHardwareSupport(x.GoPointer(), core.NullableStringToPtr(ContentTypesVar))
+	ContentTypesVarPtr, ContentTypesVarBytes := core.NullableStringToPtr(ContentTypesVar)
+
+	xSettingsSetMediaContentTypesRequiringHardwareSupport(x.GoPointer(), ContentTypesVarPtr)
+
+	runtime.KeepAlive(ContentTypesVarBytes)
 
 }
 
@@ -1154,7 +1218,11 @@ var xSettingsSetUserAgent func(uintptr, uintptr)
 // Set the #WebKitSettings:user-agent property.
 func (x *Settings) SetUserAgent(UserAgentVar *string) {
 
-	xSettingsSetUserAgent(x.GoPointer(), core.NullableStringToPtr(UserAgentVar))
+	UserAgentVarPtr, UserAgentVarBytes := core.NullableStringToPtr(UserAgentVar)
+
+	xSettingsSetUserAgent(x.GoPointer(), UserAgentVarPtr)
+
+	runtime.KeepAlive(UserAgentVarBytes)
 
 }
 
@@ -1167,7 +1235,15 @@ var xSettingsSetUserAgentWithApplicationDetails func(uintptr, uintptr, uintptr)
 // the version is given, the default engine version is used with the given application name.
 func (x *Settings) SetUserAgentWithApplicationDetails(ApplicationNameVar *string, ApplicationVersionVar *string) {
 
-	xSettingsSetUserAgentWithApplicationDetails(x.GoPointer(), core.NullableStringToPtr(ApplicationNameVar), core.NullableStringToPtr(ApplicationVersionVar))
+	ApplicationNameVarPtr, ApplicationNameVarBytes := core.NullableStringToPtr(ApplicationNameVar)
+
+	ApplicationVersionVarPtr, ApplicationVersionVarBytes := core.NullableStringToPtr(ApplicationVersionVar)
+
+	xSettingsSetUserAgentWithApplicationDetails(x.GoPointer(), ApplicationNameVarPtr, ApplicationVersionVarPtr)
+
+	runtime.KeepAlive(ApplicationNameVarBytes)
+
+	runtime.KeepAlive(ApplicationVersionVarBytes)
 
 }
 
@@ -2414,6 +2490,7 @@ var xSettingsFontSizeToPixels func(uint32) uint32
 func SettingsFontSizeToPixels(PointsVar uint32) uint32 {
 
 	cret := xSettingsFontSizeToPixels(PointsVar)
+
 	return cret
 }
 
@@ -2427,6 +2504,7 @@ var xSettingsFontSizeToPoints func(uint32) uint32
 func SettingsFontSizeToPoints(PixelsVar uint32) uint32 {
 
 	cret := xSettingsFontSizeToPoints(PixelsVar)
+
 	return cret
 }
 
@@ -2444,6 +2522,7 @@ var xSettingsGetAllFeatures func() *FeatureList
 func SettingsGetAllFeatures() *FeatureList {
 
 	cret := xSettingsGetAllFeatures()
+
 	return cret
 }
 
@@ -2459,6 +2538,7 @@ var xSettingsGetDevelopmentFeatures func() *FeatureList
 func SettingsGetDevelopmentFeatures() *FeatureList {
 
 	cret := xSettingsGetDevelopmentFeatures()
+
 	return cret
 }
 
@@ -2473,6 +2553,7 @@ var xSettingsGetExperimentalFeatures func() *FeatureList
 func SettingsGetExperimentalFeatures() *FeatureList {
 
 	cret := xSettingsGetExperimentalFeatures()
+
 	return cret
 }
 

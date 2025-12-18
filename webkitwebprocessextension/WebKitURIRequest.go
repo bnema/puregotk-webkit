@@ -65,6 +65,7 @@ var xURIRequestGetHttpHeaders func(uintptr) *soup.MessageHeaders
 func (x *URIRequest) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURIRequestGetHttpHeaders(x.GoPointer())
+
 	return cret
 }
 
@@ -74,6 +75,7 @@ var xURIRequestGetHttpMethod func(uintptr) string
 func (x *URIRequest) GetHttpMethod() string {
 
 	cret := xURIRequestGetHttpMethod(x.GoPointer())
+
 	return cret
 }
 
@@ -83,6 +85,7 @@ var xURIRequestGetUri func(uintptr) string
 func (x *URIRequest) GetUri() string {
 
 	cret := xURIRequestGetUri(x.GoPointer())
+
 	return cret
 }
 

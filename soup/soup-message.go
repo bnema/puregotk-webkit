@@ -2,6 +2,7 @@
 package soup
 
 import (
+	"runtime"
 	"structs"
 	"unsafe"
 
@@ -253,6 +254,7 @@ func (x *Message) AddHeaderHandler(SignalVar string, HeaderVar string, CallbackV
 	}
 
 	cret := xMessageAddHeaderHandler(x.GoPointer(), SignalVar, HeaderVar, CallbackVarRef, UserDataVar)
+
 	return cret
 }
 
@@ -283,6 +285,7 @@ func (x *Message) AddStatusCodeHandler(SignalVar string, StatusCodeVar uint, Cal
 	}
 
 	cret := xMessageAddStatusCodeHandler(x.GoPointer(), SignalVar, StatusCodeVar, CallbackVarRef, UserDataVar)
+
 	return cret
 }
 
@@ -314,6 +317,7 @@ var xMessageGetConnectionId func(uintptr) uint64
 func (x *Message) GetConnectionId() uint64 {
 
 	cret := xMessageGetConnectionId(x.GoPointer())
+
 	return cret
 }
 
@@ -323,6 +327,7 @@ var xMessageGetFirstParty func(uintptr) *glib.Uri
 func (x *Message) GetFirstParty() *glib.Uri {
 
 	cret := xMessageGetFirstParty(x.GoPointer())
+
 	return cret
 }
 
@@ -332,6 +337,7 @@ var xMessageGetFlags func(uintptr) MessageFlags
 func (x *Message) GetFlags() MessageFlags {
 
 	cret := xMessageGetFlags(x.GoPointer())
+
 	return cret
 }
 
@@ -341,6 +347,7 @@ var xMessageGetForceHttp1 func(uintptr) bool
 func (x *Message) GetForceHttp1() bool {
 
 	cret := xMessageGetForceHttp1(x.GoPointer())
+
 	return cret
 }
 
@@ -353,6 +360,7 @@ var xMessageGetHttpVersion func(uintptr) HTTPVersion
 func (x *Message) GetHttpVersion() HTTPVersion {
 
 	cret := xMessageGetHttpVersion(x.GoPointer())
+
 	return cret
 }
 
@@ -362,6 +370,7 @@ var xMessageGetIsOptionsPing func(uintptr) bool
 func (x *Message) GetIsOptionsPing() bool {
 
 	cret := xMessageGetIsOptionsPing(x.GoPointer())
+
 	return cret
 }
 
@@ -373,6 +382,7 @@ var xMessageGetIsTopLevelNavigation func(uintptr) bool
 func (x *Message) GetIsTopLevelNavigation() bool {
 
 	cret := xMessageGetIsTopLevelNavigation(x.GoPointer())
+
 	return cret
 }
 
@@ -382,6 +392,7 @@ var xMessageGetMethod func(uintptr) string
 func (x *Message) GetMethod() string {
 
 	cret := xMessageGetMethod(x.GoPointer())
+
 	return cret
 }
 
@@ -394,6 +405,7 @@ var xMessageGetMetrics func(uintptr) *MessageMetrics
 func (x *Message) GetMetrics() *MessageMetrics {
 
 	cret := xMessageGetMetrics(x.GoPointer())
+
 	return cret
 }
 
@@ -405,6 +417,7 @@ var xMessageGetPriority func(uintptr) MessagePriority
 func (x *Message) GetPriority() MessagePriority {
 
 	cret := xMessageGetPriority(x.GoPointer())
+
 	return cret
 }
 
@@ -414,6 +427,7 @@ var xMessageGetReasonPhrase func(uintptr) string
 func (x *Message) GetReasonPhrase() string {
 
 	cret := xMessageGetReasonPhrase(x.GoPointer())
+
 	return cret
 }
 
@@ -447,6 +461,7 @@ var xMessageGetRequestHeaders func(uintptr) *MessageHeaders
 func (x *Message) GetRequestHeaders() *MessageHeaders {
 
 	cret := xMessageGetRequestHeaders(x.GoPointer())
+
 	return cret
 }
 
@@ -456,6 +471,7 @@ var xMessageGetResponseHeaders func(uintptr) *MessageHeaders
 func (x *Message) GetResponseHeaders() *MessageHeaders {
 
 	cret := xMessageGetResponseHeaders(x.GoPointer())
+
 	return cret
 }
 
@@ -465,6 +481,7 @@ var xMessageGetSiteForCookies func(uintptr) *glib.Uri
 func (x *Message) GetSiteForCookies() *glib.Uri {
 
 	cret := xMessageGetSiteForCookies(x.GoPointer())
+
 	return cret
 }
 
@@ -474,6 +491,7 @@ var xMessageGetStatus func(uintptr) Status
 func (x *Message) GetStatus() Status {
 
 	cret := xMessageGetStatus(x.GoPointer())
+
 	return cret
 }
 
@@ -483,6 +501,7 @@ var xMessageGetTlsCiphersuiteName func(uintptr) string
 func (x *Message) GetTlsCiphersuiteName() string {
 
 	cret := xMessageGetTlsCiphersuiteName(x.GoPointer())
+
 	return cret
 }
 
@@ -514,6 +533,7 @@ var xMessageGetTlsPeerCertificateErrors func(uintptr) gio.TlsCertificateFlags
 func (x *Message) GetTlsPeerCertificateErrors() gio.TlsCertificateFlags {
 
 	cret := xMessageGetTlsPeerCertificateErrors(x.GoPointer())
+
 	return cret
 }
 
@@ -525,6 +545,7 @@ var xMessageGetTlsProtocolVersion func(uintptr) gio.TlsProtocolVersion
 func (x *Message) GetTlsProtocolVersion() gio.TlsProtocolVersion {
 
 	cret := xMessageGetTlsProtocolVersion(x.GoPointer())
+
 	return cret
 }
 
@@ -534,6 +555,7 @@ var xMessageGetUri func(uintptr) *glib.Uri
 func (x *Message) GetUri() *glib.Uri {
 
 	cret := xMessageGetUri(x.GoPointer())
+
 	return cret
 }
 
@@ -546,6 +568,7 @@ var xMessageIsFeatureDisabled func(uintptr, types.GType) bool
 func (x *Message) IsFeatureDisabled(FeatureTypeVar types.GType) bool {
 
 	cret := xMessageIsFeatureDisabled(x.GoPointer(), FeatureTypeVar)
+
 	return cret
 }
 
@@ -558,6 +581,7 @@ var xMessageIsKeepalive func(uintptr) bool
 func (x *Message) IsKeepalive() bool {
 
 	cret := xMessageIsKeepalive(x.GoPointer())
+
 	return cret
 }
 
@@ -567,6 +591,7 @@ var xMessageQueryFlags func(uintptr, MessageFlags) bool
 func (x *Message) QueryFlags(FlagsVar MessageFlags) bool {
 
 	cret := xMessageQueryFlags(x.GoPointer(), FlagsVar)
+
 	return cret
 }
 
@@ -675,7 +700,11 @@ var xMessageSetRequestBody func(uintptr, uintptr, uintptr, int)
 // (in case of redirection or authentication).
 func (x *Message) SetRequestBody(ContentTypeVar *string, StreamVar *gio.InputStream, ContentLengthVar int) {
 
-	xMessageSetRequestBody(x.GoPointer(), core.NullableStringToPtr(ContentTypeVar), StreamVar.GoPointer(), ContentLengthVar)
+	ContentTypeVarPtr, ContentTypeVarBytes := core.NullableStringToPtr(ContentTypeVar)
+
+	xMessageSetRequestBody(x.GoPointer(), ContentTypeVarPtr, StreamVar.GoPointer(), ContentLengthVar)
+
+	runtime.KeepAlive(ContentTypeVarBytes)
 
 }
 
@@ -689,7 +718,11 @@ var xMessageSetRequestBodyFromBytes func(uintptr, uintptr, *glib.Bytes)
 // (in case of redirection or authentication).
 func (x *Message) SetRequestBodyFromBytes(ContentTypeVar *string, BytesVar *glib.Bytes) {
 
-	xMessageSetRequestBodyFromBytes(x.GoPointer(), core.NullableStringToPtr(ContentTypeVar), BytesVar)
+	ContentTypeVarPtr, ContentTypeVarBytes := core.NullableStringToPtr(ContentTypeVar)
+
+	xMessageSetRequestBodyFromBytes(x.GoPointer(), ContentTypeVarPtr, BytesVar)
+
+	runtime.KeepAlive(ContentTypeVarBytes)
 
 }
 

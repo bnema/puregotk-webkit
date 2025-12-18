@@ -121,6 +121,7 @@ var xContextCheckSyntax func(uintptr, string, int, CheckSyntaxMode, string, uint
 func (x *Context) CheckSyntax(CodeVar string, LengthVar int, ModeVar CheckSyntaxMode, UriVar string, LineNumberVar uint, ExceptionVar **Exception) CheckSyntaxResult {
 
 	cret := xContextCheckSyntax(x.GoPointer(), CodeVar, LengthVar, ModeVar, UriVar, LineNumberVar, ExceptionVar)
+
 	return cret
 }
 

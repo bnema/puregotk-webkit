@@ -58,6 +58,7 @@ var xFormSubmissionRequestListTextFields func(uintptr, *[]string, *[]string) boo
 func (x *FormSubmissionRequest) ListTextFields(FieldNamesVar *[]string, FieldValuesVar *[]string) bool {
 
 	cret := xFormSubmissionRequestListTextFields(x.GoPointer(), FieldNamesVar, FieldValuesVar)
+
 	return cret
 }
 

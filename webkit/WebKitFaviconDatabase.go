@@ -49,6 +49,7 @@ var xFaviconDatabaseErrorQuark func() glib.Quark
 func FaviconDatabaseErrorQuark() glib.Quark {
 
 	cret := xFaviconDatabaseErrorQuark()
+
 	return cret
 }
 
@@ -147,6 +148,7 @@ var xFaviconDatabaseGetFaviconUri func(uintptr, string) string
 func (x *FaviconDatabase) GetFaviconUri(PageUriVar string) string {
 
 	cret := xFaviconDatabaseGetFaviconUri(x.GoPointer(), PageUriVar)
+
 	return cret
 }
 

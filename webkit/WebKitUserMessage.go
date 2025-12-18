@@ -44,6 +44,7 @@ var xUserMessageErrorQuark func() glib.Quark
 func UserMessageErrorQuark() glib.Quark {
 
 	cret := xUserMessageErrorQuark()
+
 	return cret
 }
 
@@ -128,6 +129,7 @@ var xUserMessageGetName func(uintptr) string
 func (x *UserMessage) GetName() string {
 
 	cret := xUserMessageGetName(x.GoPointer())
+
 	return cret
 }
 
@@ -137,6 +139,7 @@ var xUserMessageGetParameters func(uintptr) *glib.Variant
 func (x *UserMessage) GetParameters() *glib.Variant {
 
 	cret := xUserMessageGetParameters(x.GoPointer())
+
 	return cret
 }
 

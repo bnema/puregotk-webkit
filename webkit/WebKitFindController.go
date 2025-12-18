@@ -103,6 +103,7 @@ var xFindControllerGetMaxMatchCount func(uintptr) uint
 func (x *FindController) GetMaxMatchCount() uint {
 
 	cret := xFindControllerGetMaxMatchCount(x.GoPointer())
+
 	return cret
 }
 
@@ -115,6 +116,7 @@ var xFindControllerGetOptions func(uintptr) uint32
 func (x *FindController) GetOptions() uint32 {
 
 	cret := xFindControllerGetOptions(x.GoPointer())
+
 	return cret
 }
 
@@ -129,6 +131,7 @@ var xFindControllerGetSearchText func(uintptr) string
 func (x *FindController) GetSearchText() string {
 
 	cret := xFindControllerGetSearchText(x.GoPointer())
+
 	return cret
 }
 

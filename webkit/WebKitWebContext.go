@@ -136,6 +136,7 @@ var xWebContextGetCacheModel func(uintptr) CacheModel
 func (x *WebContext) GetCacheModel() CacheModel {
 
 	cret := xWebContextGetCacheModel(x.GoPointer())
+
 	return cret
 }
 
@@ -196,6 +197,7 @@ var xWebContextGetSpellCheckingEnabled func(uintptr) bool
 func (x *WebContext) GetSpellCheckingEnabled() bool {
 
 	cret := xWebContextGetSpellCheckingEnabled(x.GoPointer())
+
 	return cret
 }
 
@@ -211,6 +213,7 @@ var xWebContextGetSpellCheckingLanguages func(uintptr) []string
 func (x *WebContext) GetSpellCheckingLanguages() []string {
 
 	cret := xWebContextGetSpellCheckingLanguages(x.GoPointer())
+
 	return cret
 }
 
@@ -220,6 +223,7 @@ var xWebContextGetTimeZoneOverride func(uintptr) string
 func (x *WebContext) GetTimeZoneOverride() string {
 
 	cret := xWebContextGetTimeZoneOverride(x.GoPointer())
+
 	return cret
 }
 
@@ -255,6 +259,7 @@ var xWebContextIsAutomationAllowed func(uintptr) bool
 func (x *WebContext) IsAutomationAllowed() bool {
 
 	cret := xWebContextIsAutomationAllowed(x.GoPointer())
+
 	return cret
 }
 

@@ -49,6 +49,7 @@ var xTldDomainIsPublicSuffix func(string) bool
 func TldDomainIsPublicSuffix(DomainVar string) bool {
 
 	cret := xTldDomainIsPublicSuffix(DomainVar)
+
 	return cret
 }
 
@@ -58,6 +59,7 @@ var xTldErrorQuark func() glib.Quark
 func TldErrorQuark() glib.Quark {
 
 	cret := xTldErrorQuark()
+
 	return cret
 }
 
@@ -81,6 +83,7 @@ func TldGetBaseDomain(HostnameVar string) (string, error) {
 	var cerr *glib.Error
 
 	cret := xTldGetBaseDomain(HostnameVar, &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
