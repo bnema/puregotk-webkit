@@ -51,6 +51,7 @@ var xNewMessageBody func() *MessageBody
 func NewMessageBody() *MessageBody {
 
 	cret := xNewMessageBody()
+
 	return cret
 }
 
@@ -106,6 +107,7 @@ var xMessageBodyFlatten func(uintptr) *glib.Bytes
 func (x *MessageBody) Flatten() *glib.Bytes {
 
 	cret := xMessageBodyFlatten(x.GoPointer())
+
 	return cret
 }
 
@@ -117,6 +119,7 @@ var xMessageBodyGetAccumulate func(uintptr) bool
 func (x *MessageBody) GetAccumulate() bool {
 
 	cret := xMessageBodyGetAccumulate(x.GoPointer())
+
 	return cret
 }
 
@@ -141,6 +144,7 @@ var xMessageBodyGetChunk func(uintptr, int64) *glib.Bytes
 func (x *MessageBody) GetChunk(OffsetVar int64) *glib.Bytes {
 
 	cret := xMessageBodyGetChunk(x.GoPointer(), OffsetVar)
+
 	return cret
 }
 
@@ -167,6 +171,7 @@ var xMessageBodyRef func(uintptr) *MessageBody
 func (x *MessageBody) Ref() *MessageBody {
 
 	cret := xMessageBodyRef(x.GoPointer())
+
 	return cret
 }
 

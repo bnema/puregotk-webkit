@@ -51,6 +51,7 @@ var xWebHitTestResultContextIsEditable func(uintptr) bool
 func (x *WebHitTestResult) ContextIsEditable() bool {
 
 	cret := xWebHitTestResultContextIsEditable(x.GoPointer())
+
 	return cret
 }
 
@@ -63,6 +64,7 @@ var xWebHitTestResultContextIsImage func(uintptr) bool
 func (x *WebHitTestResult) ContextIsImage() bool {
 
 	cret := xWebHitTestResultContextIsImage(x.GoPointer())
+
 	return cret
 }
 
@@ -75,6 +77,7 @@ var xWebHitTestResultContextIsLink func(uintptr) bool
 func (x *WebHitTestResult) ContextIsLink() bool {
 
 	cret := xWebHitTestResultContextIsLink(x.GoPointer())
+
 	return cret
 }
 
@@ -87,6 +90,7 @@ var xWebHitTestResultContextIsMedia func(uintptr) bool
 func (x *WebHitTestResult) ContextIsMedia() bool {
 
 	cret := xWebHitTestResultContextIsMedia(x.GoPointer())
+
 	return cret
 }
 
@@ -99,6 +103,7 @@ var xWebHitTestResultContextIsScrollbar func(uintptr) bool
 func (x *WebHitTestResult) ContextIsScrollbar() bool {
 
 	cret := xWebHitTestResultContextIsScrollbar(x.GoPointer())
+
 	return cret
 }
 
@@ -111,6 +116,7 @@ var xWebHitTestResultContextIsSelection func(uintptr) bool
 func (x *WebHitTestResult) ContextIsSelection() bool {
 
 	cret := xWebHitTestResultContextIsSelection(x.GoPointer())
+
 	return cret
 }
 
@@ -120,6 +126,7 @@ var xWebHitTestResultGetContext func(uintptr) uint
 func (x *WebHitTestResult) GetContext() uint {
 
 	cret := xWebHitTestResultGetContext(x.GoPointer())
+
 	return cret
 }
 
@@ -129,6 +136,7 @@ var xWebHitTestResultGetImageUri func(uintptr) string
 func (x *WebHitTestResult) GetImageUri() string {
 
 	cret := xWebHitTestResultGetImageUri(x.GoPointer())
+
 	return cret
 }
 
@@ -154,6 +162,7 @@ var xWebHitTestResultGetLinkLabel func(uintptr) string
 func (x *WebHitTestResult) GetLinkLabel() string {
 
 	cret := xWebHitTestResultGetLinkLabel(x.GoPointer())
+
 	return cret
 }
 
@@ -163,6 +172,7 @@ var xWebHitTestResultGetLinkTitle func(uintptr) string
 func (x *WebHitTestResult) GetLinkTitle() string {
 
 	cret := xWebHitTestResultGetLinkTitle(x.GoPointer())
+
 	return cret
 }
 
@@ -172,6 +182,7 @@ var xWebHitTestResultGetLinkUri func(uintptr) string
 func (x *WebHitTestResult) GetLinkUri() string {
 
 	cret := xWebHitTestResultGetLinkUri(x.GoPointer())
+
 	return cret
 }
 
@@ -181,6 +192,7 @@ var xWebHitTestResultGetMediaUri func(uintptr) string
 func (x *WebHitTestResult) GetMediaUri() string {
 
 	cret := xWebHitTestResultGetMediaUri(x.GoPointer())
+
 	return cret
 }
 

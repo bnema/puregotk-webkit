@@ -166,6 +166,7 @@ var xAuthDomainDigestEncodePassword func(string, string, string) string
 func AuthDomainDigestEncodePassword(UsernameVar string, RealmVar string, PasswordVar string) string {
 
 	cret := xAuthDomainDigestEncodePassword(UsernameVar, RealmVar, PasswordVar)
+
 	return cret
 }
 

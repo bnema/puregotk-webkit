@@ -2,6 +2,7 @@
 package soup
 
 import (
+	"runtime"
 	"structs"
 	"unsafe"
 
@@ -70,7 +71,15 @@ var xNewWebsocketConnection func(uintptr, *glib.Uri, WebsocketConnectionType, ui
 func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar *glib.Uri, TypeVar WebsocketConnectionType, OriginVar *string, ProtocolVar *string, ExtensionsVar *glib.List) *WebsocketConnection {
 	var cls *WebsocketConnection
 
-	cret := xNewWebsocketConnection(StreamVar.GoPointer(), UriVar, TypeVar, core.NullableStringToPtr(OriginVar), core.NullableStringToPtr(ProtocolVar), ExtensionsVar)
+	OriginVarPtr, OriginVarBytes := core.NullableStringToPtr(OriginVar)
+
+	ProtocolVarPtr, ProtocolVarBytes := core.NullableStringToPtr(ProtocolVar)
+
+	cret := xNewWebsocketConnection(StreamVar.GoPointer(), UriVar, TypeVar, OriginVarPtr, ProtocolVarPtr, ExtensionsVar)
+
+	runtime.KeepAlive(OriginVarBytes)
+
+	runtime.KeepAlive(ProtocolVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -94,7 +103,11 @@ var xWebsocketConnectionClose func(uintptr, uint16, uintptr)
 // Note that the @data must be UTF-8 valid.
 func (x *WebsocketConnection) Close(CodeVar uint16, DataVar *string) {
 
-	xWebsocketConnectionClose(x.GoPointer(), CodeVar, core.NullableStringToPtr(DataVar))
+	DataVarPtr, DataVarBytes := core.NullableStringToPtr(DataVar)
+
+	xWebsocketConnectionClose(x.GoPointer(), CodeVar, DataVarPtr)
+
+	runtime.KeepAlive(DataVarBytes)
 
 }
 
@@ -109,6 +122,7 @@ var xWebsocketConnectionGetCloseCode func(uintptr) uint16
 func (x *WebsocketConnection) GetCloseCode() uint16 {
 
 	cret := xWebsocketConnectionGetCloseCode(x.GoPointer())
+
 	return cret
 }
 
@@ -122,6 +136,7 @@ var xWebsocketConnectionGetCloseData func(uintptr) string
 func (x *WebsocketConnection) GetCloseData() string {
 
 	cret := xWebsocketConnectionGetCloseData(x.GoPointer())
+
 	return cret
 }
 
@@ -131,6 +146,7 @@ var xWebsocketConnectionGetConnectionType func(uintptr) WebsocketConnectionType
 func (x *WebsocketConnection) GetConnectionType() WebsocketConnectionType {
 
 	cret := xWebsocketConnectionGetConnectionType(x.GoPointer())
+
 	return cret
 }
 
@@ -140,6 +156,7 @@ var xWebsocketConnectionGetExtensions func(uintptr) *glib.List
 func (x *WebsocketConnection) GetExtensions() *glib.List {
 
 	cret := xWebsocketConnectionGetExtensions(x.GoPointer())
+
 	return cret
 }
 
@@ -166,6 +183,7 @@ var xWebsocketConnectionGetKeepaliveInterval func(uintptr) uint
 func (x *WebsocketConnection) GetKeepaliveInterval() uint {
 
 	cret := xWebsocketConnectionGetKeepaliveInterval(x.GoPointer())
+
 	return cret
 }
 
@@ -175,6 +193,7 @@ var xWebsocketConnectionGetKeepalivePongTimeout func(uintptr) uint
 func (x *WebsocketConnection) GetKeepalivePongTimeout() uint {
 
 	cret := xWebsocketConnectionGetKeepalivePongTimeout(x.GoPointer())
+
 	return cret
 }
 
@@ -184,6 +203,7 @@ var xWebsocketConnectionGetMaxIncomingPayloadSize func(uintptr) uint64
 func (x *WebsocketConnection) GetMaxIncomingPayloadSize() uint64 {
 
 	cret := xWebsocketConnectionGetMaxIncomingPayloadSize(x.GoPointer())
+
 	return cret
 }
 
@@ -193,6 +213,7 @@ var xWebsocketConnectionGetOrigin func(uintptr) string
 func (x *WebsocketConnection) GetOrigin() string {
 
 	cret := xWebsocketConnectionGetOrigin(x.GoPointer())
+
 	return cret
 }
 
@@ -202,6 +223,7 @@ var xWebsocketConnectionGetProtocol func(uintptr) string
 func (x *WebsocketConnection) GetProtocol() string {
 
 	cret := xWebsocketConnectionGetProtocol(x.GoPointer())
+
 	return cret
 }
 
@@ -211,6 +233,7 @@ var xWebsocketConnectionGetState func(uintptr) WebsocketState
 func (x *WebsocketConnection) GetState() WebsocketState {
 
 	cret := xWebsocketConnectionGetState(x.GoPointer())
+
 	return cret
 }
 
@@ -223,6 +246,7 @@ var xWebsocketConnectionGetUri func(uintptr) *glib.Uri
 func (x *WebsocketConnection) GetUri() *glib.Uri {
 
 	cret := xWebsocketConnectionGetUri(x.GoPointer())
+
 	return cret
 }
 

@@ -50,6 +50,7 @@ var xWebsiteDataAccessPermissionRequestGetCurrentDomain func(uintptr) string
 func (x *WebsiteDataAccessPermissionRequest) GetCurrentDomain() string {
 
 	cret := xWebsiteDataAccessPermissionRequestGetCurrentDomain(x.GoPointer())
+
 	return cret
 }
 
@@ -59,6 +60,7 @@ var xWebsiteDataAccessPermissionRequestGetRequestingDomain func(uintptr) string
 func (x *WebsiteDataAccessPermissionRequest) GetRequestingDomain() string {
 
 	cret := xWebsiteDataAccessPermissionRequestGetRequestingDomain(x.GoPointer())
+
 	return cret
 }
 

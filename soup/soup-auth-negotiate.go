@@ -54,6 +54,7 @@ var xAuthNegotiateSupported func() bool
 func AuthNegotiateSupported() bool {
 
 	cret := xAuthNegotiateSupported()
+
 	return cret
 }
 

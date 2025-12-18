@@ -42,6 +42,7 @@ var xDateTimeNewFromHttpString func(string) *glib.DateTime
 func DateTimeNewFromHttpString(DateStringVar string) *glib.DateTime {
 
 	cret := xDateTimeNewFromHttpString(DateStringVar)
+
 	return cret
 }
 
@@ -51,6 +52,7 @@ var xDateTimeToString func(*glib.DateTime, DateFormat) string
 func DateTimeToString(DateVar *glib.DateTime, FormatVar DateFormat) string {
 
 	cret := xDateTimeToString(DateVar, FormatVar)
+
 	return cret
 }
 

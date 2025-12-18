@@ -33,6 +33,7 @@ var xNewCredential func(string, string, CredentialPersistence) *Credential
 func NewCredential(UsernameVar string, PasswordVar string, PersistenceVar CredentialPersistence) *Credential {
 
 	cret := xNewCredential(UsernameVar, PasswordVar, PersistenceVar)
+
 	return cret
 }
 
@@ -44,6 +45,7 @@ var xNewCredentialForCertificate func(uintptr, CredentialPersistence) *Credentia
 func NewCredentialForCertificate(CertificateVar *gio.TlsCertificate, PersistenceVar CredentialPersistence) *Credential {
 
 	cret := xNewCredentialForCertificate(CertificateVar.GoPointer(), PersistenceVar)
+
 	return cret
 }
 
@@ -55,6 +57,7 @@ var xNewCredentialForCertificatePin func(string, CredentialPersistence) *Credent
 func NewCredentialForCertificatePin(PinVar string, PersistenceVar CredentialPersistence) *Credential {
 
 	cret := xNewCredentialForCertificatePin(PinVar, PersistenceVar)
+
 	return cret
 }
 
@@ -64,6 +67,7 @@ var xCredentialCopy func(uintptr) *Credential
 func (x *Credential) Copy() *Credential {
 
 	cret := xCredentialCopy(x.GoPointer())
+
 	return cret
 }
 
@@ -99,6 +103,7 @@ var xCredentialGetPassword func(uintptr) string
 func (x *Credential) GetPassword() string {
 
 	cret := xCredentialGetPassword(x.GoPointer())
+
 	return cret
 }
 
@@ -108,6 +113,7 @@ var xCredentialGetPersistence func(uintptr) CredentialPersistence
 func (x *Credential) GetPersistence() CredentialPersistence {
 
 	cret := xCredentialGetPersistence(x.GoPointer())
+
 	return cret
 }
 
@@ -117,6 +123,7 @@ var xCredentialGetUsername func(uintptr) string
 func (x *Credential) GetUsername() string {
 
 	cret := xCredentialGetUsername(x.GoPointer())
+
 	return cret
 }
 
@@ -126,6 +133,7 @@ var xCredentialHasPassword func(uintptr) bool
 func (x *Credential) HasPassword() bool {
 
 	cret := xCredentialHasPassword(x.GoPointer())
+
 	return cret
 }
 

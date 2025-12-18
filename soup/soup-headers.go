@@ -2,6 +2,8 @@
 package soup
 
 import (
+	"runtime"
+
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/glib"
@@ -16,6 +18,7 @@ var xHeaderContains func(string, string) bool
 func HeaderContains(HeaderVar string, TokenVar string) bool {
 
 	cret := xHeaderContains(HeaderVar, TokenVar)
+
 	return cret
 }
 
@@ -51,7 +54,11 @@ var xHeaderGStringAppendParam func(*glib.String, string, uintptr)
 // If @value is %NULL, this will just append @name to @string.
 func HeaderGStringAppendParam(StringVar *glib.String, NameVar string, ValueVar *string) {
 
-	xHeaderGStringAppendParam(StringVar, NameVar, core.NullableStringToPtr(ValueVar))
+	ValueVarPtr, ValueVarBytes := core.NullableStringToPtr(ValueVar)
+
+	xHeaderGStringAppendParam(StringVar, NameVar, ValueVarPtr)
+
+	runtime.KeepAlive(ValueVarBytes)
 
 }
 
@@ -76,6 +83,7 @@ var xHeaderParseList func(string) *glib.SList
 func HeaderParseList(HeaderVar string) *glib.SList {
 
 	cret := xHeaderParseList(HeaderVar)
+
 	return cret
 }
 
@@ -93,6 +101,7 @@ var xHeaderParseParamList func(string) *glib.HashTable
 func HeaderParseParamList(HeaderVar string) *glib.HashTable {
 
 	cret := xHeaderParseParamList(HeaderVar)
+
 	return cret
 }
 
@@ -109,6 +118,7 @@ var xHeaderParseParamListStrict func(string) *glib.HashTable
 func HeaderParseParamListStrict(HeaderVar string) *glib.HashTable {
 
 	cret := xHeaderParseParamListStrict(HeaderVar)
+
 	return cret
 }
 
@@ -124,6 +134,7 @@ var xHeaderParseQualityList func(string, **glib.SList) *glib.SList
 func HeaderParseQualityList(HeaderVar string, UnacceptableVar **glib.SList) *glib.SList {
 
 	cret := xHeaderParseQualityList(HeaderVar, UnacceptableVar)
+
 	return cret
 }
 
@@ -141,6 +152,7 @@ var xHeaderParseSemiParamList func(string) *glib.HashTable
 func HeaderParseSemiParamList(HeaderVar string) *glib.HashTable {
 
 	cret := xHeaderParseSemiParamList(HeaderVar)
+
 	return cret
 }
 
@@ -157,6 +169,7 @@ var xHeaderParseSemiParamListStrict func(string) *glib.HashTable
 func HeaderParseSemiParamListStrict(HeaderVar string) *glib.HashTable {
 
 	cret := xHeaderParseSemiParamListStrict(HeaderVar)
+
 	return cret
 }
 
@@ -172,6 +185,7 @@ var xHeadersParse func(string, int, *MessageHeaders) bool
 func HeadersParse(StrVar string, LenVar int, DestVar *MessageHeaders) bool {
 
 	cret := xHeadersParse(StrVar, LenVar, DestVar)
+
 	return cret
 }
 
@@ -184,6 +198,7 @@ var xHeadersParseRequest func(string, int, *MessageHeaders, *string, *string, *H
 func HeadersParseRequest(StrVar string, LenVar int, ReqHeadersVar *MessageHeaders, ReqMethodVar *string, ReqPathVar *string, VerVar *HTTPVersion) uint {
 
 	cret := xHeadersParseRequest(StrVar, LenVar, ReqHeadersVar, ReqMethodVar, ReqPathVar, VerVar)
+
 	return cret
 }
 
@@ -196,6 +211,7 @@ var xHeadersParseResponse func(string, int, *MessageHeaders, *HTTPVersion, *uint
 func HeadersParseResponse(StrVar string, LenVar int, HeadersVar *MessageHeaders, VerVar *HTTPVersion, StatusCodeVar *uint, ReasonPhraseVar *string) bool {
 
 	cret := xHeadersParseResponse(StrVar, LenVar, HeadersVar, VerVar, StatusCodeVar, ReasonPhraseVar)
+
 	return cret
 }
 
@@ -208,6 +224,7 @@ var xHeadersParseStatusLine func(string, *HTTPVersion, *uint, *string) bool
 func HeadersParseStatusLine(StatusLineVar string, VerVar *HTTPVersion, StatusCodeVar *uint, ReasonPhraseVar *string) bool {
 
 	cret := xHeadersParseStatusLine(StatusLineVar, VerVar, StatusCodeVar, ReasonPhraseVar)
+
 	return cret
 }
 

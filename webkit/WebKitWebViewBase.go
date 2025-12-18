@@ -191,6 +191,7 @@ func (x *WebViewBase) GetAccessibleParent() *gtk.AccessibleBase {
 func (x *WebViewBase) GetAccessibleRole() gtk.AccessibleRole {
 
 	cret := gtk.XGtkAccessibleGetAccessibleRole(x.GoPointer())
+
 	return cret
 }
 
@@ -216,6 +217,7 @@ func (x *WebViewBase) GetAtContext() *gtk.ATContext {
 func (x *WebViewBase) GetBounds(XVar *int, YVar *int, WidthVar *int, HeightVar *int) bool {
 
 	cret := gtk.XGtkAccessibleGetBounds(x.GoPointer(), XVar, YVar, WidthVar, HeightVar)
+
 	return cret
 }
 
@@ -255,6 +257,7 @@ func (x *WebViewBase) GetNextAccessibleSibling() *gtk.AccessibleBase {
 func (x *WebViewBase) GetPlatformState(StateVar gtk.AccessiblePlatformState) bool {
 
 	cret := gtk.XGtkAccessibleGetPlatformState(x.GoPointer(), StateVar)
+
 	return cret
 }
 
@@ -431,5 +434,6 @@ func (x *WebViewBase) UpdateStateValue(NStatesVar int, StatesVar []gtk.Accessibl
 func (x *WebViewBase) GetBuildableId() string {
 
 	cret := gtk.XGtkBuildableGetBuildableId(x.GoPointer())
+
 	return cret
 }

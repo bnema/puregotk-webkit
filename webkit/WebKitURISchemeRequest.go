@@ -2,6 +2,7 @@
 package webkit
 
 import (
+	"runtime"
 	"structs"
 	"unsafe"
 
@@ -55,7 +56,11 @@ var xURISchemeRequestFinish func(uintptr, uintptr, int64, uintptr)
 // Finish a #WebKitURISchemeRequest by setting the contents of the request and its mime type.
 func (x *URISchemeRequest) Finish(StreamVar *gio.InputStream, StreamLengthVar int64, ContentTypeVar *string) {
 
-	xURISchemeRequestFinish(x.GoPointer(), StreamVar.GoPointer(), StreamLengthVar, core.NullableStringToPtr(ContentTypeVar))
+	ContentTypeVarPtr, ContentTypeVarBytes := core.NullableStringToPtr(ContentTypeVar)
+
+	xURISchemeRequestFinish(x.GoPointer(), StreamVar.GoPointer(), StreamLengthVar, ContentTypeVarPtr)
+
+	runtime.KeepAlive(ContentTypeVarBytes)
 
 }
 
@@ -99,6 +104,7 @@ var xURISchemeRequestGetHttpHeaders func(uintptr) *soup.MessageHeaders
 func (x *URISchemeRequest) GetHttpHeaders() *soup.MessageHeaders {
 
 	cret := xURISchemeRequestGetHttpHeaders(x.GoPointer())
+
 	return cret
 }
 
@@ -108,6 +114,7 @@ var xURISchemeRequestGetHttpMethod func(uintptr) string
 func (x *URISchemeRequest) GetHttpMethod() string {
 
 	cret := xURISchemeRequestGetHttpMethod(x.GoPointer())
+
 	return cret
 }
 
@@ -117,6 +124,7 @@ var xURISchemeRequestGetPath func(uintptr) string
 func (x *URISchemeRequest) GetPath() string {
 
 	cret := xURISchemeRequestGetPath(x.GoPointer())
+
 	return cret
 }
 
@@ -126,6 +134,7 @@ var xURISchemeRequestGetScheme func(uintptr) string
 func (x *URISchemeRequest) GetScheme() string {
 
 	cret := xURISchemeRequestGetScheme(x.GoPointer())
+
 	return cret
 }
 
@@ -135,6 +144,7 @@ var xURISchemeRequestGetUri func(uintptr) string
 func (x *URISchemeRequest) GetUri() string {
 
 	cret := xURISchemeRequestGetUri(x.GoPointer())
+
 	return cret
 }
 

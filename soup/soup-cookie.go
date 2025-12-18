@@ -64,6 +64,7 @@ var xCookieParse func(string, *glib.Uri) *Cookie
 func CookieParse(HeaderVar string, OriginVar *glib.Uri) *Cookie {
 
 	cret := xCookieParse(HeaderVar, OriginVar)
+
 	return cret
 }
 
@@ -88,6 +89,7 @@ var xCookiesFromRequest func(uintptr) *glib.SList
 func CookiesFromRequest(MsgVar *Message) *glib.SList {
 
 	cret := xCookiesFromRequest(MsgVar.GoPointer())
+
 	return cret
 }
 
@@ -101,6 +103,7 @@ var xCookiesFromResponse func(uintptr) *glib.SList
 func CookiesFromResponse(MsgVar *Message) *glib.SList {
 
 	cret := xCookiesFromResponse(MsgVar.GoPointer())
+
 	return cret
 }
 
@@ -111,6 +114,7 @@ var xCookiesToCookieHeader func(*glib.SList) string
 func CookiesToCookieHeader(CookiesVar *glib.SList) string {
 
 	cret := xCookiesToCookieHeader(CookiesVar)
+
 	return cret
 }
 

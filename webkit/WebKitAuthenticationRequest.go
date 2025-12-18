@@ -111,6 +111,7 @@ var xAuthenticationRequestCanSaveCredentials func(uintptr) bool
 func (x *AuthenticationRequest) CanSaveCredentials() bool {
 
 	cret := xAuthenticationRequestCanSaveCredentials(x.GoPointer())
+
 	return cret
 }
 
@@ -132,6 +133,7 @@ var xAuthenticationRequestGetCertificatePinFlags func(uintptr) gio.TlsPasswordFl
 func (x *AuthenticationRequest) GetCertificatePinFlags() gio.TlsPasswordFlags {
 
 	cret := xAuthenticationRequestGetCertificatePinFlags(x.GoPointer())
+
 	return cret
 }
 
@@ -141,6 +143,7 @@ var xAuthenticationRequestGetHost func(uintptr) string
 func (x *AuthenticationRequest) GetHost() string {
 
 	cret := xAuthenticationRequestGetHost(x.GoPointer())
+
 	return cret
 }
 
@@ -150,6 +153,7 @@ var xAuthenticationRequestGetPort func(uintptr) uint
 func (x *AuthenticationRequest) GetPort() uint {
 
 	cret := xAuthenticationRequestGetPort(x.GoPointer())
+
 	return cret
 }
 
@@ -163,6 +167,7 @@ var xAuthenticationRequestGetProposedCredential func(uintptr) *Credential
 func (x *AuthenticationRequest) GetProposedCredential() *Credential {
 
 	cret := xAuthenticationRequestGetProposedCredential(x.GoPointer())
+
 	return cret
 }
 
@@ -172,6 +177,7 @@ var xAuthenticationRequestGetRealm func(uintptr) string
 func (x *AuthenticationRequest) GetRealm() string {
 
 	cret := xAuthenticationRequestGetRealm(x.GoPointer())
+
 	return cret
 }
 
@@ -181,6 +187,7 @@ var xAuthenticationRequestGetScheme func(uintptr) AuthenticationScheme
 func (x *AuthenticationRequest) GetScheme() AuthenticationScheme {
 
 	cret := xAuthenticationRequestGetScheme(x.GoPointer())
+
 	return cret
 }
 
@@ -190,6 +197,7 @@ var xAuthenticationRequestGetSecurityOrigin func(uintptr) *SecurityOrigin
 func (x *AuthenticationRequest) GetSecurityOrigin() *SecurityOrigin {
 
 	cret := xAuthenticationRequestGetSecurityOrigin(x.GoPointer())
+
 	return cret
 }
 
@@ -201,6 +209,7 @@ var xAuthenticationRequestIsForProxy func(uintptr) bool
 func (x *AuthenticationRequest) IsForProxy() bool {
 
 	cret := xAuthenticationRequestIsForProxy(x.GoPointer())
+
 	return cret
 }
 
@@ -210,6 +219,7 @@ var xAuthenticationRequestIsRetry func(uintptr) bool
 func (x *AuthenticationRequest) IsRetry() bool {
 
 	cret := xAuthenticationRequestIsRetry(x.GoPointer())
+
 	return cret
 }
 

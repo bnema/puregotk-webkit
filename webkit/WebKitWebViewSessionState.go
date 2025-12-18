@@ -32,6 +32,7 @@ var xNewWebViewSessionState func(*glib.Bytes) *WebViewSessionState
 func NewWebViewSessionState(DataVar *glib.Bytes) *WebViewSessionState {
 
 	cret := xNewWebViewSessionState(DataVar)
+
 	return cret
 }
 
@@ -44,6 +45,7 @@ var xWebViewSessionStateRef func(uintptr) *WebViewSessionState
 func (x *WebViewSessionState) Ref() *WebViewSessionState {
 
 	cret := xWebViewSessionStateRef(x.GoPointer())
+
 	return cret
 }
 
@@ -53,6 +55,7 @@ var xWebViewSessionStateSerialize func(uintptr) *glib.Bytes
 func (x *WebViewSessionState) Serialize() *glib.Bytes {
 
 	cret := xWebViewSessionStateSerialize(x.GoPointer())
+
 	return cret
 }
 

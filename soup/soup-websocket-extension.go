@@ -204,6 +204,7 @@ func (x *WebsocketExtension) Configure(ConnectionTypeVar WebsocketConnectionType
 	var cerr *glib.Error
 
 	cret := xWebsocketExtensionConfigure(x.GoPointer(), ConnectionTypeVar, ParamsVar, &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -220,6 +221,7 @@ var xWebsocketExtensionGetRequestParams func(uintptr) string
 func (x *WebsocketExtension) GetRequestParams() string {
 
 	cret := xWebsocketExtensionGetRequestParams(x.GoPointer())
+
 	return cret
 }
 
@@ -232,6 +234,7 @@ var xWebsocketExtensionGetResponseParams func(uintptr) string
 func (x *WebsocketExtension) GetResponseParams() string {
 
 	cret := xWebsocketExtensionGetResponseParams(x.GoPointer())
+
 	return cret
 }
 
@@ -248,6 +251,7 @@ func (x *WebsocketExtension) ProcessIncomingMessage(HeaderVar byte, PayloadVar *
 	var cerr *glib.Error
 
 	cret := xWebsocketExtensionProcessIncomingMessage(x.GoPointer(), HeaderVar, PayloadVar, &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}
@@ -268,6 +272,7 @@ func (x *WebsocketExtension) ProcessOutgoingMessage(HeaderVar byte, PayloadVar *
 	var cerr *glib.Error
 
 	cret := xWebsocketExtensionProcessOutgoingMessage(x.GoPointer(), HeaderVar, PayloadVar, &cerr)
+
 	if cerr == nil {
 		return cret, nil
 	}

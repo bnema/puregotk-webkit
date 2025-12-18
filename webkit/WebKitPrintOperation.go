@@ -163,6 +163,7 @@ var xPrintOperationRunDialog func(uintptr, uintptr) PrintOperationResponse
 func (x *PrintOperation) RunDialog(ParentVar *gtk.Window) PrintOperationResponse {
 
 	cret := xPrintOperationRunDialog(x.GoPointer(), ParentVar.GoPointer())
+
 	return cret
 }
 

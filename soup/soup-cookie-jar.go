@@ -255,6 +255,7 @@ var xCookieJarAllCookies func(uintptr) *glib.SList
 func (x *CookieJar) AllCookies() *glib.SList {
 
 	cret := xCookieJarAllCookies(x.GoPointer())
+
 	return cret
 }
 
@@ -275,6 +276,7 @@ var xCookieJarGetAcceptPolicy func(uintptr) CookieJarAcceptPolicy
 func (x *CookieJar) GetAcceptPolicy() CookieJarAcceptPolicy {
 
 	cret := xCookieJarGetAcceptPolicy(x.GoPointer())
+
 	return cret
 }
 
@@ -293,6 +295,7 @@ var xCookieJarGetCookieList func(uintptr, *glib.Uri, bool) *glib.SList
 func (x *CookieJar) GetCookieList(UriVar *glib.Uri, ForHttpVar bool) *glib.SList {
 
 	cret := xCookieJarGetCookieList(x.GoPointer(), UriVar, ForHttpVar)
+
 	return cret
 }
 
@@ -307,6 +310,7 @@ var xCookieJarGetCookieListWithSameSiteInfo func(uintptr, *glib.Uri, *glib.Uri, 
 func (x *CookieJar) GetCookieListWithSameSiteInfo(UriVar *glib.Uri, TopLevelVar *glib.Uri, SiteForCookiesVar *glib.Uri, ForHttpVar bool, IsSafeMethodVar bool, IsTopLevelNavigationVar bool) *glib.SList {
 
 	cret := xCookieJarGetCookieListWithSameSiteInfo(x.GoPointer(), UriVar, TopLevelVar, SiteForCookiesVar, ForHttpVar, IsSafeMethodVar, IsTopLevelNavigationVar)
+
 	return cret
 }
 
@@ -325,6 +329,7 @@ var xCookieJarGetCookies func(uintptr, *glib.Uri, bool) string
 func (x *CookieJar) GetCookies(UriVar *glib.Uri, ForHttpVar bool) string {
 
 	cret := xCookieJarGetCookies(x.GoPointer(), UriVar, ForHttpVar)
+
 	return cret
 }
 
@@ -334,6 +339,7 @@ var xCookieJarIsPersistent func(uintptr) bool
 func (x *CookieJar) IsPersistent() bool {
 
 	cret := xCookieJarIsPersistent(x.GoPointer())
+
 	return cret
 }
 

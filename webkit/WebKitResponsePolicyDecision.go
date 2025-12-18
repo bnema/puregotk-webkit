@@ -90,6 +90,7 @@ var xResponsePolicyDecisionIsMainFrameMainResource func(uintptr) bool
 func (x *ResponsePolicyDecision) IsMainFrameMainResource() bool {
 
 	cret := xResponsePolicyDecisionIsMainFrameMainResource(x.GoPointer())
+
 	return cret
 }
 
@@ -102,6 +103,7 @@ var xResponsePolicyDecisionIsMimeTypeSupported func(uintptr) bool
 func (x *ResponsePolicyDecision) IsMimeTypeSupported() bool {
 
 	cret := xResponsePolicyDecisionIsMimeTypeSupported(x.GoPointer())
+
 	return cret
 }
 

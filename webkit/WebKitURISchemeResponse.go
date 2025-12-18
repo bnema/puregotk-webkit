@@ -2,6 +2,7 @@
 package webkit
 
 import (
+	"runtime"
 	"structs"
 	"unsafe"
 
@@ -95,7 +96,11 @@ var xURISchemeResponseSetStatus func(uintptr, uint, uintptr)
 // If @status_code is a known value and @reason_phrase is %NULL, the @reason_phrase will be set automatically.
 func (x *URISchemeResponse) SetStatus(StatusCodeVar uint, ReasonPhraseVar *string) {
 
-	xURISchemeResponseSetStatus(x.GoPointer(), StatusCodeVar, core.NullableStringToPtr(ReasonPhraseVar))
+	ReasonPhraseVarPtr, ReasonPhraseVarBytes := core.NullableStringToPtr(ReasonPhraseVar)
+
+	xURISchemeResponseSetStatus(x.GoPointer(), StatusCodeVar, ReasonPhraseVarPtr)
+
+	runtime.KeepAlive(ReasonPhraseVarBytes)
 
 }
 

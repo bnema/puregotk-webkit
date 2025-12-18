@@ -75,6 +75,7 @@ var xNewCookie func(string, string, string, string, int) *Cookie
 func NewCookie(NameVar string, ValueVar string, DomainVar string, PathVar string, MaxAgeVar int) *Cookie {
 
 	cret := xNewCookie(NameVar, ValueVar, DomainVar, PathVar, MaxAgeVar)
+
 	return cret
 }
 
@@ -88,6 +89,7 @@ var xCookieAppliesToUri func(uintptr, *glib.Uri) bool
 func (x *Cookie) AppliesToUri(UriVar *glib.Uri) bool {
 
 	cret := xCookieAppliesToUri(x.GoPointer(), UriVar)
+
 	return cret
 }
 
@@ -97,6 +99,7 @@ var xCookieCopy func(uintptr) *Cookie
 func (x *Cookie) Copy() *Cookie {
 
 	cret := xCookieCopy(x.GoPointer())
+
 	return cret
 }
 
@@ -109,6 +112,7 @@ var xCookieDomainMatches func(uintptr, string) bool
 func (x *Cookie) DomainMatches(HostVar string) bool {
 
 	cret := xCookieDomainMatches(x.GoPointer(), HostVar)
+
 	return cret
 }
 
@@ -121,6 +125,7 @@ var xCookieEqual func(uintptr, *Cookie) bool
 func (x *Cookie) Equal(Cookie2Var *Cookie) bool {
 
 	cret := xCookieEqual(x.GoPointer(), Cookie2Var)
+
 	return cret
 }
 
@@ -139,6 +144,7 @@ var xCookieGetDomain func(uintptr) string
 func (x *Cookie) GetDomain() string {
 
 	cret := xCookieGetDomain(x.GoPointer())
+
 	return cret
 }
 
@@ -148,6 +154,7 @@ var xCookieGetExpires func(uintptr) *glib.DateTime
 func (x *Cookie) GetExpires() *glib.DateTime {
 
 	cret := xCookieGetExpires(x.GoPointer())
+
 	return cret
 }
 
@@ -157,6 +164,7 @@ var xCookieGetHttpOnly func(uintptr) bool
 func (x *Cookie) GetHttpOnly() bool {
 
 	cret := xCookieGetHttpOnly(x.GoPointer())
+
 	return cret
 }
 
@@ -166,6 +174,7 @@ var xCookieGetName func(uintptr) string
 func (x *Cookie) GetName() string {
 
 	cret := xCookieGetName(x.GoPointer())
+
 	return cret
 }
 
@@ -175,6 +184,7 @@ var xCookieGetPath func(uintptr) string
 func (x *Cookie) GetPath() string {
 
 	cret := xCookieGetPath(x.GoPointer())
+
 	return cret
 }
 
@@ -184,6 +194,7 @@ var xCookieGetSameSitePolicy func(uintptr) SameSitePolicy
 func (x *Cookie) GetSameSitePolicy() SameSitePolicy {
 
 	cret := xCookieGetSameSitePolicy(x.GoPointer())
+
 	return cret
 }
 
@@ -193,6 +204,7 @@ var xCookieGetSecure func(uintptr) bool
 func (x *Cookie) GetSecure() bool {
 
 	cret := xCookieGetSecure(x.GoPointer())
+
 	return cret
 }
 
@@ -202,6 +214,7 @@ var xCookieGetValue func(uintptr) string
 func (x *Cookie) GetValue() string {
 
 	cret := xCookieGetValue(x.GoPointer())
+
 	return cret
 }
 
@@ -316,6 +329,7 @@ var xCookieToCookieHeader func(uintptr) string
 func (x *Cookie) ToCookieHeader() string {
 
 	cret := xCookieToCookieHeader(x.GoPointer())
+
 	return cret
 }
 
@@ -327,6 +341,7 @@ var xCookieToSetCookieHeader func(uintptr) string
 func (x *Cookie) ToSetCookieHeader() string {
 
 	cret := xCookieToSetCookieHeader(x.GoPointer())
+
 	return cret
 }
 
@@ -377,6 +392,7 @@ var xNewHSTSPolicy func(string, uint32, bool) *HSTSPolicy
 func NewHSTSPolicy(DomainVar string, MaxAgeVar uint32, IncludeSubdomainsVar bool) *HSTSPolicy {
 
 	cret := xNewHSTSPolicy(DomainVar, MaxAgeVar, IncludeSubdomainsVar)
+
 	return cret
 }
 
@@ -387,6 +403,7 @@ var xNewHSTSPolicyFromResponse func(uintptr) *HSTSPolicy
 func NewHSTSPolicyFromResponse(MsgVar *Message) *HSTSPolicy {
 
 	cret := xNewHSTSPolicyFromResponse(MsgVar.GoPointer())
+
 	return cret
 }
 
@@ -399,6 +416,7 @@ var xNewHSTSPolicyFull func(string, uint32, *glib.DateTime, bool) *HSTSPolicy
 func NewHSTSPolicyFull(DomainVar string, MaxAgeVar uint32, ExpiresVar *glib.DateTime, IncludeSubdomainsVar bool) *HSTSPolicy {
 
 	cret := xNewHSTSPolicyFull(DomainVar, MaxAgeVar, ExpiresVar, IncludeSubdomainsVar)
+
 	return cret
 }
 
@@ -420,6 +438,7 @@ var xNewHSTSPolicySessionPolicy func(string, bool) *HSTSPolicy
 func NewHSTSPolicySessionPolicy(DomainVar string, IncludeSubdomainsVar bool) *HSTSPolicy {
 
 	cret := xNewHSTSPolicySessionPolicy(DomainVar, IncludeSubdomainsVar)
+
 	return cret
 }
 
@@ -429,6 +448,7 @@ var xHSTSPolicyCopy func(uintptr) *HSTSPolicy
 func (x *HSTSPolicy) Copy() *HSTSPolicy {
 
 	cret := xHSTSPolicyCopy(x.GoPointer())
+
 	return cret
 }
 
@@ -438,6 +458,7 @@ var xHSTSPolicyEqual func(uintptr, *HSTSPolicy) bool
 func (x *HSTSPolicy) Equal(Policy2Var *HSTSPolicy) bool {
 
 	cret := xHSTSPolicyEqual(x.GoPointer(), Policy2Var)
+
 	return cret
 }
 
@@ -456,6 +477,7 @@ var xHSTSPolicyGetDomain func(uintptr) string
 func (x *HSTSPolicy) GetDomain() string {
 
 	cret := xHSTSPolicyGetDomain(x.GoPointer())
+
 	return cret
 }
 
@@ -465,6 +487,7 @@ var xHSTSPolicyGetExpires func(uintptr) *glib.DateTime
 func (x *HSTSPolicy) GetExpires() *glib.DateTime {
 
 	cret := xHSTSPolicyGetExpires(x.GoPointer())
+
 	return cret
 }
 
@@ -474,6 +497,7 @@ var xHSTSPolicyGetMaxAge func(uintptr) uint32
 func (x *HSTSPolicy) GetMaxAge() uint32 {
 
 	cret := xHSTSPolicyGetMaxAge(x.GoPointer())
+
 	return cret
 }
 
@@ -483,6 +507,7 @@ var xHSTSPolicyIncludesSubdomains func(uintptr) bool
 func (x *HSTSPolicy) IncludesSubdomains() bool {
 
 	cret := xHSTSPolicyIncludesSubdomains(x.GoPointer())
+
 	return cret
 }
 
@@ -494,6 +519,7 @@ var xHSTSPolicyIsExpired func(uintptr) bool
 func (x *HSTSPolicy) IsExpired() bool {
 
 	cret := xHSTSPolicyIsExpired(x.GoPointer())
+
 	return cret
 }
 
@@ -505,6 +531,7 @@ var xHSTSPolicyIsSessionPolicy func(uintptr) bool
 func (x *HSTSPolicy) IsSessionPolicy() bool {
 
 	cret := xHSTSPolicyIsSessionPolicy(x.GoPointer())
+
 	return cret
 }
 
@@ -542,6 +569,7 @@ var xMessageMetricsCopy func(uintptr) *MessageMetrics
 func (x *MessageMetrics) Copy() *MessageMetrics {
 
 	cret := xMessageMetricsCopy(x.GoPointer())
+
 	return cret
 }
 
@@ -566,6 +594,7 @@ var xMessageMetricsGetConnectEnd func(uintptr) uint64
 func (x *MessageMetrics) GetConnectEnd() uint64 {
 
 	cret := xMessageMetricsGetConnectEnd(x.GoPointer())
+
 	return cret
 }
 
@@ -580,6 +609,7 @@ var xMessageMetricsGetConnectStart func(uintptr) uint64
 func (x *MessageMetrics) GetConnectStart() uint64 {
 
 	cret := xMessageMetricsGetConnectStart(x.GoPointer())
+
 	return cret
 }
 
@@ -594,6 +624,7 @@ var xMessageMetricsGetDnsEnd func(uintptr) uint64
 func (x *MessageMetrics) GetDnsEnd() uint64 {
 
 	cret := xMessageMetricsGetDnsEnd(x.GoPointer())
+
 	return cret
 }
 
@@ -608,6 +639,7 @@ var xMessageMetricsGetDnsStart func(uintptr) uint64
 func (x *MessageMetrics) GetDnsStart() uint64 {
 
 	cret := xMessageMetricsGetDnsStart(x.GoPointer())
+
 	return cret
 }
 
@@ -618,6 +650,7 @@ var xMessageMetricsGetFetchStart func(uintptr) uint64
 func (x *MessageMetrics) GetFetchStart() uint64 {
 
 	cret := xMessageMetricsGetFetchStart(x.GoPointer())
+
 	return cret
 }
 
@@ -633,6 +666,7 @@ var xMessageMetricsGetRequestBodyBytesSent func(uintptr) uint64
 func (x *MessageMetrics) GetRequestBodyBytesSent() uint64 {
 
 	cret := xMessageMetricsGetRequestBodyBytesSent(x.GoPointer())
+
 	return cret
 }
 
@@ -646,6 +680,7 @@ var xMessageMetricsGetRequestBodySize func(uintptr) uint64
 func (x *MessageMetrics) GetRequestBodySize() uint64 {
 
 	cret := xMessageMetricsGetRequestBodySize(x.GoPointer())
+
 	return cret
 }
 
@@ -658,6 +693,7 @@ var xMessageMetricsGetRequestHeaderBytesSent func(uintptr) uint64
 func (x *MessageMetrics) GetRequestHeaderBytesSent() uint64 {
 
 	cret := xMessageMetricsGetRequestHeaderBytesSent(x.GoPointer())
+
 	return cret
 }
 
@@ -668,6 +704,7 @@ var xMessageMetricsGetRequestStart func(uintptr) uint64
 func (x *MessageMetrics) GetRequestStart() uint64 {
 
 	cret := xMessageMetricsGetRequestStart(x.GoPointer())
+
 	return cret
 }
 
@@ -681,6 +718,7 @@ var xMessageMetricsGetResponseBodyBytesReceived func(uintptr) uint64
 func (x *MessageMetrics) GetResponseBodyBytesReceived() uint64 {
 
 	cret := xMessageMetricsGetResponseBodyBytesReceived(x.GoPointer())
+
 	return cret
 }
 
@@ -696,6 +734,7 @@ var xMessageMetricsGetResponseBodySize func(uintptr) uint64
 func (x *MessageMetrics) GetResponseBodySize() uint64 {
 
 	cret := xMessageMetricsGetResponseBodySize(x.GoPointer())
+
 	return cret
 }
 
@@ -709,6 +748,7 @@ var xMessageMetricsGetResponseEnd func(uintptr) uint64
 func (x *MessageMetrics) GetResponseEnd() uint64 {
 
 	cret := xMessageMetricsGetResponseEnd(x.GoPointer())
+
 	return cret
 }
 
@@ -722,6 +762,7 @@ var xMessageMetricsGetResponseHeaderBytesReceived func(uintptr) uint64
 func (x *MessageMetrics) GetResponseHeaderBytesReceived() uint64 {
 
 	cret := xMessageMetricsGetResponseHeaderBytesReceived(x.GoPointer())
+
 	return cret
 }
 
@@ -732,6 +773,7 @@ var xMessageMetricsGetResponseStart func(uintptr) uint64
 func (x *MessageMetrics) GetResponseStart() uint64 {
 
 	cret := xMessageMetricsGetResponseStart(x.GoPointer())
+
 	return cret
 }
 
@@ -746,6 +788,7 @@ var xMessageMetricsGetTlsStart func(uintptr) uint64
 func (x *MessageMetrics) GetTlsStart() uint64 {
 
 	cret := xMessageMetricsGetTlsStart(x.GoPointer())
+
 	return cret
 }
 

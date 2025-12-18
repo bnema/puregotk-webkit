@@ -58,6 +58,7 @@ var xUriCopy func(*glib.Uri, URIComponent, ...interface{}) *glib.Uri
 func UriCopy(UriVar *glib.Uri, FirstComponentVar URIComponent, varArgs ...interface{}) *glib.Uri {
 
 	cret := xUriCopy(UriVar, FirstComponentVar, varArgs...)
+
 	return cret
 }
 
@@ -67,6 +68,7 @@ var xUriDecodeDataUri func(string, *string) *glib.Bytes
 func UriDecodeDataUri(UriVar string, ContentTypeVar *string) *glib.Bytes {
 
 	cret := xUriDecodeDataUri(UriVar, ContentTypeVar)
+
 	return cret
 }
 
@@ -76,6 +78,7 @@ var xUriEqual func(*glib.Uri, *glib.Uri) bool
 func UriEqual(Uri1Var *glib.Uri, Uri2Var *glib.Uri) bool {
 
 	cret := xUriEqual(Uri1Var, Uri2Var)
+
 	return cret
 }
 

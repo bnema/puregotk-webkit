@@ -66,6 +66,7 @@ var xFeatureGetCategory func(uintptr) string
 func (x *Feature) GetCategory() string {
 
 	cret := xFeatureGetCategory(x.GoPointer())
+
 	return cret
 }
 
@@ -80,6 +81,7 @@ var xFeatureGetDefaultValue func(uintptr) bool
 func (x *Feature) GetDefaultValue() bool {
 
 	cret := xFeatureGetDefaultValue(x.GoPointer())
+
 	return cret
 }
 
@@ -98,6 +100,7 @@ var xFeatureGetDetails func(uintptr) string
 func (x *Feature) GetDetails() string {
 
 	cret := xFeatureGetDetails(x.GoPointer())
+
 	return cret
 }
 
@@ -107,6 +110,7 @@ var xFeatureGetIdentifier func(uintptr) string
 func (x *Feature) GetIdentifier() string {
 
 	cret := xFeatureGetIdentifier(x.GoPointer())
+
 	return cret
 }
 
@@ -122,6 +126,7 @@ var xFeatureGetName func(uintptr) string
 func (x *Feature) GetName() string {
 
 	cret := xFeatureGetName(x.GoPointer())
+
 	return cret
 }
 
@@ -131,6 +136,7 @@ var xFeatureGetStatus func(uintptr) FeatureStatus
 func (x *Feature) GetStatus() FeatureStatus {
 
 	cret := xFeatureGetStatus(x.GoPointer())
+
 	return cret
 }
 
@@ -142,6 +148,7 @@ var xFeatureRef func(uintptr) *Feature
 func (x *Feature) Ref() *Feature {
 
 	cret := xFeatureRef(x.GoPointer())
+
 	return cret
 }
 
@@ -197,6 +204,7 @@ var xFeatureListGet func(uintptr, uint) *Feature
 func (x *FeatureList) Get(IndexVar uint) *Feature {
 
 	cret := xFeatureListGet(x.GoPointer(), IndexVar)
+
 	return cret
 }
 
@@ -206,6 +214,7 @@ var xFeatureListGetLength func(uintptr) uint
 func (x *FeatureList) GetLength() uint {
 
 	cret := xFeatureListGetLength(x.GoPointer())
+
 	return cret
 }
 
@@ -217,6 +226,7 @@ var xFeatureListRef func(uintptr) *FeatureList
 func (x *FeatureList) Ref() *FeatureList {
 
 	cret := xFeatureListRef(x.GoPointer())
+
 	return cret
 }
 

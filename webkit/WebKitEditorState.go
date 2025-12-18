@@ -77,6 +77,7 @@ var xEditorStateGetTypingAttributes func(uintptr) uint
 func (x *EditorState) GetTypingAttributes() uint {
 
 	cret := xEditorStateGetTypingAttributes(x.GoPointer())
+
 	return cret
 }
 
@@ -86,6 +87,7 @@ var xEditorStateIsCopyAvailable func(uintptr) bool
 func (x *EditorState) IsCopyAvailable() bool {
 
 	cret := xEditorStateIsCopyAvailable(x.GoPointer())
+
 	return cret
 }
 
@@ -95,6 +97,7 @@ var xEditorStateIsCutAvailable func(uintptr) bool
 func (x *EditorState) IsCutAvailable() bool {
 
 	cret := xEditorStateIsCutAvailable(x.GoPointer())
+
 	return cret
 }
 
@@ -104,6 +107,7 @@ var xEditorStateIsPasteAvailable func(uintptr) bool
 func (x *EditorState) IsPasteAvailable() bool {
 
 	cret := xEditorStateIsPasteAvailable(x.GoPointer())
+
 	return cret
 }
 
@@ -113,6 +117,7 @@ var xEditorStateIsRedoAvailable func(uintptr) bool
 func (x *EditorState) IsRedoAvailable() bool {
 
 	cret := xEditorStateIsRedoAvailable(x.GoPointer())
+
 	return cret
 }
 
@@ -122,6 +127,7 @@ var xEditorStateIsUndoAvailable func(uintptr) bool
 func (x *EditorState) IsUndoAvailable() bool {
 
 	cret := xEditorStateIsUndoAvailable(x.GoPointer())
+
 	return cret
 }
 

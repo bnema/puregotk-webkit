@@ -166,6 +166,7 @@ var xLoggerGetMaxBodySize func(uintptr) int
 func (x *Logger) GetMaxBodySize() int {
 
 	cret := xLoggerGetMaxBodySize(x.GoPointer())
+
 	return cret
 }
 
