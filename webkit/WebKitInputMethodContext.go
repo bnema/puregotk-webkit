@@ -1114,7 +1114,7 @@ func (x *InputMethodContext) ConnectCommitted(cb *func(InputMethodContext, strin
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "committed", cbRefPtr)
 }
 
@@ -1135,7 +1135,7 @@ func (x *InputMethodContext) ConnectDeleteSurrounding(cb *func(InputMethodContex
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "delete-surrounding", cbRefPtr)
 }
 
@@ -1157,7 +1157,7 @@ func (x *InputMethodContext) ConnectPreeditChanged(cb *func(InputMethodContext))
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "preedit-changed", cbRefPtr)
 }
 
@@ -1177,7 +1177,7 @@ func (x *InputMethodContext) ConnectPreeditFinished(cb *func(InputMethodContext)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "preedit-finished", cbRefPtr)
 }
 
@@ -1197,7 +1197,7 @@ func (x *InputMethodContext) ConnectPreeditStarted(cb *func(InputMethodContext))
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "preedit-started", cbRefPtr)
 }
 

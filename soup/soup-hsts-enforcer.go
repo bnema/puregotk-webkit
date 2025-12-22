@@ -279,7 +279,7 @@ func (x *HSTSEnforcer) ConnectChanged(cb *func(HSTSEnforcer, uintptr, uintptr)) 
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
 }
 

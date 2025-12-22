@@ -286,7 +286,7 @@ func (x *AuthenticationRequest) ConnectAuthenticated(cb *func(AuthenticationRequ
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "authenticated", cbRefPtr)
 }
 
@@ -308,7 +308,7 @@ func (x *AuthenticationRequest) ConnectCancelled(cb *func(AuthenticationRequest)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "cancelled", cbRefPtr)
 }
 

@@ -157,7 +157,7 @@ func (x *ColorChooserRequest) ConnectFinished(cb *func(ColorChooserRequest)) uin
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
 }
 

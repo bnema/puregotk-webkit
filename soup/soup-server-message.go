@@ -394,7 +394,7 @@ func (x *ServerMessage) ConnectAcceptCertificate(cb *func(ServerMessage, uintptr
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "accept-certificate", cbRefPtr)
 }
 
@@ -414,7 +414,7 @@ func (x *ServerMessage) ConnectConnected(cb *func(ServerMessage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "connected", cbRefPtr)
 }
 
@@ -434,7 +434,7 @@ func (x *ServerMessage) ConnectDisconnected(cb *func(ServerMessage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "disconnected", cbRefPtr)
 }
 
@@ -455,7 +455,7 @@ func (x *ServerMessage) ConnectFinished(cb *func(ServerMessage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
 }
 
@@ -475,7 +475,7 @@ func (x *ServerMessage) ConnectGotBody(cb *func(ServerMessage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "got-body", cbRefPtr)
 }
 
@@ -498,7 +498,7 @@ func (x *ServerMessage) ConnectGotChunk(cb *func(ServerMessage, uintptr)) uint32
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "got-chunk", cbRefPtr)
 }
 
@@ -518,7 +518,7 @@ func (x *ServerMessage) ConnectGotHeaders(cb *func(ServerMessage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "got-headers", cbRefPtr)
 }
 
@@ -539,7 +539,7 @@ func (x *ServerMessage) ConnectWroteBody(cb *func(ServerMessage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "wrote-body", cbRefPtr)
 }
 
@@ -560,7 +560,7 @@ func (x *ServerMessage) ConnectWroteBodyData(cb *func(ServerMessage, uint)) uint
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "wrote-body-data", cbRefPtr)
 }
 
@@ -587,7 +587,7 @@ func (x *ServerMessage) ConnectWroteChunk(cb *func(ServerMessage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "wrote-chunk", cbRefPtr)
 }
 
@@ -608,7 +608,7 @@ func (x *ServerMessage) ConnectWroteHeaders(cb *func(ServerMessage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "wrote-headers", cbRefPtr)
 }
 
@@ -628,7 +628,7 @@ func (x *ServerMessage) ConnectWroteInformational(cb *func(ServerMessage)) uint3
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "wrote-informational", cbRefPtr)
 }
 

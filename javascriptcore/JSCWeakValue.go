@@ -100,7 +100,7 @@ func (x *WeakValue) ConnectCleared(cb *func(WeakValue)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "cleared", cbRefPtr)
 }
 

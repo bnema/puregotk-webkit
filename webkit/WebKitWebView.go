@@ -1853,7 +1853,7 @@ func (x *WebView) CallAsyncJavascriptFunction(BodyVar string, LengthVar int, Arg
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -1909,7 +1909,7 @@ func (x *WebView) CanExecuteEditingCommand(CommandVar string, CancellableVar *gi
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -2052,7 +2052,7 @@ func (x *WebView) EvaluateJavascript(ScriptVar string, LengthVar int, WorldNameV
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -2457,7 +2457,7 @@ func (x *WebView) GetSnapshot(RegionVar SnapshotRegion, OptionsVar SnapshotOptio
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -2939,7 +2939,7 @@ func (x *WebView) Save(SaveModeVar SaveMode, CancellableVar *gio.Cancellable, Ca
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -2992,7 +2992,7 @@ func (x *WebView) SaveToFile(FileVar gio.File, SaveModeVar SaveMode, Cancellable
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -3036,7 +3036,7 @@ func (x *WebView) SendMessageToPage(MessageVar *UserMessage, CancellableVar *gio
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -3512,7 +3512,7 @@ func (x *WebView) ConnectAuthenticate(cb *func(WebView, uintptr) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "authenticate", cbRefPtr)
 }
 
@@ -3536,7 +3536,7 @@ func (x *WebView) ConnectClose(cb *func(WebView)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "close", cbRefPtr)
 }
 
@@ -3596,7 +3596,7 @@ func (x *WebView) ConnectContextMenu(cb *func(WebView, uintptr, uintptr) bool) u
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
 }
 
@@ -3617,7 +3617,7 @@ func (x *WebView) ConnectContextMenuDismissed(cb *func(WebView)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "context-menu-dismissed", cbRefPtr)
 }
 
@@ -3652,7 +3652,7 @@ func (x *WebView) ConnectCreate(cb *func(WebView, uintptr) gtk.Widget) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "create", cbRefPtr)
 }
 
@@ -3715,7 +3715,7 @@ func (x *WebView) ConnectDecidePolicy(cb *func(WebView, uintptr, PolicyDecisionT
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "decide-policy", cbRefPtr)
 }
 
@@ -3742,7 +3742,7 @@ func (x *WebView) ConnectEnterFullscreen(cb *func(WebView) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "enter-fullscreen", cbRefPtr)
 }
 
@@ -3764,7 +3764,7 @@ func (x *WebView) ConnectInsecureContentDetected(cb *func(WebView, InsecureConte
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "insecure-content-detected", cbRefPtr)
 }
 
@@ -3787,7 +3787,7 @@ func (x *WebView) ConnectLeaveFullscreen(cb *func(WebView) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "leave-fullscreen", cbRefPtr)
 }
 
@@ -3853,7 +3853,7 @@ func (x *WebView) ConnectLoadChanged(cb *func(WebView, LoadEvent)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "load-changed", cbRefPtr)
 }
 
@@ -3882,7 +3882,7 @@ func (x *WebView) ConnectLoadFailed(cb *func(WebView, LoadEvent, string, uintptr
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "load-failed", cbRefPtr)
 }
 
@@ -3910,7 +3910,7 @@ func (x *WebView) ConnectLoadFailedWithTlsErrors(cb *func(WebView, string, uintp
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "load-failed-with-tls-errors", cbRefPtr)
 }
 
@@ -3937,7 +3937,7 @@ func (x *WebView) ConnectMouseTargetChanged(cb *func(WebView, uintptr, uint)) ui
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "mouse-target-changed", cbRefPtr)
 }
 
@@ -4005,7 +4005,7 @@ func (x *WebView) ConnectPermissionRequest(cb *func(WebView, uintptr) bool) uint
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "permission-request", cbRefPtr)
 }
 
@@ -4033,7 +4033,7 @@ func (x *WebView) ConnectPrint(cb *func(WebView, uintptr) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "print", cbRefPtr)
 }
 
@@ -4059,7 +4059,7 @@ func (x *WebView) ConnectQueryPermissionState(cb *func(WebView, uintptr) bool) u
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "query-permission-state", cbRefPtr)
 }
 
@@ -4084,7 +4084,7 @@ func (x *WebView) ConnectReadyToShow(cb *func(WebView)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "ready-to-show", cbRefPtr)
 }
 
@@ -4107,7 +4107,7 @@ func (x *WebView) ConnectResourceLoadStarted(cb *func(WebView, uintptr, uintptr)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "resource-load-started", cbRefPtr)
 }
 
@@ -4133,7 +4133,7 @@ func (x *WebView) ConnectRunAsModal(cb *func(WebView)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "run-as-modal", cbRefPtr)
 }
 
@@ -4165,7 +4165,7 @@ func (x *WebView) ConnectRunColorChooser(cb *func(WebView, uintptr) bool) uint32
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "run-color-chooser", cbRefPtr)
 }
 
@@ -4195,7 +4195,7 @@ func (x *WebView) ConnectRunFileChooser(cb *func(WebView, uintptr) bool) uint32 
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "run-file-chooser", cbRefPtr)
 }
 
@@ -4249,7 +4249,7 @@ func (x *WebView) ConnectScriptDialog(cb *func(WebView, uintptr) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "script-dialog", cbRefPtr)
 }
 
@@ -4274,7 +4274,7 @@ func (x *WebView) ConnectShowNotification(cb *func(WebView, uintptr) bool) uint3
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "show-notification", cbRefPtr)
 }
 
@@ -4301,7 +4301,7 @@ func (x *WebView) ConnectShowOptionMenu(cb *func(WebView, uintptr, uintptr) bool
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "show-option-menu", cbRefPtr)
 }
 
@@ -4331,7 +4331,7 @@ func (x *WebView) ConnectSubmitForm(cb *func(WebView, uintptr)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "submit-form", cbRefPtr)
 }
 
@@ -4358,7 +4358,7 @@ func (x *WebView) ConnectUserMessageReceived(cb *func(WebView, uintptr) bool) ui
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
 }
 
@@ -4379,7 +4379,7 @@ func (x *WebView) ConnectWebProcessTerminated(cb *func(WebView, WebProcessTermin
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "web-process-terminated", cbRefPtr)
 }
 

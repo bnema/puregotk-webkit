@@ -287,7 +287,7 @@ func (x *Context) PushExceptionHandler(HandlerVar *ExceptionHandler, UserDataVar
 				cbFn(arg0, arg1, arg2)
 			}
 			HandlerVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(HandlerVarPtr, HandlerVarRef)
+			glib.SaveCallbackWithClosure(HandlerVarPtr, HandlerVarRef, HandlerVar)
 		}
 	}
 
@@ -302,7 +302,7 @@ func (x *Context) PushExceptionHandler(HandlerVar *ExceptionHandler, UserDataVar
 				cbFn(arg0)
 			}
 			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
 		}
 	}
 
@@ -332,7 +332,7 @@ func (x *Context) RegisterClass(NameVar string, ParentClassVar *Class, VtableVar
 				cbFn(arg0)
 			}
 			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
 		}
 	}
 

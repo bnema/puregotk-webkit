@@ -289,7 +289,7 @@ func (x *Download) ConnectCreatedDestination(cb *func(Download, string)) uint32 
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "created-destination", cbRefPtr)
 }
 
@@ -319,7 +319,7 @@ func (x *Download) ConnectDecideDestination(cb *func(Download, string) bool) uin
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "decide-destination", cbRefPtr)
 }
 
@@ -344,7 +344,7 @@ func (x *Download) ConnectFailed(cb *func(Download, uintptr)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
 }
 
@@ -365,7 +365,7 @@ func (x *Download) ConnectFinished(cb *func(Download)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
 }
 
@@ -387,7 +387,7 @@ func (x *Download) ConnectReceivedData(cb *func(Download, uint64)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "received-data", cbRefPtr)
 }
 

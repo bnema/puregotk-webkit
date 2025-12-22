@@ -95,7 +95,7 @@ func (x *AuthDomainDigest) SetAuthCallback(CallbackVar *AuthDomainDigestAuthCall
 				return cbFn(arg0, arg1, arg2, arg3)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -110,7 +110,7 @@ func (x *AuthDomainDigest) SetAuthCallback(CallbackVar *AuthDomainDigestAuthCall
 				cbFn(arg0)
 			}
 			DnotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DnotifyVarPtr, DnotifyVarRef)
+			glib.SaveCallbackWithClosure(DnotifyVarPtr, DnotifyVarRef, DnotifyVar)
 		}
 	}
 

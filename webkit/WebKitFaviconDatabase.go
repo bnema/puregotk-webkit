@@ -113,7 +113,7 @@ func (x *FaviconDatabase) GetFavicon(PageUriVar string, CancellableVar *gio.Canc
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -184,7 +184,7 @@ func (x *FaviconDatabase) ConnectFaviconChanged(cb *func(FaviconDatabase, string
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "favicon-changed", cbRefPtr)
 }
 

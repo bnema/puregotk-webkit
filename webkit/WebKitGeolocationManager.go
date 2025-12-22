@@ -215,7 +215,7 @@ func (x *GeolocationManager) ConnectStart(cb *func(GeolocationManager) bool) uin
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "start", cbRefPtr)
 }
 
@@ -236,7 +236,7 @@ func (x *GeolocationManager) ConnectStop(cb *func(GeolocationManager)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "stop", cbRefPtr)
 }
 

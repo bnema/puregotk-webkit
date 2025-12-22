@@ -158,7 +158,7 @@ func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) Web
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
 }
 
@@ -181,7 +181,7 @@ func (x *AutomationSession) ConnectCreateWebViewWithDetail(detail string, cb *fu
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
 }
 
@@ -202,7 +202,7 @@ func (x *AutomationSession) ConnectWillClose(cb *func(AutomationSession)) uint32
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "will-close", cbRefPtr)
 }
 

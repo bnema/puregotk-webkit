@@ -318,7 +318,7 @@ func (x *WebContext) RegisterUriScheme(SchemeVar string, CallbackVar *URISchemeR
 				cbFn(arg0, arg1)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -333,7 +333,7 @@ func (x *WebContext) RegisterUriScheme(SchemeVar string, CallbackVar *URISchemeR
 				cbFn(arg0)
 			}
 			UserDataDestroyFuncVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(UserDataDestroyFuncVarPtr, UserDataDestroyFuncVarRef)
+			glib.SaveCallbackWithClosure(UserDataDestroyFuncVarPtr, UserDataDestroyFuncVarRef, UserDataDestroyFuncVar)
 		}
 	}
 
@@ -546,7 +546,7 @@ func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, uintptr)) uin
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "automation-started", cbRefPtr)
 }
 
@@ -573,7 +573,7 @@ func (x *WebContext) ConnectInitializeNotificationPermissions(cb *func(WebContex
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "initialize-notification-permissions", cbRefPtr)
 }
 
@@ -596,7 +596,7 @@ func (x *WebContext) ConnectInitializeWebProcessExtensions(cb *func(WebContext))
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "initialize-web-process-extensions", cbRefPtr)
 }
 
@@ -621,7 +621,7 @@ func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, uintptr) bo
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
 }
 

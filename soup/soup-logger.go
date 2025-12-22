@@ -196,7 +196,7 @@ func (x *Logger) SetPrinter(PrinterVar *LoggerPrinter, PrinterDataVar uintptr, D
 				cbFn(arg0, arg1, arg2, arg3, arg4)
 			}
 			PrinterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(PrinterVarPtr, PrinterVarRef)
+			glib.SaveCallbackWithClosure(PrinterVarPtr, PrinterVarRef, PrinterVar)
 		}
 	}
 
@@ -211,7 +211,7 @@ func (x *Logger) SetPrinter(PrinterVar *LoggerPrinter, PrinterDataVar uintptr, D
 				cbFn(arg0)
 			}
 			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
 		}
 	}
 
@@ -240,7 +240,7 @@ func (x *Logger) SetRequestFilter(RequestFilterVar *LoggerFilter, FilterDataVar 
 				return cbFn(arg0, arg1, arg2)
 			}
 			RequestFilterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(RequestFilterVarPtr, RequestFilterVarRef)
+			glib.SaveCallbackWithClosure(RequestFilterVarPtr, RequestFilterVarRef, RequestFilterVar)
 		}
 	}
 
@@ -255,7 +255,7 @@ func (x *Logger) SetRequestFilter(RequestFilterVar *LoggerFilter, FilterDataVar 
 				cbFn(arg0)
 			}
 			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
 		}
 	}
 
@@ -284,7 +284,7 @@ func (x *Logger) SetResponseFilter(ResponseFilterVar *LoggerFilter, FilterDataVa
 				return cbFn(arg0, arg1, arg2)
 			}
 			ResponseFilterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(ResponseFilterVarPtr, ResponseFilterVarRef)
+			glib.SaveCallbackWithClosure(ResponseFilterVarPtr, ResponseFilterVarRef, ResponseFilterVar)
 		}
 	}
 
@@ -299,7 +299,7 @@ func (x *Logger) SetResponseFilter(ResponseFilterVar *LoggerFilter, FilterDataVa
 				cbFn(arg0)
 			}
 			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
 		}
 	}
 
