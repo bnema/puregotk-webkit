@@ -71,7 +71,7 @@ func OptionsForeach(FunctionVar *OptionsFunc, UserDataVar uintptr) {
 				return cbFn(arg0, arg1, arg2, arg3)
 			}
 			FunctionVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(FunctionVarPtr, FunctionVarRef)
+			glib.SaveCallbackWithClosure(FunctionVarPtr, FunctionVarRef, FunctionVar)
 		}
 	}
 

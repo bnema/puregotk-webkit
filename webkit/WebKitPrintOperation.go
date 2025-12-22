@@ -220,7 +220,7 @@ func (x *PrintOperation) ConnectFailed(cb *func(PrintOperation, uintptr)) uint32
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
 }
 
@@ -241,7 +241,7 @@ func (x *PrintOperation) ConnectFinished(cb *func(PrintOperation)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
 }
 

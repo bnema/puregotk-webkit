@@ -234,7 +234,7 @@ func (x *WebInspector) ConnectAttach(cb *func(WebInspector) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "attach", cbRefPtr)
 }
 
@@ -264,7 +264,7 @@ func (x *WebInspector) ConnectBringToFront(cb *func(WebInspector) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "bring-to-front", cbRefPtr)
 }
 
@@ -286,7 +286,7 @@ func (x *WebInspector) ConnectClosed(cb *func(WebInspector)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
 }
 
@@ -314,7 +314,7 @@ func (x *WebInspector) ConnectDetach(cb *func(WebInspector) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "detach", cbRefPtr)
 }
 
@@ -342,7 +342,7 @@ func (x *WebInspector) ConnectOpenWindow(cb *func(WebInspector) bool) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "open-window", cbRefPtr)
 }
 

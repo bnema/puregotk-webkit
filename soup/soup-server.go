@@ -379,7 +379,7 @@ func (x *Server) AddEarlyHandler(PathVar *string, CallbackVar *ServerCallback, U
 				cbFn(arg0, arg1, arg2, arg3, arg4)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -394,7 +394,7 @@ func (x *Server) AddEarlyHandler(PathVar *string, CallbackVar *ServerCallback, U
 				cbFn(arg0)
 			}
 			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
 		}
 	}
 
@@ -454,7 +454,7 @@ func (x *Server) AddHandler(PathVar *string, CallbackVar *ServerCallback, UserDa
 				cbFn(arg0, arg1, arg2, arg3, arg4)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -469,7 +469,7 @@ func (x *Server) AddHandler(PathVar *string, CallbackVar *ServerCallback, UserDa
 				cbFn(arg0)
 			}
 			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
 		}
 	}
 
@@ -530,7 +530,7 @@ func (x *Server) AddWebsocketHandler(PathVar *string, OriginVar *string, Protoco
 				cbFn(arg0, arg1, arg2, arg3, arg4)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -545,7 +545,7 @@ func (x *Server) AddWebsocketHandler(PathVar *string, OriginVar *string, Protoco
 				cbFn(arg0)
 			}
 			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyVarPtr, DestroyVarRef)
+			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
 		}
 	}
 
@@ -982,7 +982,7 @@ func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
 }
 
@@ -1003,7 +1003,7 @@ func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
 }
 
@@ -1030,7 +1030,7 @@ func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
 }
 
@@ -1061,7 +1061,7 @@ func (x *Server) ConnectRequestStarted(cb *func(Server, uintptr)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
 }
 

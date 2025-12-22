@@ -134,7 +134,7 @@ func (x *WebPage) SendMessageToView(MessageVar *UserMessage, CancellableVar *gio
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -201,7 +201,7 @@ func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "console-message-sent", cbRefPtr)
 }
 
@@ -228,7 +228,7 @@ func (x *WebPage) ConnectContextMenu(cb *func(WebPage, uintptr, uintptr) bool) u
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
 }
 
@@ -251,7 +251,7 @@ func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint32 {
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "document-loaded", cbRefPtr)
 }
 
@@ -284,7 +284,7 @@ func (x *WebPage) ConnectSendRequest(cb *func(WebPage, uintptr, uintptr) bool) u
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "send-request", cbRefPtr)
 }
 
@@ -311,7 +311,7 @@ func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, uintptr) bool) ui
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
 }
 

@@ -7,4 +7,4 @@ require (
 	github.com/jwijenbergh/puregotk v0.0.0-20251022075221-eae1610c7d83
 )
 
-replace github.com/jwijenbergh/puregotk => github.com/bnema/puregotk main
+replace github.com/jwijenbergh/puregotk => github.com/bnema/puregotk v0.0.0-20251222174431-73930527faa3

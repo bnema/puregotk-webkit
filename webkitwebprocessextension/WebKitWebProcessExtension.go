@@ -165,7 +165,7 @@ func (x *WebProcessExtension) SendMessageToContext(MessageVar *UserMessage, Canc
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -222,7 +222,7 @@ func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, u
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "page-created", cbRefPtr)
 }
 
@@ -245,7 +245,7 @@ func (x *WebProcessExtension) ConnectUserMessageReceived(cb *func(WebProcessExte
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
 }
 

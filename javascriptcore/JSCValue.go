@@ -155,7 +155,7 @@ func NewValueArrayBuffer(ContextVar *Context, DataVar uintptr, SizeVar uint, Des
 				cbFn(arg0)
 			}
 			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
 		}
 	}
 
@@ -261,7 +261,7 @@ func NewValueFunction(ContextVar *Context, NameVar *string, CallbackVar *gobject
 				cbFn()
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -276,7 +276,7 @@ func NewValueFunction(ContextVar *Context, NameVar *string, CallbackVar *gobject
 				cbFn(arg0)
 			}
 			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
 		}
 	}
 
@@ -319,7 +319,7 @@ func NewValueFunctionVariadic(ContextVar *Context, NameVar *string, CallbackVar 
 				cbFn()
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -334,7 +334,7 @@ func NewValueFunctionVariadic(ContextVar *Context, NameVar *string, CallbackVar 
 				cbFn(arg0)
 			}
 			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
 		}
 	}
 
@@ -377,7 +377,7 @@ func NewValueFunctionv(ContextVar *Context, NameVar *string, CallbackVar *gobjec
 				cbFn()
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -392,7 +392,7 @@ func NewValueFunctionv(ContextVar *Context, NameVar *string, CallbackVar *gobjec
 				cbFn(arg0)
 			}
 			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
 		}
 	}
 
@@ -481,7 +481,7 @@ func NewValuePromise(ContextVar *Context, ExecutorVar *Executor, UserDataVar uin
 				cbFn(arg0, arg1, arg2)
 			}
 			ExecutorVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(ExecutorVarPtr, ExecutorVarRef)
+			glib.SaveCallbackWithClosure(ExecutorVarPtr, ExecutorVarRef, ExecutorVar)
 		}
 	}
 
@@ -866,7 +866,7 @@ func (x *Value) ObjectDefinePropertyAccessor(PropertyNameVar string, FlagsVar Va
 				cbFn()
 			}
 			GetterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(GetterVarPtr, GetterVarRef)
+			glib.SaveCallbackWithClosure(GetterVarPtr, GetterVarRef, GetterVar)
 		}
 	}
 
@@ -881,7 +881,7 @@ func (x *Value) ObjectDefinePropertyAccessor(PropertyNameVar string, FlagsVar Va
 				cbFn()
 			}
 			SetterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(SetterVarPtr, SetterVarRef)
+			glib.SaveCallbackWithClosure(SetterVarPtr, SetterVarRef, SetterVar)
 		}
 	}
 
@@ -896,7 +896,7 @@ func (x *Value) ObjectDefinePropertyAccessor(PropertyNameVar string, FlagsVar Va
 				cbFn(arg0)
 			}
 			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DestroyNotifyVarPtr, DestroyNotifyVarRef)
+			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
 		}
 	}
 

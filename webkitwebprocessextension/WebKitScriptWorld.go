@@ -122,7 +122,7 @@ func (x *ScriptWorld) ConnectWindowObjectCleared(cb *func(ScriptWorld, uintptr, 
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "window-object-cleared", cbRefPtr)
 }
 

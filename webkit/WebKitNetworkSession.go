@@ -170,7 +170,7 @@ func (x *NetworkSession) GetItpSummary(CancellableVar *gio.Cancellable, Callback
 				cbFn(arg0, arg1, arg2)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(CallbackVarPtr, CallbackVarRef)
+			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
 		}
 	}
 
@@ -369,7 +369,7 @@ func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, uintptr
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "download-started", cbRefPtr)
 }
 

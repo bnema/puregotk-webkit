@@ -75,7 +75,7 @@ func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, 
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "form-controls-associated", cbRefPtr)
 }
 
@@ -106,7 +106,7 @@ func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uin
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "will-send-submit-event", cbRefPtr)
 }
 
@@ -130,7 +130,7 @@ func (x *WebFormManager) ConnectWillSubmitForm(cb *func(WebFormManager, uintptr,
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "will-submit-form", cbRefPtr)
 }
 

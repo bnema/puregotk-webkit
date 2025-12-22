@@ -300,7 +300,7 @@ func (x *AuthDomain) SetFilter(FilterVar *AuthDomainFilter, FilterDataVar uintpt
 				return cbFn(arg0, arg1, arg2)
 			}
 			FilterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(FilterVarPtr, FilterVarRef)
+			glib.SaveCallbackWithClosure(FilterVarPtr, FilterVarRef, FilterVar)
 		}
 	}
 
@@ -315,7 +315,7 @@ func (x *AuthDomain) SetFilter(FilterVar *AuthDomainFilter, FilterDataVar uintpt
 				cbFn(arg0)
 			}
 			DnotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DnotifyVarPtr, DnotifyVarRef)
+			glib.SaveCallbackWithClosure(DnotifyVarPtr, DnotifyVarRef, DnotifyVar)
 		}
 	}
 
@@ -345,7 +345,7 @@ func (x *AuthDomain) SetGenericAuthCallback(AuthCallbackVar *AuthDomainGenericAu
 				return cbFn(arg0, arg1, arg2, arg3)
 			}
 			AuthCallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(AuthCallbackVarPtr, AuthCallbackVarRef)
+			glib.SaveCallbackWithClosure(AuthCallbackVarPtr, AuthCallbackVarRef, AuthCallbackVar)
 		}
 	}
 
@@ -360,7 +360,7 @@ func (x *AuthDomain) SetGenericAuthCallback(AuthCallbackVar *AuthDomainGenericAu
 				cbFn(arg0)
 			}
 			DnotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallback(DnotifyVarPtr, DnotifyVarRef)
+			glib.SaveCallbackWithClosure(DnotifyVarPtr, DnotifyVarRef, DnotifyVar)
 		}
 	}
 

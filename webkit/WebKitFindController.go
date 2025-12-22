@@ -270,7 +270,7 @@ func (x *FindController) ConnectCountedMatches(cb *func(FindController, uint)) u
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "counted-matches", cbRefPtr)
 }
 
@@ -294,7 +294,7 @@ func (x *FindController) ConnectFailedToFindText(cb *func(FindController)) uint3
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "failed-to-find-text", cbRefPtr)
 }
 
@@ -318,7 +318,7 @@ func (x *FindController) ConnectFoundText(cb *func(FindController, uint)) uint32
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "found-text", cbRefPtr)
 }
 

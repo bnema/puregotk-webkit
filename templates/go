@@ -92,7 +92,7 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}}{{end}})
                }
                {{.Name}}Ref = purego.NewCallback(fcb)
-               {{if $NotGLib}}glib.{{end}}SaveCallback({{.Name}}Ptr, {{.Name}}Ref)
+               {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
      }
      {{end}}
@@ -126,7 +126,7 @@ func (x *{{$outer.Name}}) {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}}{{end}})
                }
                {{.Name}}Ref = purego.NewCallback(fcb)
-               {{if $NotGLib}}glib.{{end}}SaveCallback({{.Name}}Ptr, {{.Name}}Ref)
+               {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
      }
      {{end}}
@@ -315,7 +315,7 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}}{{end}})
                }
                {{.Name}}Ref = purego.NewCallback(fcb)
-               {{if $NotGLib}}glib.{{end}}SaveCallback({{.Name}}Ptr, {{.Name}}Ref)
+               {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
      }
      {{end}}
@@ -372,7 +372,7 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}}{{end}})
                }
                {{.Name}}Ref = purego.NewCallback(fcb)
-               {{if $NotGLib}}glib.{{end}}SaveCallback({{.Name}}Ptr, {{.Name}}Ref)
+               {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
      }
      {{end}}
@@ -406,7 +406,7 @@ func (x *{{$outer.Name}}) {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}}{{end}})
                }
                {{.Name}}Ref = purego.NewCallback(fcb)
-               {{if $NotGLib}}glib.{{end}}SaveCallback({{.Name}}Ptr, {{.Name}}Ref)
+               {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
      }
      {{end}}
@@ -477,7 +477,7 @@ func (x *{{$outer.Name}}) Connect{{.Name}}(cb *func({{$outer.Name}} {{convc .Arg
           {{end}}
      }
      cbRefPtr := purego.NewCallback(fcb)
-     {{if $NotGLib}}glib.{{end}}SaveCallback(cbPtr, cbRefPtr)
+     {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
      return {{if $NotGObject}}gobject.{{end}}SignalConnect(x.GoPointer(), "{{.CName}}", cbRefPtr)
 }
 {{if .Detailed}}
@@ -504,7 +504,7 @@ func (x *{{$outer.Name}}) Connect{{.Name}}WithDetail(detail string, cb *func({{$
           {{end}}
      }
      cbRefPtr := purego.NewCallback(fcb)
-     {{if $NotGLib}}glib.{{end}}SaveCallback(cbPtr, cbRefPtr)
+     {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
      return {{if $NotGObject}}gobject.{{end}}SignalConnect(x.GoPointer(), signalName, cbRefPtr)
 }
 {{end}}
@@ -545,7 +545,7 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}}{{end}})
                }
                {{.Name}}Ref = purego.NewCallback(fcb)
-               {{if $NotGLib}}glib.{{end}}SaveCallback({{.Name}}Ptr, {{.Name}}Ref)
+               {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
      }
      {{end}}

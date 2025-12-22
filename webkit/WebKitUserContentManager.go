@@ -363,7 +363,7 @@ func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentMa
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
 }
 
@@ -385,7 +385,7 @@ func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail strin
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
 }
 
@@ -416,7 +416,7 @@ func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(User
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
 }
 
@@ -438,7 +438,7 @@ func (x *UserContentManager) ConnectScriptMessageWithReplyReceivedWithDetail(det
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallback(cbPtr, cbRefPtr)
+	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
 }
 
