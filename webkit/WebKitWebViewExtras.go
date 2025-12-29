@@ -8,6 +8,9 @@ import (
 // WebViewOptions contains construct-only properties for creating a WebView.
 // All fields are optional - only non-nil values will be applied.
 type WebViewOptions struct {
+	// WebContext to use for this WebView. If nil, uses the default WebContext.
+	WebContext *WebContext
+
 	// NetworkSession for cookie/data persistence. Required for persistent sessions.
 	NetworkSession *NetworkSession
 
@@ -39,6 +42,15 @@ func NewWebViewWithOptions(opts *WebViewOptions) *WebView {
 
 	var names []string
 	var values []gobject.Value
+
+	if opts.WebContext != nil {
+		var v gobject.Value
+		v.Init(WebContextGLibType())
+		obj := gobject.Object{Ptr: opts.WebContext.GoPointer()}
+		v.SetObject(&obj)
+		names = append(names, "web-context")
+		values = append(values, v)
+	}
 
 	if opts.NetworkSession != nil {
 		var v gobject.Value
