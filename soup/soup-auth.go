@@ -266,7 +266,6 @@ var xAuthCanAuthenticate func(uintptr) bool
 func (x *Auth) CanAuthenticate() bool {
 
 	cret := xAuthCanAuthenticate(x.GoPointer())
-
 	return cret
 }
 
@@ -298,7 +297,6 @@ var xAuthGetAuthority func(uintptr) string
 func (x *Auth) GetAuthority() string {
 
 	cret := xAuthGetAuthority(x.GoPointer())
-
 	return cret
 }
 
@@ -311,7 +309,6 @@ var xAuthGetAuthorization func(uintptr, uintptr) string
 func (x *Auth) GetAuthorization(MsgVar *Message) string {
 
 	cret := xAuthGetAuthorization(x.GoPointer(), MsgVar.GoPointer())
-
 	return cret
 }
 
@@ -326,7 +323,6 @@ var xAuthGetInfo func(uintptr) string
 func (x *Auth) GetInfo() string {
 
 	cret := xAuthGetInfo(x.GoPointer())
-
 	return cret
 }
 
@@ -340,7 +336,6 @@ var xAuthGetProtectionSpace func(uintptr, *glib.Uri) *glib.SList
 func (x *Auth) GetProtectionSpace(SourceUriVar *glib.Uri) *glib.SList {
 
 	cret := xAuthGetProtectionSpace(x.GoPointer(), SourceUriVar)
-
 	return cret
 }
 
@@ -354,7 +349,6 @@ var xAuthGetRealm func(uintptr) string
 func (x *Auth) GetRealm() string {
 
 	cret := xAuthGetRealm(x.GoPointer())
-
 	return cret
 }
 
@@ -365,7 +359,6 @@ var xAuthGetSchemeName func(uintptr) string
 func (x *Auth) GetSchemeName() string {
 
 	cret := xAuthGetSchemeName(x.GoPointer())
-
 	return cret
 }
 
@@ -375,7 +368,6 @@ var xAuthIsAuthenticated func(uintptr) bool
 func (x *Auth) IsAuthenticated() bool {
 
 	cret := xAuthIsAuthenticated(x.GoPointer())
-
 	return cret
 }
 
@@ -385,7 +377,6 @@ var xAuthIsCancelled func(uintptr) bool
 func (x *Auth) IsCancelled() bool {
 
 	cret := xAuthIsCancelled(x.GoPointer())
-
 	return cret
 }
 
@@ -396,7 +387,6 @@ var xAuthIsForProxy func(uintptr) bool
 func (x *Auth) IsForProxy() bool {
 
 	cret := xAuthIsForProxy(x.GoPointer())
-
 	return cret
 }
 
@@ -410,7 +400,6 @@ var xAuthIsReady func(uintptr, uintptr) bool
 func (x *Auth) IsReady(MsgVar *Message) bool {
 
 	cret := xAuthIsReady(x.GoPointer(), MsgVar.GoPointer())
-
 	return cret
 }
 
@@ -423,7 +412,6 @@ var xAuthUpdate func(uintptr, uintptr, string) bool
 func (x *Auth) Update(MsgVar *Message, AuthHeaderVar string) bool {
 
 	cret := xAuthUpdate(x.GoPointer(), MsgVar.GoPointer(), AuthHeaderVar)
-
 	return cret
 }
 

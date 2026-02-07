@@ -66,7 +66,6 @@ var xNotificationGetBody func(uintptr) string
 func (x *Notification) GetBody() string {
 
 	cret := xNotificationGetBody(x.GoPointer())
-
 	return cret
 }
 
@@ -76,7 +75,6 @@ var xNotificationGetId func(uintptr) uint64
 func (x *Notification) GetId() uint64 {
 
 	cret := xNotificationGetId(x.GoPointer())
-
 	return cret
 }
 
@@ -86,7 +84,6 @@ var xNotificationGetTag func(uintptr) string
 func (x *Notification) GetTag() string {
 
 	cret := xNotificationGetTag(x.GoPointer())
-
 	return cret
 }
 
@@ -96,7 +93,6 @@ var xNotificationGetTitle func(uintptr) string
 func (x *Notification) GetTitle() string {
 
 	cret := xNotificationGetTitle(x.GoPointer())
-
 	return cret
 }
 

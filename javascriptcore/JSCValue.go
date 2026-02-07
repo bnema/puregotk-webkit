@@ -2,7 +2,6 @@
 package javascriptcore
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -280,11 +279,10 @@ func NewValueFunction(ContextVar *Context, NameVar *string, CallbackVar *gobject
 		}
 	}
 
-	NameVarPtr, NameVarBytes := core.NullableStringToPtr(NameVar)
+	NameVarPtr := core.GStrdupNullable(NameVar)
+	defer core.GFreeNullable(NameVarPtr)
 
 	cret := xNewValueFunction(ContextVar.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParamsVar, varArgs...)
-
-	runtime.KeepAlive(NameVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -338,11 +336,10 @@ func NewValueFunctionVariadic(ContextVar *Context, NameVar *string, CallbackVar 
 		}
 	}
 
-	NameVarPtr, NameVarBytes := core.NullableStringToPtr(NameVar)
+	NameVarPtr := core.GStrdupNullable(NameVar)
+	defer core.GFreeNullable(NameVarPtr)
 
 	cret := xNewValueFunctionVariadic(ContextVar.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar)
-
-	runtime.KeepAlive(NameVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -396,11 +393,10 @@ func NewValueFunctionv(ContextVar *Context, NameVar *string, CallbackVar *gobjec
 		}
 	}
 
-	NameVarPtr, NameVarBytes := core.NullableStringToPtr(NameVar)
+	NameVarPtr := core.GStrdupNullable(NameVar)
+	defer core.GFreeNullable(NameVarPtr)
 
 	cret := xNewValueFunctionv(ContextVar.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParametersVar, ParameterTypesVar)
-
-	runtime.KeepAlive(NameVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -502,11 +498,10 @@ var xNewValueString func(uintptr, uintptr) uintptr
 func NewValueString(ContextVar *Context, StringVar *string) *Value {
 	var cls *Value
 
-	StringVarPtr, StringVarBytes := core.NullableStringToPtr(StringVar)
+	StringVarPtr := core.GStrdupNullable(StringVar)
+	defer core.GFreeNullable(StringVarPtr)
 
 	cret := xNewValueString(ContextVar.GoPointer(), StringVarPtr)
-
-	runtime.KeepAlive(StringVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -591,7 +586,6 @@ var xValueArrayBufferGetData func(uintptr, *uint) uintptr
 func (x *Value) ArrayBufferGetData(SizeVar *uint) uintptr {
 
 	cret := xValueArrayBufferGetData(x.GoPointer(), SizeVar)
-
 	return cret
 }
 
@@ -604,7 +598,6 @@ var xValueArrayBufferGetSize func(uintptr) uint
 func (x *Value) ArrayBufferGetSize() uint {
 
 	cret := xValueArrayBufferGetSize(x.GoPointer())
-
 	return cret
 }
 
@@ -705,7 +698,6 @@ var xValueIsArray func(uintptr) bool
 func (x *Value) IsArray() bool {
 
 	cret := xValueIsArray(x.GoPointer())
-
 	return cret
 }
 
@@ -715,7 +707,6 @@ var xValueIsArrayBuffer func(uintptr) bool
 func (x *Value) IsArrayBuffer() bool {
 
 	cret := xValueIsArrayBuffer(x.GoPointer())
-
 	return cret
 }
 
@@ -725,7 +716,6 @@ var xValueIsBoolean func(uintptr) bool
 func (x *Value) IsBoolean() bool {
 
 	cret := xValueIsBoolean(x.GoPointer())
-
 	return cret
 }
 
@@ -735,7 +725,6 @@ var xValueIsConstructor func(uintptr) bool
 func (x *Value) IsConstructor() bool {
 
 	cret := xValueIsConstructor(x.GoPointer())
-
 	return cret
 }
 
@@ -745,7 +734,6 @@ var xValueIsFunction func(uintptr) bool
 func (x *Value) IsFunction() bool {
 
 	cret := xValueIsFunction(x.GoPointer())
-
 	return cret
 }
 
@@ -755,7 +743,6 @@ var xValueIsNull func(uintptr) bool
 func (x *Value) IsNull() bool {
 
 	cret := xValueIsNull(x.GoPointer())
-
 	return cret
 }
 
@@ -765,7 +752,6 @@ var xValueIsNumber func(uintptr) bool
 func (x *Value) IsNumber() bool {
 
 	cret := xValueIsNumber(x.GoPointer())
-
 	return cret
 }
 
@@ -775,7 +761,6 @@ var xValueIsObject func(uintptr) bool
 func (x *Value) IsObject() bool {
 
 	cret := xValueIsObject(x.GoPointer())
-
 	return cret
 }
 
@@ -785,7 +770,6 @@ var xValueIsString func(uintptr) bool
 func (x *Value) IsString() bool {
 
 	cret := xValueIsString(x.GoPointer())
-
 	return cret
 }
 
@@ -795,7 +779,6 @@ var xValueIsTypedArray func(uintptr) bool
 func (x *Value) IsTypedArray() bool {
 
 	cret := xValueIsTypedArray(x.GoPointer())
-
 	return cret
 }
 
@@ -805,7 +788,6 @@ var xValueIsUndefined func(uintptr) bool
 func (x *Value) IsUndefined() bool {
 
 	cret := xValueIsUndefined(x.GoPointer())
-
 	return cret
 }
 
@@ -921,7 +903,6 @@ var xValueObjectDeleteProperty func(uintptr, string) bool
 func (x *Value) ObjectDeleteProperty(NameVar string) bool {
 
 	cret := xValueObjectDeleteProperty(x.GoPointer(), NameVar)
-
 	return cret
 }
 
@@ -932,7 +913,6 @@ var xValueObjectEnumerateProperties func(uintptr) []string
 func (x *Value) ObjectEnumerateProperties() []string {
 
 	cret := xValueObjectEnumerateProperties(x.GoPointer())
-
 	return cret
 }
 
@@ -974,7 +954,6 @@ var xValueObjectHasProperty func(uintptr, string) bool
 func (x *Value) ObjectHasProperty(NameVar string) bool {
 
 	cret := xValueObjectHasProperty(x.GoPointer(), NameVar)
-
 	return cret
 }
 
@@ -1030,7 +1009,6 @@ var xValueObjectIsInstanceOf func(uintptr, string) bool
 func (x *Value) ObjectIsInstanceOf(NameVar string) bool {
 
 	cret := xValueObjectIsInstanceOf(x.GoPointer(), NameVar)
-
 	return cret
 }
 
@@ -1058,7 +1036,6 @@ var xValueToBoolean func(uintptr) bool
 func (x *Value) ToBoolean() bool {
 
 	cret := xValueToBoolean(x.GoPointer())
-
 	return cret
 }
 
@@ -1068,7 +1045,6 @@ var xValueToDouble func(uintptr) float64
 func (x *Value) ToDouble() float64 {
 
 	cret := xValueToDouble(x.GoPointer())
-
 	return cret
 }
 
@@ -1078,7 +1054,6 @@ var xValueToInt32 func(uintptr) int32
 func (x *Value) ToInt32() int32 {
 
 	cret := xValueToInt32(x.GoPointer())
-
 	return cret
 }
 
@@ -1089,7 +1064,6 @@ var xValueToJson func(uintptr, uint) string
 func (x *Value) ToJson(IndentVar uint) string {
 
 	cret := xValueToJson(x.GoPointer(), IndentVar)
-
 	return cret
 }
 
@@ -1100,7 +1074,6 @@ var xValueToString func(uintptr) string
 func (x *Value) ToString() string {
 
 	cret := xValueToString(x.GoPointer())
-
 	return cret
 }
 
@@ -1111,7 +1084,6 @@ var xValueToStringAsBytes func(uintptr) *glib.Bytes
 func (x *Value) ToStringAsBytes() *glib.Bytes {
 
 	cret := xValueToStringAsBytes(x.GoPointer())
-
 	return cret
 }
 
@@ -1162,7 +1134,6 @@ var xValueTypedArrayGetData func(uintptr, *uint) uintptr
 func (x *Value) TypedArrayGetData(LengthVar *uint) uintptr {
 
 	cret := xValueTypedArrayGetData(x.GoPointer(), LengthVar)
-
 	return cret
 }
 
@@ -1172,7 +1143,6 @@ var xValueTypedArrayGetLength func(uintptr) uint
 func (x *Value) TypedArrayGetLength() uint {
 
 	cret := xValueTypedArrayGetLength(x.GoPointer())
-
 	return cret
 }
 
@@ -1182,7 +1152,6 @@ var xValueTypedArrayGetOffset func(uintptr) uint
 func (x *Value) TypedArrayGetOffset() uint {
 
 	cret := xValueTypedArrayGetOffset(x.GoPointer())
-
 	return cret
 }
 
@@ -1192,7 +1161,6 @@ var xValueTypedArrayGetSize func(uintptr) uint
 func (x *Value) TypedArrayGetSize() uint {
 
 	cret := xValueTypedArrayGetSize(x.GoPointer())
-
 	return cret
 }
 
@@ -1202,7 +1170,6 @@ var xValueTypedArrayGetType func(uintptr) TypedArrayType
 func (x *Value) TypedArrayGetType() TypedArrayType {
 
 	cret := xValueTypedArrayGetType(x.GoPointer())
-
 	return cret
 }
 

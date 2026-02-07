@@ -76,7 +76,6 @@ var xBackForwardListGetBackList func(uintptr) *glib.List
 func (x *BackForwardList) GetBackList() *glib.List {
 
 	cret := xBackForwardListGetBackList(x.GoPointer())
-
 	return cret
 }
 
@@ -86,7 +85,6 @@ var xBackForwardListGetBackListWithLimit func(uintptr, uint) *glib.List
 func (x *BackForwardList) GetBackListWithLimit(LimitVar uint) *glib.List {
 
 	cret := xBackForwardListGetBackListWithLimit(x.GoPointer(), LimitVar)
-
 	return cret
 }
 
@@ -130,7 +128,6 @@ var xBackForwardListGetForwardList func(uintptr) *glib.List
 func (x *BackForwardList) GetForwardList() *glib.List {
 
 	cret := xBackForwardListGetForwardList(x.GoPointer())
-
 	return cret
 }
 
@@ -140,7 +137,6 @@ var xBackForwardListGetForwardListWithLimit func(uintptr, uint) *glib.List
 func (x *BackForwardList) GetForwardListWithLimit(LimitVar uint) *glib.List {
 
 	cret := xBackForwardListGetForwardListWithLimit(x.GoPointer(), LimitVar)
-
 	return cret
 }
 
@@ -150,7 +146,6 @@ var xBackForwardListGetLength func(uintptr) uint
 func (x *BackForwardList) GetLength() uint {
 
 	cret := xBackForwardListGetLength(x.GoPointer())
-
 	return cret
 }
 

@@ -32,7 +32,6 @@ var xNavigationActionCopy func(uintptr) *NavigationAction
 func (x *NavigationAction) Copy() *NavigationAction {
 
 	cret := xNavigationActionCopy(x.GoPointer())
-
 	return cret
 }
 
@@ -53,7 +52,6 @@ var xNavigationActionGetFrameName func(uintptr) string
 func (x *NavigationAction) GetFrameName() string {
 
 	cret := xNavigationActionGetFrameName(x.GoPointer())
-
 	return cret
 }
 
@@ -66,7 +64,6 @@ var xNavigationActionGetModifiers func(uintptr) uint
 func (x *NavigationAction) GetModifiers() uint {
 
 	cret := xNavigationActionGetModifiers(x.GoPointer())
-
 	return cret
 }
 
@@ -79,7 +76,6 @@ var xNavigationActionGetMouseButton func(uintptr) uint
 func (x *NavigationAction) GetMouseButton() uint {
 
 	cret := xNavigationActionGetMouseButton(x.GoPointer())
-
 	return cret
 }
 
@@ -89,7 +85,6 @@ var xNavigationActionGetNavigationType func(uintptr) NavigationType
 func (x *NavigationAction) GetNavigationType() NavigationType {
 
 	cret := xNavigationActionGetNavigationType(x.GoPointer())
-
 	return cret
 }
 
@@ -122,7 +117,6 @@ var xNavigationActionIsRedirect func(uintptr) bool
 func (x *NavigationAction) IsRedirect() bool {
 
 	cret := xNavigationActionIsRedirect(x.GoPointer())
-
 	return cret
 }
 
@@ -132,7 +126,6 @@ var xNavigationActionIsUserGesture func(uintptr) bool
 func (x *NavigationAction) IsUserGesture() bool {
 
 	cret := xNavigationActionIsUserGesture(x.GoPointer())
-
 	return cret
 }
 

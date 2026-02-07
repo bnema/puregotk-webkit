@@ -87,7 +87,6 @@ var xScriptWorldGetName func(uintptr) string
 func (x *ScriptWorld) GetName() string {
 
 	cret := xScriptWorldGetName(x.GoPointer())
-
 	return cret
 }
 

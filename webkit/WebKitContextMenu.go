@@ -177,7 +177,6 @@ var xContextMenuGetItems func(uintptr) *glib.List
 func (x *ContextMenu) GetItems() *glib.List {
 
 	cret := xContextMenuGetItems(x.GoPointer())
-
 	return cret
 }
 
@@ -187,7 +186,6 @@ var xContextMenuGetNItems func(uintptr) uint
 func (x *ContextMenu) GetNItems() uint {
 
 	cret := xContextMenuGetNItems(x.GoPointer())
-
 	return cret
 }
 
@@ -200,7 +198,6 @@ var xContextMenuGetUserData func(uintptr) *glib.Variant
 func (x *ContextMenu) GetUserData() *glib.Variant {
 
 	cret := xContextMenuGetUserData(x.GoPointer())
-
 	return cret
 }
 

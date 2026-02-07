@@ -100,7 +100,6 @@ var xWindowPropertiesGetFullscreen func(uintptr) bool
 func (x *WindowProperties) GetFullscreen() bool {
 
 	cret := xWindowPropertiesGetFullscreen(x.GoPointer())
-
 	return cret
 }
 
@@ -119,7 +118,6 @@ var xWindowPropertiesGetLocationbarVisible func(uintptr) bool
 func (x *WindowProperties) GetLocationbarVisible() bool {
 
 	cret := xWindowPropertiesGetLocationbarVisible(x.GoPointer())
-
 	return cret
 }
 
@@ -129,7 +127,6 @@ var xWindowPropertiesGetMenubarVisible func(uintptr) bool
 func (x *WindowProperties) GetMenubarVisible() bool {
 
 	cret := xWindowPropertiesGetMenubarVisible(x.GoPointer())
-
 	return cret
 }
 
@@ -139,7 +136,6 @@ var xWindowPropertiesGetResizable func(uintptr) bool
 func (x *WindowProperties) GetResizable() bool {
 
 	cret := xWindowPropertiesGetResizable(x.GoPointer())
-
 	return cret
 }
 
@@ -149,7 +145,6 @@ var xWindowPropertiesGetScrollbarsVisible func(uintptr) bool
 func (x *WindowProperties) GetScrollbarsVisible() bool {
 
 	cret := xWindowPropertiesGetScrollbarsVisible(x.GoPointer())
-
 	return cret
 }
 
@@ -159,7 +154,6 @@ var xWindowPropertiesGetStatusbarVisible func(uintptr) bool
 func (x *WindowProperties) GetStatusbarVisible() bool {
 
 	cret := xWindowPropertiesGetStatusbarVisible(x.GoPointer())
-
 	return cret
 }
 
@@ -169,7 +163,6 @@ var xWindowPropertiesGetToolbarVisible func(uintptr) bool
 func (x *WindowProperties) GetToolbarVisible() bool {
 
 	cret := xWindowPropertiesGetToolbarVisible(x.GoPointer())
-
 	return cret
 }
 

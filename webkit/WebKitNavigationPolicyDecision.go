@@ -48,7 +48,6 @@ var xNavigationPolicyDecisionGetNavigationAction func(uintptr) *NavigationAction
 func (x *NavigationPolicyDecision) GetNavigationAction() *NavigationAction {
 
 	cret := xNavigationPolicyDecisionGetNavigationAction(x.GoPointer())
-
 	return cret
 }
 

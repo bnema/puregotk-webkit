@@ -104,7 +104,6 @@ var xWebInspectorGetAttachedHeight func(uintptr) uint
 func (x *WebInspector) GetAttachedHeight() uint {
 
 	cret := xWebInspectorGetAttachedHeight(x.GoPointer())
-
 	return cret
 }
 
@@ -115,7 +114,6 @@ var xWebInspectorGetCanAttach func(uintptr) bool
 func (x *WebInspector) GetCanAttach() bool {
 
 	cret := xWebInspectorGetCanAttach(x.GoPointer())
-
 	return cret
 }
 
@@ -130,7 +128,6 @@ var xWebInspectorGetInspectedUri func(uintptr) string
 func (x *WebInspector) GetInspectedUri() string {
 
 	cret := xWebInspectorGetInspectedUri(x.GoPointer())
-
 	return cret
 }
 
@@ -161,7 +158,6 @@ var xWebInspectorIsAttached func(uintptr) bool
 func (x *WebInspector) IsAttached() bool {
 
 	cret := xWebInspectorIsAttached(x.GoPointer())
-
 	return cret
 }
 

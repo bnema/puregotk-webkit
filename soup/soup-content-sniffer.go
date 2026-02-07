@@ -71,7 +71,6 @@ var xContentSnifferSniff func(uintptr, uintptr, *glib.Bytes, **glib.HashTable) s
 func (x *ContentSniffer) Sniff(MsgVar *Message, BufferVar *glib.Bytes, ParamsVar **glib.HashTable) string {
 
 	cret := xContentSnifferSniff(x.GoPointer(), MsgVar.GoPointer(), BufferVar, ParamsVar)
-
 	return cret
 }
 

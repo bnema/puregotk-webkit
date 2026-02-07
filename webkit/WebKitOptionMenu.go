@@ -98,7 +98,6 @@ var xOptionMenuGetItem func(uintptr, uint) *OptionMenuItem
 func (x *OptionMenu) GetItem(IndexVar uint) *OptionMenuItem {
 
 	cret := xOptionMenuGetItem(x.GoPointer(), IndexVar)
-
 	return cret
 }
 
@@ -108,7 +107,6 @@ var xOptionMenuGetNItems func(uintptr) uint
 func (x *OptionMenu) GetNItems() uint {
 
 	cret := xOptionMenuGetNItems(x.GoPointer())
-
 	return cret
 }
 

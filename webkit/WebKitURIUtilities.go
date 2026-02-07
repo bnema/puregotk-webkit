@@ -18,7 +18,6 @@ var xUriForDisplay func(string) string
 func UriForDisplay(UriVar string) string {
 
 	cret := xUriForDisplay(UriVar)
-
 	return cret
 }
 

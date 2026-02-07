@@ -36,7 +36,6 @@ var xOptionMenuItemCopy func(uintptr) *OptionMenuItem
 func (x *OptionMenuItem) Copy() *OptionMenuItem {
 
 	cret := xOptionMenuItemCopy(x.GoPointer())
-
 	return cret
 }
 
@@ -55,7 +54,6 @@ var xOptionMenuItemGetLabel func(uintptr) string
 func (x *OptionMenuItem) GetLabel() string {
 
 	cret := xOptionMenuItemGetLabel(x.GoPointer())
-
 	return cret
 }
 
@@ -65,7 +63,6 @@ var xOptionMenuItemGetTooltip func(uintptr) string
 func (x *OptionMenuItem) GetTooltip() string {
 
 	cret := xOptionMenuItemGetTooltip(x.GoPointer())
-
 	return cret
 }
 
@@ -75,7 +72,6 @@ var xOptionMenuItemIsEnabled func(uintptr) bool
 func (x *OptionMenuItem) IsEnabled() bool {
 
 	cret := xOptionMenuItemIsEnabled(x.GoPointer())
-
 	return cret
 }
 
@@ -85,7 +81,6 @@ var xOptionMenuItemIsGroupChild func(uintptr) bool
 func (x *OptionMenuItem) IsGroupChild() bool {
 
 	cret := xOptionMenuItemIsGroupChild(x.GoPointer())
-
 	return cret
 }
 
@@ -95,7 +90,6 @@ var xOptionMenuItemIsGroupLabel func(uintptr) bool
 func (x *OptionMenuItem) IsGroupLabel() bool {
 
 	cret := xOptionMenuItemIsGroupLabel(x.GoPointer())
-
 	return cret
 }
 
@@ -105,7 +99,6 @@ var xOptionMenuItemIsSelected func(uintptr) bool
 func (x *OptionMenuItem) IsSelected() bool {
 
 	cret := xOptionMenuItemIsSelected(x.GoPointer())
-
 	return cret
 }
 

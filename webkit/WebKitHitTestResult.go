@@ -91,7 +91,6 @@ var xHitTestResultContextIsEditable func(uintptr) bool
 func (x *HitTestResult) ContextIsEditable() bool {
 
 	cret := xHitTestResultContextIsEditable(x.GoPointer())
-
 	return cret
 }
 
@@ -102,7 +101,6 @@ var xHitTestResultContextIsImage func(uintptr) bool
 func (x *HitTestResult) ContextIsImage() bool {
 
 	cret := xHitTestResultContextIsImage(x.GoPointer())
-
 	return cret
 }
 
@@ -113,7 +111,6 @@ var xHitTestResultContextIsLink func(uintptr) bool
 func (x *HitTestResult) ContextIsLink() bool {
 
 	cret := xHitTestResultContextIsLink(x.GoPointer())
-
 	return cret
 }
 
@@ -124,7 +121,6 @@ var xHitTestResultContextIsMedia func(uintptr) bool
 func (x *HitTestResult) ContextIsMedia() bool {
 
 	cret := xHitTestResultContextIsMedia(x.GoPointer())
-
 	return cret
 }
 
@@ -135,7 +131,6 @@ var xHitTestResultContextIsScrollbar func(uintptr) bool
 func (x *HitTestResult) ContextIsScrollbar() bool {
 
 	cret := xHitTestResultContextIsScrollbar(x.GoPointer())
-
 	return cret
 }
 
@@ -146,7 +141,6 @@ var xHitTestResultContextIsSelection func(uintptr) bool
 func (x *HitTestResult) ContextIsSelection() bool {
 
 	cret := xHitTestResultContextIsSelection(x.GoPointer())
-
 	return cret
 }
 
@@ -156,7 +150,6 @@ var xHitTestResultGetContext func(uintptr) uint
 func (x *HitTestResult) GetContext() uint {
 
 	cret := xHitTestResultGetContext(x.GoPointer())
-
 	return cret
 }
 
@@ -166,7 +159,6 @@ var xHitTestResultGetImageUri func(uintptr) string
 func (x *HitTestResult) GetImageUri() string {
 
 	cret := xHitTestResultGetImageUri(x.GoPointer())
-
 	return cret
 }
 
@@ -176,7 +168,6 @@ var xHitTestResultGetLinkLabel func(uintptr) string
 func (x *HitTestResult) GetLinkLabel() string {
 
 	cret := xHitTestResultGetLinkLabel(x.GoPointer())
-
 	return cret
 }
 
@@ -186,7 +177,6 @@ var xHitTestResultGetLinkTitle func(uintptr) string
 func (x *HitTestResult) GetLinkTitle() string {
 
 	cret := xHitTestResultGetLinkTitle(x.GoPointer())
-
 	return cret
 }
 
@@ -196,7 +186,6 @@ var xHitTestResultGetLinkUri func(uintptr) string
 func (x *HitTestResult) GetLinkUri() string {
 
 	cret := xHitTestResultGetLinkUri(x.GoPointer())
-
 	return cret
 }
 
@@ -206,7 +195,6 @@ var xHitTestResultGetMediaUri func(uintptr) string
 func (x *HitTestResult) GetMediaUri() string {
 
 	cret := xHitTestResultGetMediaUri(x.GoPointer())
-
 	return cret
 }
 

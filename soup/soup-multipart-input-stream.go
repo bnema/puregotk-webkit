@@ -84,7 +84,6 @@ var xMultipartInputStreamGetHeaders func(uintptr) *MessageHeaders
 func (x *MultipartInputStream) GetHeaders() *MessageHeaders {
 
 	cret := xMultipartInputStreamGetHeaders(x.GoPointer())
-
 	return cret
 }
 
@@ -190,7 +189,6 @@ func (c *MultipartInputStream) SetGoPointer(ptr uintptr) {
 func (x *MultipartInputStream) CanPoll() bool {
 
 	cret := gio.XGPollableInputStreamCanPoll(x.GoPointer())
-
 	return cret
 }
 
@@ -208,7 +206,6 @@ func (x *MultipartInputStream) CanPoll() bool {
 func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) *glib.Source {
 
 	cret := gio.XGPollableInputStreamCreateSource(x.GoPointer(), CancellableVar.GoPointer())
-
 	return cret
 }
 
@@ -226,7 +223,6 @@ func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) *gl
 func (x *MultipartInputStream) IsReadable() bool {
 
 	cret := gio.XGPollableInputStreamIsReadable(x.GoPointer())
-
 	return cret
 }
 
@@ -248,7 +244,6 @@ func (x *MultipartInputStream) ReadNonblocking(BufferVar *[]byte, CountVar uint,
 	var cerr *glib.Error
 
 	cret := gio.XGPollableInputStreamReadNonblocking(x.GoPointer(), BufferVar, CountVar, CancellableVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}

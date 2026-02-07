@@ -2,7 +2,6 @@
 package webkit
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -1857,15 +1856,13 @@ func (x *WebView) CallAsyncJavascriptFunction(BodyVar string, LengthVar int, Arg
 		}
 	}
 
-	WorldNameVarPtr, WorldNameVarBytes := core.NullableStringToPtr(WorldNameVar)
+	WorldNameVarPtr := core.GStrdupNullable(WorldNameVar)
+	defer core.GFreeNullable(WorldNameVarPtr)
 
-	SourceUriVarPtr, SourceUriVarBytes := core.NullableStringToPtr(SourceUriVar)
+	SourceUriVarPtr := core.GStrdupNullable(SourceUriVar)
+	defer core.GFreeNullable(SourceUriVarPtr)
 
 	xWebViewCallAsyncJavascriptFunction(x.GoPointer(), BodyVar, LengthVar, ArgumentsVar, WorldNameVarPtr, SourceUriVarPtr, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
-
-	runtime.KeepAlive(WorldNameVarBytes)
-
-	runtime.KeepAlive(SourceUriVarBytes)
 
 }
 
@@ -1924,7 +1921,6 @@ func (x *WebView) CanExecuteEditingCommandFinish(ResultVar gio.AsyncResult) (boo
 	var cerr *glib.Error
 
 	cret := xWebViewCanExecuteEditingCommandFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -1938,7 +1934,6 @@ var xWebViewCanGoBack func(uintptr) bool
 func (x *WebView) CanGoBack() bool {
 
 	cret := xWebViewCanGoBack(x.GoPointer())
-
 	return cret
 }
 
@@ -1948,7 +1943,6 @@ var xWebViewCanGoForward func(uintptr) bool
 func (x *WebView) CanGoForward() bool {
 
 	cret := xWebViewCanGoForward(x.GoPointer())
-
 	return cret
 }
 
@@ -1958,7 +1952,6 @@ var xWebViewCanShowMimeType func(uintptr, string) bool
 func (x *WebView) CanShowMimeType(MimeTypeVar string) bool {
 
 	cret := xWebViewCanShowMimeType(x.GoPointer(), MimeTypeVar)
-
 	return cret
 }
 
@@ -2056,15 +2049,13 @@ func (x *WebView) EvaluateJavascript(ScriptVar string, LengthVar int, WorldNameV
 		}
 	}
 
-	WorldNameVarPtr, WorldNameVarBytes := core.NullableStringToPtr(WorldNameVar)
+	WorldNameVarPtr := core.GStrdupNullable(WorldNameVar)
+	defer core.GFreeNullable(WorldNameVarPtr)
 
-	SourceUriVarPtr, SourceUriVarBytes := core.NullableStringToPtr(SourceUriVar)
+	SourceUriVarPtr := core.GStrdupNullable(SourceUriVar)
+	defer core.GFreeNullable(SourceUriVarPtr)
 
 	xWebViewEvaluateJavascript(x.GoPointer(), ScriptVar, LengthVar, WorldNameVarPtr, SourceUriVarPtr, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
-
-	runtime.KeepAlive(WorldNameVarBytes)
-
-	runtime.KeepAlive(SourceUriVarBytes)
 
 }
 
@@ -2120,7 +2111,6 @@ var xWebViewGetAutomationPresentationType func(uintptr) AutomationBrowsingContex
 func (x *WebView) GetAutomationPresentationType() AutomationBrowsingContextPresentation {
 
 	cret := xWebViewGetAutomationPresentationType(x.GoPointer())
-
 	return cret
 }
 
@@ -2162,7 +2152,6 @@ var xWebViewGetCameraCaptureState func(uintptr) MediaCaptureState
 func (x *WebView) GetCameraCaptureState() MediaCaptureState {
 
 	cret := xWebViewGetCameraCaptureState(x.GoPointer())
-
 	return cret
 }
 
@@ -2189,7 +2178,6 @@ var xWebViewGetCustomCharset func(uintptr) string
 func (x *WebView) GetCustomCharset() string {
 
 	cret := xWebViewGetCustomCharset(x.GoPointer())
-
 	return cret
 }
 
@@ -2199,7 +2187,6 @@ var xWebViewGetDefaultContentSecurityPolicy func(uintptr) string
 func (x *WebView) GetDefaultContentSecurityPolicy() string {
 
 	cret := xWebViewGetDefaultContentSecurityPolicy(x.GoPointer())
-
 	return cret
 }
 
@@ -2209,7 +2196,6 @@ var xWebViewGetDisplayCaptureState func(uintptr) MediaCaptureState
 func (x *WebView) GetDisplayCaptureState() MediaCaptureState {
 
 	cret := xWebViewGetDisplayCaptureState(x.GoPointer())
-
 	return cret
 }
 
@@ -2239,7 +2225,6 @@ var xWebViewGetEstimatedLoadProgress func(uintptr) float64
 func (x *WebView) GetEstimatedLoadProgress() float64 {
 
 	cret := xWebViewGetEstimatedLoadProgress(x.GoPointer())
-
 	return cret
 }
 
@@ -2326,7 +2311,6 @@ var xWebViewGetIsMuted func(uintptr) bool
 func (x *WebView) GetIsMuted() bool {
 
 	cret := xWebViewGetIsMuted(x.GoPointer())
-
 	return cret
 }
 
@@ -2336,7 +2320,6 @@ var xWebViewGetIsWebProcessResponsive func(uintptr) bool
 func (x *WebView) GetIsWebProcessResponsive() bool {
 
 	cret := xWebViewGetIsWebProcessResponsive(x.GoPointer())
-
 	return cret
 }
 
@@ -2363,7 +2346,6 @@ var xWebViewGetMicrophoneCaptureState func(uintptr) MediaCaptureState
 func (x *WebView) GetMicrophoneCaptureState() MediaCaptureState {
 
 	cret := xWebViewGetMicrophoneCaptureState(x.GoPointer())
-
 	return cret
 }
 
@@ -2391,7 +2373,6 @@ var xWebViewGetPageId func(uintptr) uint64
 func (x *WebView) GetPageId() uint64 {
 
 	cret := xWebViewGetPageId(x.GoPointer())
-
 	return cret
 }
 
@@ -2401,7 +2382,6 @@ var xWebViewGetSessionState func(uintptr) *WebViewSessionState
 func (x *WebView) GetSessionState() *WebViewSessionState {
 
 	cret := xWebViewGetSessionState(x.GoPointer())
-
 	return cret
 }
 
@@ -2494,7 +2474,6 @@ var xWebViewGetThemeColor func(uintptr, *gdk.RGBA) bool
 func (x *WebView) GetThemeColor(RgbaVar *gdk.RGBA) bool {
 
 	cret := xWebViewGetThemeColor(x.GoPointer(), RgbaVar)
-
 	return cret
 }
 
@@ -2507,7 +2486,6 @@ var xWebViewGetTitle func(uintptr) string
 func (x *WebView) GetTitle() string {
 
 	cret := xWebViewGetTitle(x.GoPointer())
-
 	return cret
 }
 
@@ -2532,7 +2510,6 @@ var xWebViewGetTlsInfo func(uintptr, **gio.TlsCertificate, *gio.TlsCertificateFl
 func (x *WebView) GetTlsInfo(CertificateVar **gio.TlsCertificate, ErrorsVar *gio.TlsCertificateFlags) bool {
 
 	cret := xWebViewGetTlsInfo(x.GoPointer(), CertificateVar, ErrorsVar)
-
 	return cret
 }
 
@@ -2601,7 +2578,6 @@ var xWebViewGetUri func(uintptr) string
 func (x *WebView) GetUri() string {
 
 	cret := xWebViewGetUri(x.GoPointer())
-
 	return cret
 }
 
@@ -2628,7 +2604,6 @@ var xWebViewGetWebExtensionMode func(uintptr) WebExtensionMode
 func (x *WebView) GetWebExtensionMode() WebExtensionMode {
 
 	cret := xWebViewGetWebExtensionMode(x.GoPointer())
-
 	return cret
 }
 
@@ -2684,7 +2659,6 @@ var xWebViewGetZoomLevel func(uintptr) float64
 func (x *WebView) GetZoomLevel() float64 {
 
 	cret := xWebViewGetZoomLevel(x.GoPointer())
-
 	return cret
 }
 
@@ -2734,7 +2708,6 @@ var xWebViewIsControlledByAutomation func(uintptr) bool
 func (x *WebView) IsControlledByAutomation() bool {
 
 	cret := xWebViewIsControlledByAutomation(x.GoPointer())
-
 	return cret
 }
 
@@ -2748,7 +2721,6 @@ var xWebViewIsEditable func(uintptr) bool
 func (x *WebView) IsEditable() bool {
 
 	cret := xWebViewIsEditable(x.GoPointer())
-
 	return cret
 }
 
@@ -2764,7 +2736,6 @@ var xWebViewIsLoading func(uintptr) bool
 func (x *WebView) IsLoading() bool {
 
 	cret := xWebViewIsLoading(x.GoPointer())
-
 	return cret
 }
 
@@ -2779,7 +2750,6 @@ var xWebViewIsPlayingAudio func(uintptr) bool
 func (x *WebView) IsPlayingAudio() bool {
 
 	cret := xWebViewIsPlayingAudio(x.GoPointer())
-
 	return cret
 }
 
@@ -2793,11 +2763,10 @@ var xWebViewLoadAlternateHtml func(uintptr, string, string, uintptr)
 // For everything else this method works the same way as webkit_web_view_load_html().
 func (x *WebView) LoadAlternateHtml(ContentVar string, ContentUriVar string, BaseUriVar *string) {
 
-	BaseUriVarPtr, BaseUriVarBytes := core.NullableStringToPtr(BaseUriVar)
+	BaseUriVarPtr := core.GStrdupNullable(BaseUriVar)
+	defer core.GFreeNullable(BaseUriVarPtr)
 
 	xWebViewLoadAlternateHtml(x.GoPointer(), ContentVar, ContentUriVar, BaseUriVarPtr)
-
-	runtime.KeepAlive(BaseUriVarBytes)
 
 }
 
@@ -2811,19 +2780,16 @@ var xWebViewLoadBytes func(uintptr, *glib.Bytes, uintptr, uintptr, uintptr)
 // You can monitor the load operation by connecting to #WebKitWebView::load-changed signal.
 func (x *WebView) LoadBytes(BytesVar *glib.Bytes, MimeTypeVar *string, EncodingVar *string, BaseUriVar *string) {
 
-	MimeTypeVarPtr, MimeTypeVarBytes := core.NullableStringToPtr(MimeTypeVar)
+	MimeTypeVarPtr := core.GStrdupNullable(MimeTypeVar)
+	defer core.GFreeNullable(MimeTypeVarPtr)
 
-	EncodingVarPtr, EncodingVarBytes := core.NullableStringToPtr(EncodingVar)
+	EncodingVarPtr := core.GStrdupNullable(EncodingVar)
+	defer core.GFreeNullable(EncodingVarPtr)
 
-	BaseUriVarPtr, BaseUriVarBytes := core.NullableStringToPtr(BaseUriVar)
+	BaseUriVarPtr := core.GStrdupNullable(BaseUriVar)
+	defer core.GFreeNullable(BaseUriVarPtr)
 
 	xWebViewLoadBytes(x.GoPointer(), BytesVar, MimeTypeVarPtr, EncodingVarPtr, BaseUriVarPtr)
-
-	runtime.KeepAlive(MimeTypeVarBytes)
-
-	runtime.KeepAlive(EncodingVarBytes)
-
-	runtime.KeepAlive(BaseUriVarBytes)
 
 }
 
@@ -2841,11 +2807,10 @@ var xWebViewLoadHtml func(uintptr, string, uintptr)
 // You can monitor the load operation by connecting to #WebKitWebView::load-changed signal.
 func (x *WebView) LoadHtml(ContentVar string, BaseUriVar *string) {
 
-	BaseUriVarPtr, BaseUriVarBytes := core.NullableStringToPtr(BaseUriVar)
+	BaseUriVarPtr := core.GStrdupNullable(BaseUriVar)
+	defer core.GFreeNullable(BaseUriVarPtr)
 
 	xWebViewLoadHtml(x.GoPointer(), ContentVar, BaseUriVarPtr)
-
-	runtime.KeepAlive(BaseUriVarBytes)
 
 }
 
@@ -3007,7 +2972,6 @@ func (x *WebView) SaveToFileFinish(ResultVar gio.AsyncResult) (bool, error) {
 	var cerr *glib.Error
 
 	cret := xWebViewSaveToFileFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -3126,11 +3090,10 @@ var xWebViewSetCustomCharset func(uintptr, uintptr)
 // encoding override.
 func (x *WebView) SetCustomCharset(CharsetVar *string) {
 
-	CharsetVarPtr, CharsetVarBytes := core.NullableStringToPtr(CharsetVar)
+	CharsetVarPtr := core.GStrdupNullable(CharsetVar)
+	defer core.GFreeNullable(CharsetVarPtr)
 
 	xWebViewSetCustomCharset(x.GoPointer(), CharsetVarPtr)
-
-	runtime.KeepAlive(CharsetVarBytes)
 
 }
 
@@ -4526,7 +4489,6 @@ func (x *WebView) GetAccessibleParent() *gtk.AccessibleBase {
 func (x *WebView) GetAccessibleRole() gtk.AccessibleRole {
 
 	cret := gtk.XGtkAccessibleGetAccessibleRole(x.GoPointer())
-
 	return cret
 }
 
@@ -4552,7 +4514,6 @@ func (x *WebView) GetAtContext() *gtk.ATContext {
 func (x *WebView) GetBounds(XVar *int, YVar *int, WidthVar *int, HeightVar *int) bool {
 
 	cret := gtk.XGtkAccessibleGetBounds(x.GoPointer(), XVar, YVar, WidthVar, HeightVar)
-
 	return cret
 }
 
@@ -4592,7 +4553,6 @@ func (x *WebView) GetNextAccessibleSibling() *gtk.AccessibleBase {
 func (x *WebView) GetPlatformState(StateVar gtk.AccessiblePlatformState) bool {
 
 	cret := gtk.XGtkAccessibleGetPlatformState(x.GoPointer(), StateVar)
-
 	return cret
 }
 
@@ -4769,7 +4729,6 @@ func (x *WebView) UpdateStateValue(NStatesVar int, StatesVar []gtk.AccessibleSta
 func (x *WebView) GetBuildableId() string {
 
 	cret := gtk.XGtkBuildableGetBuildableId(x.GoPointer())
-
 	return cret
 }
 

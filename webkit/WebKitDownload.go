@@ -69,7 +69,6 @@ var xDownloadGetAllowOverwrite func(uintptr) bool
 func (x *Download) GetAllowOverwrite() bool {
 
 	cret := xDownloadGetAllowOverwrite(x.GoPointer())
-
 	return cret
 }
 
@@ -82,7 +81,6 @@ var xDownloadGetDestination func(uintptr) string
 func (x *Download) GetDestination() string {
 
 	cret := xDownloadGetDestination(x.GoPointer())
-
 	return cret
 }
 
@@ -95,7 +93,6 @@ var xDownloadGetElapsedTime func(uintptr) float64
 func (x *Download) GetElapsedTime() float64 {
 
 	cret := xDownloadGetElapsedTime(x.GoPointer())
-
 	return cret
 }
 
@@ -108,7 +105,6 @@ var xDownloadGetEstimatedProgress func(uintptr) float64
 func (x *Download) GetEstimatedProgress() float64 {
 
 	cret := xDownloadGetEstimatedProgress(x.GoPointer())
-
 	return cret
 }
 
@@ -121,7 +117,6 @@ var xDownloadGetReceivedDataLength func(uintptr) uint64
 func (x *Download) GetReceivedDataLength() uint64 {
 
 	cret := xDownloadGetReceivedDataLength(x.GoPointer())
-
 	return cret
 }
 

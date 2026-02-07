@@ -61,7 +61,6 @@ var xScriptDialogGetDialogType func(uintptr) ScriptDialogType
 func (x *ScriptDialog) GetDialogType() ScriptDialogType {
 
 	cret := xScriptDialogGetDialogType(x.GoPointer())
-
 	return cret
 }
 
@@ -71,7 +70,6 @@ var xScriptDialogGetMessage func(uintptr) string
 func (x *ScriptDialog) GetMessage() string {
 
 	cret := xScriptDialogGetMessage(x.GoPointer())
-
 	return cret
 }
 
@@ -84,7 +82,6 @@ var xScriptDialogPromptGetDefaultText func(uintptr) string
 func (x *ScriptDialog) PromptGetDefaultText() string {
 
 	cret := xScriptDialogPromptGetDefaultText(x.GoPointer())
-
 	return cret
 }
 
@@ -113,7 +110,6 @@ var xScriptDialogRef func(uintptr) *ScriptDialog
 func (x *ScriptDialog) Ref() *ScriptDialog {
 
 	cret := xScriptDialogRef(x.GoPointer())
-
 	return cret
 }
 

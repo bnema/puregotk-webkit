@@ -125,7 +125,6 @@ var xSecurityManagerUriSchemeIsCorsEnabled func(uintptr, string) bool
 func (x *SecurityManager) UriSchemeIsCorsEnabled(SchemeVar string) bool {
 
 	cret := xSecurityManagerUriSchemeIsCorsEnabled(x.GoPointer(), SchemeVar)
-
 	return cret
 }
 
@@ -137,7 +136,6 @@ var xSecurityManagerUriSchemeIsDisplayIsolated func(uintptr, string) bool
 func (x *SecurityManager) UriSchemeIsDisplayIsolated(SchemeVar string) bool {
 
 	cret := xSecurityManagerUriSchemeIsDisplayIsolated(x.GoPointer(), SchemeVar)
-
 	return cret
 }
 
@@ -149,7 +147,6 @@ var xSecurityManagerUriSchemeIsEmptyDocument func(uintptr, string) bool
 func (x *SecurityManager) UriSchemeIsEmptyDocument(SchemeVar string) bool {
 
 	cret := xSecurityManagerUriSchemeIsEmptyDocument(x.GoPointer(), SchemeVar)
-
 	return cret
 }
 
@@ -161,7 +158,6 @@ var xSecurityManagerUriSchemeIsLocal func(uintptr, string) bool
 func (x *SecurityManager) UriSchemeIsLocal(SchemeVar string) bool {
 
 	cret := xSecurityManagerUriSchemeIsLocal(x.GoPointer(), SchemeVar)
-
 	return cret
 }
 
@@ -173,7 +169,6 @@ var xSecurityManagerUriSchemeIsNoAccess func(uintptr, string) bool
 func (x *SecurityManager) UriSchemeIsNoAccess(SchemeVar string) bool {
 
 	cret := xSecurityManagerUriSchemeIsNoAccess(x.GoPointer(), SchemeVar)
-
 	return cret
 }
 
@@ -185,7 +180,6 @@ var xSecurityManagerUriSchemeIsSecure func(uintptr, string) bool
 func (x *SecurityManager) UriSchemeIsSecure(SchemeVar string) bool {
 
 	cret := xSecurityManagerUriSchemeIsSecure(x.GoPointer(), SchemeVar)
-
 	return cret
 }
 

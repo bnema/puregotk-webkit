@@ -50,7 +50,6 @@ var xPermissionStateQueryGetName func(uintptr) string
 func (x *PermissionStateQuery) GetName() string {
 
 	cret := xPermissionStateQueryGetName(x.GoPointer())
-
 	return cret
 }
 
@@ -60,7 +59,6 @@ var xPermissionStateQueryGetSecurityOrigin func(uintptr) *SecurityOrigin
 func (x *PermissionStateQuery) GetSecurityOrigin() *SecurityOrigin {
 
 	cret := xPermissionStateQueryGetSecurityOrigin(x.GoPointer())
-
 	return cret
 }
 
@@ -72,7 +70,6 @@ var xPermissionStateQueryRef func(uintptr) *PermissionStateQuery
 func (x *PermissionStateQuery) Ref() *PermissionStateQuery {
 
 	cret := xPermissionStateQueryRef(x.GoPointer())
-
 	return cret
 }
 

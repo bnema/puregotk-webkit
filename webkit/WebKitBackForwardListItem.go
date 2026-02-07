@@ -49,7 +49,6 @@ var xBackForwardListItemGetOriginalUri func(uintptr) string
 func (x *BackForwardListItem) GetOriginalUri() string {
 
 	cret := xBackForwardListItemGetOriginalUri(x.GoPointer())
-
 	return cret
 }
 
@@ -59,7 +58,6 @@ var xBackForwardListItemGetTitle func(uintptr) string
 func (x *BackForwardListItem) GetTitle() string {
 
 	cret := xBackForwardListItemGetTitle(x.GoPointer())
-
 	return cret
 }
 
@@ -73,7 +71,6 @@ var xBackForwardListItemGetUri func(uintptr) string
 func (x *BackForwardListItem) GetUri() string {
 
 	cret := xBackForwardListItemGetUri(x.GoPointer())
-
 	return cret
 }
 

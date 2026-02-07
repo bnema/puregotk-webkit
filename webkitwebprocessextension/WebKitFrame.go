@@ -50,7 +50,6 @@ var xFrameGetId func(uintptr) uint64
 func (x *Frame) GetId() uint64 {
 
 	cret := xFrameGetId(x.GoPointer())
-
 	return cret
 }
 
@@ -93,7 +92,6 @@ var xFrameGetUri func(uintptr) string
 func (x *Frame) GetUri() string {
 
 	cret := xFrameGetUri(x.GoPointer())
-
 	return cret
 }
 
@@ -103,7 +101,6 @@ var xFrameIsMainFrame func(uintptr) bool
 func (x *Frame) IsMainFrame() bool {
 
 	cret := xFrameIsMainFrame(x.GoPointer())
-
 	return cret
 }
 

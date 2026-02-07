@@ -168,7 +168,6 @@ var xAuthDomainAccepts func(uintptr, uintptr) string
 func (x *AuthDomain) Accepts(MsgVar *ServerMessage) string {
 
 	cret := xAuthDomainAccepts(x.GoPointer(), MsgVar.GoPointer())
-
 	return cret
 }
 
@@ -209,7 +208,6 @@ var xAuthDomainCheckPassword func(uintptr, uintptr, string, string) bool
 func (x *AuthDomain) CheckPassword(MsgVar *ServerMessage, UsernameVar string, PasswordVar string) bool {
 
 	cret := xAuthDomainCheckPassword(x.GoPointer(), MsgVar.GoPointer(), UsernameVar, PasswordVar)
-
 	return cret
 }
 
@@ -226,7 +224,6 @@ var xAuthDomainCovers func(uintptr, uintptr) bool
 func (x *AuthDomain) Covers(MsgVar *ServerMessage) bool {
 
 	cret := xAuthDomainCovers(x.GoPointer(), MsgVar.GoPointer())
-
 	return cret
 }
 
@@ -236,7 +233,6 @@ var xAuthDomainGetRealm func(uintptr) string
 func (x *AuthDomain) GetRealm() string {
 
 	cret := xAuthDomainGetRealm(x.GoPointer())
-
 	return cret
 }
 

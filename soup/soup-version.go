@@ -45,7 +45,6 @@ var xCheckVersion func(uint, uint, uint) bool
 func CheckVersion(MajorVar uint, MinorVar uint, MicroVar uint) bool {
 
 	cret := xCheckVersion(MajorVar, MinorVar, MicroVar)
-
 	return cret
 }
 
@@ -62,7 +61,6 @@ var xGetMajorVersion func() uint
 func GetMajorVersion() uint {
 
 	cret := xGetMajorVersion()
-
 	return cret
 }
 
@@ -79,7 +77,6 @@ var xGetMicroVersion func() uint
 func GetMicroVersion() uint {
 
 	cret := xGetMicroVersion()
-
 	return cret
 }
 
@@ -96,7 +93,6 @@ var xGetMinorVersion func() uint
 func GetMinorVersion() uint {
 
 	cret := xGetMinorVersion()
-
 	return cret
 }
 

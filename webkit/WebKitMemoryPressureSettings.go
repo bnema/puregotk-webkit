@@ -50,7 +50,6 @@ var xNewMemoryPressureSettings func() *MemoryPressureSettings
 func NewMemoryPressureSettings() *MemoryPressureSettings {
 
 	cret := xNewMemoryPressureSettings()
-
 	return cret
 }
 
@@ -60,7 +59,6 @@ var xMemoryPressureSettingsCopy func(uintptr) *MemoryPressureSettings
 func (x *MemoryPressureSettings) Copy() *MemoryPressureSettings {
 
 	cret := xMemoryPressureSettingsCopy(x.GoPointer())
-
 	return cret
 }
 
@@ -79,7 +77,6 @@ var xMemoryPressureSettingsGetConservativeThreshold func(uintptr) float64
 func (x *MemoryPressureSettings) GetConservativeThreshold() float64 {
 
 	cret := xMemoryPressureSettingsGetConservativeThreshold(x.GoPointer())
-
 	return cret
 }
 
@@ -89,7 +86,6 @@ var xMemoryPressureSettingsGetKillThreshold func(uintptr) float64
 func (x *MemoryPressureSettings) GetKillThreshold() float64 {
 
 	cret := xMemoryPressureSettingsGetKillThreshold(x.GoPointer())
-
 	return cret
 }
 
@@ -99,7 +95,6 @@ var xMemoryPressureSettingsGetMemoryLimit func(uintptr) uint
 func (x *MemoryPressureSettings) GetMemoryLimit() uint {
 
 	cret := xMemoryPressureSettingsGetMemoryLimit(x.GoPointer())
-
 	return cret
 }
 
@@ -109,7 +104,6 @@ var xMemoryPressureSettingsGetPollInterval func(uintptr) float64
 func (x *MemoryPressureSettings) GetPollInterval() float64 {
 
 	cret := xMemoryPressureSettingsGetPollInterval(x.GoPointer())
-
 	return cret
 }
 
@@ -119,7 +113,6 @@ var xMemoryPressureSettingsGetStrictThreshold func(uintptr) float64
 func (x *MemoryPressureSettings) GetStrictThreshold() float64 {
 
 	cret := xMemoryPressureSettingsGetStrictThreshold(x.GoPointer())
-
 	return cret
 }
 

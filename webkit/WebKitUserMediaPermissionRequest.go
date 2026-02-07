@@ -27,7 +27,6 @@ var xUserMediaPermissionIsForAudioDevice func(uintptr) bool
 func UserMediaPermissionIsForAudioDevice(RequestVar *UserMediaPermissionRequest) bool {
 
 	cret := xUserMediaPermissionIsForAudioDevice(RequestVar.GoPointer())
-
 	return cret
 }
 
@@ -37,7 +36,6 @@ var xUserMediaPermissionIsForDisplayDevice func(uintptr) bool
 func UserMediaPermissionIsForDisplayDevice(RequestVar *UserMediaPermissionRequest) bool {
 
 	cret := xUserMediaPermissionIsForDisplayDevice(RequestVar.GoPointer())
-
 	return cret
 }
 
@@ -47,7 +45,6 @@ var xUserMediaPermissionIsForVideoDevice func(uintptr) bool
 func UserMediaPermissionIsForVideoDevice(RequestVar *UserMediaPermissionRequest) bool {
 
 	cret := xUserMediaPermissionIsForVideoDevice(RequestVar.GoPointer())
-
 	return cret
 }
 

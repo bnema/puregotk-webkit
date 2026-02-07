@@ -3,7 +3,6 @@ package webkit
 
 import (
 	"fmt"
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -38,7 +37,6 @@ var xScriptMessageReplyRef func(uintptr) *ScriptMessageReply
 func (x *ScriptMessageReply) Ref() *ScriptMessageReply {
 
 	cret := xScriptMessageReplyRef(x.GoPointer())
-
 	return cret
 }
 
@@ -200,12 +198,10 @@ var xUserContentManagerRegisterScriptMessageHandler func(uintptr, string, uintpt
 // webkit_user_content_manager_unregister_script_message_handler().
 func (x *UserContentManager) RegisterScriptMessageHandler(NameVar string, WorldNameVar *string) bool {
 
-	WorldNameVarPtr, WorldNameVarBytes := core.NullableStringToPtr(WorldNameVar)
+	WorldNameVarPtr := core.GStrdupNullable(WorldNameVar)
+	defer core.GFreeNullable(WorldNameVarPtr)
 
 	cret := xUserContentManagerRegisterScriptMessageHandler(x.GoPointer(), NameVar, WorldNameVarPtr)
-
-	runtime.KeepAlive(WorldNameVarBytes)
-
 	return cret
 }
 
@@ -228,12 +224,10 @@ var xUserContentManagerRegisterScriptMessageHandlerWithReply func(uintptr, strin
 // webkit_user_content_manager_unregister_script_message_handler().
 func (x *UserContentManager) RegisterScriptMessageHandlerWithReply(NameVar string, WorldNameVar *string) bool {
 
-	WorldNameVarPtr, WorldNameVarBytes := core.NullableStringToPtr(WorldNameVar)
+	WorldNameVarPtr := core.GStrdupNullable(WorldNameVar)
+	defer core.GFreeNullable(WorldNameVarPtr)
 
 	cret := xUserContentManagerRegisterScriptMessageHandlerWithReply(x.GoPointer(), NameVar, WorldNameVarPtr)
-
-	runtime.KeepAlive(WorldNameVarBytes)
-
 	return cret
 }
 
@@ -325,11 +319,10 @@ var xUserContentManagerUnregisterScriptMessageHandler func(uintptr, string, uint
 // See also webkit_user_content_manager_register_script_message_handler().
 func (x *UserContentManager) UnregisterScriptMessageHandler(NameVar string, WorldNameVar *string) {
 
-	WorldNameVarPtr, WorldNameVarBytes := core.NullableStringToPtr(WorldNameVar)
+	WorldNameVarPtr := core.GStrdupNullable(WorldNameVar)
+	defer core.GFreeNullable(WorldNameVarPtr)
 
 	xUserContentManagerUnregisterScriptMessageHandler(x.GoPointer(), NameVar, WorldNameVarPtr)
-
-	runtime.KeepAlive(WorldNameVarBytes)
 
 }
 

@@ -27,7 +27,6 @@ var xMediaKeySystemPermissionGetName func(uintptr) string
 func MediaKeySystemPermissionGetName(RequestVar *MediaKeySystemPermissionRequest) string {
 
 	cret := xMediaKeySystemPermissionGetName(RequestVar.GoPointer())
-
 	return cret
 }
 

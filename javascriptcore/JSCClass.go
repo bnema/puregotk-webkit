@@ -2,7 +2,6 @@
 package javascriptcore
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -330,11 +329,10 @@ func (x *Class) AddConstructor(NameVar *string, CallbackVar *gobject.Callback, U
 		}
 	}
 
-	NameVarPtr, NameVarBytes := core.NullableStringToPtr(NameVar)
+	NameVarPtr := core.GStrdupNullable(NameVar)
+	defer core.GFreeNullable(NameVarPtr)
 
 	cret := xClassAddConstructor(x.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParamsVar, varArgs...)
-
-	runtime.KeepAlive(NameVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -389,11 +387,10 @@ func (x *Class) AddConstructorVariadic(NameVar *string, CallbackVar *gobject.Cal
 		}
 	}
 
-	NameVarPtr, NameVarBytes := core.NullableStringToPtr(NameVar)
+	NameVarPtr := core.GStrdupNullable(NameVar)
+	defer core.GFreeNullable(NameVarPtr)
 
 	cret := xClassAddConstructorVariadic(x.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar)
-
-	runtime.KeepAlive(NameVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -448,11 +445,10 @@ func (x *Class) AddConstructorv(NameVar *string, CallbackVar *gobject.Callback, 
 		}
 	}
 
-	NameVarPtr, NameVarBytes := core.NullableStringToPtr(NameVar)
+	NameVarPtr := core.GStrdupNullable(NameVar)
+	defer core.GFreeNullable(NameVarPtr)
 
 	cret := xClassAddConstructorv(x.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParametersVar, ParameterTypesVar)
-
-	runtime.KeepAlive(NameVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -672,7 +668,6 @@ var xClassGetName func(uintptr) string
 func (x *Class) GetName() string {
 
 	cret := xClassGetName(x.GoPointer())
-
 	return cret
 }
 

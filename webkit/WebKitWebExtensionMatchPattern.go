@@ -37,7 +37,6 @@ var xNewWebExtensionMatchPatternAllHostsAndSchemes func() *WebExtensionMatchPatt
 func NewWebExtensionMatchPatternAllHostsAndSchemes() *WebExtensionMatchPattern {
 
 	cret := xNewWebExtensionMatchPatternAllHostsAndSchemes()
-
 	return cret
 }
 
@@ -47,7 +46,6 @@ var xNewWebExtensionMatchPatternAllUrls func() *WebExtensionMatchPattern
 func NewWebExtensionMatchPatternAllUrls() *WebExtensionMatchPattern {
 
 	cret := xNewWebExtensionMatchPatternAllUrls()
-
 	return cret
 }
 
@@ -58,7 +56,6 @@ func NewWebExtensionMatchPatternWithScheme(SchemeVar string, HostVar string, Pat
 	var cerr *glib.Error
 
 	cret := xNewWebExtensionMatchPatternWithScheme(SchemeVar, HostVar, PathVar, &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -73,7 +70,6 @@ func NewWebExtensionMatchPatternWithString(StringVar string) (*WebExtensionMatch
 	var cerr *glib.Error
 
 	cret := xNewWebExtensionMatchPatternWithString(StringVar, &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -87,7 +83,6 @@ var xWebExtensionMatchPatternGetHost func(uintptr) string
 func (x *WebExtensionMatchPattern) GetHost() string {
 
 	cret := xWebExtensionMatchPatternGetHost(x.GoPointer())
-
 	return cret
 }
 
@@ -98,7 +93,6 @@ var xWebExtensionMatchPatternGetMatchesAllHosts func(uintptr) bool
 func (x *WebExtensionMatchPattern) GetMatchesAllHosts() bool {
 
 	cret := xWebExtensionMatchPatternGetMatchesAllHosts(x.GoPointer())
-
 	return cret
 }
 
@@ -109,7 +103,6 @@ var xWebExtensionMatchPatternGetMatchesAllUrls func(uintptr) bool
 func (x *WebExtensionMatchPattern) GetMatchesAllUrls() bool {
 
 	cret := xWebExtensionMatchPatternGetMatchesAllUrls(x.GoPointer())
-
 	return cret
 }
 
@@ -119,7 +112,6 @@ var xWebExtensionMatchPatternGetPath func(uintptr) string
 func (x *WebExtensionMatchPattern) GetPath() string {
 
 	cret := xWebExtensionMatchPatternGetPath(x.GoPointer())
-
 	return cret
 }
 
@@ -129,7 +121,6 @@ var xWebExtensionMatchPatternGetScheme func(uintptr) string
 func (x *WebExtensionMatchPattern) GetScheme() string {
 
 	cret := xWebExtensionMatchPatternGetScheme(x.GoPointer())
-
 	return cret
 }
 
@@ -139,7 +130,6 @@ var xWebExtensionMatchPatternGetString func(uintptr) string
 func (x *WebExtensionMatchPattern) GetString() string {
 
 	cret := xWebExtensionMatchPatternGetString(x.GoPointer())
-
 	return cret
 }
 
@@ -149,7 +139,6 @@ var xWebExtensionMatchPatternMatchesPattern func(uintptr, *WebExtensionMatchPatt
 func (x *WebExtensionMatchPattern) MatchesPattern(PatternVar *WebExtensionMatchPattern, OptionsVar WebExtensionMatchPatternOptions) bool {
 
 	cret := xWebExtensionMatchPatternMatchesPattern(x.GoPointer(), PatternVar, OptionsVar)
-
 	return cret
 }
 
@@ -159,7 +148,6 @@ var xWebExtensionMatchPatternMatchesUrl func(uintptr, string, WebExtensionMatchP
 func (x *WebExtensionMatchPattern) MatchesUrl(UrlVar string, OptionsVar WebExtensionMatchPatternOptions) bool {
 
 	cret := xWebExtensionMatchPatternMatchesUrl(x.GoPointer(), UrlVar, OptionsVar)
-
 	return cret
 }
 
@@ -171,7 +159,6 @@ var xWebExtensionMatchPatternRef func(uintptr) *WebExtensionMatchPattern
 func (x *WebExtensionMatchPattern) Ref() *WebExtensionMatchPattern {
 
 	cret := xWebExtensionMatchPatternRef(x.GoPointer())
-
 	return cret
 }
 

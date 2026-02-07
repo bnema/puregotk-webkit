@@ -72,7 +72,6 @@ var xAutomationSessionGetApplicationInfo func(uintptr) *ApplicationInfo
 func (x *AutomationSession) GetApplicationInfo() *ApplicationInfo {
 
 	cret := xAutomationSessionGetApplicationInfo(x.GoPointer())
-
 	return cret
 }
 
@@ -82,7 +81,6 @@ var xAutomationSessionGetId func(uintptr) string
 func (x *AutomationSession) GetId() string {
 
 	cret := xAutomationSessionGetId(x.GoPointer())
-
 	return cret
 }
 

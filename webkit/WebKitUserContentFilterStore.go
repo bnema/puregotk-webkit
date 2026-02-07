@@ -108,7 +108,6 @@ var xUserContentFilterStoreFetchIdentifiersFinish func(uintptr, uintptr) []strin
 func (x *UserContentFilterStore) FetchIdentifiersFinish(ResultVar gio.AsyncResult) []string {
 
 	cret := xUserContentFilterStoreFetchIdentifiersFinish(x.GoPointer(), ResultVar.GoPointer())
-
 	return cret
 }
 
@@ -118,7 +117,6 @@ var xUserContentFilterStoreGetPath func(uintptr) string
 func (x *UserContentFilterStore) GetPath() string {
 
 	cret := xUserContentFilterStoreGetPath(x.GoPointer())
-
 	return cret
 }
 
@@ -160,7 +158,6 @@ func (x *UserContentFilterStore) LoadFinish(ResultVar gio.AsyncResult) (*UserCon
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreLoadFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -204,7 +201,6 @@ func (x *UserContentFilterStore) RemoveFinish(ResultVar gio.AsyncResult) (bool, 
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreRemoveFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -255,7 +251,6 @@ func (x *UserContentFilterStore) SaveFinish(ResultVar gio.AsyncResult) (*UserCon
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreSaveFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -302,7 +297,6 @@ func (x *UserContentFilterStore) SaveFromFileFinish(ResultVar gio.AsyncResult) (
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreSaveFromFileFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}

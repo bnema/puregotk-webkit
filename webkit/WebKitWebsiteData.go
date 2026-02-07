@@ -49,7 +49,6 @@ var xWebsiteDataGetName func(uintptr) string
 func (x *WebsiteData) GetName() string {
 
 	cret := xWebsiteDataGetName(x.GoPointer())
-
 	return cret
 }
 
@@ -62,7 +61,6 @@ var xWebsiteDataGetSize func(uintptr, WebsiteDataTypes) uint64
 func (x *WebsiteData) GetSize(TypesVar WebsiteDataTypes) uint64 {
 
 	cret := xWebsiteDataGetSize(x.GoPointer(), TypesVar)
-
 	return cret
 }
 
@@ -75,7 +73,6 @@ var xWebsiteDataGetTypes func(uintptr) WebsiteDataTypes
 func (x *WebsiteData) GetTypes() WebsiteDataTypes {
 
 	cret := xWebsiteDataGetTypes(x.GoPointer())
-
 	return cret
 }
 
@@ -87,7 +84,6 @@ var xWebsiteDataRef func(uintptr) *WebsiteData
 func (x *WebsiteData) Ref() *WebsiteData {
 
 	cret := xWebsiteDataRef(x.GoPointer())
-
 	return cret
 }
 

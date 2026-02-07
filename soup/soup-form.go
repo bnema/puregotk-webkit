@@ -2,8 +2,6 @@
 package soup
 
 import (
-	"runtime"
-
 	"github.com/jwijenbergh/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/glib"
@@ -28,7 +26,6 @@ var xFormDecode func(string) *glib.HashTable
 func FormDecode(EncodedFormVar string) *glib.HashTable {
 
 	cret := xFormDecode(EncodedFormVar)
-
 	return cret
 }
 
@@ -55,12 +52,10 @@ var xFormDecodeMultipart func(*Multipart, uintptr, *string, *string, **glib.Byte
 // and [method@Multipart.get_part].
 func FormDecodeMultipart(MultipartVar *Multipart, FileControlNameVar *string, FilenameVar *string, ContentTypeVar *string, FileVar **glib.Bytes) *glib.HashTable {
 
-	FileControlNameVarPtr, FileControlNameVarBytes := core.NullableStringToPtr(FileControlNameVar)
+	FileControlNameVarPtr := core.GStrdupNullable(FileControlNameVar)
+	defer core.GFreeNullable(FileControlNameVarPtr)
 
 	cret := xFormDecodeMultipart(MultipartVar, FileControlNameVarPtr, FilenameVar, ContentTypeVar, FileVar)
-
-	runtime.KeepAlive(FileControlNameVarBytes)
-
 	return cret
 }
 
@@ -80,7 +75,6 @@ var xFormEncode func(string, ...interface{}) string
 func FormEncode(FirstFieldVar string, varArgs ...interface{}) string {
 
 	cret := xFormEncode(FirstFieldVar, varArgs...)
-
 	return cret
 }
 
@@ -97,7 +91,6 @@ var xFormEncodeDatalist func(**glib.Data) string
 func FormEncodeDatalist(FormDataSetVar **glib.Data) string {
 
 	cret := xFormEncodeDatalist(FormDataSetVar)
-
 	return cret
 }
 
@@ -117,7 +110,6 @@ var xFormEncodeHash func(*glib.HashTable) string
 func FormEncodeHash(FormDataSetVar *glib.HashTable) string {
 
 	cret := xFormEncodeHash(FormDataSetVar)
-
 	return cret
 }
 
@@ -132,7 +124,6 @@ var xFormEncodeValist func(string, []interface{}) string
 func FormEncodeValist(FirstFieldVar string, ArgsVar []interface{}) string {
 
 	cret := xFormEncodeValist(FirstFieldVar, ArgsVar)
-
 	return cret
 }
 

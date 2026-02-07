@@ -30,7 +30,6 @@ var xConsoleMessageCopy func(uintptr) *ConsoleMessage
 func (x *ConsoleMessage) Copy() *ConsoleMessage {
 
 	cret := xConsoleMessageCopy(x.GoPointer())
-
 	return cret
 }
 
@@ -49,7 +48,6 @@ var xConsoleMessageGetLevel func(uintptr) ConsoleMessageLevel
 func (x *ConsoleMessage) GetLevel() ConsoleMessageLevel {
 
 	cret := xConsoleMessageGetLevel(x.GoPointer())
-
 	return cret
 }
 
@@ -59,7 +57,6 @@ var xConsoleMessageGetLine func(uintptr) uint
 func (x *ConsoleMessage) GetLine() uint {
 
 	cret := xConsoleMessageGetLine(x.GoPointer())
-
 	return cret
 }
 
@@ -69,7 +66,6 @@ var xConsoleMessageGetSource func(uintptr) ConsoleMessageSource
 func (x *ConsoleMessage) GetSource() ConsoleMessageSource {
 
 	cret := xConsoleMessageGetSource(x.GoPointer())
-
 	return cret
 }
 
@@ -79,7 +75,6 @@ var xConsoleMessageGetSourceId func(uintptr) string
 func (x *ConsoleMessage) GetSourceId() string {
 
 	cret := xConsoleMessageGetSourceId(x.GoPointer())
-
 	return cret
 }
 
@@ -89,7 +84,6 @@ var xConsoleMessageGetText func(uintptr) string
 func (x *ConsoleMessage) GetText() string {
 
 	cret := xConsoleMessageGetText(x.GoPointer())
-
 	return cret
 }
 

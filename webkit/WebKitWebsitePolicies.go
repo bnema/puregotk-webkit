@@ -102,7 +102,6 @@ var xWebsitePoliciesGetAutoplayPolicy func(uintptr) AutoplayPolicy
 func (x *WebsitePolicies) GetAutoplayPolicy() AutoplayPolicy {
 
 	cret := xWebsitePoliciesGetAutoplayPolicy(x.GoPointer())
-
 	return cret
 }
 

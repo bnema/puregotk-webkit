@@ -83,7 +83,6 @@ var xFileChooserRequestGetMimeTypes func(uintptr) []string
 func (x *FileChooserRequest) GetMimeTypes() []string {
 
 	cret := xFileChooserRequestGetMimeTypes(x.GoPointer())
-
 	return cret
 }
 
@@ -124,7 +123,6 @@ var xFileChooserRequestGetSelectMultiple func(uintptr) bool
 func (x *FileChooserRequest) GetSelectMultiple() bool {
 
 	cret := xFileChooserRequestGetSelectMultiple(x.GoPointer())
-
 	return cret
 }
 
@@ -144,7 +142,6 @@ var xFileChooserRequestGetSelectedFiles func(uintptr) []string
 func (x *FileChooserRequest) GetSelectedFiles() []string {
 
 	cret := xFileChooserRequestGetSelectedFiles(x.GoPointer())
-
 	return cret
 }
 

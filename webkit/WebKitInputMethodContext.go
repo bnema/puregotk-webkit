@@ -849,7 +849,6 @@ var xNewInputMethodUnderline func(uint, uint) *InputMethodUnderline
 func NewInputMethodUnderline(StartOffsetVar uint, EndOffsetVar uint) *InputMethodUnderline {
 
 	cret := xNewInputMethodUnderline(StartOffsetVar, EndOffsetVar)
-
 	return cret
 }
 
@@ -859,7 +858,6 @@ var xInputMethodUnderlineCopy func(uintptr) *InputMethodUnderline
 func (x *InputMethodUnderline) Copy() *InputMethodUnderline {
 
 	cret := xInputMethodUnderlineCopy(x.GoPointer())
-
 	return cret
 }
 
@@ -973,7 +971,6 @@ var xInputMethodContextFilterKeyEvent func(uintptr, uintptr) bool
 func (x *InputMethodContext) FilterKeyEvent(KeyEventVar *gdk.Event) bool {
 
 	cret := xInputMethodContextFilterKeyEvent(x.GoPointer(), KeyEventVar.GoPointer())
-
 	return cret
 }
 
@@ -983,7 +980,6 @@ var xInputMethodContextGetInputHints func(uintptr) InputHints
 func (x *InputMethodContext) GetInputHints() InputHints {
 
 	cret := xInputMethodContextGetInputHints(x.GoPointer())
-
 	return cret
 }
 
@@ -993,7 +989,6 @@ var xInputMethodContextGetInputPurpose func(uintptr) InputPurpose
 func (x *InputMethodContext) GetInputPurpose() InputPurpose {
 
 	cret := xInputMethodContextGetInputPurpose(x.GoPointer())
-
 	return cret
 }
 

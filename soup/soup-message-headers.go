@@ -39,7 +39,6 @@ var xNewMessageHeaders func(MessageHeadersType) *MessageHeaders
 func NewMessageHeaders(TypeVar MessageHeadersType) *MessageHeaders {
 
 	cret := xNewMessageHeaders(TypeVar)
-
 	return cret
 }
 
@@ -143,7 +142,6 @@ var xMessageHeadersGetContentDisposition func(uintptr, *string, **glib.HashTable
 func (x *MessageHeaders) GetContentDisposition(DispositionVar *string, ParamsVar **glib.HashTable) bool {
 
 	cret := xMessageHeadersGetContentDisposition(x.GoPointer(), DispositionVar, ParamsVar)
-
 	return cret
 }
 
@@ -156,7 +154,6 @@ var xMessageHeadersGetContentLength func(uintptr) int64
 func (x *MessageHeaders) GetContentLength() int64 {
 
 	cret := xMessageHeadersGetContentLength(x.GoPointer())
-
 	return cret
 }
 
@@ -168,7 +165,6 @@ var xMessageHeadersGetContentRange func(uintptr, *int64, *int64, *int64) bool
 func (x *MessageHeaders) GetContentRange(StartVar *int64, EndVar *int64, TotalLengthVar *int64) bool {
 
 	cret := xMessageHeadersGetContentRange(x.GoPointer(), StartVar, EndVar, TotalLengthVar)
-
 	return cret
 }
 
@@ -181,7 +177,6 @@ var xMessageHeadersGetContentType func(uintptr, **glib.HashTable) string
 func (x *MessageHeaders) GetContentType(ParamsVar **glib.HashTable) string {
 
 	cret := xMessageHeadersGetContentType(x.GoPointer(), ParamsVar)
-
 	return cret
 }
 
@@ -195,7 +190,6 @@ var xMessageHeadersGetEncoding func(uintptr) Encoding
 func (x *MessageHeaders) GetEncoding() Encoding {
 
 	cret := xMessageHeadersGetEncoding(x.GoPointer())
-
 	return cret
 }
 
@@ -208,7 +202,6 @@ var xMessageHeadersGetExpectations func(uintptr) Expectation
 func (x *MessageHeaders) GetExpectations() Expectation {
 
 	cret := xMessageHeadersGetExpectations(x.GoPointer())
-
 	return cret
 }
 
@@ -218,7 +211,6 @@ var xMessageHeadersGetHeadersType func(uintptr) MessageHeadersType
 func (x *MessageHeaders) GetHeadersType() MessageHeadersType {
 
 	cret := xMessageHeadersGetHeadersType(x.GoPointer())
-
 	return cret
 }
 
@@ -240,7 +232,6 @@ var xMessageHeadersGetList func(uintptr, string) string
 func (x *MessageHeaders) GetList(NameVar string) string {
 
 	cret := xMessageHeadersGetList(x.GoPointer(), NameVar)
-
 	return cret
 }
 
@@ -259,7 +250,6 @@ var xMessageHeadersGetOne func(uintptr, string) string
 func (x *MessageHeaders) GetOne(NameVar string) string {
 
 	cret := xMessageHeadersGetOne(x.GoPointer(), NameVar)
-
 	return cret
 }
 
@@ -296,7 +286,6 @@ var xMessageHeadersGetRanges func(uintptr, int64, *uintptr, *int) bool
 func (x *MessageHeaders) GetRanges(TotalLengthVar int64, RangesVar *uintptr, LengthVar *int) bool {
 
 	cret := xMessageHeadersGetRanges(x.GoPointer(), TotalLengthVar, RangesVar, LengthVar)
-
 	return cret
 }
 
@@ -310,7 +299,6 @@ var xMessageHeadersHeaderContains func(uintptr, string, string) bool
 func (x *MessageHeaders) HeaderContains(NameVar string, TokenVar string) bool {
 
 	cret := xMessageHeadersHeaderContains(x.GoPointer(), NameVar, TokenVar)
-
 	return cret
 }
 
@@ -321,7 +309,6 @@ var xMessageHeadersHeaderEquals func(uintptr, string, string) bool
 func (x *MessageHeaders) HeaderEquals(NameVar string, ValueVar string) bool {
 
 	cret := xMessageHeadersHeaderEquals(x.GoPointer(), NameVar, ValueVar)
-
 	return cret
 }
 
@@ -331,7 +318,6 @@ var xMessageHeadersRef func(uintptr) *MessageHeaders
 func (x *MessageHeaders) Ref() *MessageHeaders {
 
 	cret := xMessageHeadersRef(x.GoPointer())
-
 	return cret
 }
 
@@ -615,7 +601,6 @@ var xMessageHeadersIterNext func(*MessageHeadersIter, *string, *string) bool
 func MessageHeadersIterNext(IterVar *MessageHeadersIter, NameVar *string, ValueVar *string) bool {
 
 	cret := xMessageHeadersIterNext(IterVar, NameVar, ValueVar)
-
 	return cret
 }
 

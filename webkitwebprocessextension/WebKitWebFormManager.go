@@ -163,7 +163,6 @@ var xWebFormManagerInputElementIsAutoFilled func(uintptr) bool
 func WebFormManagerInputElementIsAutoFilled(ElementVar *javascriptcore.Value) bool {
 
 	cret := xWebFormManagerInputElementIsAutoFilled(ElementVar.GoPointer())
-
 	return cret
 }
 
@@ -173,7 +172,6 @@ var xWebFormManagerInputElementIsUserEdited func(uintptr) bool
 func WebFormManagerInputElementIsUserEdited(ElementVar *javascriptcore.Value) bool {
 
 	cret := xWebFormManagerInputElementIsUserEdited(ElementVar.GoPointer())
-
 	return cret
 }
 

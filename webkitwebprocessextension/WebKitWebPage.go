@@ -80,7 +80,6 @@ var xWebPageGetId func(uintptr) uint64
 func (x *WebPage) GetId() uint64 {
 
 	cret := xWebPageGetId(x.GoPointer())
-
 	return cret
 }
 
@@ -110,7 +109,6 @@ var xWebPageGetUri func(uintptr) string
 func (x *WebPage) GetUri() string {
 
 	cret := xWebPageGetUri(x.GoPointer())
-
 	return cret
 }
 

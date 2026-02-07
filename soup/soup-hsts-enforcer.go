@@ -179,7 +179,6 @@ var xHSTSEnforcerGetDomains func(uintptr, bool) *glib.List
 func (x *HSTSEnforcer) GetDomains(SessionPoliciesVar bool) *glib.List {
 
 	cret := xHSTSEnforcerGetDomains(x.GoPointer(), SessionPoliciesVar)
-
 	return cret
 }
 
@@ -189,7 +188,6 @@ var xHSTSEnforcerGetPolicies func(uintptr, bool) *glib.List
 func (x *HSTSEnforcer) GetPolicies(SessionPoliciesVar bool) *glib.List {
 
 	cret := xHSTSEnforcerGetPolicies(x.GoPointer(), SessionPoliciesVar)
-
 	return cret
 }
 
@@ -199,7 +197,6 @@ var xHSTSEnforcerHasValidPolicy func(uintptr, string) bool
 func (x *HSTSEnforcer) HasValidPolicy(DomainVar string) bool {
 
 	cret := xHSTSEnforcerHasValidPolicy(x.GoPointer(), DomainVar)
-
 	return cret
 }
 
@@ -209,7 +206,6 @@ var xHSTSEnforcerIsPersistent func(uintptr) bool
 func (x *HSTSEnforcer) IsPersistent() bool {
 
 	cret := xHSTSEnforcerIsPersistent(x.GoPointer())
-
 	return cret
 }
 

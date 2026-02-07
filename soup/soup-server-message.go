@@ -2,7 +2,6 @@
 package soup
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -58,7 +57,6 @@ var xServerMessageGetHttpVersion func(uintptr) HTTPVersion
 func (x *ServerMessage) GetHttpVersion() HTTPVersion {
 
 	cret := xServerMessageGetHttpVersion(x.GoPointer())
-
 	return cret
 }
 
@@ -86,7 +84,6 @@ var xServerMessageGetMethod func(uintptr) string
 func (x *ServerMessage) GetMethod() string {
 
 	cret := xServerMessageGetMethod(x.GoPointer())
-
 	return cret
 }
 
@@ -96,7 +93,6 @@ var xServerMessageGetReasonPhrase func(uintptr) string
 func (x *ServerMessage) GetReasonPhrase() string {
 
 	cret := xServerMessageGetReasonPhrase(x.GoPointer())
-
 	return cret
 }
 
@@ -125,7 +121,6 @@ var xServerMessageGetRemoteHost func(uintptr) string
 func (x *ServerMessage) GetRemoteHost() string {
 
 	cret := xServerMessageGetRemoteHost(x.GoPointer())
-
 	return cret
 }
 
@@ -135,7 +130,6 @@ var xServerMessageGetRequestBody func(uintptr) *MessageBody
 func (x *ServerMessage) GetRequestBody() *MessageBody {
 
 	cret := xServerMessageGetRequestBody(x.GoPointer())
-
 	return cret
 }
 
@@ -145,7 +139,6 @@ var xServerMessageGetRequestHeaders func(uintptr) *MessageHeaders
 func (x *ServerMessage) GetRequestHeaders() *MessageHeaders {
 
 	cret := xServerMessageGetRequestHeaders(x.GoPointer())
-
 	return cret
 }
 
@@ -155,7 +148,6 @@ var xServerMessageGetResponseBody func(uintptr) *MessageBody
 func (x *ServerMessage) GetResponseBody() *MessageBody {
 
 	cret := xServerMessageGetResponseBody(x.GoPointer())
-
 	return cret
 }
 
@@ -165,7 +157,6 @@ var xServerMessageGetResponseHeaders func(uintptr) *MessageHeaders
 func (x *ServerMessage) GetResponseHeaders() *MessageHeaders {
 
 	cret := xServerMessageGetResponseHeaders(x.GoPointer())
-
 	return cret
 }
 
@@ -199,7 +190,6 @@ var xServerMessageGetStatus func(uintptr) uint
 func (x *ServerMessage) GetStatus() uint {
 
 	cret := xServerMessageGetStatus(x.GoPointer())
-
 	return cret
 }
 
@@ -230,7 +220,6 @@ var xServerMessageGetTlsPeerCertificateErrors func(uintptr) gio.TlsCertificateFl
 func (x *ServerMessage) GetTlsPeerCertificateErrors() gio.TlsCertificateFlags {
 
 	cret := xServerMessageGetTlsPeerCertificateErrors(x.GoPointer())
-
 	return cret
 }
 
@@ -240,7 +229,6 @@ var xServerMessageGetUri func(uintptr) *glib.Uri
 func (x *ServerMessage) GetUri() *glib.Uri {
 
 	cret := xServerMessageGetUri(x.GoPointer())
-
 	return cret
 }
 
@@ -250,7 +238,6 @@ var xServerMessageIsOptionsPing func(uintptr) bool
 func (x *ServerMessage) IsOptionsPing() bool {
 
 	cret := xServerMessageIsOptionsPing(x.GoPointer())
-
 	return cret
 }
 
@@ -298,15 +285,13 @@ var xServerMessageSetResponse func(uintptr, uintptr, MemoryUse, uintptr, uint)
 // @content_type is %NULL, the response body must be empty as well.
 func (x *ServerMessage) SetResponse(ContentTypeVar *string, RespUseVar MemoryUse, RespBodyVar *string, RespLengthVar uint) {
 
-	ContentTypeVarPtr, ContentTypeVarBytes := core.NullableStringToPtr(ContentTypeVar)
+	ContentTypeVarPtr := core.GStrdupNullable(ContentTypeVar)
+	defer core.GFreeNullable(ContentTypeVarPtr)
 
-	RespBodyVarPtr, RespBodyVarBytes := core.NullableStringToPtr(RespBodyVar)
+	RespBodyVarPtr := core.GStrdupNullable(RespBodyVar)
+	defer core.GFreeNullable(RespBodyVarPtr)
 
 	xServerMessageSetResponse(x.GoPointer(), ContentTypeVarPtr, RespUseVar, RespBodyVarPtr, RespLengthVar)
-
-	runtime.KeepAlive(ContentTypeVarBytes)
-
-	runtime.KeepAlive(RespBodyVarBytes)
 
 }
 
@@ -318,11 +303,10 @@ var xServerMessageSetStatus func(uintptr, uint, uintptr)
 // reason_phrase will be set automatically.
 func (x *ServerMessage) SetStatus(StatusCodeVar uint, ReasonPhraseVar *string) {
 
-	ReasonPhraseVarPtr, ReasonPhraseVarBytes := core.NullableStringToPtr(ReasonPhraseVar)
+	ReasonPhraseVarPtr := core.GStrdupNullable(ReasonPhraseVar)
+	defer core.GFreeNullable(ReasonPhraseVarPtr)
 
 	xServerMessageSetStatus(x.GoPointer(), StatusCodeVar, ReasonPhraseVarPtr)
-
-	runtime.KeepAlive(ReasonPhraseVarBytes)
 
 }
 

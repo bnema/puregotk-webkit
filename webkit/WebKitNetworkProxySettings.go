@@ -2,7 +2,6 @@
 package webkit
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -65,12 +64,10 @@ var xNewNetworkProxySettings func(uintptr, []string) *NetworkProxySettings
 // contains only "192.168.1.1", then a connection to "example.com" will use the proxy, and a connection to 192.168.1.1" will not.
 func NewNetworkProxySettings(DefaultProxyUriVar *string, IgnoreHostsVar []string) *NetworkProxySettings {
 
-	DefaultProxyUriVarPtr, DefaultProxyUriVarBytes := core.NullableStringToPtr(DefaultProxyUriVar)
+	DefaultProxyUriVarPtr := core.GStrdupNullable(DefaultProxyUriVar)
+	defer core.GFreeNullable(DefaultProxyUriVarPtr)
 
 	cret := xNewNetworkProxySettings(DefaultProxyUriVarPtr, IgnoreHostsVar)
-
-	runtime.KeepAlive(DefaultProxyUriVarBytes)
-
 	return cret
 }
 
@@ -93,7 +90,6 @@ var xNetworkProxySettingsCopy func(uintptr) *NetworkProxySettings
 func (x *NetworkProxySettings) Copy() *NetworkProxySettings {
 
 	cret := xNetworkProxySettingsCopy(x.GoPointer())
-
 	return cret
 }
 

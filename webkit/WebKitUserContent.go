@@ -34,7 +34,6 @@ var xUserContentFilterGetIdentifier func(uintptr) string
 func (x *UserContentFilter) GetIdentifier() string {
 
 	cret := xUserContentFilterGetIdentifier(x.GoPointer())
-
 	return cret
 }
 
@@ -46,7 +45,6 @@ var xUserContentFilterRef func(uintptr) *UserContentFilter
 func (x *UserContentFilter) Ref() *UserContentFilter {
 
 	cret := xUserContentFilterRef(x.GoPointer())
-
 	return cret
 }
 
@@ -92,7 +90,6 @@ var xNewUserScript func(string, UserContentInjectedFrames, UserScriptInjectionTi
 func NewUserScript(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, AllowListVar []string, BlockListVar []string) *UserScript {
 
 	cret := xNewUserScript(SourceVar, InjectedFramesVar, InjectionTimeVar, AllowListVar, BlockListVar)
-
 	return cret
 }
 
@@ -104,7 +101,6 @@ var xNewUserScriptForWorld func(string, UserContentInjectedFrames, UserScriptInj
 func NewUserScriptForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, InjectionTimeVar UserScriptInjectionTime, WorldNameVar string, AllowListVar []string, BlockListVar []string) *UserScript {
 
 	cret := xNewUserScriptForWorld(SourceVar, InjectedFramesVar, InjectionTimeVar, WorldNameVar, AllowListVar, BlockListVar)
-
 	return cret
 }
 
@@ -116,7 +112,6 @@ var xUserScriptRef func(uintptr) *UserScript
 func (x *UserScript) Ref() *UserScript {
 
 	cret := xUserScriptRef(x.GoPointer())
-
 	return cret
 }
 
@@ -162,7 +157,6 @@ var xNewUserStyleSheet func(string, UserContentInjectedFrames, UserStyleLevel, [
 func NewUserStyleSheet(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, AllowListVar []string, BlockListVar []string) *UserStyleSheet {
 
 	cret := xNewUserStyleSheet(SourceVar, InjectedFramesVar, LevelVar, AllowListVar, BlockListVar)
-
 	return cret
 }
 
@@ -175,7 +169,6 @@ var xNewUserStyleSheetForWorld func(string, UserContentInjectedFrames, UserStyle
 func NewUserStyleSheetForWorld(SourceVar string, InjectedFramesVar UserContentInjectedFrames, LevelVar UserStyleLevel, WorldNameVar string, AllowListVar []string, BlockListVar []string) *UserStyleSheet {
 
 	cret := xNewUserStyleSheetForWorld(SourceVar, InjectedFramesVar, LevelVar, WorldNameVar, AllowListVar, BlockListVar)
-
 	return cret
 }
 
@@ -187,7 +180,6 @@ var xUserStyleSheetRef func(uintptr) *UserStyleSheet
 func (x *UserStyleSheet) Ref() *UserStyleSheet {
 
 	cret := xUserStyleSheetRef(x.GoPointer())
-
 	return cret
 }
 

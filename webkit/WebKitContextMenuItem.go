@@ -174,7 +174,6 @@ var xContextMenuItemGetStockAction func(uintptr) ContextMenuAction
 func (x *ContextMenuItem) GetStockAction() ContextMenuAction {
 
 	cret := xContextMenuItemGetStockAction(x.GoPointer())
-
 	return cret
 }
 
@@ -201,7 +200,6 @@ var xContextMenuItemIsSeparator func(uintptr) bool
 func (x *ContextMenuItem) IsSeparator() bool {
 
 	cret := xContextMenuItemIsSeparator(x.GoPointer())
-
 	return cret
 }
 

@@ -2,7 +2,6 @@
 package webkit
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -55,15 +54,13 @@ var xNewNetworkSession func(uintptr, uintptr) uintptr
 func NewNetworkSession(DataDirectoryVar *string, CacheDirectoryVar *string) *NetworkSession {
 	var cls *NetworkSession
 
-	DataDirectoryVarPtr, DataDirectoryVarBytes := core.NullableStringToPtr(DataDirectoryVar)
+	DataDirectoryVarPtr := core.GStrdupNullable(DataDirectoryVar)
+	defer core.GFreeNullable(DataDirectoryVarPtr)
 
-	CacheDirectoryVarPtr, CacheDirectoryVarBytes := core.NullableStringToPtr(CacheDirectoryVar)
+	CacheDirectoryVarPtr := core.GStrdupNullable(CacheDirectoryVar)
+	defer core.GFreeNullable(CacheDirectoryVarPtr)
 
 	cret := xNewNetworkSession(DataDirectoryVarPtr, CacheDirectoryVarPtr)
-
-	runtime.KeepAlive(DataDirectoryVarBytes)
-
-	runtime.KeepAlive(CacheDirectoryVarBytes)
 
 	if cret == 0 {
 		return nil
@@ -144,7 +141,6 @@ var xNetworkSessionGetItpEnabled func(uintptr) bool
 func (x *NetworkSession) GetItpEnabled() bool {
 
 	cret := xNetworkSessionGetItpEnabled(x.GoPointer())
-
 	return cret
 }
 
@@ -185,7 +181,6 @@ func (x *NetworkSession) GetItpSummaryFinish(ResultVar gio.AsyncResult) (*glib.L
 	var cerr *glib.Error
 
 	cret := xNetworkSessionGetItpSummaryFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -201,7 +196,6 @@ var xNetworkSessionGetPersistentCredentialStorageEnabled func(uintptr) bool
 func (x *NetworkSession) GetPersistentCredentialStorageEnabled() bool {
 
 	cret := xNetworkSessionGetPersistentCredentialStorageEnabled(x.GoPointer())
-
 	return cret
 }
 
@@ -211,7 +205,6 @@ var xNetworkSessionGetTlsErrorsPolicy func(uintptr) TLSErrorsPolicy
 func (x *NetworkSession) GetTlsErrorsPolicy() TLSErrorsPolicy {
 
 	cret := xNetworkSessionGetTlsErrorsPolicy(x.GoPointer())
-
 	return cret
 }
 
@@ -240,7 +233,6 @@ var xNetworkSessionIsEphemeral func(uintptr) bool
 func (x *NetworkSession) IsEphemeral() bool {
 
 	cret := xNetworkSessionIsEphemeral(x.GoPointer())
-
 	return cret
 }
 

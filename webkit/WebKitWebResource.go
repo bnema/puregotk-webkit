@@ -84,7 +84,6 @@ func (x *WebResource) GetDataFinish(ResultVar gio.AsyncResult, LengthVar *uint) 
 	var cerr *glib.Error
 
 	cret := xWebResourceGetDataFinish(x.GoPointer(), ResultVar.GoPointer(), LengthVar, &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -153,7 +152,6 @@ var xWebResourceGetUri func(uintptr) string
 func (x *WebResource) GetUri() string {
 
 	cret := xWebResourceGetUri(x.GoPointer())
-
 	return cret
 }
 

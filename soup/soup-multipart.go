@@ -2,7 +2,6 @@
 package soup
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -49,7 +48,6 @@ var xNewMultipart func(string) *Multipart
 func NewMultipart(MimeTypeVar string) *Multipart {
 
 	cret := xNewMultipart(MimeTypeVar)
-
 	return cret
 }
 
@@ -59,7 +57,6 @@ var xNewMultipartFromMessage func(*MessageHeaders, *glib.Bytes) *Multipart
 func NewMultipartFromMessage(HeadersVar *MessageHeaders, BodyVar *glib.Bytes) *Multipart {
 
 	cret := xNewMultipartFromMessage(HeadersVar, BodyVar)
-
 	return cret
 }
 
@@ -70,15 +67,13 @@ var xMultipartAppendFormFile func(uintptr, string, uintptr, uintptr, *glib.Bytes
 // Uses "Content-Disposition: form-data", as per the HTML forms specification.
 func (x *Multipart) AppendFormFile(ControlNameVar string, FilenameVar *string, ContentTypeVar *string, BodyVar *glib.Bytes) {
 
-	FilenameVarPtr, FilenameVarBytes := core.NullableStringToPtr(FilenameVar)
+	FilenameVarPtr := core.GStrdupNullable(FilenameVar)
+	defer core.GFreeNullable(FilenameVarPtr)
 
-	ContentTypeVarPtr, ContentTypeVarBytes := core.NullableStringToPtr(ContentTypeVar)
+	ContentTypeVarPtr := core.GStrdupNullable(ContentTypeVar)
+	defer core.GFreeNullable(ContentTypeVarPtr)
 
 	xMultipartAppendFormFile(x.GoPointer(), ControlNameVar, FilenameVarPtr, ContentTypeVarPtr, BodyVar)
-
-	runtime.KeepAlive(FilenameVarBytes)
-
-	runtime.KeepAlive(ContentTypeVarBytes)
 
 }
 
@@ -121,7 +116,6 @@ var xMultipartGetLength func(uintptr) int
 func (x *Multipart) GetLength() int {
 
 	cret := xMultipartGetLength(x.GoPointer())
-
 	return cret
 }
 
@@ -131,7 +125,6 @@ var xMultipartGetPart func(uintptr, int, **MessageHeaders, **glib.Bytes) bool
 func (x *Multipart) GetPart(PartVar int, HeadersVar **MessageHeaders, BodyVar **glib.Bytes) bool {
 
 	cret := xMultipartGetPart(x.GoPointer(), PartVar, HeadersVar, BodyVar)
-
 	return cret
 }
 

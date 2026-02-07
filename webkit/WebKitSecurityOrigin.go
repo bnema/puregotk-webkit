@@ -41,7 +41,6 @@ var xNewSecurityOrigin func(string, string, uint16) *SecurityOrigin
 func NewSecurityOrigin(ProtocolVar string, HostVar string, PortVar uint16) *SecurityOrigin {
 
 	cret := xNewSecurityOrigin(ProtocolVar, HostVar, PortVar)
-
 	return cret
 }
 
@@ -55,7 +54,6 @@ var xNewSecurityOriginForUri func(string) *SecurityOrigin
 func NewSecurityOriginForUri(UriVar string) *SecurityOrigin {
 
 	cret := xNewSecurityOriginForUri(UriVar)
-
 	return cret
 }
 
@@ -68,7 +66,6 @@ var xSecurityOriginGetHost func(uintptr) string
 func (x *SecurityOrigin) GetHost() string {
 
 	cret := xSecurityOriginGetHost(x.GoPointer())
-
 	return cret
 }
 
@@ -84,7 +81,6 @@ var xSecurityOriginGetPort func(uintptr) uint16
 func (x *SecurityOrigin) GetPort() uint16 {
 
 	cret := xSecurityOriginGetPort(x.GoPointer())
-
 	return cret
 }
 
@@ -94,7 +90,6 @@ var xSecurityOriginGetProtocol func(uintptr) string
 func (x *SecurityOrigin) GetProtocol() string {
 
 	cret := xSecurityOriginGetProtocol(x.GoPointer())
-
 	return cret
 }
 
@@ -106,7 +101,6 @@ var xSecurityOriginRef func(uintptr) *SecurityOrigin
 func (x *SecurityOrigin) Ref() *SecurityOrigin {
 
 	cret := xSecurityOriginRef(x.GoPointer())
-
 	return cret
 }
 
@@ -120,7 +114,6 @@ var xSecurityOriginToString func(uintptr) string
 func (x *SecurityOrigin) ToString() string {
 
 	cret := xSecurityOriginToString(x.GoPointer())
-
 	return cret
 }
 

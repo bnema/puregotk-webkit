@@ -85,7 +85,6 @@ var xOptionsGetBoolean func(string, *bool) bool
 func OptionsGetBoolean(OptionVar string, ValueVar *bool) bool {
 
 	cret := xOptionsGetBoolean(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -95,7 +94,6 @@ var xOptionsGetDouble func(string, *float64) bool
 func OptionsGetDouble(OptionVar string, ValueVar *float64) bool {
 
 	cret := xOptionsGetDouble(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -105,7 +103,6 @@ var xOptionsGetInt func(string, *int) bool
 func OptionsGetInt(OptionVar string, ValueVar *int) bool {
 
 	cret := xOptionsGetInt(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -121,7 +118,6 @@ var xOptionsGetOptionGroup func() *glib.OptionGroup
 func OptionsGetOptionGroup() *glib.OptionGroup {
 
 	cret := xOptionsGetOptionGroup()
-
 	return cret
 }
 
@@ -134,7 +130,6 @@ var xOptionsGetRangeString func(string, *string) bool
 func OptionsGetRangeString(OptionVar string, ValueVar *string) bool {
 
 	cret := xOptionsGetRangeString(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -144,7 +139,6 @@ var xOptionsGetSize func(string, *uint) bool
 func OptionsGetSize(OptionVar string, ValueVar *uint) bool {
 
 	cret := xOptionsGetSize(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -154,7 +148,6 @@ var xOptionsGetString func(string, *string) bool
 func OptionsGetString(OptionVar string, ValueVar *string) bool {
 
 	cret := xOptionsGetString(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -164,7 +157,6 @@ var xOptionsGetUint func(string, *uint) bool
 func OptionsGetUint(OptionVar string, ValueVar *uint) bool {
 
 	cret := xOptionsGetUint(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -174,7 +166,6 @@ var xOptionsSetBoolean func(string, bool) bool
 func OptionsSetBoolean(OptionVar string, ValueVar bool) bool {
 
 	cret := xOptionsSetBoolean(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -184,7 +175,6 @@ var xOptionsSetDouble func(string, float64) bool
 func OptionsSetDouble(OptionVar string, ValueVar float64) bool {
 
 	cret := xOptionsSetDouble(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -194,7 +184,6 @@ var xOptionsSetInt func(string, int) bool
 func OptionsSetInt(OptionVar string, ValueVar int) bool {
 
 	cret := xOptionsSetInt(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -207,7 +196,6 @@ var xOptionsSetRangeString func(string, string) bool
 func OptionsSetRangeString(OptionVar string, ValueVar string) bool {
 
 	cret := xOptionsSetRangeString(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -217,7 +205,6 @@ var xOptionsSetSize func(string, uint) bool
 func OptionsSetSize(OptionVar string, ValueVar uint) bool {
 
 	cret := xOptionsSetSize(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -227,7 +214,6 @@ var xOptionsSetString func(string, string) bool
 func OptionsSetString(OptionVar string, ValueVar string) bool {
 
 	cret := xOptionsSetString(OptionVar, ValueVar)
-
 	return cret
 }
 
@@ -237,7 +223,6 @@ var xOptionsSetUint func(string, uint) bool
 func OptionsSetUint(OptionVar string, ValueVar uint) bool {
 
 	cret := xOptionsSetUint(OptionVar, ValueVar)
-
 	return cret
 }
 

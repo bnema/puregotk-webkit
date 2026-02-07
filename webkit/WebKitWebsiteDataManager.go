@@ -34,7 +34,6 @@ var xITPFirstPartyGetDomain func(uintptr) string
 func (x *ITPFirstParty) GetDomain() string {
 
 	cret := xITPFirstPartyGetDomain(x.GoPointer())
-
 	return cret
 }
 
@@ -47,7 +46,6 @@ var xITPFirstPartyGetLastUpdateTime func(uintptr) *glib.DateTime
 func (x *ITPFirstParty) GetLastUpdateTime() *glib.DateTime {
 
 	cret := xITPFirstPartyGetLastUpdateTime(x.GoPointer())
-
 	return cret
 }
 
@@ -60,7 +58,6 @@ var xITPFirstPartyGetWebsiteDataAccessAllowed func(uintptr) bool
 func (x *ITPFirstParty) GetWebsiteDataAccessAllowed() bool {
 
 	cret := xITPFirstPartyGetWebsiteDataAccessAllowed(x.GoPointer())
-
 	return cret
 }
 
@@ -72,7 +69,6 @@ var xITPFirstPartyRef func(uintptr) *ITPFirstParty
 func (x *ITPFirstParty) Ref() *ITPFirstParty {
 
 	cret := xITPFirstPartyRef(x.GoPointer())
-
 	return cret
 }
 
@@ -110,7 +106,6 @@ var xITPThirdPartyGetDomain func(uintptr) string
 func (x *ITPThirdParty) GetDomain() string {
 
 	cret := xITPThirdPartyGetDomain(x.GoPointer())
-
 	return cret
 }
 
@@ -120,7 +115,6 @@ var xITPThirdPartyGetFirstParties func(uintptr) *glib.List
 func (x *ITPThirdParty) GetFirstParties() *glib.List {
 
 	cret := xITPThirdPartyGetFirstParties(x.GoPointer())
-
 	return cret
 }
 
@@ -132,7 +126,6 @@ var xITPThirdPartyRef func(uintptr) *ITPThirdParty
 func (x *ITPThirdParty) Ref() *ITPThirdParty {
 
 	cret := xITPThirdPartyRef(x.GoPointer())
-
 	return cret
 }
 
@@ -249,7 +242,6 @@ func (x *WebsiteDataManager) ClearFinish(ResultVar gio.AsyncResult) (bool, error
 	var cerr *glib.Error
 
 	cret := xWebsiteDataManagerClearFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -291,7 +283,6 @@ func (x *WebsiteDataManager) FetchFinish(ResultVar gio.AsyncResult) (*glib.List,
 	var cerr *glib.Error
 
 	cret := xWebsiteDataManagerFetchFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -305,7 +296,6 @@ var xWebsiteDataManagerGetBaseCacheDirectory func(uintptr) string
 func (x *WebsiteDataManager) GetBaseCacheDirectory() string {
 
 	cret := xWebsiteDataManagerGetBaseCacheDirectory(x.GoPointer())
-
 	return cret
 }
 
@@ -315,7 +305,6 @@ var xWebsiteDataManagerGetBaseDataDirectory func(uintptr) string
 func (x *WebsiteDataManager) GetBaseDataDirectory() string {
 
 	cret := xWebsiteDataManagerGetBaseDataDirectory(x.GoPointer())
-
 	return cret
 }
 
@@ -342,7 +331,6 @@ var xWebsiteDataManagerGetFaviconsEnabled func(uintptr) bool
 func (x *WebsiteDataManager) GetFaviconsEnabled() bool {
 
 	cret := xWebsiteDataManagerGetFaviconsEnabled(x.GoPointer())
-
 	return cret
 }
 
@@ -383,7 +371,6 @@ func (x *WebsiteDataManager) GetItpSummaryFinish(ResultVar gio.AsyncResult) (*gl
 	var cerr *glib.Error
 
 	cret := xWebsiteDataManagerGetItpSummaryFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -399,7 +386,6 @@ var xWebsiteDataManagerIsEphemeral func(uintptr) bool
 func (x *WebsiteDataManager) IsEphemeral() bool {
 
 	cret := xWebsiteDataManagerIsEphemeral(x.GoPointer())
-
 	return cret
 }
 
@@ -440,7 +426,6 @@ func (x *WebsiteDataManager) RemoveFinish(ResultVar gio.AsyncResult) (bool, erro
 	var cerr *glib.Error
 
 	cret := xWebsiteDataManagerRemoveFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}

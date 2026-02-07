@@ -2,7 +2,6 @@
 package soup
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -314,7 +313,6 @@ var xSessionErrorQuark func() glib.Quark
 func SessionErrorQuark() glib.Quark {
 
 	cret := xSessionErrorQuark()
-
 	return cret
 }
 
@@ -450,7 +448,6 @@ var xSessionGetAcceptLanguage func(uintptr) string
 func (x *Session) GetAcceptLanguage() string {
 
 	cret := xSessionGetAcceptLanguage(x.GoPointer())
-
 	return cret
 }
 
@@ -461,7 +458,6 @@ var xSessionGetAcceptLanguageAuto func(uintptr) bool
 func (x *Session) GetAcceptLanguageAuto() bool {
 
 	cret := xSessionGetAcceptLanguageAuto(x.GoPointer())
-
 	return cret
 }
 
@@ -526,7 +522,6 @@ var xSessionGetIdleTimeout func(uintptr) uint
 func (x *Session) GetIdleTimeout() uint {
 
 	cret := xSessionGetIdleTimeout(x.GoPointer())
-
 	return cret
 }
 
@@ -554,7 +549,6 @@ var xSessionGetMaxConns func(uintptr) uint
 func (x *Session) GetMaxConns() uint {
 
 	cret := xSessionGetMaxConns(x.GoPointer())
-
 	return cret
 }
 
@@ -565,7 +559,6 @@ var xSessionGetMaxConnsPerHost func(uintptr) uint
 func (x *Session) GetMaxConnsPerHost() uint {
 
 	cret := xSessionGetMaxConnsPerHost(x.GoPointer())
-
 	return cret
 }
 
@@ -610,7 +603,6 @@ var xSessionGetTimeout func(uintptr) uint
 func (x *Session) GetTimeout() uint {
 
 	cret := xSessionGetTimeout(x.GoPointer())
-
 	return cret
 }
 
@@ -654,7 +646,6 @@ var xSessionGetUserAgent func(uintptr) string
 func (x *Session) GetUserAgent() string {
 
 	cret := xSessionGetUserAgent(x.GoPointer())
-
 	return cret
 }
 
@@ -666,7 +657,6 @@ var xSessionHasFeature func(uintptr, types.GType) bool
 func (x *Session) HasFeature(FeatureTypeVar types.GType) bool {
 
 	cret := xSessionHasFeature(x.GoPointer(), FeatureTypeVar)
-
 	return cret
 }
 
@@ -711,7 +701,6 @@ func (x *Session) PreconnectFinish(ResultVar gio.AsyncResult) (bool, error) {
 	var cerr *glib.Error
 
 	cret := xSessionPreconnectFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -792,7 +781,6 @@ func (x *Session) SendAndRead(MsgVar *Message, CancellableVar *gio.Cancellable) 
 	var cerr *glib.Error
 
 	cret := xSessionSendAndRead(x.GoPointer(), MsgVar.GoPointer(), CancellableVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -841,7 +829,6 @@ func (x *Session) SendAndReadFinish(ResultVar gio.AsyncResult) (*glib.Bytes, err
 	var cerr *glib.Error
 
 	cret := xSessionSendAndReadFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -858,7 +845,6 @@ func (x *Session) SendAndSplice(MsgVar *Message, OutStreamVar *gio.OutputStream,
 	var cerr *glib.Error
 
 	cret := xSessionSendAndSplice(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, CancellableVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -901,7 +887,6 @@ func (x *Session) SendAndSpliceFinish(ResultVar gio.AsyncResult) (int, error) {
 	var cerr *glib.Error
 
 	cret := xSessionSendAndSpliceFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -1103,11 +1088,10 @@ func (x *Session) WebsocketConnectAsync(MsgVar *Message, OriginVar *string, Prot
 		}
 	}
 
-	OriginVarPtr, OriginVarBytes := core.NullableStringToPtr(OriginVar)
+	OriginVarPtr := core.GStrdupNullable(OriginVar)
+	defer core.GFreeNullable(OriginVarPtr)
 
 	xSessionWebsocketConnectAsync(x.GoPointer(), MsgVar.GoPointer(), OriginVarPtr, ProtocolsVar, IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
-
-	runtime.KeepAlive(OriginVarBytes)
 
 }
 

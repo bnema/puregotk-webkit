@@ -29,9 +29,6 @@ import (
 {{- if $HasDetailedSignals}}
 	"fmt"
 {{- end}}
-{{- if $NeedsCore}}
-	"runtime"
-{{- end}}
 {{- if .Records}}
 	"structs"
 {{- end}}
@@ -97,12 +94,10 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      }
      {{end}}
      {{range .Args.NullableStrings}}
-     {{.Name}}Ptr, {{.Name}}Bytes := core.NullableStringToPtr({{.Name}})
+     {{.Name}}Ptr := core.GStrdupNullable({{.Name}})
+     defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret :={{end}}x{{.Name}}({{convd .Args.API.CallWithRefs}})
-     {{range .Args.NullableStrings}}
-     runtime.KeepAlive({{.Name}}Bytes)
-     {{end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
@@ -131,12 +126,10 @@ func (x *{{$outer.Name}}) {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      }
      {{end}}
      {{range .Args.NullableStrings}}
-     {{.Name}}Ptr, {{.Name}}Bytes := core.NullableStringToPtr({{.Name}})
+     {{.Name}}Ptr := core.GStrdupNullable({{.Name}})
+     defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret :={{end}}x{{$outer.Name}}{{.Name}}(x.GoPointer() {{convcd .Args.API.CallWithRefs}})
-     {{range .Args.NullableStrings}}
-     runtime.KeepAlive({{.Name}}Bytes)
-     {{end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
@@ -218,12 +211,10 @@ func (x *{{.Name}}Base) SetGoPointer(ptr uintptr) {
 func (x *{{$outer.Name}}Base) {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      {{.Ret.Preamble $NotGLib}}
      {{range .Args.NullableStrings}}
-     {{.Name}}Ptr, {{.Name}}Bytes := core.NullableStringToPtr({{.Name}})
+     {{.Name}}Ptr := core.GStrdupNullable({{.Name}})
+     defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret := {{end}}{{.Namespace}}X{{.FullName}}(x.GoPointer() {{convcd .Args.API.Call}})
-     {{range .Args.NullableStrings}}
-     runtime.KeepAlive({{.Name}}Bytes)
-     {{end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
@@ -320,12 +311,10 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      }
      {{end}}
      {{range .Args.NullableStrings}}
-     {{.Name}}Ptr, {{.Name}}Bytes := core.NullableStringToPtr({{.Name}})
+     {{.Name}}Ptr := core.GStrdupNullable({{.Name}})
+     defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret := {{end}}x{{.Name}}({{convd .Args.API.CallWithRefs}})
-     {{range .Args.NullableStrings}}
-     runtime.KeepAlive({{.Name}}Bytes)
-     {{end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
@@ -377,12 +366,10 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      }
      {{end}}
      {{range .Args.NullableStrings}}
-     {{.Name}}Ptr, {{.Name}}Bytes := core.NullableStringToPtr({{.Name}})
+     {{.Name}}Ptr := core.GStrdupNullable({{.Name}})
+     defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret :={{end}}x{{.Name}}({{convd .Args.API.CallWithRefs}})
-     {{range .Args.NullableStrings}}
-     runtime.KeepAlive({{.Name}}Bytes)
-     {{end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
@@ -411,12 +398,10 @@ func (x *{{$outer.Name}}) {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      }
      {{end}}
      {{range .Args.NullableStrings}}
-     {{.Name}}Ptr, {{.Name}}Bytes := core.NullableStringToPtr({{.Name}})
+     {{.Name}}Ptr := core.GStrdupNullable({{.Name}})
+     defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret :={{end}}x{{$outer.Name}}{{.Name}}(x.GoPointer() {{convcd .Args.API.CallWithRefs}})
-     {{range .Args.NullableStrings}}
-     runtime.KeepAlive({{.Name}}Bytes)
-     {{end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
@@ -524,12 +509,10 @@ func (x *{{$outer.Name}}) Connect{{.Name}}WithDetail(detail string, cb *func({{$
 func (x *{{$outer.Name}}) {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      {{.Ret.Preamble $NotGLib}}
      {{range .Args.NullableStrings}}
-     {{.Name}}Ptr, {{.Name}}Bytes := core.NullableStringToPtr({{.Name}})
+     {{.Name}}Ptr := core.GStrdupNullable({{.Name}})
+     defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret := {{end}} {{.Namespace}}X{{.FullName}}(x.GoPointer() {{convcd .Args.API.Call}})
-     {{range .Args.NullableStrings}}
-     runtime.KeepAlive({{.Name}}Bytes)
-     {{end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
@@ -558,12 +541,10 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      }
      {{end}}
      {{range .Args.NullableStrings}}
-     {{.Name}}Ptr, {{.Name}}Bytes := core.NullableStringToPtr({{.Name}})
+     {{.Name}}Ptr := core.GStrdupNullable({{.Name}})
+     defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret := {{end}}x{{.Name}}({{convd .Args.API.CallWithRefs}})
-     {{range .Args.NullableStrings}}
-     runtime.KeepAlive({{.Name}}Bytes)
-     {{end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}

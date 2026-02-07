@@ -2,7 +2,6 @@
 package soup
 
 import (
-	"runtime"
 	"structs"
 	"unsafe"
 
@@ -311,7 +310,6 @@ func (x *Server) AcceptIostream(StreamVar *gio.IOStream, LocalAddrVar *gio.Socke
 	var cerr *glib.Error
 
 	cret := xServerAcceptIostream(x.GoPointer(), StreamVar.GoPointer(), LocalAddrVar.GoPointer(), RemoteAddrVar.GoPointer(), &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -398,11 +396,10 @@ func (x *Server) AddEarlyHandler(PathVar *string, CallbackVar *ServerCallback, U
 		}
 	}
 
-	PathVarPtr, PathVarBytes := core.NullableStringToPtr(PathVar)
+	PathVarPtr := core.GStrdupNullable(PathVar)
+	defer core.GFreeNullable(PathVarPtr)
 
 	xServerAddEarlyHandler(x.GoPointer(), PathVarPtr, CallbackVarRef, UserDataVar, DestroyVarRef)
-
-	runtime.KeepAlive(PathVarBytes)
 
 }
 
@@ -473,11 +470,10 @@ func (x *Server) AddHandler(PathVar *string, CallbackVar *ServerCallback, UserDa
 		}
 	}
 
-	PathVarPtr, PathVarBytes := core.NullableStringToPtr(PathVar)
+	PathVarPtr := core.GStrdupNullable(PathVar)
+	defer core.GFreeNullable(PathVarPtr)
 
 	xServerAddHandler(x.GoPointer(), PathVarPtr, CallbackVarRef, UserDataVar, DestroyVarRef)
-
-	runtime.KeepAlive(PathVarBytes)
 
 }
 
@@ -549,15 +545,13 @@ func (x *Server) AddWebsocketHandler(PathVar *string, OriginVar *string, Protoco
 		}
 	}
 
-	PathVarPtr, PathVarBytes := core.NullableStringToPtr(PathVar)
+	PathVarPtr := core.GStrdupNullable(PathVar)
+	defer core.GFreeNullable(PathVarPtr)
 
-	OriginVarPtr, OriginVarBytes := core.NullableStringToPtr(OriginVar)
+	OriginVarPtr := core.GStrdupNullable(OriginVar)
+	defer core.GFreeNullable(OriginVarPtr)
 
 	xServerAddWebsocketHandler(x.GoPointer(), PathVarPtr, OriginVarPtr, ProtocolsVar, CallbackVarRef, UserDataVar, DestroyVarRef)
-
-	runtime.KeepAlive(PathVarBytes)
-
-	runtime.KeepAlive(OriginVarBytes)
 
 }
 
@@ -586,7 +580,6 @@ var xServerGetListeners func(uintptr) *glib.SList
 func (x *Server) GetListeners() *glib.SList {
 
 	cret := xServerGetListeners(x.GoPointer())
-
 	return cret
 }
 
@@ -596,7 +589,6 @@ var xServerGetTlsAuthMode func(uintptr) gio.TlsAuthenticationMode
 func (x *Server) GetTlsAuthMode() gio.TlsAuthenticationMode {
 
 	cret := xServerGetTlsAuthMode(x.GoPointer())
-
 	return cret
 }
 
@@ -648,7 +640,6 @@ var xServerGetUris func(uintptr) *glib.SList
 func (x *Server) GetUris() *glib.SList {
 
 	cret := xServerGetUris(x.GoPointer())
-
 	return cret
 }
 
@@ -670,7 +661,6 @@ var xServerIsHttps func(uintptr) bool
 func (x *Server) IsHttps() bool {
 
 	cret := xServerIsHttps(x.GoPointer())
-
 	return cret
 }
 
@@ -696,7 +686,6 @@ func (x *Server) Listen(AddressVar *gio.SocketAddress, OptionsVar ServerListenOp
 	var cerr *glib.Error
 
 	cret := xServerListen(x.GoPointer(), AddressVar.GoPointer(), OptionsVar, &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -721,7 +710,6 @@ func (x *Server) ListenAll(PortVar uint, OptionsVar ServerListenOptions) (bool, 
 	var cerr *glib.Error
 
 	cret := xServerListenAll(x.GoPointer(), PortVar, OptionsVar, &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -744,7 +732,6 @@ func (x *Server) ListenLocal(PortVar uint, OptionsVar ServerListenOptions) (bool
 	var cerr *glib.Error
 
 	cret := xServerListenLocal(x.GoPointer(), PortVar, OptionsVar, &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
@@ -761,7 +748,6 @@ func (x *Server) ListenSocket(SocketVar *gio.Socket, OptionsVar ServerListenOpti
 	var cerr *glib.Error
 
 	cret := xServerListenSocket(x.GoPointer(), SocketVar.GoPointer(), OptionsVar, &cerr)
-
 	if cerr == nil {
 		return cret, nil
 	}
