@@ -271,10 +271,12 @@ func (c *AuthenticationRequest) SetGoPointer(ptr uintptr) {
 // This signal is emitted when the user authentication request succeeded.
 // Applications handling their own credential storage should connect to
 // this signal to save the credentials.
-func (x *AuthenticationRequest) ConnectAuthenticated(cb *func(AuthenticationRequest, uintptr)) uint32 {
+func (x *AuthenticationRequest) ConnectAuthenticated(cb *func(AuthenticationRequest, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "authenticated", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "authenticated", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, CredentialVarp uintptr) {
@@ -287,16 +289,20 @@ func (x *AuthenticationRequest) ConnectAuthenticated(cb *func(AuthenticationRequ
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "authenticated", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "authenticated", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when the user authentication request is
 // cancelled. It allows the application to dismiss its authentication
 // dialog in case of page load failure for example.
-func (x *AuthenticationRequest) ConnectCancelled(cb *func(AuthenticationRequest)) uint32 {
+func (x *AuthenticationRequest) ConnectCancelled(cb *func(AuthenticationRequest)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "cancelled", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "cancelled", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -309,7 +315,9 @@ func (x *AuthenticationRequest) ConnectCancelled(cb *func(AuthenticationRequest)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "cancelled", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "cancelled", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

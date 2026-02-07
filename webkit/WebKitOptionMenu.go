@@ -140,10 +140,12 @@ func (c *OptionMenu) SetGoPointer(ptr uintptr) {
 // Emitted when closing a #WebKitOptionMenu is requested. This can happen
 // when the user explicitly calls webkit_option_menu_close() or when the
 // element is detached from the current page.
-func (x *OptionMenu) ConnectClose(cb *func(OptionMenu)) uint32 {
+func (x *OptionMenu) ConnectClose(cb *func(OptionMenu)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "close", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "close", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -156,7 +158,9 @@ func (x *OptionMenu) ConnectClose(cb *func(OptionMenu)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "close", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "close", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

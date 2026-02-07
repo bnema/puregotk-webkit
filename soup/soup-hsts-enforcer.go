@@ -264,10 +264,12 @@ func (c *HSTSEnforcer) SetGoPointer(ptr uintptr) {
 //
 // Note that you shouldn't modify the policies from a callback to
 // this signal.
-func (x *HSTSEnforcer) ConnectChanged(cb *func(HSTSEnforcer, uintptr, uintptr)) uint32 {
+func (x *HSTSEnforcer) ConnectChanged(cb *func(HSTSEnforcer, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, OldPolicyVarp uintptr, NewPolicyVarp uintptr) {
@@ -280,7 +282,9 @@ func (x *HSTSEnforcer) ConnectChanged(cb *func(HSTSEnforcer, uintptr, uintptr)) 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

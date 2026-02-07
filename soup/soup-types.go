@@ -376,7 +376,7 @@ func (x *HSTSPolicy) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewHSTSPolicy func(string, uint32, bool) *HSTSPolicy
+var xNewHSTSPolicy func(string, uint, bool) *HSTSPolicy
 
 // Creates a new #SoupHSTSPolicy with the given attributes.
 //
@@ -389,7 +389,7 @@ var xNewHSTSPolicy func(string, uint32, bool) *HSTSPolicy
 //
 // If @include_subdomains is %TRUE, the strict transport security policy
 // must also be enforced on all subdomains of @domain.
-func NewHSTSPolicy(DomainVar string, MaxAgeVar uint32, IncludeSubdomainsVar bool) *HSTSPolicy {
+func NewHSTSPolicy(DomainVar string, MaxAgeVar uint, IncludeSubdomainsVar bool) *HSTSPolicy {
 
 	cret := xNewHSTSPolicy(DomainVar, MaxAgeVar, IncludeSubdomainsVar)
 
@@ -407,13 +407,13 @@ func NewHSTSPolicyFromResponse(MsgVar *Message) *HSTSPolicy {
 	return cret
 }
 
-var xNewHSTSPolicyFull func(string, uint32, *glib.DateTime, bool) *HSTSPolicy
+var xNewHSTSPolicyFull func(string, uint, *glib.DateTime, bool) *HSTSPolicy
 
 // Full version of [ctor@HSTSPolicy.new], to use with an existing
 // expiration date.
 //
 // See [ctor@HSTSPolicy.new] for details.
-func NewHSTSPolicyFull(DomainVar string, MaxAgeVar uint32, ExpiresVar *glib.DateTime, IncludeSubdomainsVar bool) *HSTSPolicy {
+func NewHSTSPolicyFull(DomainVar string, MaxAgeVar uint, ExpiresVar *glib.DateTime, IncludeSubdomainsVar bool) *HSTSPolicy {
 
 	cret := xNewHSTSPolicyFull(DomainVar, MaxAgeVar, ExpiresVar, IncludeSubdomainsVar)
 
@@ -491,10 +491,10 @@ func (x *HSTSPolicy) GetExpires() *glib.DateTime {
 	return cret
 }
 
-var xHSTSPolicyGetMaxAge func(uintptr) uint32
+var xHSTSPolicyGetMaxAge func(uintptr) uint
 
 // Returns the max age for @policy.
-func (x *HSTSPolicy) GetMaxAge() uint32 {
+func (x *HSTSPolicy) GetMaxAge() uint {
 
 	cret := xHSTSPolicyGetMaxAge(x.GoPointer())
 

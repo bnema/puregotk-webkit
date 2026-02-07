@@ -60,10 +60,12 @@ func (c *WebFormManager) SetGoPointer(ptr uintptr) {
 //
 // Clients should take a reference to the members of the @elements array if it is desired to
 // keep them alive after the signal handler returns.
-func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, uintptr, []javascriptcore.Value)) uint32 {
+func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, uintptr, []javascriptcore.Value)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "form-controls-associated", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "form-controls-associated", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, FrameVarp uintptr, ElementsVarp []javascriptcore.Value) {
@@ -76,7 +78,9 @@ func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "form-controls-associated", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "form-controls-associated", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when the DOM submit event is about to be fired for @form.
@@ -91,10 +95,12 @@ func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, 
 // fields even if JavaScript later clears certain fields before submitting. This may
 // be needed, for example, to implement a robust browser password manager, as some
 // misguided websites may use such techniques to attempt to thwart password managers.
-func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uintptr, uintptr, uintptr)) uint32 {
+func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uintptr, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "will-send-submit-event", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "will-send-submit-event", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, FormVarp uintptr, SourceFrameVarp uintptr, TargetFrameVarp uintptr) {
@@ -107,7 +113,9 @@ func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uin
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "will-send-submit-event", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "will-send-submit-event", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when @form will imminently be submitted. It can no longer
@@ -115,10 +123,12 @@ func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uin
 // its target, so use this event to reliably detect when a form is submitted. This
 // signal is emitted after #WebKitWebFormManager::will-send-submit-event if that
 // signal is emitted.
-func (x *WebFormManager) ConnectWillSubmitForm(cb *func(WebFormManager, uintptr, uintptr, uintptr)) uint32 {
+func (x *WebFormManager) ConnectWillSubmitForm(cb *func(WebFormManager, uintptr, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "will-submit-form", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "will-submit-form", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, FormVarp uintptr, SourceFrameVarp uintptr, TargetFrameVarp uintptr) {
@@ -131,7 +141,9 @@ func (x *WebFormManager) ConnectWillSubmitForm(cb *func(WebFormManager, uintptr,
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "will-submit-form", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "will-submit-form", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 var xWebFormManagerInputElementAutoFill func(uintptr, string)

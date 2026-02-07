@@ -1099,10 +1099,12 @@ func (c *InputMethodContext) SetGoPointer(ptr uintptr) {
 // Emitted when a complete input sequence has been entered by the user.
 // This can be a single character immediately after a key press or the
 // final result of preediting.
-func (x *InputMethodContext) ConnectCommitted(cb *func(InputMethodContext, string)) uint32 {
+func (x *InputMethodContext) ConnectCommitted(cb *func(InputMethodContext, string)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "committed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "committed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, TextVarp string) {
@@ -1115,15 +1117,19 @@ func (x *InputMethodContext) ConnectCommitted(cb *func(InputMethodContext, strin
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "committed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "committed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the input method wants to delete the context surrounding the cursor.
 // If @offset is a negative value, it means a position before the cursor.
-func (x *InputMethodContext) ConnectDeleteSurrounding(cb *func(InputMethodContext, int, uint)) uint32 {
+func (x *InputMethodContext) ConnectDeleteSurrounding(cb *func(InputMethodContext, int, uint)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "delete-surrounding", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "delete-surrounding", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, OffsetVarp int, NCharsVarp uint) {
@@ -1136,16 +1142,20 @@ func (x *InputMethodContext) ConnectDeleteSurrounding(cb *func(InputMethodContex
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "delete-surrounding", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "delete-surrounding", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted whenever the preedit sequence currently being entered has changed.
 // It is also emitted at the end of a preedit sequence, in which case
 // webkit_input_method_context_get_preedit() returns the empty string.
-func (x *InputMethodContext) ConnectPreeditChanged(cb *func(InputMethodContext)) uint32 {
+func (x *InputMethodContext) ConnectPreeditChanged(cb *func(InputMethodContext)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "preedit-changed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "preedit-changed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -1158,14 +1168,18 @@ func (x *InputMethodContext) ConnectPreeditChanged(cb *func(InputMethodContext))
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "preedit-changed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "preedit-changed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when a preediting sequence has been completed or canceled.
-func (x *InputMethodContext) ConnectPreeditFinished(cb *func(InputMethodContext)) uint32 {
+func (x *InputMethodContext) ConnectPreeditFinished(cb *func(InputMethodContext)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "preedit-finished", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "preedit-finished", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -1178,14 +1192,18 @@ func (x *InputMethodContext) ConnectPreeditFinished(cb *func(InputMethodContext)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "preedit-finished", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "preedit-finished", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when a new preediting sequence starts.
-func (x *InputMethodContext) ConnectPreeditStarted(cb *func(InputMethodContext)) uint32 {
+func (x *InputMethodContext) ConnectPreeditStarted(cb *func(InputMethodContext)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "preedit-started", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "preedit-started", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -1198,7 +1216,9 @@ func (x *InputMethodContext) ConnectPreeditStarted(cb *func(InputMethodContext))
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "preedit-started", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "preedit-started", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

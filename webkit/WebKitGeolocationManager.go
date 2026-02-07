@@ -200,10 +200,12 @@ func (x *GeolocationManager) GetPropertyEnableHighAccuracy() bool {
 //
 // If the signal is not handled, WebKit will try to determine the position
 // using GeoClue if available.
-func (x *GeolocationManager) ConnectStart(cb *func(GeolocationManager) bool) uint32 {
+func (x *GeolocationManager) ConnectStart(cb *func(GeolocationManager) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "start", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "start", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) bool {
@@ -216,15 +218,19 @@ func (x *GeolocationManager) ConnectStart(cb *func(GeolocationManager) bool) uin
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "start", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "start", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // The signal is emitted to notify that @manager doesn't need to receive
 // position updates anymore.
-func (x *GeolocationManager) ConnectStop(cb *func(GeolocationManager)) uint32 {
+func (x *GeolocationManager) ConnectStop(cb *func(GeolocationManager)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "stop", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "stop", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -237,7 +243,9 @@ func (x *GeolocationManager) ConnectStop(cb *func(GeolocationManager)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "stop", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "stop", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

@@ -255,10 +255,12 @@ func (x *FindController) GetPropertyText() string {
 // This signal is emitted when the #WebKitFindController has
 // counted the number of matches for a given text after a call
 // to webkit_find_controller_count_matches().
-func (x *FindController) ConnectCountedMatches(cb *func(FindController, uint)) uint32 {
+func (x *FindController) ConnectCountedMatches(cb *func(FindController, uint)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "counted-matches", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "counted-matches", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MatchCountVarp uint) {
@@ -271,7 +273,9 @@ func (x *FindController) ConnectCountedMatches(cb *func(FindController, uint)) u
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "counted-matches", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "counted-matches", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when a search operation does not find
@@ -279,10 +283,12 @@ func (x *FindController) ConnectCountedMatches(cb *func(FindController, uint)) u
 // is not found asynchronously after a call to
 // webkit_find_controller_search(), webkit_find_controller_search_next()
 // or webkit_find_controller_search_previous().
-func (x *FindController) ConnectFailedToFindText(cb *func(FindController)) uint32 {
+func (x *FindController) ConnectFailedToFindText(cb *func(FindController)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "failed-to-find-text", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "failed-to-find-text", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -295,7 +301,9 @@ func (x *FindController) ConnectFailedToFindText(cb *func(FindController)) uint3
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "failed-to-find-text", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "failed-to-find-text", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when a given text is found in the web
@@ -303,10 +311,12 @@ func (x *FindController) ConnectFailedToFindText(cb *func(FindController)) uint3
 // asynchronously after a call to webkit_find_controller_search(),
 // webkit_find_controller_search_next() or
 // webkit_find_controller_search_previous().
-func (x *FindController) ConnectFoundText(cb *func(FindController, uint)) uint32 {
+func (x *FindController) ConnectFoundText(cb *func(FindController, uint)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "found-text", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "found-text", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MatchCountVarp uint) {
@@ -319,7 +329,9 @@ func (x *FindController) ConnectFoundText(cb *func(FindController, uint)) uint32
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "found-text", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "found-text", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

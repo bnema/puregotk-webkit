@@ -1398,10 +1398,12 @@ func (x *Session) GetPropertyUserAgent() string {
 // exactly once, but [signal@Message::finished] (and all of the other
 // [class@Message] signals) may be invoked multiple times for a given
 // message.
-func (x *Session) ConnectRequestQueued(cb *func(Session, uintptr)) uint32 {
+func (x *Session) ConnectRequestQueued(cb *func(Session, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "request-queued", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "request-queued", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MsgVarp uintptr) {
@@ -1414,7 +1416,9 @@ func (x *Session) ConnectRequestQueued(cb *func(Session, uintptr)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "request-queued", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "request-queued", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when a request is removed from @session's queue,
@@ -1422,10 +1426,12 @@ func (x *Session) ConnectRequestQueued(cb *func(Session, uintptr)) uint32 {
 //
 // See [signal@Session::request-queued] for a detailed description of
 // the message lifecycle within a session.
-func (x *Session) ConnectRequestUnqueued(cb *func(Session, uintptr)) uint32 {
+func (x *Session) ConnectRequestUnqueued(cb *func(Session, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "request-unqueued", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "request-unqueued", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MsgVarp uintptr) {
@@ -1438,7 +1444,9 @@ func (x *Session) ConnectRequestUnqueued(cb *func(Session, uintptr)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "request-unqueued", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "request-unqueued", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

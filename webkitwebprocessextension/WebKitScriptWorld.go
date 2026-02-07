@@ -107,10 +107,12 @@ func (c *ScriptWorld) SetGoPointer(ptr uintptr) {
 // object using the JavaScriptCore API. You can get the window object of @frame
 // from the JavaScript execution context of @world that is returned by
 // webkit_frame_get_js_context_for_script_world().
-func (x *ScriptWorld) ConnectWindowObjectCleared(cb *func(ScriptWorld, uintptr, uintptr)) uint32 {
+func (x *ScriptWorld) ConnectWindowObjectCleared(cb *func(ScriptWorld, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "window-object-cleared", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "window-object-cleared", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, PageVarp uintptr, FrameVarp uintptr) {
@@ -123,7 +125,9 @@ func (x *ScriptWorld) ConnectWindowObjectCleared(cb *func(ScriptWorld, uintptr, 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "window-object-cleared", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "window-object-cleared", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 var xScriptWorldGetDefault func() uintptr

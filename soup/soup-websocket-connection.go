@@ -492,10 +492,12 @@ func (x *WebsocketConnection) GetPropertyUri() uintptr {
 // condition that caused a close.
 //
 // This signal will be emitted once.
-func (x *WebsocketConnection) ConnectClosed(cb *func(WebsocketConnection)) uint32 {
+func (x *WebsocketConnection) ConnectClosed(cb *func(WebsocketConnection)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -508,14 +510,18 @@ func (x *WebsocketConnection) ConnectClosed(cb *func(WebsocketConnection)) uint3
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal will be emitted during an orderly close.
-func (x *WebsocketConnection) ConnectClosing(cb *func(WebsocketConnection)) uint32 {
+func (x *WebsocketConnection) ConnectClosing(cb *func(WebsocketConnection)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "closing", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "closing", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -528,17 +534,21 @@ func (x *WebsocketConnection) ConnectClosing(cb *func(WebsocketConnection)) uint
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "closing", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "closing", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when an error occurred on the WebSocket.
 //
 // This may be fired multiple times. Fatal errors will be followed by
 // the [signal@WebsocketConnection::closed] signal being emitted.
-func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, uintptr)) uint32 {
+func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "error", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "error", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ErrorVarp uintptr) {
@@ -551,7 +561,9 @@ func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, uintptr
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "error", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "error", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when we receive a message from the peer.
@@ -559,10 +571,12 @@ func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, uintptr
 // As a convenience, the @message data will always be
 // %NULL-terminated, but the NUL byte will not be included in
 // the length count.
-func (x *WebsocketConnection) ConnectMessage(cb *func(WebsocketConnection, int, uintptr)) uint32 {
+func (x *WebsocketConnection) ConnectMessage(cb *func(WebsocketConnection, int, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "message", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "message", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, TypeVarp int, MessageVarp uintptr) {
@@ -575,7 +589,9 @@ func (x *WebsocketConnection) ConnectMessage(cb *func(WebsocketConnection, int, 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "message", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "message", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when we receive a Pong frame (solicited or
@@ -584,10 +600,12 @@ func (x *WebsocketConnection) ConnectMessage(cb *func(WebsocketConnection, int, 
 // As a convenience, the @message data will always be
 // %NULL-terminated, but the NUL byte will not be included in
 // the length count.
-func (x *WebsocketConnection) ConnectPong(cb *func(WebsocketConnection, uintptr)) uint32 {
+func (x *WebsocketConnection) ConnectPong(cb *func(WebsocketConnection, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "pong", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "pong", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
@@ -600,7 +618,9 @@ func (x *WebsocketConnection) ConnectPong(cb *func(WebsocketConnection, uintptr)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "pong", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "pong", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

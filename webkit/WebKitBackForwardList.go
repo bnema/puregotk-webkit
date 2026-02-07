@@ -187,10 +187,12 @@ func (c *BackForwardList) SetGoPointer(ptr uintptr) {
 // items are removed. Note that both @item_added and @items_removed can
 // %NULL when only the current item is updated. Items are only removed
 // when the list is cleared or the maximum items limit is reached.
-func (x *BackForwardList) ConnectChanged(cb *func(BackForwardList, uintptr, uintptr)) uint32 {
+func (x *BackForwardList) ConnectChanged(cb *func(BackForwardList, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ItemAddedVarp uintptr, ItemsRemovedVarp uintptr) {
@@ -203,7 +205,9 @@ func (x *BackForwardList) ConnectChanged(cb *func(BackForwardList, uintptr, uint
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

@@ -531,10 +531,12 @@ func (x *WebContext) GetPropertyTimeZoneOverride() string {
 // This signal is emitted when a new automation request is made.
 // Note that it will never be emitted if automation is not enabled in @context,
 // see webkit_web_context_set_automation_allowed() for more details.
-func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, uintptr)) uint32 {
+func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "automation-started", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "automation-started", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, SessionVarp uintptr) {
@@ -547,7 +549,9 @@ func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, uintptr)) uin
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "automation-started", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "automation-started", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when a #WebKitWebContext needs to set
@@ -558,10 +562,12 @@ func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, uintptr)) uin
 // notification permissions have changed since the last time this
 // signal was emitted, then there is no need to call
 // webkit_web_context_initialize_notification_permissions() again.
-func (x *WebContext) ConnectInitializeNotificationPermissions(cb *func(WebContext)) uint32 {
+func (x *WebContext) ConnectInitializeNotificationPermissions(cb *func(WebContext)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "initialize-notification-permissions", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "initialize-notification-permissions", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -574,17 +580,21 @@ func (x *WebContext) ConnectInitializeNotificationPermissions(cb *func(WebContex
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "initialize-notification-permissions", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "initialize-notification-permissions", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when a new web process is about to be
 // launched. It signals the most appropriate moment to use
 // webkit_web_context_set_web_process_extensions_initialization_user_data()
 // and webkit_web_context_set_web_process_extensions_directory().
-func (x *WebContext) ConnectInitializeWebProcessExtensions(cb *func(WebContext)) uint32 {
+func (x *WebContext) ConnectInitializeWebProcessExtensions(cb *func(WebContext)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "initialize-web-process-extensions", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "initialize-web-process-extensions", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -597,7 +607,9 @@ func (x *WebContext) ConnectInitializeWebProcessExtensions(cb *func(WebContext))
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "initialize-web-process-extensions", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "initialize-web-process-extensions", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when a #WebKitUserMessage is received from a
@@ -606,10 +618,12 @@ func (x *WebContext) ConnectInitializeWebProcessExtensions(cb *func(WebContext))
 //
 // You can handle the user message asynchronously by calling g_object_ref() on
 // @message and returning %TRUE.
-func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, uintptr) bool) uint32 {
+func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MessageVarp uintptr) bool {
@@ -622,7 +636,9 @@ func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, uintptr) bo
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 var xWebContextGetDefault func() uintptr

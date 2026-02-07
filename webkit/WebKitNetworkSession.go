@@ -354,10 +354,12 @@ func (x *NetworkSession) GetPropertyIsEphemeral() bool {
 }
 
 // This signal is emitted when a new download request is made.
-func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, uintptr)) uint32 {
+func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "download-started", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "download-started", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, DownloadVarp uintptr) {
@@ -370,7 +372,9 @@ func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, uintptr
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "download-started", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "download-started", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 var xNetworkSessionGetDefault func() uintptr

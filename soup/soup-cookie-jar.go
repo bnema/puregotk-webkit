@@ -419,10 +419,12 @@ func (x *CookieJar) GetPropertyReadOnly() bool {
 // @new_cookie will be %NULL. If a cookie has been changed,
 // @old_cookie will contain its old value, and @new_cookie its
 // new value.
-func (x *CookieJar) ConnectChanged(cb *func(CookieJar, uintptr, uintptr)) uint32 {
+func (x *CookieJar) ConnectChanged(cb *func(CookieJar, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, OldCookieVarp uintptr, NewCookieVarp uintptr) {
@@ -435,7 +437,9 @@ func (x *CookieJar) ConnectChanged(cb *func(CookieJar, uintptr, uintptr)) uint32
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

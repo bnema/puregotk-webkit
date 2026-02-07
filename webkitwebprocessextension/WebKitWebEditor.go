@@ -74,10 +74,12 @@ func (c *WebEditor) SetGoPointer(ptr uintptr) {
 // This signal is emitted for every selection change inside a #WebKitWebPage
 // as well as for every caret position change as the caret is a collapsed
 // selection.
-func (x *WebEditor) ConnectSelectionChanged(cb *func(WebEditor)) uint32 {
+func (x *WebEditor) ConnectSelectionChanged(cb *func(WebEditor)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "selection-changed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "selection-changed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -90,7 +92,9 @@ func (x *WebEditor) ConnectSelectionChanged(cb *func(WebEditor)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "selection-changed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "selection-changed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

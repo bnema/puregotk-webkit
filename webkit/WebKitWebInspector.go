@@ -219,10 +219,12 @@ func (x *WebInspector) GetPropertyInspectedUri() string {
 //
 // To prevent the inspector view from being attached you can connect to this
 // signal and simply return %TRUE.
-func (x *WebInspector) ConnectAttach(cb *func(WebInspector) bool) uint32 {
+func (x *WebInspector) ConnectAttach(cb *func(WebInspector) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "attach", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "attach", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) bool {
@@ -235,7 +237,9 @@ func (x *WebInspector) ConnectAttach(cb *func(WebInspector) bool) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "attach", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "attach", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the inspector should be shown.
@@ -249,10 +253,12 @@ func (x *WebInspector) ConnectAttach(cb *func(WebInspector) bool) uint32 {
 // In both cases, if this signal is not handled, the default implementation
 // calls gtk_window_present() on the current toplevel #GtkWindow of the
 // inspector view.
-func (x *WebInspector) ConnectBringToFront(cb *func(WebInspector) bool) uint32 {
+func (x *WebInspector) ConnectBringToFront(cb *func(WebInspector) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "bring-to-front", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "bring-to-front", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) bool {
@@ -265,16 +271,20 @@ func (x *WebInspector) ConnectBringToFront(cb *func(WebInspector) bool) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "bring-to-front", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "bring-to-front", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the inspector page is closed. If you are using your own
 // inspector window, you should connect to this signal and destroy your
 // window.
-func (x *WebInspector) ConnectClosed(cb *func(WebInspector)) uint32 {
+func (x *WebInspector) ConnectClosed(cb *func(WebInspector)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -287,7 +297,9 @@ func (x *WebInspector) ConnectClosed(cb *func(WebInspector)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the inspector is requested to be detached from the window
@@ -299,10 +311,12 @@ func (x *WebInspector) ConnectClosed(cb *func(WebInspector)) uint32 {
 //
 // To prevent the inspector view from being detached you can connect to this
 // signal and simply return %TRUE.
-func (x *WebInspector) ConnectDetach(cb *func(WebInspector) bool) uint32 {
+func (x *WebInspector) ConnectDetach(cb *func(WebInspector) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "detach", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "detach", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) bool {
@@ -315,7 +329,9 @@ func (x *WebInspector) ConnectDetach(cb *func(WebInspector) bool) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "detach", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "detach", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the inspector is requested to open in a separate window.
@@ -327,10 +343,12 @@ func (x *WebInspector) ConnectDetach(cb *func(WebInspector) bool) uint32 {
 //
 // To prevent the inspector from being shown you can connect to this
 // signal and simply return %TRUE
-func (x *WebInspector) ConnectOpenWindow(cb *func(WebInspector) bool) uint32 {
+func (x *WebInspector) ConnectOpenWindow(cb *func(WebInspector) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "open-window", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "open-window", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) bool {
@@ -343,7 +361,9 @@ func (x *WebInspector) ConnectOpenWindow(cb *func(WebInspector) bool) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "open-window", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "open-window", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

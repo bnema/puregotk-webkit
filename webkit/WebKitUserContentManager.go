@@ -348,10 +348,12 @@ func (c *UserContentManager) SetGoPointer(ptr uintptr) {
 // &lt;code&gt;window.webkit.messageHandlers.&lt;name&gt;.postMessage()&lt;/code&gt;, after registering
 // &lt;code&gt;&lt;name&gt;&lt;/code&gt; using
 // webkit_user_content_manager_register_script_message_handler()
-func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentManager, uintptr)) uint32 {
+func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentManager, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ValueVarp uintptr) {
@@ -364,16 +366,20 @@ func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentMa
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // ConnectScriptMessageReceivedWithDetail connects to the "script-message-received" signal with a detail string.
 // The detail is appended as "script-message-received::<detail>".
-func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail string, cb *func(UserContentManager, uintptr)) uint32 {
+func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail string, cb *func(UserContentManager, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	signalName := fmt.Sprintf("script-message-received::%s", detail)
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ValueVarp uintptr) {
@@ -386,7 +392,9 @@ func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail strin
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when JavaScript in a web view calls
@@ -401,10 +409,12 @@ func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail strin
 //
 // It is possible to handle the reply asynchronously, by simply calling
 // g_object_ref() on the @reply and returning %TRUE.
-func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(UserContentManager, uintptr, uintptr) bool) uint32 {
+func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(UserContentManager, uintptr, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ValueVarp uintptr, ReplyVarp uintptr) bool {
@@ -417,16 +427,20 @@ func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(User
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // ConnectScriptMessageWithReplyReceivedWithDetail connects to the "script-message-with-reply-received" signal with a detail string.
 // The detail is appended as "script-message-with-reply-received::<detail>".
-func (x *UserContentManager) ConnectScriptMessageWithReplyReceivedWithDetail(detail string, cb *func(UserContentManager, uintptr, uintptr) bool) uint32 {
+func (x *UserContentManager) ConnectScriptMessageWithReplyReceivedWithDetail(detail string, cb *func(UserContentManager, uintptr, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	signalName := fmt.Sprintf("script-message-with-reply-received::%s", detail)
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ValueVarp uintptr, ReplyVarp uintptr) bool {
@@ -439,7 +453,9 @@ func (x *UserContentManager) ConnectScriptMessageWithReplyReceivedWithDetail(det
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

@@ -144,10 +144,12 @@ func (x *Notification) GetPropertyTitle() string {
 }
 
 // Emitted when a notification has been clicked. See webkit_notification_clicked().
-func (x *Notification) ConnectClicked(cb *func(Notification)) uint32 {
+func (x *Notification) ConnectClicked(cb *func(Notification)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "clicked", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "clicked", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -160,17 +162,21 @@ func (x *Notification) ConnectClicked(cb *func(Notification)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "clicked", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "clicked", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when a notification has been withdrawn.
 //
 // The default handler will close the notification using libnotify, if built with
 // support for it.
-func (x *Notification) ConnectClosed(cb *func(Notification)) uint32 {
+func (x *Notification) ConnectClosed(cb *func(Notification)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -183,7 +189,9 @@ func (x *Notification) ConnectClosed(cb *func(Notification)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

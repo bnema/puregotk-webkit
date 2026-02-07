@@ -205,10 +205,12 @@ func (c *PrintOperation) SetGoPointer(ptr uintptr) {
 // Emitted when an error occurs while printing. The given @error, of the domain
 // %WEBKIT_PRINT_ERROR, contains further details of the failure.
 // The #WebKitPrintOperation::finished signal is emitted after this one.
-func (x *PrintOperation) ConnectFailed(cb *func(PrintOperation, uintptr)) uint32 {
+func (x *PrintOperation) ConnectFailed(cb *func(PrintOperation, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ErrorVarp uintptr) {
@@ -221,15 +223,19 @@ func (x *PrintOperation) ConnectFailed(cb *func(PrintOperation, uintptr)) uint32
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the print operation has finished doing everything
 // required for printing.
-func (x *PrintOperation) ConnectFinished(cb *func(PrintOperation)) uint32 {
+func (x *PrintOperation) ConnectFinished(cb *func(PrintOperation)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -242,7 +248,9 @@ func (x *PrintOperation) ConnectFinished(cb *func(PrintOperation)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

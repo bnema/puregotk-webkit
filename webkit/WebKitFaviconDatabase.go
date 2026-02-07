@@ -169,10 +169,12 @@ func (c *FaviconDatabase) SetGoPointer(ptr uintptr) {
 // to get the favicon. If you are interested in the favicon of a
 // #WebKitWebView it's easier to use the #WebKitWebView:favicon
 // property. See webkit_web_view_get_favicon() for more details.
-func (x *FaviconDatabase) ConnectFaviconChanged(cb *func(FaviconDatabase, string, string)) uint32 {
+func (x *FaviconDatabase) ConnectFaviconChanged(cb *func(FaviconDatabase, string, string)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "favicon-changed", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "favicon-changed", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, PageUriVarp string, FaviconUriVarp string) {
@@ -185,7 +187,9 @@ func (x *FaviconDatabase) ConnectFaviconChanged(cb *func(FaviconDatabase, string
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "favicon-changed", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "favicon-changed", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

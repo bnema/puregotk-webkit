@@ -142,10 +142,12 @@ func (x *AutomationSession) GetPropertyId() string {
 // a new web view added to a new window.
 // When creating a new web view and there's an active browsing context, the new window
 // or tab shouldn't be focused.
-func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) WebView) uint32 {
+func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) WebView) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) uintptr {
@@ -159,16 +161,20 @@ func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) Web
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // ConnectCreateWebViewWithDetail connects to the "create-web-view" signal with a detail string.
 // The detail is appended as "create-web-view::<detail>".
-func (x *AutomationSession) ConnectCreateWebViewWithDetail(detail string, cb *func(AutomationSession) WebView) uint32 {
+func (x *AutomationSession) ConnectCreateWebViewWithDetail(detail string, cb *func(AutomationSession) WebView) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	signalName := fmt.Sprintf("create-web-view::%s", detail)
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) uintptr {
@@ -182,15 +188,19 @@ func (x *AutomationSession) ConnectCreateWebViewWithDetail(detail string, cb *fu
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when the given automation session is about to finish.
 // It allows clients to perform any cleanup tasks before the session is destroyed.
-func (x *AutomationSession) ConnectWillClose(cb *func(AutomationSession)) uint32 {
+func (x *AutomationSession) ConnectWillClose(cb *func(AutomationSession)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "will-close", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "will-close", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -203,7 +213,9 @@ func (x *AutomationSession) ConnectWillClose(cb *func(AutomationSession)) uint32
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "will-close", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "will-close", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

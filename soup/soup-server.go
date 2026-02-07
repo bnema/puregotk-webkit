@@ -967,10 +967,12 @@ func (x *Server) GetPropertyServerHeader() string {
 // emitted; the signal exists primarily to allow the server to
 // free any state that it may have allocated in
 // [signal@Server::request-started].
-func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint32 {
+func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
@@ -983,15 +985,19 @@ func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the server has finished writing a response to
 // a request.
-func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint32 {
+func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
@@ -1004,7 +1010,9 @@ func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the server has successfully read a request.
@@ -1015,10 +1023,12 @@ func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint32 {
 // before any (non-early) handlers are called for the message,
 // and if it sets the message's #status_code, then normal
 // handler processing will be skipped.
-func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint32 {
+func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
@@ -1031,7 +1041,9 @@ func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted when the server has started reading a new request.
@@ -1046,10 +1058,12 @@ func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint32 {
 // a [signal@Server::request-finished] signal. If a network error
 // occurs, the processing will instead end with
 // [signal@Server::request-aborted].
-func (x *Server) ConnectRequestStarted(cb *func(Server, uintptr)) uint32 {
+func (x *Server) ConnectRequestStarted(cb *func(Server, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
@@ -1062,7 +1076,9 @@ func (x *Server) ConnectRequestStarted(cb *func(Server, uintptr)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

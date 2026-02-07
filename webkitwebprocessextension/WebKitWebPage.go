@@ -186,10 +186,12 @@ func (x *WebPage) GetPropertyUri() string {
 // produced by the use of JavaScript console API, a JavaScript exception,
 // a security error or other errors, warnings, debug or log messages.
 // The @console_message contains information of the message.
-func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint32 {
+func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "console-message-sent", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "console-message-sent", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ConsoleMessageVarp uintptr) {
@@ -202,7 +204,9 @@ func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "console-message-sent", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "console-message-sent", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // Emitted before a context menu is displayed in the UI Process to
@@ -213,10 +217,12 @@ func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint32 {
 // add menu entries depending on the node at the coordinates of the
 // @hit_test_result. Otherwise, it's recommended to use #WebKitWebView::context-menu
 // signal instead.
-func (x *WebPage) ConnectContextMenu(cb *func(WebPage, uintptr, uintptr) bool) uint32 {
+func (x *WebPage) ConnectContextMenu(cb *func(WebPage, uintptr, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, ContextMenuVarp uintptr, HitTestResultVarp uintptr) bool {
@@ -229,17 +235,21 @@ func (x *WebPage) ConnectContextMenu(cb *func(WebPage, uintptr, uintptr) bool) u
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when the DOM document of a #WebKitWebPage has been
 // loaded.
 //
 // You can wait for this signal to get the DOM document
-func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint32 {
+func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "document-loaded", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "document-loaded", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -252,7 +262,9 @@ func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint32 {
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "document-loaded", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "document-loaded", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when @request is about to be sent to
@@ -269,10 +281,12 @@ func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint32 {
 // Modifications to the #WebKitURIRequest and its associated
 // #SoupMessageHeaders will be taken into account when the request
 // is sent over the network.
-func (x *WebPage) ConnectSendRequest(cb *func(WebPage, uintptr, uintptr) bool) uint32 {
+func (x *WebPage) ConnectSendRequest(cb *func(WebPage, uintptr, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "send-request", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "send-request", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, RequestVarp uintptr, RedirectedResponseVarp uintptr) bool {
@@ -285,7 +299,9 @@ func (x *WebPage) ConnectSendRequest(cb *func(WebPage, uintptr, uintptr) bool) u
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "send-request", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "send-request", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when a #WebKitUserMessage is received from the
@@ -296,10 +312,12 @@ func (x *WebPage) ConnectSendRequest(cb *func(WebPage, uintptr, uintptr) bool) u
 // @message and returning %TRUE. If the last reference of @message is removed
 // and the message has been replied, the operation in the #WebKitWebView will
 // finish with error %WEBKIT_USER_MESSAGE_UNHANDLED_MESSAGE.
-func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, uintptr) bool) uint32 {
+func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MessageVarp uintptr) bool {
@@ -312,7 +330,9 @@ func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, uintptr) bool) ui
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

@@ -207,10 +207,12 @@ func (c *WebProcessExtension) SetGoPointer(ptr uintptr) {
 
 // This signal is emitted when a new #WebKitWebPage is created in
 // the Web Process.
-func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, uintptr)) uint32 {
+func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "page-created", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "page-created", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, WebPageVarp uintptr) {
@@ -223,17 +225,21 @@ func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, u
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "page-created", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "page-created", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 // This signal is emitted when a #WebKitUserMessage is received from the
 // #WebKitWebContext corresponding to @extension. Messages sent by #WebKitWebContext
 // are always broadcasted to all web extensions and they can't be
 // replied to. Calling webkit_user_message_send_reply() will do nothing.
-func (x *WebProcessExtension) ConnectUserMessageReceived(cb *func(WebProcessExtension, uintptr)) uint32 {
+func (x *WebProcessExtension) ConnectUserMessageReceived(cb *func(WebProcessExtension, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
@@ -246,7 +252,9 @@ func (x *WebProcessExtension) ConnectUserMessageReceived(cb *func(WebProcessExte
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {

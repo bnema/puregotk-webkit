@@ -142,10 +142,12 @@ func (x *ColorChooserRequest) GetPropertyRgba() uintptr {
 // user completed the @request calling webkit_color_chooser_request_finish(),
 // or cancelled it with webkit_color_chooser_request_cancel() or because the
 // color input element is removed from the DOM.
-func (x *ColorChooserRequest) ConnectFinished(cb *func(ColorChooserRequest)) uint32 {
+func (x *ColorChooserRequest) ConnectFinished(cb *func(ColorChooserRequest)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		return gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
+		handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
+		glib.SaveHandlerMapping(handlerID, cbPtr)
+		return handlerID
 	}
 
 	fcb := func(clsPtr uintptr) {
@@ -158,7 +160,9 @@ func (x *ColorChooserRequest) ConnectFinished(cb *func(ColorChooserRequest)) uin
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	return gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
+	handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
+	glib.SaveHandlerMapping(handlerID, cbPtr)
+	return handlerID
 }
 
 func init() {
