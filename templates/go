@@ -84,10 +84,10 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
           if cbRefPtr, ok := {{if $NotGLib}}glib.{{end}}GetCallback({{.Name}}Ptr); ok {
                {{.Name}}Ref = cbRefPtr
           } else {
-               fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
-                    cbFn := *{{.Name}}
-                    {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
-               }
+                fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
+                     cbFn := *{{.Name}}
+                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
+                }
                {{.Name}}Ref = purego.NewCallback(fcb)
                {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
@@ -116,10 +116,10 @@ func (x *{{$outer.Name}}) {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
           if cbRefPtr, ok := {{if $NotGLib}}glib.{{end}}GetCallback({{.Name}}Ptr); ok {
                {{.Name}}Ref = cbRefPtr
           } else {
-               fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
-                    cbFn := *{{.Name}}
-                    {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
-               }
+                fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
+                     cbFn := *{{.Name}}
+                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
+                }
                {{.Name}}Ref = purego.NewCallback(fcb)
                {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
@@ -301,10 +301,10 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
           if cbRefPtr, ok := {{if $NotGLib}}glib.{{end}}GetCallback({{.Name}}Ptr); ok {
                {{.Name}}Ref = cbRefPtr
           } else {
-               fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
-                    cbFn := *{{.Name}}
-                    {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
-               }
+                fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
+                     cbFn := *{{.Name}}
+                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
+                }
                {{.Name}}Ref = purego.NewCallback(fcb)
                {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
@@ -356,10 +356,10 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
           if cbRefPtr, ok := {{if $NotGLib}}glib.{{end}}GetCallback({{.Name}}Ptr); ok {
                {{.Name}}Ref = cbRefPtr
           } else {
-               fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
-                    cbFn := *{{.Name}}
-                    {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
-               }
+                fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
+                     cbFn := *{{.Name}}
+                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
+                }
                {{.Name}}Ref = purego.NewCallback(fcb)
                {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
@@ -388,10 +388,10 @@ func (x *{{$outer.Name}}) {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
           if cbRefPtr, ok := {{if $NotGLib}}glib.{{end}}GetCallback({{.Name}}Ptr); ok {
                {{.Name}}Ref = cbRefPtr
           } else {
-               fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
-                    cbFn := *{{.Name}}
-                    {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
-               }
+                fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
+                     cbFn := *{{.Name}}
+                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
+                }
                {{.Name}}Ref = purego.NewCallback(fcb)
                {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
@@ -531,10 +531,10 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
           if cbRefPtr, ok := {{if $NotGLib}}glib.{{end}}GetCallback({{.Name}}Ptr); ok {
                {{.Name}}Ref = cbRefPtr
           } else {
-               fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
-                    cbFn := *{{.Name}}
-                    {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
-               }
+                fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
+                     cbFn := *{{.Name}}
+                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
+                }
                {{.Name}}Ref = purego.NewCallback(fcb)
                {{if $NotGLib}}glib.{{end}}SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
           }
