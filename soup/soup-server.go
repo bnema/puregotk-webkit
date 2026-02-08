@@ -372,9 +372,9 @@ func (x *Server) AddEarlyHandler(PathVar *string, CallbackVar *ServerCallback, U
 		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
 			CallbackVarRef = cbRefPtr
 		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 *glib.HashTable, arg4 uintptr) {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 *glib.HashTable, arg4 uintptr) {
 				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2, arg3, arg4)
+				cbFn(arg0, arg1, core.GoString(arg2), arg3, arg4)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
 			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
@@ -446,9 +446,9 @@ func (x *Server) AddHandler(PathVar *string, CallbackVar *ServerCallback, UserDa
 		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
 			CallbackVarRef = cbRefPtr
 		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 *glib.HashTable, arg4 uintptr) {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 *glib.HashTable, arg4 uintptr) {
 				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2, arg3, arg4)
+				cbFn(arg0, arg1, core.GoString(arg2), arg3, arg4)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
 			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
@@ -521,9 +521,9 @@ func (x *Server) AddWebsocketHandler(PathVar *string, OriginVar *string, Protoco
 		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
 			CallbackVarRef = cbRefPtr
 		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 uintptr, arg4 uintptr) {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 uintptr, arg4 uintptr) {
 				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2, arg3, arg4)
+				cbFn(arg0, arg1, core.GoString(arg2), arg3, arg4)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
 			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)

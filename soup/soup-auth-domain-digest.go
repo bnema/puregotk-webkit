@@ -90,9 +90,9 @@ func (x *AuthDomainDigest) SetAuthCallback(CallbackVar *AuthDomainDigestAuthCall
 		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
 			CallbackVarRef = cbRefPtr
 		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 string, arg3 uintptr) string {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 uintptr) string {
 				cbFn := *CallbackVar
-				return cbFn(arg0, arg1, arg2, arg3)
+				return cbFn(arg0, arg1, core.GoString(arg2), arg3)
 			}
 			CallbackVarRef = purego.NewCallback(fcb)
 			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)

@@ -190,9 +190,9 @@ func (x *Logger) SetPrinter(PrinterVar *LoggerPrinter, PrinterDataVar uintptr, D
 		if cbRefPtr, ok := glib.GetCallback(PrinterVarPtr); ok {
 			PrinterVarRef = cbRefPtr
 		} else {
-			fcb := func(arg0 uintptr, arg1 LoggerLogLevel, arg2 byte, arg3 string, arg4 uintptr) {
+			fcb := func(arg0 uintptr, arg1 LoggerLogLevel, arg2 byte, arg3 uintptr, arg4 uintptr) {
 				cbFn := *PrinterVar
-				cbFn(arg0, arg1, arg2, arg3, arg4)
+				cbFn(arg0, arg1, arg2, core.GoString(arg3), arg4)
 			}
 			PrinterVarRef = purego.NewCallback(fcb)
 			glib.SaveCallbackWithClosure(PrinterVarPtr, PrinterVarRef, PrinterVar)

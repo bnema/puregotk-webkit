@@ -98,9 +98,9 @@ func (x *MessageHeaders) Foreach(FuncVar *MessageHeadersForeachFunc, UserDataVar
 		if cbRefPtr, ok := glib.GetCallback(FuncVarPtr); ok {
 			FuncVarRef = cbRefPtr
 		} else {
-			fcb := func(arg0 string, arg1 string, arg2 uintptr) {
+			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
 				cbFn := *FuncVar
-				cbFn(arg0, arg1, arg2)
+				cbFn(core.GoString(arg0), core.GoString(arg1), arg2)
 			}
 			FuncVarRef = purego.NewCallback(fcb)
 			glib.SaveCallbackWithClosure(FuncVarPtr, FuncVarRef, FuncVar)
