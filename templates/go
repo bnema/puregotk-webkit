@@ -288,6 +288,19 @@ const (
 )
 {{end}}
 
+{{- define "glib_source_mapping_post_hook" -}}
+{{- if or (eq .Name "ChildWatchAdd") (eq .Name "ChildWatchAddFull") (eq .Name "IdleAdd") (eq .Name "IdleAddFull") (eq .Name "IdleAddOnce") (eq .Name "TimeoutAdd") (eq .Name "TimeoutAddFull") (eq .Name "TimeoutAddOnce") (eq .Name "TimeoutAddSeconds") (eq .Name "TimeoutAddSecondsFull") (eq .Name "TimeoutAddSecondsOnce")}}
+if FunctionVar != nil {
+     SaveSourceMapping(cret, uintptr(unsafe.Pointer(FunctionVar)))
+}
+{{- end}}
+{{- if eq .Name "SourceRemove"}}
+if cret {
+     RemoveCallbackBySource(TagVar)
+}
+{{- end}}
+{{- end}}
+
 {{range .Functions -}}
 var x{{.Name}} func({{conv .Args.Pure.Types}}) {{.Ret.Raw}}
 
@@ -315,6 +328,9 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret := {{end}}x{{.Name}}({{convd .Args.API.CallWithRefs}})
+     {{- if eq $.PkgName "glib"}}
+     {{template "glib_source_mapping_post_hook" .}}
+     {{- end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
@@ -545,6 +561,9 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      defer core.GFreeNullable({{.Name}}Ptr)
      {{end}}
      {{if .Ret.Value}}cret := {{end}}x{{.Name}}({{convd .Args.API.CallWithRefs}})
+     {{- if eq $.PkgName "glib"}}
+     {{template "glib_source_mapping_post_hook" .}}
+     {{- end}}
      {{.Ret.Fmt $NotGObject}}
 }
 {{end}}
