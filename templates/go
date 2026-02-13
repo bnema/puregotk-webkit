@@ -289,15 +289,54 @@ const (
 {{end}}
 
 {{- define "glib_source_mapping_post_hook" -}}
-{{- if or (eq .Name "ChildWatchAdd") (eq .Name "ChildWatchAddFull") (eq .Name "IdleAdd") (eq .Name "IdleAddFull") (eq .Name "IdleAddOnce") (eq .Name "TimeoutAdd") (eq .Name "TimeoutAddFull") (eq .Name "TimeoutAddOnce") (eq .Name "TimeoutAddSeconds") (eq .Name "TimeoutAddSecondsFull") (eq .Name "TimeoutAddSecondsOnce")}}
-if FunctionVar != nil {
-     SaveSourceMapping(cret, uintptr(unsafe.Pointer(FunctionVar)))
-}
-{{- end}}
 {{- if eq .Name "SourceRemove"}}
 if cret {
      RemoveCallbackBySource(TagVar)
+     removeSourceTrampolineBySourceID(TagVar)
 }
+{{- end}}
+{{- end}}
+
+{{- /* glib_source_trampoline_body emits the entire function body for IdleAdd/TimeoutAdd
+       family functions. These use a shared purego trampoline callback instead of allocating
+       a new purego callback slot per call. */ -}}
+{{- /* glib_source_trampoline_body emits the entire function body for IdleAdd/TimeoutAdd
+       family functions. These use a shared purego trampoline callback instead of allocating
+       a new purego callback slot per call. */ -}}
+{{- define "glib_source_trampoline_body" -}}
+{{- if or (eq .Name "IdleAdd") (eq .Name "TimeoutAdd") (eq .Name "TimeoutAddSeconds") -}}
+     trampolineCb, userData := registerSourceFunc(FunctionVar, false)
+     cret := x{{.Name}}({{- if or (eq .Name "TimeoutAdd") (eq .Name "TimeoutAddSeconds") -}}IntervalVar, {{end}}trampolineCb, userData)
+     saveSourceTrampolineMapping(cret, userData)
+     return cret
+{{- else if or (eq .Name "IdleAddOnce") (eq .Name "TimeoutAddOnce") (eq .Name "TimeoutAddSecondsOnce") -}}
+     trampolineCb, userData := registerSourceOnceFunc(FunctionVar)
+     cret := x{{.Name}}({{- if or (eq .Name "TimeoutAddOnce") (eq .Name "TimeoutAddSecondsOnce") -}}IntervalVar, {{end}}trampolineCb, userData)
+     saveSourceTrampolineMapping(cret, userData)
+     return cret
+{{- else if or (eq .Name "IdleAddFull") (eq .Name "TimeoutAddFull") (eq .Name "TimeoutAddSecondsFull") -}}
+     trampolineCb, userData := registerSourceFunc(FunctionVar, false)
+     {{range .Args.Callbacks -}}
+     {{- if eq .Name "NotifyVar" -}}
+     var {{.Name}}Ref uintptr
+     if {{.Name}} != nil {
+          {{.Name}}Ptr := uintptr(unsafe.Pointer({{.Name}}))
+          if cbRefPtr, ok := GetCallback({{.Name}}Ptr); ok {
+               {{.Name}}Ref = cbRefPtr
+          } else {
+                fcb := func({{range $i, $t := .PureTypes}}{{if $i}}, {{end}}arg{{$i}} {{$t}}{{end}}) {{.RetRaw}} {
+                     cbFn := *{{.Name}}
+                     {{if .RetRaw}}return {{end}}cbFn({{range $i, $a := .CallArgs}}{{if $i}}, {{end}}{{$a}}{{end}})
+                }
+               {{.Name}}Ref = purego.NewCallback(fcb)
+               SaveCallbackWithClosure({{.Name}}Ptr, {{.Name}}Ref, {{.Name}})
+          }
+     }
+     {{- end}}
+     {{- end}}
+     cret := x{{.Name}}(PriorityVar, {{- if or (eq .Name "TimeoutAddFull") (eq .Name "TimeoutAddSecondsFull") -}}IntervalVar, {{end}}trampolineCb, userData, NotifyVarRef)
+     saveSourceTrampolineMapping(cret, userData)
+     return cret
 {{- end}}
 {{- end}}
 
@@ -306,6 +345,9 @@ var x{{.Name}} func({{conv .Args.Pure.Types}}) {{.Ret.Raw}}
 
 {{.Doc}}
 func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
+     {{- if and (not $NotGLib) (or (eq .Name "IdleAdd") (eq .Name "IdleAddFull") (eq .Name "IdleAddOnce") (eq .Name "TimeoutAdd") (eq .Name "TimeoutAddFull") (eq .Name "TimeoutAddOnce") (eq .Name "TimeoutAddSeconds") (eq .Name "TimeoutAddSecondsFull") (eq .Name "TimeoutAddSecondsOnce"))}}
+     {{template "glib_source_trampoline_body" .}}
+     {{- else}}
      {{.Ret.Preamble $NotGLib}}
      {{range .Args.Callbacks}}
      var {{.Name}}Ref uintptr
@@ -332,6 +374,7 @@ func {{.Name}}({{conv .Args.API.Full}}) {{.Ret.Return}} {
      {{template "glib_source_mapping_post_hook" .}}
      {{- end}}
      {{.Ret.Fmt $NotGObject}}
+     {{- end}}
 }
 {{end}}
 
