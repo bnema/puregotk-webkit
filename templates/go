@@ -33,7 +33,7 @@ import (
 	"structs"
 {{- end}}
 {{- if $NeedsPurego}}
-	"github.com/jwijenbergh/purego"
+	"github.com/ebitengine/purego"
 {{- end}}
 {{- if $NeedsCore}}
 	"github.com/jwijenbergh/puregotk/pkg/core"

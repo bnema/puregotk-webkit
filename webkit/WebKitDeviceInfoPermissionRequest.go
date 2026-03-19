@@ -5,8 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/jwijenbergh/purego"
-	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
 	"github.com/jwijenbergh/puregotk/v4/gobject/types"
 )
@@ -69,19 +67,4 @@ func (x *DeviceInfoPermissionRequest) Deny() {
 
 	XWebkitPermissionRequestDeny(x.GoPointer())
 
-}
-
-func init() {
-	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKIT") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xDeviceInfoPermissionRequestGLibType, libs, "webkit_device_info_permission_request_get_type")
 }

@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Sync template from puregotk fork
-curl -sL https://raw.githubusercontent.com/bnema/puregotk/main/templates/go -o templates/go
+# Sync template from local puregotk
+cp ../puregotk/templates/go templates/go
 
-echo "Template synced from bnema/puregotk"
-echo "Run 'go generate && goimports -w .' to regenerate"
+echo "Template synced from local ../puregotk"
+echo "Run './gen.sh' to regenerate"

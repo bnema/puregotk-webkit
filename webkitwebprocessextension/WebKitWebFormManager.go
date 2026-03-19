@@ -6,7 +6,7 @@ import (
 	"unsafe"
 
 	"github.com/bnema/puregotk-webkit/javascriptcore"
-	"github.com/jwijenbergh/purego"
+	"github.com/ebitengine/purego"
 	"github.com/jwijenbergh/puregotk/pkg/core"
 	"github.com/jwijenbergh/puregotk/v4/glib"
 	"github.com/jwijenbergh/puregotk/v4/gobject"
