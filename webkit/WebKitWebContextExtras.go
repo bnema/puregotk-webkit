@@ -2,7 +2,7 @@
 package webkit
 
 import (
-	"github.com/jwijenbergh/puregotk/v4/gobject"
+	"github.com/bnema/puregotk/v4/gobject"
 )
 
 // WebContextOptions contains construct-only properties for creating a WebContext.

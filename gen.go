@@ -7,8 +7,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/jwijenbergh/puregotk/pkg/gir/pass"
-	"github.com/jwijenbergh/puregotk/pkg/gir/util"
+	"github.com/bnema/puregotk/pkg/gir/pass"
+	"github.com/bnema/puregotk/pkg/gir/util"
 )
 
 //go:generate go run gen.go
@@ -106,7 +106,7 @@ func writeWebContextExtras(dir string) error {
 package webkit
 
 import (
-	"github.com/jwijenbergh/puregotk/v4/gobject"
+	"github.com/bnema/puregotk/v4/gobject"
 )
 
 // WebContextOptions contains construct-only properties for creating a WebContext.
@@ -191,7 +191,7 @@ func writeWebViewExtras(dir string) error {
 package webkit
 
 import (
-	"github.com/jwijenbergh/puregotk/v4/gobject"
+	"github.com/bnema/puregotk/v4/gobject"
 )
 
 // WebViewOptions contains construct-only properties for creating a WebView.
