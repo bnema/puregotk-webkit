@@ -528,7 +528,7 @@ func (x *WebsocketConnection) ConnectClosing(cb *func(WebsocketConnection)) uint
 //
 // This may be fired multiple times. Fatal errors will be followed by
 // the [signal@WebsocketConnection::closed] signal being emitted.
-func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, uintptr)) uint {
+func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, *glib.Error)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "error", cbRefPtr)
@@ -536,12 +536,12 @@ func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, uintptr
 		return handlerID
 	}
 
-	fcb := func(clsPtr uintptr, ErrorVarp uintptr) {
+	fcb := func(clsPtr uintptr, ErrorVarp unsafe.Pointer) {
 		fa := WebsocketConnection{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, ErrorVarp)
+		cbFn(fa, (*glib.Error)(ErrorVarp))
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

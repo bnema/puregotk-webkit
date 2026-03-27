@@ -2,3 +2,7 @@ github.com/bnema/purego v0.0.0-20260323095903-91aa177a2704 h1:0GaiO4102gOdp0es0M
 github.com/bnema/purego v0.0.0-20260323095903-91aa177a2704/go.mod h1:iIjxzd6CiRiOG0UyXP+V1+jWqUXVjPKLAI0mRfJZTmQ=
 github.com/bnema/puregotk v0.2.0 h1:lQ3zKbSRbAej/OWRlknrVTRxSzjxynamULjutV83bWM=
 github.com/bnema/puregotk v0.2.0/go.mod h1:Sl24sbCl02M/HLCNUgaYVCckkYcGOi8yxMuGuQVWsL8=
+github.com/bnema/puregotk v0.2.1 h1:Fgx52I4pLf+RnBbazhXU6FmPp+37fYcRq3pdhD8WWns=
+github.com/bnema/puregotk v0.2.1/go.mod h1:Sl24sbCl02M/HLCNUgaYVCckkYcGOi8yxMuGuQVWsL8=
+github.com/bnema/puregotk v0.2.2 h1:lt9iOwOCHS0X9R4y+SK+zJsbQPGfsfPTyYTuBPWpBKM=
+github.com/bnema/puregotk v0.2.2/go.mod h1:Sl24sbCl02M/HLCNUgaYVCckkYcGOi8yxMuGuQVWsL8=

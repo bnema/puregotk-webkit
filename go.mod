@@ -2,7 +2,7 @@ module github.com/bnema/puregotk-webkit
 
 go 1.26.1
 
-require github.com/bnema/puregotk v0.2.0
+require github.com/bnema/puregotk v0.2.2
 
 require github.com/ebitengine/purego v0.10.0
 

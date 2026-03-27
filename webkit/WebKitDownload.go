@@ -332,7 +332,7 @@ func (x *Download) ConnectDecideDestination(cb *func(Download, string) bool) uin
 // with webkit_download_cancel(), this signal is emitted with error
 // %WEBKIT_DOWNLOAD_ERROR_CANCELLED_BY_USER. The download operation finishes
 // after an error and #WebKitDownload::finished signal is emitted after this one.
-func (x *Download) ConnectFailed(cb *func(Download, uintptr)) uint {
+func (x *Download) ConnectFailed(cb *func(Download, *glib.Error)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
@@ -340,12 +340,12 @@ func (x *Download) ConnectFailed(cb *func(Download, uintptr)) uint {
 		return handlerID
 	}
 
-	fcb := func(clsPtr uintptr, ErrorVarp uintptr) {
+	fcb := func(clsPtr uintptr, ErrorVarp unsafe.Pointer) {
 		fa := Download{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, ErrorVarp)
+		cbFn(fa, (*glib.Error)(ErrorVarp))
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
