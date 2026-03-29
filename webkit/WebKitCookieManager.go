@@ -108,7 +108,12 @@ func (x *CookieManager) AddCookie(CookieVar *soup.Cookie, CancellableVar *gio.Ca
 		}
 	}
 
-	xCookieManagerAddCookie(x.GoPointer(), CookieVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xCookieManagerAddCookie(x.GoPointer(), CookieVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -149,7 +154,12 @@ func (x *CookieManager) DeleteCookie(CookieVar *soup.Cookie, CancellableVar *gio
 		}
 	}
 
-	xCookieManagerDeleteCookie(x.GoPointer(), CookieVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xCookieManagerDeleteCookie(x.GoPointer(), CookieVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -194,7 +204,12 @@ func (x *CookieManager) GetAcceptPolicy(CancellableVar *gio.Cancellable, Callbac
 		}
 	}
 
-	xCookieManagerGetAcceptPolicy(x.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xCookieManagerGetAcceptPolicy(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -235,7 +250,12 @@ func (x *CookieManager) GetAllCookies(CancellableVar *gio.Cancellable, CallbackV
 		}
 	}
 
-	xCookieManagerGetAllCookies(x.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xCookieManagerGetAllCookies(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -282,7 +302,12 @@ func (x *CookieManager) GetCookies(UriVar string, CancellableVar *gio.Cancellabl
 		}
 	}
 
-	xCookieManagerGetCookies(x.GoPointer(), UriVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xCookieManagerGetCookies(x.GoPointer(), UriVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -326,7 +351,12 @@ func (x *CookieManager) ReplaceCookies(CookiesVar *glib.List, CancellableVar *gi
 		}
 	}
 
-	xCookieManagerReplaceCookies(x.GoPointer(), CookiesVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xCookieManagerReplaceCookies(x.GoPointer(), CookiesVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 

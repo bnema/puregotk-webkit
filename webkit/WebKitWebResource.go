@@ -73,7 +73,12 @@ func (x *WebResource) GetData(CancellableVar *gio.Cancellable, CallbackVar *gio.
 		}
 	}
 
-	xWebResourceGetData(x.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xWebResourceGetData(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -201,7 +206,7 @@ func (x *WebResource) ConnectFailed(cb *func(WebResource, *glib.Error)) uint {
 }
 
 // This signal is emitted when a TLS error occurs during the resource load operation.
-func (x *WebResource) ConnectFailedWithTlsErrors(cb *func(WebResource, uintptr, gio.TlsCertificateFlags)) uint {
+func (x *WebResource) ConnectFailedWithTlsErrors(cb *func(WebResource, *gio.TlsCertificate, gio.TlsCertificateFlags)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "failed-with-tls-errors", cbRefPtr)
@@ -214,7 +219,7 @@ func (x *WebResource) ConnectFailedWithTlsErrors(cb *func(WebResource, uintptr, 
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, CertificateVarp, ErrorsVarp)
+		cbFn(fa, func() *gio.TlsCertificate { cls := &gio.TlsCertificate{}; cls.Ptr = CertificateVarp; return cls }(), ErrorsVarp)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -256,7 +261,7 @@ func (x *WebResource) ConnectFinished(cb *func(WebResource)) uint {
 // request sent to the server due to the redirection and the
 // @redirected_response parameter containing the response
 // received by the server for the initial request.
-func (x *WebResource) ConnectSentRequest(cb *func(WebResource, uintptr, uintptr)) uint {
+func (x *WebResource) ConnectSentRequest(cb *func(WebResource, *URIRequest, *URIResponse)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "sent-request", cbRefPtr)
@@ -269,7 +274,7 @@ func (x *WebResource) ConnectSentRequest(cb *func(WebResource, uintptr, uintptr)
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, RequestVarp, RedirectedResponseVarp)
+		cbFn(fa, func() *URIRequest { cls := &URIRequest{}; cls.Ptr = RequestVarp; return cls }(), func() *URIResponse { cls := &URIResponse{}; cls.Ptr = RedirectedResponseVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

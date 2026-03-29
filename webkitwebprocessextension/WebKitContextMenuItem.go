@@ -211,7 +211,12 @@ var xContextMenuItemSetSubmenu func(uintptr, uintptr)
 // submenu of @item is removed.
 func (x *ContextMenuItem) SetSubmenu(SubmenuVar *ContextMenu) {
 
-	xContextMenuItemSetSubmenu(x.GoPointer(), SubmenuVar.GoPointer())
+	var SubmenuVarPtr uintptr
+	if SubmenuVar != nil {
+		SubmenuVarPtr = SubmenuVar.GoPointer()
+	}
+
+	xContextMenuItemSetSubmenu(x.GoPointer(), SubmenuVarPtr)
 
 }
 

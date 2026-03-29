@@ -43,7 +43,12 @@ var xNewCredentialForCertificate func(uintptr, CredentialPersistence) *Credentia
 // Note that %WEBKIT_CREDENTIAL_PERSISTENCE_PERMANENT is not supported for certificate credentials.
 func NewCredentialForCertificate(CertificateVar *gio.TlsCertificate, PersistenceVar CredentialPersistence) *Credential {
 
-	cret := xNewCredentialForCertificate(CertificateVar.GoPointer(), PersistenceVar)
+	var CertificateVarPtr uintptr
+	if CertificateVar != nil {
+		CertificateVarPtr = CertificateVar.GoPointer()
+	}
+
+	cret := xNewCredentialForCertificate(CertificateVarPtr, PersistenceVar)
 	return cret
 }
 

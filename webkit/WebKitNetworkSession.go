@@ -170,7 +170,12 @@ func (x *NetworkSession) GetItpSummary(CancellableVar *gio.Cancellable, Callback
 		}
 	}
 
-	xNetworkSessionGetItpSummary(x.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xNetworkSessionGetItpSummary(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -346,7 +351,7 @@ func (x *NetworkSession) GetPropertyIsEphemeral() bool {
 }
 
 // This signal is emitted when a new download request is made.
-func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, uintptr)) uint {
+func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, *Download)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "download-started", cbRefPtr)
@@ -359,7 +364,7 @@ func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, uintptr
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, DownloadVarp)
+		cbFn(fa, func() *Download { cls := &Download{}; cls.Ptr = DownloadVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

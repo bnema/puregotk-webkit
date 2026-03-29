@@ -60,7 +60,7 @@ func (c *WebFormManager) SetGoPointer(ptr uintptr) {
 //
 // Clients should take a reference to the members of the @elements array if it is desired to
 // keep them alive after the signal handler returns.
-func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, uintptr, []javascriptcore.Value)) uint {
+func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, *Frame, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "form-controls-associated", cbRefPtr)
@@ -68,12 +68,12 @@ func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, 
 		return handlerID
 	}
 
-	fcb := func(clsPtr uintptr, FrameVarp uintptr, ElementsVarp []javascriptcore.Value) {
+	fcb := func(clsPtr uintptr, FrameVarp uintptr, ElementsVarp uintptr) {
 		fa := WebFormManager{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, FrameVarp, ElementsVarp)
+		cbFn(fa, func() *Frame { cls := &Frame{}; cls.Ptr = FrameVarp; return cls }(), ElementsVarp)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -95,7 +95,7 @@ func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, 
 // fields even if JavaScript later clears certain fields before submitting. This may
 // be needed, for example, to implement a robust browser password manager, as some
 // misguided websites may use such techniques to attempt to thwart password managers.
-func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uintptr, uintptr, uintptr)) uint {
+func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, *javascriptcore.Value, *Frame, *Frame)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "will-send-submit-event", cbRefPtr)
@@ -108,7 +108,7 @@ func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uin
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, FormVarp, SourceFrameVarp, TargetFrameVarp)
+		cbFn(fa, func() *javascriptcore.Value { cls := &javascriptcore.Value{}; cls.Ptr = FormVarp; return cls }(), func() *Frame { cls := &Frame{}; cls.Ptr = SourceFrameVarp; return cls }(), func() *Frame { cls := &Frame{}; cls.Ptr = TargetFrameVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -123,7 +123,7 @@ func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uin
 // its target, so use this event to reliably detect when a form is submitted. This
 // signal is emitted after #WebKitWebFormManager::will-send-submit-event if that
 // signal is emitted.
-func (x *WebFormManager) ConnectWillSubmitForm(cb *func(WebFormManager, uintptr, uintptr, uintptr)) uint {
+func (x *WebFormManager) ConnectWillSubmitForm(cb *func(WebFormManager, *javascriptcore.Value, *Frame, *Frame)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "will-submit-form", cbRefPtr)
@@ -136,7 +136,7 @@ func (x *WebFormManager) ConnectWillSubmitForm(cb *func(WebFormManager, uintptr,
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, FormVarp, SourceFrameVarp, TargetFrameVarp)
+		cbFn(fa, func() *javascriptcore.Value { cls := &javascriptcore.Value{}; cls.Ptr = FormVarp; return cls }(), func() *Frame { cls := &Frame{}; cls.Ptr = SourceFrameVarp; return cls }(), func() *Frame { cls := &Frame{}; cls.Ptr = TargetFrameVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

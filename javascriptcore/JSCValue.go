@@ -168,12 +168,12 @@ func NewValueArrayBuffer(ContextVar *Context, DataVar uintptr, SizeVar uint, Des
 	return cls
 }
 
-var xNewValueArrayFromGarray func(uintptr, []Value) uintptr
+var xNewValueArrayFromGarray func(uintptr, uintptr) uintptr
 
 // Create a new #JSCValue referencing an array with the items from @array. If @array
 // is %NULL or empty a new empty array will be created. Elements of @array should be
 // pointers to a #JSCValue.
-func NewValueArrayFromGarray(ContextVar *Context, ArrayVar []Value) *Value {
+func NewValueArrayFromGarray(ContextVar *Context, ArrayVar uintptr) *Value {
 	var cls *Value
 
 	cret := xNewValueArrayFromGarray(ContextVar.GoPointer(), ArrayVar)
@@ -446,7 +446,12 @@ var xNewValueObject func(uintptr, uintptr, uintptr) uintptr
 func NewValueObject(ContextVar *Context, InstanceVar uintptr, JscClassVar *Class) *Value {
 	var cls *Value
 
-	cret := xNewValueObject(ContextVar.GoPointer(), InstanceVar, JscClassVar.GoPointer())
+	var JscClassVarPtr uintptr
+	if JscClassVar != nil {
+		JscClassVarPtr = JscClassVar.GoPointer()
+	}
+
+	cret := xNewValueObject(ContextVar.GoPointer(), InstanceVar, JscClassVarPtr)
 
 	if cret == 0 {
 		return nil
@@ -618,11 +623,11 @@ func (x *Value) ConstructorCall(FirstParameterTypeVar types.GType, varArgs ...in
 	return cls
 }
 
-var xValueConstructorCallv func(uintptr, uint, []Value) uintptr
+var xValueConstructorCallv func(uintptr, uint, uintptr) uintptr
 
 // Invoke &lt;function&gt;new&lt;/function&gt; with constructor referenced by @value. If @n_parameters
 // is 0 no parameters will be passed to the constructor.
-func (x *Value) ConstructorCallv(NParametersVar uint, ParametersVar []Value) *Value {
+func (x *Value) ConstructorCallv(NParametersVar uint, ParametersVar uintptr) *Value {
 	var cls *Value
 
 	cret := xValueConstructorCallv(x.GoPointer(), NParametersVar, ParametersVar)
@@ -655,14 +660,14 @@ func (x *Value) FunctionCall(FirstParameterTypeVar types.GType, varArgs ...inter
 	return cls
 }
 
-var xValueFunctionCallv func(uintptr, uint, []Value) uintptr
+var xValueFunctionCallv func(uintptr, uint, uintptr) uintptr
 
 // Call function referenced by @value, passing the given @parameters. If @n_parameters
 // is 0 no parameters will be passed to the function.
 //
 // This function always returns a #JSCValue, in case of void functions a #JSCValue referencing
 // &lt;function&gt;undefined&lt;/function&gt; is returned
-func (x *Value) FunctionCallv(NParametersVar uint, ParametersVar []Value) *Value {
+func (x *Value) FunctionCallv(NParametersVar uint, ParametersVar uintptr) *Value {
 	var cls *Value
 
 	cret := xValueFunctionCallv(x.GoPointer(), NParametersVar, ParametersVar)
@@ -892,7 +897,12 @@ var xValueObjectDefinePropertyData func(uintptr, string, ValuePropertyFlags, uin
 // JavaScript &lt;function&gt;Object.defineProperty()&lt;/function&gt; when used with a data descriptor.
 func (x *Value) ObjectDefinePropertyData(PropertyNameVar string, FlagsVar ValuePropertyFlags, PropertyValueVar *Value) {
 
-	xValueObjectDefinePropertyData(x.GoPointer(), PropertyNameVar, FlagsVar, PropertyValueVar.GoPointer())
+	var PropertyValueVarPtr uintptr
+	if PropertyValueVar != nil {
+		PropertyValueVarPtr = PropertyValueVar.GoPointer()
+	}
+
+	xValueObjectDefinePropertyData(x.GoPointer(), PropertyNameVar, FlagsVar, PropertyValueVarPtr)
 
 }
 
@@ -980,7 +990,7 @@ func (x *Value) ObjectInvokeMethod(NameVar string, FirstParameterTypeVar types.G
 	return cls
 }
 
-var xValueObjectInvokeMethodv func(uintptr, string, uint, []Value) uintptr
+var xValueObjectInvokeMethodv func(uintptr, string, uint, uintptr) uintptr
 
 // Invoke method with @name on object referenced by @value, passing the given @parameters. If
 // @n_parameters is 0 no parameters will be passed to the method.
@@ -990,7 +1000,7 @@ var xValueObjectInvokeMethodv func(uintptr, string, uint, []Value) uintptr
 //
 // This function always returns a #JSCValue, in case of void methods a #JSCValue referencing
 // &lt;function&gt;undefined&lt;/function&gt; is returned.
-func (x *Value) ObjectInvokeMethodv(NameVar string, NParametersVar uint, ParametersVar []Value) *Value {
+func (x *Value) ObjectInvokeMethodv(NameVar string, NParametersVar uint, ParametersVar uintptr) *Value {
 	var cls *Value
 
 	cret := xValueObjectInvokeMethodv(x.GoPointer(), NameVar, NParametersVar, ParametersVar)

@@ -169,7 +169,12 @@ func (x *WebProcessExtension) SendMessageToContext(MessageVar *UserMessage, Canc
 		}
 	}
 
-	xWebProcessExtensionSendMessageToContext(x.GoPointer(), MessageVar.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xWebProcessExtensionSendMessageToContext(x.GoPointer(), MessageVar.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -207,7 +212,7 @@ func (c *WebProcessExtension) SetGoPointer(ptr uintptr) {
 
 // This signal is emitted when a new #WebKitWebPage is created in
 // the Web Process.
-func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, uintptr)) uint {
+func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, *WebPage)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "page-created", cbRefPtr)
@@ -220,7 +225,7 @@ func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, u
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, WebPageVarp)
+		cbFn(fa, func() *WebPage { cls := &WebPage{}; cls.Ptr = WebPageVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -234,7 +239,7 @@ func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, u
 // #WebKitWebContext corresponding to @extension. Messages sent by #WebKitWebContext
 // are always broadcasted to all web extensions and they can't be
 // replied to. Calling webkit_user_message_send_reply() will do nothing.
-func (x *WebProcessExtension) ConnectUserMessageReceived(cb *func(WebProcessExtension, uintptr)) uint {
+func (x *WebProcessExtension) ConnectUserMessageReceived(cb *func(WebProcessExtension, *UserMessage)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
@@ -247,7 +252,7 @@ func (x *WebProcessExtension) ConnectUserMessageReceived(cb *func(WebProcessExte
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, MessageVarp)
+		cbFn(fa, func() *UserMessage { cls := &UserMessage{}; cls.Ptr = MessageVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

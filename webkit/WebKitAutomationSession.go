@@ -140,7 +140,7 @@ func (x *AutomationSession) GetPropertyId() string {
 // a new web view added to a new window.
 // When creating a new web view and there's an active browsing context, the new window
 // or tab shouldn't be focused.
-func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) WebView) uint {
+func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) *WebView) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
@@ -166,7 +166,7 @@ func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) Web
 
 // ConnectCreateWebViewWithDetail connects to the "create-web-view" signal with a detail string.
 // The detail is appended as "create-web-view::<detail>".
-func (x *AutomationSession) ConnectCreateWebViewWithDetail(detail string, cb *func(AutomationSession) WebView) uint {
+func (x *AutomationSession) ConnectCreateWebViewWithDetail(detail string, cb *func(AutomationSession) *WebView) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	signalName := fmt.Sprintf("create-web-view::%s", detail)
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {

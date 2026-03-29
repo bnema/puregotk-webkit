@@ -231,7 +231,12 @@ func (x *WebsiteDataManager) Clear(TypesVar WebsiteDataTypes, TimespanVar glib.T
 		}
 	}
 
-	xWebsiteDataManagerClear(x.GoPointer(), TypesVar, TimespanVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xWebsiteDataManagerClear(x.GoPointer(), TypesVar, TimespanVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -272,7 +277,12 @@ func (x *WebsiteDataManager) Fetch(TypesVar WebsiteDataTypes, CancellableVar *gi
 		}
 	}
 
-	xWebsiteDataManagerFetch(x.GoPointer(), TypesVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xWebsiteDataManagerFetch(x.GoPointer(), TypesVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -360,7 +370,12 @@ func (x *WebsiteDataManager) GetItpSummary(CancellableVar *gio.Cancellable, Call
 		}
 	}
 
-	xWebsiteDataManagerGetItpSummary(x.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xWebsiteDataManagerGetItpSummary(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -415,7 +430,12 @@ func (x *WebsiteDataManager) Remove(TypesVar WebsiteDataTypes, WebsiteDataVar *g
 		}
 	}
 
-	xWebsiteDataManagerRemove(x.GoPointer(), TypesVar, WebsiteDataVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xWebsiteDataManagerRemove(x.GoPointer(), TypesVar, WebsiteDataVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 

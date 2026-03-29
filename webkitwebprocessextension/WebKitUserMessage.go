@@ -79,7 +79,12 @@ var xNewUserMessageWithFdList func(string, *glib.Variant, uintptr) uintptr
 func NewUserMessageWithFdList(NameVar string, ParametersVar *glib.Variant, FdListVar *gio.UnixFDList) *UserMessage {
 	var cls *UserMessage
 
-	cret := xNewUserMessageWithFdList(NameVar, ParametersVar, FdListVar.GoPointer())
+	var FdListVarPtr uintptr
+	if FdListVar != nil {
+		FdListVarPtr = FdListVar.GoPointer()
+	}
+
+	cret := xNewUserMessageWithFdList(NameVar, ParametersVar, FdListVarPtr)
 
 	if cret == 0 {
 		return nil

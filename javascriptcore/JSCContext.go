@@ -159,7 +159,12 @@ var xContextEvaluateInObject func(uintptr, string, int, uintptr, uintptr, string
 func (x *Context) EvaluateInObject(CodeVar string, LengthVar int, ObjectInstanceVar uintptr, ObjectClassVar *Class, UriVar string, LineNumberVar uint, ObjectVar **Value) *Value {
 	var cls *Value
 
-	cret := xContextEvaluateInObject(x.GoPointer(), CodeVar, LengthVar, ObjectInstanceVar, ObjectClassVar.GoPointer(), UriVar, LineNumberVar, ObjectVar)
+	var ObjectClassVarPtr uintptr
+	if ObjectClassVar != nil {
+		ObjectClassVarPtr = ObjectClassVar.GoPointer()
+	}
+
+	cret := xContextEvaluateInObject(x.GoPointer(), CodeVar, LengthVar, ObjectInstanceVar, ObjectClassVarPtr, UriVar, LineNumberVar, ObjectVar)
 
 	if cret == 0 {
 		return nil
@@ -335,7 +340,12 @@ func (x *Context) RegisterClass(NameVar string, ParentClassVar *Class, VtableVar
 		}
 	}
 
-	cret := xContextRegisterClass(x.GoPointer(), NameVar, ParentClassVar.GoPointer(), VtableVar, DestroyNotifyVarRef)
+	var ParentClassVarPtr uintptr
+	if ParentClassVar != nil {
+		ParentClassVarPtr = ParentClassVar.GoPointer()
+	}
+
+	cret := xContextRegisterClass(x.GoPointer(), NameVar, ParentClassVarPtr, VtableVar, DestroyNotifyVarRef)
 
 	if cret == 0 {
 		return nil

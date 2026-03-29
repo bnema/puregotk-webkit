@@ -309,7 +309,17 @@ var xServerAcceptIostream func(uintptr, uintptr, uintptr, uintptr, **glib.Error)
 func (x *Server) AcceptIostream(StreamVar *gio.IOStream, LocalAddrVar *gio.SocketAddress, RemoteAddrVar *gio.SocketAddress) (bool, error) {
 	var cerr *glib.Error
 
-	cret := xServerAcceptIostream(x.GoPointer(), StreamVar.GoPointer(), LocalAddrVar.GoPointer(), RemoteAddrVar.GoPointer(), &cerr)
+	var LocalAddrVarPtr uintptr
+	if LocalAddrVar != nil {
+		LocalAddrVarPtr = LocalAddrVar.GoPointer()
+	}
+
+	var RemoteAddrVarPtr uintptr
+	if RemoteAddrVar != nil {
+		RemoteAddrVarPtr = RemoteAddrVar.GoPointer()
+	}
+
+	cret := xServerAcceptIostream(x.GoPointer(), StreamVar.GoPointer(), LocalAddrVarPtr, RemoteAddrVarPtr, &cerr)
 	if cerr == nil {
 		return cret, nil
 	}
@@ -953,7 +963,7 @@ func (x *Server) GetPropertyServerHeader() string {
 // emitted; the signal exists primarily to allow the server to
 // free any state that it may have allocated in
 // [signal@Server::request-started].
-func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint {
+func (x *Server) ConnectRequestAborted(cb *func(Server, *ServerMessage)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
@@ -966,7 +976,7 @@ func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, MessageVarp)
+		cbFn(fa, func() *ServerMessage { cls := &ServerMessage{}; cls.Ptr = MessageVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -978,7 +988,7 @@ func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint {
 
 // Emitted when the server has finished writing a response to
 // a request.
-func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint {
+func (x *Server) ConnectRequestFinished(cb *func(Server, *ServerMessage)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
@@ -991,7 +1001,7 @@ func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, MessageVarp)
+		cbFn(fa, func() *ServerMessage { cls := &ServerMessage{}; cls.Ptr = MessageVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -1009,7 +1019,7 @@ func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint {
 // before any (non-early) handlers are called for the message,
 // and if it sets the message's #status_code, then normal
 // handler processing will be skipped.
-func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint {
+func (x *Server) ConnectRequestRead(cb *func(Server, *ServerMessage)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
@@ -1022,7 +1032,7 @@ func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, MessageVarp)
+		cbFn(fa, func() *ServerMessage { cls := &ServerMessage{}; cls.Ptr = MessageVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -1044,7 +1054,7 @@ func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint {
 // a [signal@Server::request-finished] signal. If a network error
 // occurs, the processing will instead end with
 // [signal@Server::request-aborted].
-func (x *Server) ConnectRequestStarted(cb *func(Server, uintptr)) uint {
+func (x *Server) ConnectRequestStarted(cb *func(Server, *ServerMessage)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
@@ -1057,7 +1067,7 @@ func (x *Server) ConnectRequestStarted(cb *func(Server, uintptr)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, MessageVarp)
+		cbFn(fa, func() *ServerMessage { cls := &ServerMessage{}; cls.Ptr = MessageVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

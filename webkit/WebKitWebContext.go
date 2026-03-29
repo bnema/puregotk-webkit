@@ -526,7 +526,7 @@ func (x *WebContext) GetPropertyTimeZoneOverride() string {
 // This signal is emitted when a new automation request is made.
 // Note that it will never be emitted if automation is not enabled in @context,
 // see webkit_web_context_set_automation_allowed() for more details.
-func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, uintptr)) uint {
+func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, *AutomationSession)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "automation-started", cbRefPtr)
@@ -539,7 +539,7 @@ func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, uintptr)) uin
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, SessionVarp)
+		cbFn(fa, func() *AutomationSession { cls := &AutomationSession{}; cls.Ptr = SessionVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -613,7 +613,7 @@ func (x *WebContext) ConnectInitializeWebProcessExtensions(cb *func(WebContext))
 //
 // You can handle the user message asynchronously by calling g_object_ref() on
 // @message and returning %TRUE.
-func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, uintptr) bool) uint {
+func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, *UserMessage) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
@@ -626,7 +626,7 @@ func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, uintptr) bo
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, MessageVarp)
+		return cbFn(fa, func() *UserMessage { cls := &UserMessage{}; cls.Ptr = MessageVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

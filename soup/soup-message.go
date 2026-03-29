@@ -675,10 +675,15 @@ var xMessageSetRequestBody func(uintptr, uintptr, uintptr, int)
 // (in case of redirection or authentication).
 func (x *Message) SetRequestBody(ContentTypeVar *string, StreamVar *gio.InputStream, ContentLengthVar int) {
 
+	var StreamVarPtr uintptr
+	if StreamVar != nil {
+		StreamVarPtr = StreamVar.GoPointer()
+	}
+
 	ContentTypeVarPtr := core.GStrdupNullable(ContentTypeVar)
 	defer core.GFreeNullable(ContentTypeVarPtr)
 
-	xMessageSetRequestBody(x.GoPointer(), ContentTypeVarPtr, StreamVar.GoPointer(), ContentLengthVar)
+	xMessageSetRequestBody(x.GoPointer(), ContentTypeVarPtr, StreamVarPtr, ContentLengthVar)
 
 }
 
@@ -728,7 +733,12 @@ var xMessageSetTlsClientCertificate func(uintptr, uintptr)
 // [property@Session:tls-interaction] is not %NULL.
 func (x *Message) SetTlsClientCertificate(CertificateVar *gio.TlsCertificate) {
 
-	xMessageSetTlsClientCertificate(x.GoPointer(), CertificateVar.GoPointer())
+	var CertificateVarPtr uintptr
+	if CertificateVar != nil {
+		CertificateVarPtr = CertificateVar.GoPointer()
+	}
+
+	xMessageSetTlsClientCertificate(x.GoPointer(), CertificateVarPtr)
 
 }
 
@@ -927,7 +937,7 @@ func (x *Message) GetPropertyUri() uintptr {
 //
 // You can return %TRUE to accept @tls_certificate despite
 // @tls_errors.
-func (x *Message) ConnectAcceptCertificate(cb *func(Message, uintptr, gio.TlsCertificateFlags) bool) uint {
+func (x *Message) ConnectAcceptCertificate(cb *func(Message, *gio.TlsCertificate, gio.TlsCertificateFlags) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "accept-certificate", cbRefPtr)
@@ -940,7 +950,7 @@ func (x *Message) ConnectAcceptCertificate(cb *func(Message, uintptr, gio.TlsCer
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, TlsPeerCertificateVarp, TlsPeerErrorsVarp)
+		return cbFn(fa, func() *gio.TlsCertificate { cls := &gio.TlsCertificate{}; cls.Ptr = TlsPeerCertificateVarp; return cls }(), TlsPeerErrorsVarp)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -964,7 +974,7 @@ func (x *Message) ConnectAcceptCertificate(cb *func(Message, uintptr, gio.TlsCer
 // [method@GObject.Object.ref] on @auth and returning %TRUE. The operation will
 // complete once either [method@Auth.authenticate] or
 // [method@Auth.cancel] are called.
-func (x *Message) ConnectAuthenticate(cb *func(Message, uintptr, bool) bool) uint {
+func (x *Message) ConnectAuthenticate(cb *func(Message, *Auth, bool) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "authenticate", cbRefPtr)
@@ -977,7 +987,7 @@ func (x *Message) ConnectAuthenticate(cb *func(Message, uintptr, bool) bool) uin
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, AuthVarp, RetryingVarp)
+		return cbFn(fa, func() *Auth { cls := &Auth{}; cls.Ptr = AuthVarp; return cls }(), RetryingVarp)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -1200,7 +1210,7 @@ func (x *Message) ConnectHstsEnforced(cb *func(Message)) uint {
 // See [signal@Gio.SocketClient::event] for more information on what
 // the different values of @event correspond to, and what
 // @connection will be in each case.
-func (x *Message) ConnectNetworkEvent(cb *func(Message, gio.SocketClientEvent, uintptr)) uint {
+func (x *Message) ConnectNetworkEvent(cb *func(Message, gio.SocketClientEvent, *gio.IOStream)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "network-event", cbRefPtr)
@@ -1213,7 +1223,7 @@ func (x *Message) ConnectNetworkEvent(cb *func(Message, gio.SocketClientEvent, u
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, EventVarp, ConnectionVarp)
+		cbFn(fa, EventVarp, func() *gio.IOStream { cls := &gio.IOStream{}; cls.Ptr = ConnectionVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -1269,7 +1279,7 @@ func (x *Message) ConnectRequestCertificate(cb *func(Message, uintptr) bool) uin
 // [method@Message.tls_client_certificate_password_request_complete]
 // later after setting the password on @password. Note that this signal
 // is not emitted if [property@Session:tls-interaction] was set.
-func (x *Message) ConnectRequestCertificatePassword(cb *func(Message, uintptr) bool) uint {
+func (x *Message) ConnectRequestCertificatePassword(cb *func(Message, *gio.TlsPassword) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-certificate-password", cbRefPtr)
@@ -1282,7 +1292,7 @@ func (x *Message) ConnectRequestCertificatePassword(cb *func(Message, uintptr) b
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, TlsPasswordVarp)
+		return cbFn(fa, func() *gio.TlsPassword { cls := &gio.TlsPassword{}; cls.Ptr = TlsPasswordVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

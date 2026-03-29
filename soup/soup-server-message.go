@@ -363,7 +363,7 @@ func (c *ServerMessage) SetGoPointer(ptr uintptr) {
 // after client TLS certificate has been received.
 // You can return %TRUE to accept @tls_certificate despite
 // @tls_errors.
-func (x *ServerMessage) ConnectAcceptCertificate(cb *func(ServerMessage, uintptr, gio.TlsCertificateFlags) bool) uint {
+func (x *ServerMessage) ConnectAcceptCertificate(cb *func(ServerMessage, *gio.TlsCertificate, gio.TlsCertificateFlags) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "accept-certificate", cbRefPtr)
@@ -376,7 +376,7 @@ func (x *ServerMessage) ConnectAcceptCertificate(cb *func(ServerMessage, uintptr
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, TlsPeerCertificateVarp, TlsPeerErrorsVarp)
+		return cbFn(fa, func() *gio.TlsCertificate { cls := &gio.TlsCertificate{}; cls.Ptr = TlsPeerCertificateVarp; return cls }(), TlsPeerErrorsVarp)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

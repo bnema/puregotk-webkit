@@ -107,7 +107,12 @@ func (x *MultipartInputStream) NextPart(CancellableVar *gio.Cancellable) (*gio.I
 	var cls *gio.InputStream
 	var cerr *glib.Error
 
-	cret := xMultipartInputStreamNextPart(x.GoPointer(), CancellableVar.GoPointer(), &cerr)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	cret := xMultipartInputStreamNextPart(x.GoPointer(), CancellableVarPtr, &cerr)
 
 	if cret == 0 {
 		return nil, cerr
@@ -143,7 +148,12 @@ func (x *MultipartInputStream) NextPartAsync(IoPriorityVar int, CancellableVar *
 		}
 	}
 
-	xMultipartInputStreamNextPartAsync(x.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, DataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xMultipartInputStreamNextPartAsync(x.GoPointer(), IoPriorityVar, CancellableVarPtr, CallbackVarRef, DataVar)
 
 }
 
@@ -205,7 +215,12 @@ func (x *MultipartInputStream) CanPoll() bool {
 // g_pollable_input_stream_can_poll() returns %FALSE for @stream.
 func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) *glib.Source {
 
-	cret := gio.XGPollableInputStreamCreateSource(x.GoPointer(), CancellableVar.GoPointer())
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	cret := gio.XGPollableInputStreamCreateSource(x.GoPointer(), CancellableVarPtr)
 	return cret
 }
 
@@ -243,7 +258,12 @@ func (x *MultipartInputStream) IsReadable() bool {
 func (x *MultipartInputStream) ReadNonblocking(BufferVar *[]byte, CountVar uint, CancellableVar *gio.Cancellable) (int, error) {
 	var cerr *glib.Error
 
-	cret := gio.XGPollableInputStreamReadNonblocking(x.GoPointer(), BufferVar, CountVar, CancellableVar.GoPointer(), &cerr)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	cret := gio.XGPollableInputStreamReadNonblocking(x.GoPointer(), BufferVar, CountVar, CancellableVarPtr, &cerr)
 	if cerr == nil {
 		return cret, nil
 	}

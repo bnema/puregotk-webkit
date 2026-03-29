@@ -95,7 +95,12 @@ func (x *UserContentFilterStore) FetchIdentifiers(CancellableVar *gio.Cancellabl
 		}
 	}
 
-	xUserContentFilterStoreFetchIdentifiers(x.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xUserContentFilterStoreFetchIdentifiers(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -146,7 +151,12 @@ func (x *UserContentFilterStore) Load(IdentifierVar string, CancellableVar *gio.
 		}
 	}
 
-	xUserContentFilterStoreLoad(x.GoPointer(), IdentifierVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xUserContentFilterStoreLoad(x.GoPointer(), IdentifierVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -189,7 +199,12 @@ func (x *UserContentFilterStore) Remove(IdentifierVar string, CancellableVar *gi
 		}
 	}
 
-	xUserContentFilterStoreRemove(x.GoPointer(), IdentifierVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xUserContentFilterStoreRemove(x.GoPointer(), IdentifierVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -239,7 +254,12 @@ func (x *UserContentFilterStore) Save(IdentifierVar string, SourceVar *glib.Byte
 		}
 	}
 
-	xUserContentFilterStoreSave(x.GoPointer(), IdentifierVar, SourceVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xUserContentFilterStoreSave(x.GoPointer(), IdentifierVar, SourceVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -285,7 +305,12 @@ func (x *UserContentFilterStore) SaveFromFile(IdentifierVar string, FileVar gio.
 		}
 	}
 
-	xUserContentFilterStoreSaveFromFile(x.GoPointer(), IdentifierVar, FileVar.GoPointer(), CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xUserContentFilterStoreSaveFromFile(x.GoPointer(), IdentifierVar, FileVar.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 

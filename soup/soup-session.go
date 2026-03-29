@@ -690,7 +690,12 @@ func (x *Session) PreconnectAsync(MsgVar *Message, IoPriorityVar int, Cancellabl
 		}
 	}
 
-	xSessionPreconnectAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xSessionPreconnectAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -754,7 +759,12 @@ func (x *Session) Send(MsgVar *Message, CancellableVar *gio.Cancellable) (*gio.I
 	var cls *gio.InputStream
 	var cerr *glib.Error
 
-	cret := xSessionSend(x.GoPointer(), MsgVar.GoPointer(), CancellableVar.GoPointer(), &cerr)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	cret := xSessionSend(x.GoPointer(), MsgVar.GoPointer(), CancellableVarPtr, &cerr)
 
 	if cret == 0 {
 		return nil, cerr
@@ -780,7 +790,12 @@ var xSessionSendAndRead func(uintptr, uintptr, uintptr, **glib.Error) *glib.Byte
 func (x *Session) SendAndRead(MsgVar *Message, CancellableVar *gio.Cancellable) (*glib.Bytes, error) {
 	var cerr *glib.Error
 
-	cret := xSessionSendAndRead(x.GoPointer(), MsgVar.GoPointer(), CancellableVar.GoPointer(), &cerr)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	cret := xSessionSendAndRead(x.GoPointer(), MsgVar.GoPointer(), CancellableVarPtr, &cerr)
 	if cerr == nil {
 		return cret, nil
 	}
@@ -816,7 +831,12 @@ func (x *Session) SendAndReadAsync(MsgVar *Message, IoPriorityVar int, Cancellab
 		}
 	}
 
-	xSessionSendAndReadAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xSessionSendAndReadAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -844,7 +864,12 @@ var xSessionSendAndSplice func(uintptr, uintptr, uintptr, gio.OutputStreamSplice
 func (x *Session) SendAndSplice(MsgVar *Message, OutStreamVar *gio.OutputStream, FlagsVar gio.OutputStreamSpliceFlags, CancellableVar *gio.Cancellable) (int, error) {
 	var cerr *glib.Error
 
-	cret := xSessionSendAndSplice(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, CancellableVar.GoPointer(), &cerr)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	cret := xSessionSendAndSplice(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, CancellableVarPtr, &cerr)
 	if cerr == nil {
 		return cret, nil
 	}
@@ -876,7 +901,12 @@ func (x *Session) SendAndSpliceAsync(MsgVar *Message, OutStreamVar *gio.OutputSt
 		}
 	}
 
-	xSessionSendAndSpliceAsync(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xSessionSendAndSpliceAsync(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -921,7 +951,12 @@ func (x *Session) SendAsync(MsgVar *Message, IoPriorityVar int, CancellableVar *
 		}
 	}
 
-	xSessionSendAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xSessionSendAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -995,7 +1030,12 @@ var xSessionSetProxyResolver func(uintptr, uintptr)
 // [property@Session:proxy-resolver] for more information.
 func (x *Session) SetProxyResolver(ProxyResolverVar gio.ProxyResolver) {
 
-	xSessionSetProxyResolver(x.GoPointer(), ProxyResolverVar.GoPointer())
+	var ProxyResolverVarPtr uintptr
+	if ProxyResolverVar != nil {
+		ProxyResolverVarPtr = ProxyResolverVar.GoPointer()
+	}
+
+	xSessionSetProxyResolver(x.GoPointer(), ProxyResolverVarPtr)
 
 }
 
@@ -1019,7 +1059,12 @@ var xSessionSetTlsDatabase func(uintptr, uintptr)
 // [property@Session:tls-database] for more information.
 func (x *Session) SetTlsDatabase(TlsDatabaseVar *gio.TlsDatabase) {
 
-	xSessionSetTlsDatabase(x.GoPointer(), TlsDatabaseVar.GoPointer())
+	var TlsDatabaseVarPtr uintptr
+	if TlsDatabaseVar != nil {
+		TlsDatabaseVarPtr = TlsDatabaseVar.GoPointer()
+	}
+
+	xSessionSetTlsDatabase(x.GoPointer(), TlsDatabaseVarPtr)
 
 }
 
@@ -1033,7 +1078,12 @@ var xSessionSetTlsInteraction func(uintptr, uintptr)
 // See [property@Session:tls-interaction] for more information.
 func (x *Session) SetTlsInteraction(TlsInteractionVar *gio.TlsInteraction) {
 
-	xSessionSetTlsInteraction(x.GoPointer(), TlsInteractionVar.GoPointer())
+	var TlsInteractionVarPtr uintptr
+	if TlsInteractionVar != nil {
+		TlsInteractionVarPtr = TlsInteractionVar.GoPointer()
+	}
+
+	xSessionSetTlsInteraction(x.GoPointer(), TlsInteractionVarPtr)
 
 }
 
@@ -1088,10 +1138,15 @@ func (x *Session) WebsocketConnectAsync(MsgVar *Message, OriginVar *string, Prot
 		}
 	}
 
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
 	OriginVarPtr := core.GStrdupNullable(OriginVar)
 	defer core.GFreeNullable(OriginVarPtr)
 
-	xSessionWebsocketConnectAsync(x.GoPointer(), MsgVar.GoPointer(), OriginVarPtr, ProtocolsVar, IoPriorityVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	xSessionWebsocketConnectAsync(x.GoPointer(), MsgVar.GoPointer(), OriginVarPtr, ProtocolsVar, IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 
@@ -1382,7 +1437,7 @@ func (x *Session) GetPropertyUserAgent() string {
 // exactly once, but [signal@Message::finished] (and all of the other
 // [class@Message] signals) may be invoked multiple times for a given
 // message.
-func (x *Session) ConnectRequestQueued(cb *func(Session, uintptr)) uint {
+func (x *Session) ConnectRequestQueued(cb *func(Session, *Message)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-queued", cbRefPtr)
@@ -1395,7 +1450,7 @@ func (x *Session) ConnectRequestQueued(cb *func(Session, uintptr)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, MsgVarp)
+		cbFn(fa, func() *Message { cls := &Message{}; cls.Ptr = MsgVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -1410,7 +1465,7 @@ func (x *Session) ConnectRequestQueued(cb *func(Session, uintptr)) uint {
 //
 // See [signal@Session::request-queued] for a detailed description of
 // the message lifecycle within a session.
-func (x *Session) ConnectRequestUnqueued(cb *func(Session, uintptr)) uint {
+func (x *Session) ConnectRequestUnqueued(cb *func(Session, *Message)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-unqueued", cbRefPtr)
@@ -1423,7 +1478,7 @@ func (x *Session) ConnectRequestUnqueued(cb *func(Session, uintptr)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, MsgVarp)
+		cbFn(fa, func() *Message { cls := &Message{}; cls.Ptr = MsgVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

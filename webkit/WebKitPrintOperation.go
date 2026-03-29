@@ -162,7 +162,12 @@ var xPrintOperationRunDialog func(uintptr, uintptr) PrintOperationResponse
 // after this method.
 func (x *PrintOperation) RunDialog(ParentVar *gtk.Window) PrintOperationResponse {
 
-	cret := xPrintOperationRunDialog(x.GoPointer(), ParentVar.GoPointer())
+	var ParentVarPtr uintptr
+	if ParentVar != nil {
+		ParentVarPtr = ParentVar.GoPointer()
+	}
+
+	cret := xPrintOperationRunDialog(x.GoPointer(), ParentVarPtr)
 	return cret
 }
 

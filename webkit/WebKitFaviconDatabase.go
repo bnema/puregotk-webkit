@@ -116,7 +116,12 @@ func (x *FaviconDatabase) GetFavicon(PageUriVar string, CancellableVar *gio.Canc
 		}
 	}
 
-	xFaviconDatabaseGetFavicon(x.GoPointer(), PageUriVar, CancellableVar.GoPointer(), CallbackVarRef, UserDataVar)
+	var CancellableVarPtr uintptr
+	if CancellableVar != nil {
+		CancellableVarPtr = CancellableVar.GoPointer()
+	}
+
+	xFaviconDatabaseGetFavicon(x.GoPointer(), PageUriVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
 
 }
 

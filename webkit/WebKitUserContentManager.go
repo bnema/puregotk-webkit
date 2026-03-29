@@ -341,7 +341,7 @@ func (c *UserContentManager) SetGoPointer(ptr uintptr) {
 // &lt;code&gt;window.webkit.messageHandlers.&lt;name&gt;.postMessage()&lt;/code&gt;, after registering
 // &lt;code&gt;&lt;name&gt;&lt;/code&gt; using
 // webkit_user_content_manager_register_script_message_handler()
-func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentManager, uintptr)) uint {
+func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentManager, *javascriptcore.Value)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
@@ -354,7 +354,7 @@ func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentMa
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, ValueVarp)
+		cbFn(fa, func() *javascriptcore.Value { cls := &javascriptcore.Value{}; cls.Ptr = ValueVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -366,7 +366,7 @@ func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentMa
 
 // ConnectScriptMessageReceivedWithDetail connects to the "script-message-received" signal with a detail string.
 // The detail is appended as "script-message-received::<detail>".
-func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail string, cb *func(UserContentManager, uintptr)) uint {
+func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail string, cb *func(UserContentManager, *javascriptcore.Value)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	signalName := fmt.Sprintf("script-message-received::%s", detail)
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
@@ -380,7 +380,7 @@ func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail strin
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, ValueVarp)
+		cbFn(fa, func() *javascriptcore.Value { cls := &javascriptcore.Value{}; cls.Ptr = ValueVarp; return cls }())
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -402,7 +402,7 @@ func (x *UserContentManager) ConnectScriptMessageReceivedWithDetail(detail strin
 //
 // It is possible to handle the reply asynchronously, by simply calling
 // g_object_ref() on the @reply and returning %TRUE.
-func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(UserContentManager, uintptr, uintptr) bool) uint {
+func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(UserContentManager, *javascriptcore.Value, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
@@ -415,7 +415,7 @@ func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(User
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, ValueVarp, ReplyVarp)
+		return cbFn(fa, func() *javascriptcore.Value { cls := &javascriptcore.Value{}; cls.Ptr = ValueVarp; return cls }(), ReplyVarp)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)
@@ -427,7 +427,7 @@ func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(User
 
 // ConnectScriptMessageWithReplyReceivedWithDetail connects to the "script-message-with-reply-received" signal with a detail string.
 // The detail is appended as "script-message-with-reply-received::<detail>".
-func (x *UserContentManager) ConnectScriptMessageWithReplyReceivedWithDetail(detail string, cb *func(UserContentManager, uintptr, uintptr) bool) uint {
+func (x *UserContentManager) ConnectScriptMessageWithReplyReceivedWithDetail(detail string, cb *func(UserContentManager, *javascriptcore.Value, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	signalName := fmt.Sprintf("script-message-with-reply-received::%s", detail)
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
@@ -441,7 +441,7 @@ func (x *UserContentManager) ConnectScriptMessageWithReplyReceivedWithDetail(det
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, ValueVarp, ReplyVarp)
+		return cbFn(fa, func() *javascriptcore.Value { cls := &javascriptcore.Value{}; cls.Ptr = ValueVarp; return cls }(), ReplyVarp)
 
 	}
 	cbRefPtr := purego.NewCallback(fcb)

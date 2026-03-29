@@ -138,7 +138,12 @@ var xWebHitTestResultGetJsNode func(uintptr, uintptr) uintptr
 func (x *WebHitTestResult) GetJsNode(WorldVar *ScriptWorld) *javascriptcore.Value {
 	var cls *javascriptcore.Value
 
-	cret := xWebHitTestResultGetJsNode(x.GoPointer(), WorldVar.GoPointer())
+	var WorldVarPtr uintptr
+	if WorldVar != nil {
+		WorldVarPtr = WorldVar.GoPointer()
+	}
+
+	cret := xWebHitTestResultGetJsNode(x.GoPointer(), WorldVarPtr)
 
 	if cret == 0 {
 		return nil
