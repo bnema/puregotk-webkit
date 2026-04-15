@@ -28,16 +28,27 @@ func main() {
 		os.RemoveAll(strings.ToLower(ns))
 	}
 
-	var girs []string
+	var baseGIRs []string
+	var localGIRs []string
 	filepath.Walk("internal/gir/spec", func(path string, f os.FileInfo, err error) error {
 		if !strings.HasSuffix(path, ".gir") {
 			return nil
 		}
-		girs = append(girs, path)
+		base := strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+		ns := strings.Split(base, "-")[0]
+		if localNamespaces[ns] {
+			localGIRs = append(localGIRs, path)
+		} else {
+			baseGIRs = append(baseGIRs, path)
+		}
 		return nil
 	})
 
-	p, err := pass.New(girs)
+	p, err := pass.New(
+		baseGIRs,
+		"github.com/bnema/puregotk/v4",
+		pass.Dependency{Module: "github.com/bnema/puregotk-webkit", Files: localGIRs},
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -46,7 +57,7 @@ func main() {
 	p.First()
 
 	// Filter to only generate WebKit namespaces
-	var filtered []pass.Repository
+	filtered := p.Parsed[:0]
 	for _, r := range p.Parsed {
 		ns := r.Namespaces[0].Name
 		if localNamespaces[ns] {

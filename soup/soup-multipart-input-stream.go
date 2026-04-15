@@ -221,7 +221,10 @@ func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) *gl
 	}
 
 	cret := gio.XGPollableInputStreamCreateSource(x.GoPointer(), CancellableVarPtr)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Source)(unsafe.Pointer(cret))
 }
 
 // Checks if @stream can be read.
