@@ -2,10 +2,10 @@
 package webkit
 
 import (
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Enum values used to denote the various download errors.
@@ -183,7 +183,6 @@ var xDownloadErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of download errors.
 func DownloadErrorQuark() glib.Quark {
-
 	cret := xDownloadErrorQuark()
 	return cret
 }
@@ -192,7 +191,6 @@ var xJavascriptErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of JavaScript errors.
 func JavascriptErrorQuark() glib.Quark {
-
 	cret := xJavascriptErrorQuark()
 	return cret
 }
@@ -201,7 +199,6 @@ var xMediaErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of media errors.
 func MediaErrorQuark() glib.Quark {
-
 	cret := xMediaErrorQuark()
 	return cret
 }
@@ -210,7 +207,6 @@ var xNetworkErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of networking errors.
 func NetworkErrorQuark() glib.Quark {
-
 	cret := xNetworkErrorQuark()
 	return cret
 }
@@ -219,7 +215,6 @@ var xPolicyErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of policy errors.
 func PolicyErrorQuark() glib.Quark {
-
 	cret := xPolicyErrorQuark()
 	return cret
 }
@@ -228,7 +223,6 @@ var xPrintErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of printing errors.
 func PrintErrorQuark() glib.Quark {
-
 	cret := xPrintErrorQuark()
 	return cret
 }
@@ -237,7 +231,6 @@ var xSnapshotErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of page snapshot errors.
 func SnapshotErrorQuark() glib.Quark {
-
 	cret := xSnapshotErrorQuark()
 	return cret
 }
@@ -246,7 +239,6 @@ var xUserContentFilterErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of user content filter errors.
 func UserContentFilterErrorQuark() glib.Quark {
-
 	cret := xUserContentFilterErrorQuark()
 	return cret
 }
@@ -255,14 +247,13 @@ var xWebExtensionMatchPatternErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of Web Extension Match Pattern errors.
 func WebExtensionMatchPatternErrorQuark() glib.Quark {
-
 	cret := xWebExtensionMatchPatternErrorQuark()
 	return cret
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -299,5 +290,4 @@ func init() {
 	core.PuregoSafeRegister(&xSnapshotErrorQuark, libs, "webkit_snapshot_error_quark")
 	core.PuregoSafeRegister(&xUserContentFilterErrorQuark, libs, "webkit_user_content_filter_error_quark")
 	core.PuregoSafeRegister(&xWebExtensionMatchPatternErrorQuark, libs, "webkit_web_extension_match_pattern_error_quark")
-
 }

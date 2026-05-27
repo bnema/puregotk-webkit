@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Class structure for #SoupHSTSEnforcer.
@@ -173,29 +173,32 @@ func NewHSTSEnforcer() *HSTSEnforcer {
 	return cls
 }
 
-var xHSTSEnforcerGetDomains func(uintptr, bool) *glib.List
+var xHSTSEnforcerGetDomains func(uintptr, bool) uintptr
 
 // Gets a list of domains for which there are policies in @enforcer.
 func (x *HSTSEnforcer) GetDomains(SessionPoliciesVar bool) *glib.List {
-
 	cret := xHSTSEnforcerGetDomains(x.GoPointer(), SessionPoliciesVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
 }
 
-var xHSTSEnforcerGetPolicies func(uintptr, bool) *glib.List
+var xHSTSEnforcerGetPolicies func(uintptr, bool) uintptr
 
 // Gets a list with the policies in @enforcer.
 func (x *HSTSEnforcer) GetPolicies(SessionPoliciesVar bool) *glib.List {
-
 	cret := xHSTSEnforcerGetPolicies(x.GoPointer(), SessionPoliciesVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
 }
 
 var xHSTSEnforcerHasValidPolicy func(uintptr, string) bool
 
 // Gets whether @hsts_enforcer has a currently valid policy for @domain.
 func (x *HSTSEnforcer) HasValidPolicy(DomainVar string) bool {
-
 	cret := xHSTSEnforcerHasValidPolicy(x.GoPointer(), DomainVar)
 	return cret
 }
@@ -204,7 +207,6 @@ var xHSTSEnforcerIsPersistent func(uintptr) bool
 
 // Gets whether @hsts_enforcer stores policies persistenly.
 func (x *HSTSEnforcer) IsPersistent() bool {
-
 	cret := xHSTSEnforcerIsPersistent(x.GoPointer())
 	return cret
 }
@@ -220,9 +222,7 @@ var xHSTSEnforcerSetPolicy func(uintptr, *HSTSPolicy)
 // expire and will be enforced during the lifetime of @hsts_enforcer's
 // [class@Session].
 func (x *HSTSEnforcer) SetPolicy(PolicyVar *HSTSPolicy) {
-
 	xHSTSEnforcerSetPolicy(x.GoPointer(), PolicyVar)
-
 }
 
 var xHSTSEnforcerSetSessionPolicy func(uintptr, string, bool)
@@ -232,9 +232,7 @@ var xHSTSEnforcerSetSessionPolicy func(uintptr, string, bool)
 // A session policy is a policy that is permanent to the lifetime of
 // @hsts_enforcer's [class@Session] and doesn't expire.
 func (x *HSTSEnforcer) SetSessionPolicy(DomainVar string, IncludeSubdomainsVar bool) {
-
 	xHSTSEnforcerSetSessionPolicy(x.GoPointer(), DomainVar, IncludeSubdomainsVar)
-
 }
 
 func (c *HSTSEnforcer) GoPointer() uintptr {
@@ -274,7 +272,6 @@ func (x *HSTSEnforcer) ConnectChanged(cb *func(HSTSEnforcer, uintptr, uintptr)) 
 		cbFn := *cb
 
 		cbFn(fa, OldPolicyVarp, NewPolicyVarp)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -285,7 +282,7 @@ func (x *HSTSEnforcer) ConnectChanged(cb *func(HSTSEnforcer, uintptr, uintptr)) 
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -305,5 +302,4 @@ func init() {
 	core.PuregoSafeRegister(&xHSTSEnforcerIsPersistent, libs, "soup_hsts_enforcer_is_persistent")
 	core.PuregoSafeRegister(&xHSTSEnforcerSetPolicy, libs, "soup_hsts_enforcer_set_policy")
 	core.PuregoSafeRegister(&xHSTSEnforcerSetSessionPolicy, libs, "soup_hsts_enforcer_set_session_policy")
-
 }

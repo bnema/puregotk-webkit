@@ -5,9 +5,9 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Data stored locally by a web site.
@@ -47,7 +47,6 @@ var xWebsiteDataGetName func(uintptr) string
 // a domain or host name. All local documents are grouped in the same #WebKitWebsiteData using
 // the name "Local files".
 func (x *WebsiteData) GetName() string {
-
 	cret := xWebsiteDataGetName(x.GoPointer())
 	return cret
 }
@@ -59,7 +58,6 @@ var xWebsiteDataGetSize func(uintptr, WebsiteDataTypes) uint64
 // Note that currently the data size is only known for %WEBKIT_WEBSITE_DATA_DISK_CACHE data type
 // so for all other types 0 will be returned.
 func (x *WebsiteData) GetSize(TypesVar WebsiteDataTypes) uint64 {
-
 	cret := xWebsiteDataGetSize(x.GoPointer(), TypesVar)
 	return cret
 }
@@ -71,20 +69,21 @@ var xWebsiteDataGetTypes func(uintptr) WebsiteDataTypes
 // These are the
 // types actually present, not the types queried with webkit_website_data_manager_fetch().
 func (x *WebsiteData) GetTypes() WebsiteDataTypes {
-
 	cret := xWebsiteDataGetTypes(x.GoPointer())
 	return cret
 }
 
-var xWebsiteDataRef func(uintptr) *WebsiteData
+var xWebsiteDataRef func(uintptr) uintptr
 
 // Atomically increments the reference count of @website_data by one.
 //
 // This function is MT-safe and may be called from any thread.
 func (x *WebsiteData) Ref() *WebsiteData {
-
 	cret := xWebsiteDataRef(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*WebsiteData)(unsafe.Pointer(cret))
 }
 
 var xWebsiteDataUnref func(uintptr)
@@ -95,14 +94,12 @@ var xWebsiteDataUnref func(uintptr)
 // #WebKitWebsiteData is released. This function is MT-safe and may be
 // called from any thread.
 func (x *WebsiteData) Unref() {
-
 	xWebsiteDataUnref(x.GoPointer())
-
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -119,5 +116,4 @@ func init() {
 	core.PuregoSafeRegister(&xWebsiteDataGetTypes, libs, "webkit_website_data_get_types")
 	core.PuregoSafeRegister(&xWebsiteDataRef, libs, "webkit_website_data_ref")
 	core.PuregoSafeRegister(&xWebsiteDataUnref, libs, "webkit_website_data_unref")
-
 }

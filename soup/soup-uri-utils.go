@@ -2,10 +2,12 @@
 package soup
 
 import (
+	"unsafe"
+
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 const (
@@ -47,7 +49,7 @@ const (
 	UriFragmentValue URIComponent = 9
 )
 
-var xUriCopy func(*glib.Uri, URIComponent, ...interface{}) *glib.Uri
+var xUriCopy func(*glib.Uri, URIComponent, ...interface{}) uintptr
 
 // As of 3.4.0 this will detect the default ports of HTTP(s) and WS(S)
 // URIs when copying and set it to the default port of the new scheme.
@@ -56,32 +58,35 @@ var xUriCopy func(*glib.Uri, URIComponent, ...interface{}) *glib.Uri
 //
 // Return a copy of @uri with the given components updated.
 func UriCopy(UriVar *glib.Uri, FirstComponentVar URIComponent, varArgs ...interface{}) *glib.Uri {
-
 	cret := xUriCopy(UriVar, FirstComponentVar, varArgs...)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Uri)(unsafe.Pointer(cret))
 }
 
-var xUriDecodeDataUri func(string, *string) *glib.Bytes
+var xUriDecodeDataUri func(string, *string) uintptr
 
 // Decodes the given data URI and returns its contents and @content_type.
 func UriDecodeDataUri(UriVar string, ContentTypeVar *string) *glib.Bytes {
-
 	cret := xUriDecodeDataUri(UriVar, ContentTypeVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Bytes)(unsafe.Pointer(cret))
 }
 
 var xUriEqual func(*glib.Uri, *glib.Uri) bool
 
 // Tests whether or not @uri1 and @uri2 are equal in all parts.
 func UriEqual(Uri1Var *glib.Uri, Uri2Var *glib.Uri) bool {
-
 	cret := xUriEqual(Uri1Var, Uri2Var)
 	return cret
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -96,5 +101,4 @@ func init() {
 	core.PuregoSafeRegister(&xUriCopy, libs, "soup_uri_copy")
 	core.PuregoSafeRegister(&xUriDecodeDataUri, libs, "soup_uri_decode_data_uri")
 	core.PuregoSafeRegister(&xUriEqual, libs, "soup_uri_equal")
-
 }

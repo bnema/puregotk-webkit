@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // The prototype for a #SoupAuthDomain filter.
@@ -166,7 +166,6 @@ var xAuthDomainAccepts func(uintptr, uintptr) string
 // This is used by [class@Server] internally and is probably of no use to
 // anyone else.
 func (x *AuthDomain) Accepts(MsgVar *ServerMessage) string {
-
 	cret := xAuthDomainAccepts(x.GoPointer(), MsgVar.GoPointer())
 	return cret
 }
@@ -179,9 +178,7 @@ var xAuthDomainAddPath func(uintptr, string)
 // overridden by [method@AuthDomain.remove_path] or
 // [method@AuthDomain.set_filter]).
 func (x *AuthDomain) AddPath(PathVar string) {
-
 	xAuthDomainAddPath(x.GoPointer(), PathVar)
-
 }
 
 var xAuthDomainChallenge func(uintptr, uintptr)
@@ -193,9 +190,7 @@ var xAuthDomainChallenge func(uintptr, uintptr)
 // This is used by [class@Server] internally and is probably of no use to
 // anyone else.
 func (x *AuthDomain) Challenge(MsgVar *ServerMessage) {
-
 	xAuthDomainChallenge(x.GoPointer(), MsgVar.GoPointer())
-
 }
 
 var xAuthDomainCheckPassword func(uintptr, uintptr, string, string) bool
@@ -206,7 +201,6 @@ var xAuthDomainCheckPassword func(uintptr, uintptr, string, string) bool
 // This would normally be called from a
 // [callback@AuthDomainGenericAuthCallback].
 func (x *AuthDomain) CheckPassword(MsgVar *ServerMessage, UsernameVar string, PasswordVar string) bool {
-
 	cret := xAuthDomainCheckPassword(x.GoPointer(), MsgVar.GoPointer(), UsernameVar, PasswordVar)
 	return cret
 }
@@ -222,7 +216,6 @@ var xAuthDomainCovers func(uintptr, uintptr) bool
 // This is used by [class@Server] internally and is probably of no use to
 // anyone else.
 func (x *AuthDomain) Covers(MsgVar *ServerMessage) bool {
-
 	cret := xAuthDomainCovers(x.GoPointer(), MsgVar.GoPointer())
 	return cret
 }
@@ -231,7 +224,6 @@ var xAuthDomainGetRealm func(uintptr) string
 
 // Gets the realm name associated with @domain.
 func (x *AuthDomain) GetRealm() string {
-
 	cret := xAuthDomainGetRealm(x.GoPointer())
 	return cret
 }
@@ -251,9 +243,7 @@ var xAuthDomainRemovePath func(uintptr, string)
 // would otherwise be required, not require it where it would
 // otherwise be unnecessary.
 func (x *AuthDomain) RemovePath(PathVar string) {
-
 	xAuthDomainRemovePath(x.GoPointer(), PathVar)
-
 }
 
 var xAuthDomainSetFilter func(uintptr, uintptr, uintptr, uintptr)
@@ -284,39 +274,7 @@ var xAuthDomainSetFilter func(uintptr, uintptr, uintptr, uintptr)
 // and [property@AuthDomain:filter-data properties], which can also be
 // used to set the filter at construct time.
 func (x *AuthDomain) SetFilter(FilterVar *AuthDomainFilter, FilterDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
-
-	var FilterVarRef uintptr
-	if FilterVar != nil {
-		FilterVarPtr := uintptr(unsafe.Pointer(FilterVar))
-		if cbRefPtr, ok := glib.GetCallback(FilterVarPtr); ok {
-			FilterVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) bool {
-				cbFn := *FilterVar
-				return cbFn(arg0, arg1, arg2)
-			}
-			FilterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(FilterVarPtr, FilterVarRef, FilterVar)
-		}
-	}
-
-	var DnotifyVarRef uintptr
-	if DnotifyVar != nil {
-		DnotifyVarPtr := uintptr(unsafe.Pointer(DnotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DnotifyVarPtr); ok {
-			DnotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DnotifyVar
-				cbFn(arg0)
-			}
-			DnotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DnotifyVarPtr, DnotifyVarRef, DnotifyVar)
-		}
-	}
-
-	xAuthDomainSetFilter(x.GoPointer(), FilterVarRef, FilterDataVar, DnotifyVarRef)
-
+	xAuthDomainSetFilter(x.GoPointer(), glib.NewCallback(FilterVar), FilterDataVar, glib.NewCallbackNullable(DnotifyVar))
 }
 
 var xAuthDomainSetGenericAuthCallback func(uintptr, uintptr, uintptr, uintptr)
@@ -329,39 +287,7 @@ var xAuthDomainSetGenericAuthCallback func(uintptr, uintptr, uintptr, uintptr)
 // [callback@AuthDomainGenericAuthCallback] for information on what the callback
 // should do.
 func (x *AuthDomain) SetGenericAuthCallback(AuthCallbackVar *AuthDomainGenericAuthCallback, AuthDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
-
-	var AuthCallbackVarRef uintptr
-	if AuthCallbackVar != nil {
-		AuthCallbackVarPtr := uintptr(unsafe.Pointer(AuthCallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(AuthCallbackVarPtr); ok {
-			AuthCallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 uintptr) bool {
-				cbFn := *AuthCallbackVar
-				return cbFn(arg0, arg1, core.GoString(arg2), arg3)
-			}
-			AuthCallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(AuthCallbackVarPtr, AuthCallbackVarRef, AuthCallbackVar)
-		}
-	}
-
-	var DnotifyVarRef uintptr
-	if DnotifyVar != nil {
-		DnotifyVarPtr := uintptr(unsafe.Pointer(DnotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DnotifyVarPtr); ok {
-			DnotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DnotifyVar
-				cbFn(arg0)
-			}
-			DnotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DnotifyVarPtr, DnotifyVarRef, DnotifyVar)
-		}
-	}
-
-	xAuthDomainSetGenericAuthCallback(x.GoPointer(), AuthCallbackVarRef, AuthDataVar, DnotifyVarRef)
-
+	xAuthDomainSetGenericAuthCallback(x.GoPointer(), glib.NewCallback(AuthCallbackVar), AuthDataVar, glib.NewCallbackNullable(DnotifyVar))
 }
 
 func (c *AuthDomain) GoPointer() uintptr {
@@ -445,7 +371,7 @@ func (x *AuthDomain) GetPropertyRealm() string {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -466,5 +392,4 @@ func init() {
 	core.PuregoSafeRegister(&xAuthDomainRemovePath, libs, "soup_auth_domain_remove_path")
 	core.PuregoSafeRegister(&xAuthDomainSetFilter, libs, "soup_auth_domain_set_filter")
 	core.PuregoSafeRegister(&xAuthDomainSetGenericAuthCallback, libs, "soup_auth_domain_set_generic_auth_callback")
-
 }

@@ -2,6 +2,8 @@
 package webkit
 
 import (
+	"unsafe"
+
 	"github.com/bnema/puregotk/v4/gobject"
 )
 
@@ -159,5 +161,5 @@ func NavigationActionFromPointer(ptr uintptr) *NavigationAction {
 	if ptr == 0 {
 		return nil
 	}
-	return xNavigationActionCopy(ptr)
+	return (*NavigationAction)(unsafe.Pointer(xNavigationActionCopy(ptr)))
 }

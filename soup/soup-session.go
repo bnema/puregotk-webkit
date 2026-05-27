@@ -5,12 +5,12 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type SessionClass struct {
@@ -311,7 +311,6 @@ var xSessionErrorQuark func() glib.Quark
 
 // Registers error quark for SoupSession if needed.
 func SessionErrorQuark() glib.Quark {
-
 	cret := xSessionErrorQuark()
 	return cret
 }
@@ -403,9 +402,7 @@ var xSessionAbort func(uintptr)
 // Cancels all pending requests in @session and closes all idle
 // persistent connections.
 func (x *Session) Abort() {
-
 	xSessionAbort(x.GoPointer())
-
 }
 
 var xSessionAddFeature func(uintptr, uintptr)
@@ -416,9 +413,7 @@ var xSessionAddFeature func(uintptr, uintptr)
 // See the main #SoupSession documentation for information on what
 // features are present in sessions by default.
 func (x *Session) AddFeature(FeatureVar SessionFeature) {
-
 	xSessionAddFeature(x.GoPointer(), FeatureVar.GoPointer())
-
 }
 
 var xSessionAddFeatureByType func(uintptr, types.GType)
@@ -436,9 +431,7 @@ var xSessionAddFeatureByType func(uintptr, types.GType)
 // See the main #SoupSession documentation for information on what
 // features are present in sessions by default.
 func (x *Session) AddFeatureByType(FeatureTypeVar types.GType) {
-
 	xSessionAddFeatureByType(x.GoPointer(), FeatureTypeVar)
-
 }
 
 var xSessionGetAcceptLanguage func(uintptr) string
@@ -446,7 +439,6 @@ var xSessionGetAcceptLanguage func(uintptr) string
 // Get the value used by @session for the "Accept-Language" header on new
 // requests.
 func (x *Session) GetAcceptLanguage() string {
-
 	cret := xSessionGetAcceptLanguage(x.GoPointer())
 	return cret
 }
@@ -456,7 +448,6 @@ var xSessionGetAcceptLanguageAuto func(uintptr) bool
 // Gets whether @session automatically sets the "Accept-Language" header on new
 // requests.
 func (x *Session) GetAcceptLanguageAuto() bool {
-
 	cret := xSessionGetAcceptLanguageAuto(x.GoPointer())
 	return cret
 }
@@ -520,7 +511,6 @@ var xSessionGetIdleTimeout func(uintptr) uint
 // Get the timeout in seconds for idle connection lifetime currently used by
 // @session.
 func (x *Session) GetIdleTimeout() uint {
-
 	cret := xSessionGetIdleTimeout(x.GoPointer())
 	return cret
 }
@@ -547,7 +537,6 @@ var xSessionGetMaxConns func(uintptr) uint
 
 // Get the maximum number of connections that @session can open at once.
 func (x *Session) GetMaxConns() uint {
-
 	cret := xSessionGetMaxConns(x.GoPointer())
 	return cret
 }
@@ -557,7 +546,6 @@ var xSessionGetMaxConnsPerHost func(uintptr) uint
 // Get the maximum number of connections that @session can open at once to a
 // given host.
 func (x *Session) GetMaxConnsPerHost() uint {
-
 	cret := xSessionGetMaxConnsPerHost(x.GoPointer())
 	return cret
 }
@@ -601,7 +589,6 @@ var xSessionGetTimeout func(uintptr) uint
 // Get the timeout in seconds for socket I/O operations currently used by
 // @session.
 func (x *Session) GetTimeout() uint {
-
 	cret := xSessionGetTimeout(x.GoPointer())
 	return cret
 }
@@ -644,7 +631,6 @@ var xSessionGetUserAgent func(uintptr) string
 
 // Get the value used by @session for the "User-Agent" header on new requests.
 func (x *Session) GetUserAgent() string {
-
 	cret := xSessionGetUserAgent(x.GoPointer())
 	return cret
 }
@@ -655,7 +641,6 @@ var xSessionHasFeature func(uintptr, types.GType) bool
 // be the type of either a [iface@SessionFeature], or else a subtype of
 // some class managed by another feature, such as [class@Auth]).
 func (x *Session) HasFeature(FeatureTypeVar types.GType) bool {
-
 	cret := xSessionHasFeature(x.GoPointer(), FeatureTypeVar)
 	return cret
 }
@@ -674,29 +659,7 @@ var xSessionPreconnectAsync func(uintptr, uintptr, int, uintptr, uintptr, uintpt
 //
 // The operation finishes when the connection is done or an error occurred.
 func (x *Session) PreconnectAsync(MsgVar *Message, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xSessionPreconnectAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xSessionPreconnectAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xSessionPreconnectFinish func(uintptr, uintptr, **glib.Error) bool
@@ -710,16 +673,13 @@ func (x *Session) PreconnectFinish(ResultVar gio.AsyncResult) (bool, error) {
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xSessionRemoveFeature func(uintptr, uintptr)
 
 // Removes @feature's functionality from @session.
 func (x *Session) RemoveFeature(FeatureVar SessionFeature) {
-
 	xSessionRemoveFeature(x.GoPointer(), FeatureVar.GoPointer())
-
 }
 
 var xSessionRemoveFeatureByType func(uintptr, types.GType)
@@ -727,9 +687,7 @@ var xSessionRemoveFeatureByType func(uintptr, types.GType)
 // Removes all features of type @feature_type (or any subclass of
 // @feature_type) from @session.
 func (x *Session) RemoveFeatureByType(FeatureTypeVar types.GType) {
-
 	xSessionRemoveFeatureByType(x.GoPointer(), FeatureTypeVar)
-
 }
 
 var xSessionSend func(uintptr, uintptr, uintptr, **glib.Error) uintptr
@@ -759,12 +717,7 @@ func (x *Session) Send(MsgVar *Message, CancellableVar *gio.Cancellable) (*gio.I
 	var cls *gio.InputStream
 	var cerr *glib.Error
 
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	cret := xSessionSend(x.GoPointer(), MsgVar.GoPointer(), CancellableVarPtr, &cerr)
+	cret := xSessionSend(x.GoPointer(), MsgVar.GoPointer(), CancellableVar.GoPointer(), &cerr)
 
 	if cret == 0 {
 		return nil, cerr
@@ -775,10 +728,9 @@ func (x *Session) Send(MsgVar *Message, CancellableVar *gio.Cancellable) (*gio.I
 		return cls, nil
 	}
 	return cls, cerr
-
 }
 
-var xSessionSendAndRead func(uintptr, uintptr, uintptr, **glib.Error) *glib.Bytes
+var xSessionSendAndRead func(uintptr, uintptr, uintptr, **glib.Error) uintptr
 
 // Synchronously sends @msg and reads the response body.
 //
@@ -790,17 +742,14 @@ var xSessionSendAndRead func(uintptr, uintptr, uintptr, **glib.Error) *glib.Byte
 func (x *Session) SendAndRead(MsgVar *Message, CancellableVar *gio.Cancellable) (*glib.Bytes, error) {
 	var cerr *glib.Error
 
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
+	cret := xSessionSendAndRead(x.GoPointer(), MsgVar.GoPointer(), CancellableVar.GoPointer(), &cerr)
+	if cerr != nil {
+		return nil, cerr
 	}
-
-	cret := xSessionSendAndRead(x.GoPointer(), MsgVar.GoPointer(), CancellableVarPtr, &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cret == 0 {
+		return nil, nil
 	}
-	return cret, cerr
-
+	return (*glib.Bytes)(unsafe.Pointer(cret)), nil
 }
 
 var xSessionSendAndReadAsync func(uintptr, uintptr, int, uintptr, uintptr, uintptr)
@@ -815,32 +764,10 @@ var xSessionSendAndReadAsync func(uintptr, uintptr, int, uintptr, uintptr, uintp
 //
 // See [method@Session.send] for more details on the general semantics.
 func (x *Session) SendAndReadAsync(MsgVar *Message, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xSessionSendAndReadAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xSessionSendAndReadAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
-var xSessionSendAndReadFinish func(uintptr, uintptr, **glib.Error) *glib.Bytes
+var xSessionSendAndReadFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Gets the response to a [method@Session.send_and_read_async].
 //
@@ -849,11 +776,13 @@ func (x *Session) SendAndReadFinish(ResultVar gio.AsyncResult) (*glib.Bytes, err
 	var cerr *glib.Error
 
 	cret := xSessionSendAndReadFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
-
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*glib.Bytes)(unsafe.Pointer(cret)), nil
 }
 
 var xSessionSendAndSplice func(uintptr, uintptr, uintptr, gio.OutputStreamSpliceFlags, uintptr, **glib.Error) int
@@ -864,17 +793,11 @@ var xSessionSendAndSplice func(uintptr, uintptr, uintptr, gio.OutputStreamSplice
 func (x *Session) SendAndSplice(MsgVar *Message, OutStreamVar *gio.OutputStream, FlagsVar gio.OutputStreamSpliceFlags, CancellableVar *gio.Cancellable) (int, error) {
 	var cerr *glib.Error
 
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	cret := xSessionSendAndSplice(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, CancellableVarPtr, &cerr)
+	cret := xSessionSendAndSplice(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, CancellableVar.GoPointer(), &cerr)
 	if cerr == nil {
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xSessionSendAndSpliceAsync func(uintptr, uintptr, uintptr, gio.OutputStreamSpliceFlags, int, uintptr, uintptr, uintptr)
@@ -885,29 +808,7 @@ var xSessionSendAndSpliceAsync func(uintptr, uintptr, uintptr, gio.OutputStreamS
 //
 // See [method@Session.send] for more details on the general semantics.
 func (x *Session) SendAndSpliceAsync(MsgVar *Message, OutStreamVar *gio.OutputStream, FlagsVar gio.OutputStreamSpliceFlags, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xSessionSendAndSpliceAsync(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xSessionSendAndSpliceAsync(x.GoPointer(), MsgVar.GoPointer(), OutStreamVar.GoPointer(), FlagsVar, IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xSessionSendAndSpliceFinish func(uintptr, uintptr, **glib.Error) int
@@ -921,7 +822,6 @@ func (x *Session) SendAndSpliceFinish(ResultVar gio.AsyncResult) (int, error) {
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xSessionSendAsync func(uintptr, uintptr, int, uintptr, uintptr, uintptr)
@@ -935,29 +835,7 @@ var xSessionSendAsync func(uintptr, uintptr, int, uintptr, uintptr, uintptr)
 //
 // See [method@Session.send] for more details on the general semantics.
 func (x *Session) SendAsync(MsgVar *Message, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xSessionSendAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xSessionSendAsync(x.GoPointer(), MsgVar.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xSessionSendFinish func(uintptr, uintptr, **glib.Error) uintptr
@@ -981,7 +859,6 @@ func (x *Session) SendFinish(ResultVar gio.AsyncResult) (*gio.InputStream, error
 		return cls, nil
 	}
 	return cls, cerr
-
 }
 
 var xSessionSetAcceptLanguage func(uintptr, string)
@@ -992,9 +869,7 @@ var xSessionSetAcceptLanguage func(uintptr, string)
 // If @accept_language is %NULL then no "Accept-Language" will be included in
 // requests. See [property@Session:accept-language] for more information.
 func (x *Session) SetAcceptLanguage(AcceptLanguageVar string) {
-
 	xSessionSetAcceptLanguage(x.GoPointer(), AcceptLanguageVar)
-
 }
 
 var xSessionSetAcceptLanguageAuto func(uintptr, bool)
@@ -1005,9 +880,7 @@ var xSessionSetAcceptLanguageAuto func(uintptr, bool)
 //
 // See [property@Session:accept-language-auto] for more information.
 func (x *Session) SetAcceptLanguageAuto(AcceptLanguageAutoVar bool) {
-
 	xSessionSetAcceptLanguageAuto(x.GoPointer(), AcceptLanguageAutoVar)
-
 }
 
 var xSessionSetIdleTimeout func(uintptr, uint)
@@ -1017,9 +890,7 @@ var xSessionSetIdleTimeout func(uintptr, uint)
 //
 // See [property@Session:idle-timeout] for more information.
 func (x *Session) SetIdleTimeout(TimeoutVar uint) {
-
 	xSessionSetIdleTimeout(x.GoPointer(), TimeoutVar)
-
 }
 
 var xSessionSetProxyResolver func(uintptr, uintptr)
@@ -1029,14 +900,7 @@ var xSessionSetProxyResolver func(uintptr, uintptr)
 // If @proxy_resolver is %NULL then no proxies will be used. See
 // [property@Session:proxy-resolver] for more information.
 func (x *Session) SetProxyResolver(ProxyResolverVar gio.ProxyResolver) {
-
-	var ProxyResolverVarPtr uintptr
-	if ProxyResolverVar != nil {
-		ProxyResolverVarPtr = ProxyResolverVar.GoPointer()
-	}
-
-	xSessionSetProxyResolver(x.GoPointer(), ProxyResolverVarPtr)
-
+	xSessionSetProxyResolver(x.GoPointer(), ProxyResolverVar.GoPointer())
 }
 
 var xSessionSetTimeout func(uintptr, uint)
@@ -1046,9 +910,7 @@ var xSessionSetTimeout func(uintptr, uint)
 //
 // See [property@Session:timeout] for more information.
 func (x *Session) SetTimeout(TimeoutVar uint) {
-
 	xSessionSetTimeout(x.GoPointer(), TimeoutVar)
-
 }
 
 var xSessionSetTlsDatabase func(uintptr, uintptr)
@@ -1058,14 +920,7 @@ var xSessionSetTlsDatabase func(uintptr, uintptr)
 // If @tls_database is %NULL then certificate validation will always fail. See
 // [property@Session:tls-database] for more information.
 func (x *Session) SetTlsDatabase(TlsDatabaseVar *gio.TlsDatabase) {
-
-	var TlsDatabaseVarPtr uintptr
-	if TlsDatabaseVar != nil {
-		TlsDatabaseVarPtr = TlsDatabaseVar.GoPointer()
-	}
-
-	xSessionSetTlsDatabase(x.GoPointer(), TlsDatabaseVarPtr)
-
+	xSessionSetTlsDatabase(x.GoPointer(), TlsDatabaseVar.GoPointer())
 }
 
 var xSessionSetTlsInteraction func(uintptr, uintptr)
@@ -1077,14 +932,7 @@ var xSessionSetTlsInteraction func(uintptr, uintptr)
 //
 // See [property@Session:tls-interaction] for more information.
 func (x *Session) SetTlsInteraction(TlsInteractionVar *gio.TlsInteraction) {
-
-	var TlsInteractionVarPtr uintptr
-	if TlsInteractionVar != nil {
-		TlsInteractionVarPtr = TlsInteractionVar.GoPointer()
-	}
-
-	xSessionSetTlsInteraction(x.GoPointer(), TlsInteractionVarPtr)
-
+	xSessionSetTlsInteraction(x.GoPointer(), TlsInteractionVar.GoPointer())
 }
 
 var xSessionSetUserAgent func(uintptr, string)
@@ -1097,9 +945,7 @@ var xSessionSetUserAgent func(uintptr, string)
 // is %NULL then no "User-Agent" will be included in requests. See
 // [property@Session:user-agent] for more information.
 func (x *Session) SetUserAgent(UserAgentVar string) {
-
 	xSessionSetUserAgent(x.GoPointer(), UserAgentVar)
-
 }
 
 var xSessionWebsocketConnectAsync func(uintptr, uintptr, uintptr, []string, int, uintptr, uintptr, uintptr)
@@ -1122,32 +968,10 @@ var xSessionWebsocketConnectAsync func(uintptr, uintptr, uintptr, []string, int,
 // response, and [method@Session.websocket_connect_finish] will return
 // %SOUP_WEBSOCKET_ERROR_NOT_WEBSOCKET.
 func (x *Session) WebsocketConnectAsync(MsgVar *Message, OriginVar *string, ProtocolsVar []string, IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
 	OriginVarPtr := core.GStrdupNullable(OriginVar)
 	defer core.GFreeNullable(OriginVarPtr)
 
-	xSessionWebsocketConnectAsync(x.GoPointer(), MsgVar.GoPointer(), OriginVarPtr, ProtocolsVar, IoPriorityVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xSessionWebsocketConnectAsync(x.GoPointer(), MsgVar.GoPointer(), OriginVarPtr, ProtocolsVar, IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xSessionWebsocketConnectFinish func(uintptr, uintptr, **glib.Error) uintptr
@@ -1172,7 +996,6 @@ func (x *Session) WebsocketConnectFinish(ResultVar gio.AsyncResult) (*WebsocketC
 		return cls, nil
 	}
 	return cls, cerr
-
 }
 
 func (c *Session) GoPointer() uintptr {
@@ -1437,7 +1260,7 @@ func (x *Session) GetPropertyUserAgent() string {
 // exactly once, but [signal@Message::finished] (and all of the other
 // [class@Message] signals) may be invoked multiple times for a given
 // message.
-func (x *Session) ConnectRequestQueued(cb *func(Session, *Message)) uint {
+func (x *Session) ConnectRequestQueued(cb *func(Session, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-queued", cbRefPtr)
@@ -1450,8 +1273,7 @@ func (x *Session) ConnectRequestQueued(cb *func(Session, *Message)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *Message { cls := &Message{}; cls.Ptr = MsgVarp; return cls }())
-
+		cbFn(fa, MsgVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1465,7 +1287,7 @@ func (x *Session) ConnectRequestQueued(cb *func(Session, *Message)) uint {
 //
 // See [signal@Session::request-queued] for a detailed description of
 // the message lifecycle within a session.
-func (x *Session) ConnectRequestUnqueued(cb *func(Session, *Message)) uint {
+func (x *Session) ConnectRequestUnqueued(cb *func(Session, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-unqueued", cbRefPtr)
@@ -1478,8 +1300,7 @@ func (x *Session) ConnectRequestUnqueued(cb *func(Session, *Message)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *Message { cls := &Message{}; cls.Ptr = MsgVarp; return cls }())
-
+		cbFn(fa, MsgVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1490,7 +1311,7 @@ func (x *Session) ConnectRequestUnqueued(cb *func(Session, *Message)) uint {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -1551,5 +1372,4 @@ func init() {
 	core.PuregoSafeRegister(&xSessionSetUserAgent, libs, "soup_session_set_user_agent")
 	core.PuregoSafeRegister(&xSessionWebsocketConnectAsync, libs, "soup_session_websocket_connect_async")
 	core.PuregoSafeRegister(&xSessionWebsocketConnectFinish, libs, "soup_session_websocket_connect_finish")
-
 }

@@ -5,12 +5,12 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // A callback used to handle requests to a [class@Server].
@@ -309,22 +309,11 @@ var xServerAcceptIostream func(uintptr, uintptr, uintptr, uintptr, **glib.Error)
 func (x *Server) AcceptIostream(StreamVar *gio.IOStream, LocalAddrVar *gio.SocketAddress, RemoteAddrVar *gio.SocketAddress) (bool, error) {
 	var cerr *glib.Error
 
-	var LocalAddrVarPtr uintptr
-	if LocalAddrVar != nil {
-		LocalAddrVarPtr = LocalAddrVar.GoPointer()
-	}
-
-	var RemoteAddrVarPtr uintptr
-	if RemoteAddrVar != nil {
-		RemoteAddrVarPtr = RemoteAddrVar.GoPointer()
-	}
-
-	cret := xServerAcceptIostream(x.GoPointer(), StreamVar.GoPointer(), LocalAddrVarPtr, RemoteAddrVarPtr, &cerr)
+	cret := xServerAcceptIostream(x.GoPointer(), StreamVar.GoPointer(), LocalAddrVar.GoPointer(), RemoteAddrVar.GoPointer(), &cerr)
 	if cerr == nil {
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xServerAddAuthDomain func(uintptr, uintptr)
@@ -341,9 +330,7 @@ var xServerAddAuthDomain func(uintptr, uintptr)
 // SoupServer:100-continue Expectation, @server will reject it before the
 // request body is sent.
 func (x *Server) AddAuthDomain(AuthDomainVar *AuthDomain) {
-
 	xServerAddAuthDomain(x.GoPointer(), AuthDomainVar.GoPointer())
-
 }
 
 var xServerAddEarlyHandler func(uintptr, uintptr, uintptr, uintptr, uintptr)
@@ -375,42 +362,10 @@ var xServerAddEarlyHandler func(uintptr, uintptr, uintptr, uintptr, uintptr)
 // [signal@ServerMessage::got-body] is emitted, the non-early handler will be
 // run as well.
 func (x *Server) AddEarlyHandler(PathVar *string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 *glib.HashTable, arg4 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, core.GoString(arg2), arg3, arg4)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var DestroyVarRef uintptr
-	if DestroyVar != nil {
-		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
-			DestroyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyVar
-				cbFn(arg0)
-			}
-			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
-		}
-	}
-
 	PathVarPtr := core.GStrdupNullable(PathVar)
 	defer core.GFreeNullable(PathVarPtr)
 
-	xServerAddEarlyHandler(x.GoPointer(), PathVarPtr, CallbackVarRef, UserDataVar, DestroyVarRef)
-
+	xServerAddEarlyHandler(x.GoPointer(), PathVarPtr, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
 }
 
 var xServerAddHandler func(uintptr, uintptr, uintptr, uintptr, uintptr)
@@ -449,42 +404,10 @@ var xServerAddHandler func(uintptr, uintptr, uintptr, uintptr, uintptr)
 // more chunks are available.) When you are done, call
 // [method@MessageBody.complete] to indicate that no more chunks are coming.
 func (x *Server) AddHandler(PathVar *string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 *glib.HashTable, arg4 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, core.GoString(arg2), arg3, arg4)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var DestroyVarRef uintptr
-	if DestroyVar != nil {
-		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
-			DestroyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyVar
-				cbFn(arg0)
-			}
-			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
-		}
-	}
-
 	PathVarPtr := core.GStrdupNullable(PathVar)
 	defer core.GFreeNullable(PathVarPtr)
 
-	xServerAddHandler(x.GoPointer(), PathVarPtr, CallbackVarRef, UserDataVar, DestroyVarRef)
-
+	xServerAddHandler(x.GoPointer(), PathVarPtr, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
 }
 
 var xServerAddWebsocketExtension func(uintptr, types.GType)
@@ -498,9 +421,7 @@ var xServerAddWebsocketExtension func(uintptr, types.GType)
 // Note that [class@WebsocketExtensionDeflate] is supported by default, use
 // [method@Server.remove_websocket_extension] if you want to disable it.
 func (x *Server) AddWebsocketExtension(ExtensionTypeVar types.GType) {
-
 	xServerAddWebsocketExtension(x.GoPointer(), ExtensionTypeVar)
-
 }
 
 var xServerAddWebsocketHandler func(uintptr, uintptr, uintptr, []string, uintptr, uintptr, uintptr)
@@ -524,45 +445,13 @@ var xServerAddWebsocketHandler func(uintptr, uintptr, uintptr, []string, uintptr
 // whatever checks are needed and
 // setting a failure status code if the handshake should be rejected.
 func (x *Server) AddWebsocketHandler(PathVar *string, OriginVar *string, ProtocolsVar []string, CallbackVar *ServerWebsocketCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 uintptr, arg4 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, core.GoString(arg2), arg3, arg4)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var DestroyVarRef uintptr
-	if DestroyVar != nil {
-		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
-			DestroyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyVar
-				cbFn(arg0)
-			}
-			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
-		}
-	}
-
 	PathVarPtr := core.GStrdupNullable(PathVar)
 	defer core.GFreeNullable(PathVarPtr)
 
 	OriginVarPtr := core.GStrdupNullable(OriginVar)
 	defer core.GFreeNullable(OriginVarPtr)
 
-	xServerAddWebsocketHandler(x.GoPointer(), PathVarPtr, OriginVarPtr, ProtocolsVar, CallbackVarRef, UserDataVar, DestroyVarRef)
-
+	xServerAddWebsocketHandler(x.GoPointer(), PathVarPtr, OriginVarPtr, ProtocolsVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyVar))
 }
 
 var xServerDisconnect func(uintptr)
@@ -576,28 +465,27 @@ var xServerDisconnect func(uintptr)
 // You can call [method@Server.listen], etc, after calling this function
 // if you want to start listening again.
 func (x *Server) Disconnect() {
-
 	xServerDisconnect(x.GoPointer())
-
 }
 
-var xServerGetListeners func(uintptr) *glib.SList
+var xServerGetListeners func(uintptr) uintptr
 
 // Gets @server's list of listening sockets.
 //
 // You should treat these sockets as read-only; writing to or
 // modifiying any of these sockets may cause @server to malfunction.
 func (x *Server) GetListeners() *glib.SList {
-
 	cret := xServerGetListeners(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.SList)(unsafe.Pointer(cret))
 }
 
 var xServerGetTlsAuthMode func(uintptr) gio.TlsAuthenticationMode
 
 // Gets the @server SSL/TLS client authentication mode.
 func (x *Server) GetTlsAuthMode() gio.TlsAuthenticationMode {
-
 	cret := xServerGetTlsAuthMode(x.GoPointer())
 	return cret
 }
@@ -636,7 +524,7 @@ func (x *Server) GetTlsDatabase() *gio.TlsDatabase {
 	return cls
 }
 
-var xServerGetUris func(uintptr) *glib.SList
+var xServerGetUris func(uintptr) uintptr
 
 // Gets a list of URIs corresponding to the interfaces @server is
 // listening on.
@@ -648,9 +536,11 @@ var xServerGetUris func(uintptr) *glib.SList
 // the addresses `0.0.0.0` and `::`, rather than actually returning separate
 // URIs for each interface on the system.
 func (x *Server) GetUris() *glib.SList {
-
 	cret := xServerGetUris(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.SList)(unsafe.Pointer(cret))
 }
 
 var xServerIsHttps func(uintptr) bool
@@ -669,7 +559,6 @@ var xServerIsHttps func(uintptr) bool
 // currently is or not. Use [method@Server.get_uris] to see if it currently has
 // any https listeners.
 func (x *Server) IsHttps() bool {
-
 	cret := xServerIsHttps(x.GoPointer())
 	return cret
 }
@@ -700,7 +589,6 @@ func (x *Server) Listen(AddressVar *gio.SocketAddress, OptionsVar ServerListenOp
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xServerListenAll func(uintptr, uint, ServerListenOptions, **glib.Error) bool
@@ -724,7 +612,6 @@ func (x *Server) ListenAll(PortVar uint, OptionsVar ServerListenOptions) (bool, 
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xServerListenLocal func(uintptr, uint, ServerListenOptions, **glib.Error) bool
@@ -746,7 +633,6 @@ func (x *Server) ListenLocal(PortVar uint, OptionsVar ServerListenOptions) (bool
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xServerListenSocket func(uintptr, uintptr, ServerListenOptions, **glib.Error) bool
@@ -762,7 +648,6 @@ func (x *Server) ListenSocket(SocketVar *gio.Socket, OptionsVar ServerListenOpti
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xServerPauseMessage func(uintptr, uintptr)
@@ -778,27 +663,21 @@ var xServerPauseMessage func(uintptr, uintptr)
 // [callback@ServerCallback] or emitted in a [signal@Server::request-read]
 // signal.
 func (x *Server) PauseMessage(MsgVar *ServerMessage) {
-
 	xServerPauseMessage(x.GoPointer(), MsgVar.GoPointer())
-
 }
 
 var xServerRemoveAuthDomain func(uintptr, uintptr)
 
 // Removes @auth_domain from @server.
 func (x *Server) RemoveAuthDomain(AuthDomainVar *AuthDomain) {
-
 	xServerRemoveAuthDomain(x.GoPointer(), AuthDomainVar.GoPointer())
-
 }
 
 var xServerRemoveHandler func(uintptr, string)
 
 // Removes all handlers (early and normal) registered at @path.
 func (x *Server) RemoveHandler(PathVar string) {
-
 	xServerRemoveHandler(x.GoPointer(), PathVar)
-
 }
 
 var xServerRemoveWebsocketExtension func(uintptr, types.GType)
@@ -806,36 +685,28 @@ var xServerRemoveWebsocketExtension func(uintptr, types.GType)
 // Removes support for WebSocket extension of type @extension_type (or any subclass of
 // @extension_type) from @server.
 func (x *Server) RemoveWebsocketExtension(ExtensionTypeVar types.GType) {
-
 	xServerRemoveWebsocketExtension(x.GoPointer(), ExtensionTypeVar)
-
 }
 
 var xServerSetTlsAuthMode func(uintptr, gio.TlsAuthenticationMode)
 
 // Sets @server's #GTlsAuthenticationMode to use for SSL/TLS client authentication.
 func (x *Server) SetTlsAuthMode(ModeVar gio.TlsAuthenticationMode) {
-
 	xServerSetTlsAuthMode(x.GoPointer(), ModeVar)
-
 }
 
 var xServerSetTlsCertificate func(uintptr, uintptr)
 
 // Sets @server up to do https, using the given SSL/TLS @certificate.
 func (x *Server) SetTlsCertificate(CertificateVar *gio.TlsCertificate) {
-
 	xServerSetTlsCertificate(x.GoPointer(), CertificateVar.GoPointer())
-
 }
 
 var xServerSetTlsDatabase func(uintptr, uintptr)
 
 // Sets @server's #GTlsDatabase to use for validating SSL/TLS client certificates.
 func (x *Server) SetTlsDatabase(TlsDatabaseVar *gio.TlsDatabase) {
-
 	xServerSetTlsDatabase(x.GoPointer(), TlsDatabaseVar.GoPointer())
-
 }
 
 var xServerUnpauseMessage func(uintptr, uintptr)
@@ -852,9 +723,7 @@ var xServerUnpauseMessage func(uintptr, uintptr)
 // [callback@ServerCallback] or emitted in a [signal@Server::request-read]
 // signal.
 func (x *Server) UnpauseMessage(MsgVar *ServerMessage) {
-
 	xServerUnpauseMessage(x.GoPointer(), MsgVar.GoPointer())
-
 }
 
 func (c *Server) GoPointer() uintptr {
@@ -963,7 +832,7 @@ func (x *Server) GetPropertyServerHeader() string {
 // emitted; the signal exists primarily to allow the server to
 // free any state that it may have allocated in
 // [signal@Server::request-started].
-func (x *Server) ConnectRequestAborted(cb *func(Server, *ServerMessage)) uint {
+func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
@@ -976,8 +845,7 @@ func (x *Server) ConnectRequestAborted(cb *func(Server, *ServerMessage)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *ServerMessage { cls := &ServerMessage{}; cls.Ptr = MessageVarp; return cls }())
-
+		cbFn(fa, MessageVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -988,7 +856,7 @@ func (x *Server) ConnectRequestAborted(cb *func(Server, *ServerMessage)) uint {
 
 // Emitted when the server has finished writing a response to
 // a request.
-func (x *Server) ConnectRequestFinished(cb *func(Server, *ServerMessage)) uint {
+func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
@@ -1001,8 +869,7 @@ func (x *Server) ConnectRequestFinished(cb *func(Server, *ServerMessage)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *ServerMessage { cls := &ServerMessage{}; cls.Ptr = MessageVarp; return cls }())
-
+		cbFn(fa, MessageVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1019,7 +886,7 @@ func (x *Server) ConnectRequestFinished(cb *func(Server, *ServerMessage)) uint {
 // before any (non-early) handlers are called for the message,
 // and if it sets the message's #status_code, then normal
 // handler processing will be skipped.
-func (x *Server) ConnectRequestRead(cb *func(Server, *ServerMessage)) uint {
+func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
@@ -1032,8 +899,7 @@ func (x *Server) ConnectRequestRead(cb *func(Server, *ServerMessage)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *ServerMessage { cls := &ServerMessage{}; cls.Ptr = MessageVarp; return cls }())
-
+		cbFn(fa, MessageVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1054,7 +920,7 @@ func (x *Server) ConnectRequestRead(cb *func(Server, *ServerMessage)) uint {
 // a [signal@Server::request-finished] signal. If a network error
 // occurs, the processing will instead end with
 // [signal@Server::request-aborted].
-func (x *Server) ConnectRequestStarted(cb *func(Server, *ServerMessage)) uint {
+func (x *Server) ConnectRequestStarted(cb *func(Server, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
@@ -1067,8 +933,7 @@ func (x *Server) ConnectRequestStarted(cb *func(Server, *ServerMessage)) uint {
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *ServerMessage { cls := &ServerMessage{}; cls.Ptr = MessageVarp; return cls }())
-
+		cbFn(fa, MessageVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1079,7 +944,7 @@ func (x *Server) ConnectRequestStarted(cb *func(Server, *ServerMessage)) uint {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -1120,5 +985,4 @@ func init() {
 	core.PuregoSafeRegister(&xServerSetTlsCertificate, libs, "soup_server_set_tls_certificate")
 	core.PuregoSafeRegister(&xServerSetTlsDatabase, libs, "soup_server_set_tls_database")
 	core.PuregoSafeRegister(&xServerUnpauseMessage, libs, "soup_server_unpause_message")
-
 }

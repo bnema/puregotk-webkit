@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type SettingsClass struct {
@@ -122,14 +122,12 @@ func (x *Settings) ApplyFromKeyFile(KeyFileVar *glib.KeyFile, GroupNameVar strin
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xSettingsGetAllowFileAccessFromFileUrls func(uintptr) bool
 
 // Get the #WebKitSettings:allow-file-access-from-file-urls property.
 func (x *Settings) GetAllowFileAccessFromFileUrls() bool {
-
 	cret := xSettingsGetAllowFileAccessFromFileUrls(x.GoPointer())
 	return cret
 }
@@ -138,7 +136,6 @@ var xSettingsGetAllowModalDialogs func(uintptr) bool
 
 // Get the #WebKitSettings:allow-modal-dialogs property.
 func (x *Settings) GetAllowModalDialogs() bool {
-
 	cret := xSettingsGetAllowModalDialogs(x.GoPointer())
 	return cret
 }
@@ -147,7 +144,6 @@ var xSettingsGetAllowTopNavigationToDataUrls func(uintptr) bool
 
 // Get the #WebKitSettings:allow-top-navigation-to-data-urls property.
 func (x *Settings) GetAllowTopNavigationToDataUrls() bool {
-
 	cret := xSettingsGetAllowTopNavigationToDataUrls(x.GoPointer())
 	return cret
 }
@@ -156,7 +152,6 @@ var xSettingsGetAllowUniversalAccessFromFileUrls func(uintptr) bool
 
 // Get the #WebKitSettings:allow-universal-access-from-file-urls property.
 func (x *Settings) GetAllowUniversalAccessFromFileUrls() bool {
-
 	cret := xSettingsGetAllowUniversalAccessFromFileUrls(x.GoPointer())
 	return cret
 }
@@ -165,7 +160,6 @@ var xSettingsGetAutoLoadImages func(uintptr) bool
 
 // Get the #WebKitSettings:auto-load-images property.
 func (x *Settings) GetAutoLoadImages() bool {
-
 	cret := xSettingsGetAutoLoadImages(x.GoPointer())
 	return cret
 }
@@ -174,7 +168,6 @@ var xSettingsGetCursiveFontFamily func(uintptr) string
 
 // Gets the #WebKitSettings:cursive-font-family property.
 func (x *Settings) GetCursiveFontFamily() string {
-
 	cret := xSettingsGetCursiveFontFamily(x.GoPointer())
 	return cret
 }
@@ -183,7 +176,6 @@ var xSettingsGetDefaultCharset func(uintptr) string
 
 // Gets the #WebKitSettings:default-charset property.
 func (x *Settings) GetDefaultCharset() string {
-
 	cret := xSettingsGetDefaultCharset(x.GoPointer())
 	return cret
 }
@@ -192,7 +184,6 @@ var xSettingsGetDefaultFontFamily func(uintptr) string
 
 // Gets the #WebKitSettings:default-font-family property.
 func (x *Settings) GetDefaultFontFamily() string {
-
 	cret := xSettingsGetDefaultFontFamily(x.GoPointer())
 	return cret
 }
@@ -201,7 +192,6 @@ var xSettingsGetDefaultFontSize func(uintptr) uint32
 
 // Gets the #WebKitSettings:default-font-size property.
 func (x *Settings) GetDefaultFontSize() uint32 {
-
 	cret := xSettingsGetDefaultFontSize(x.GoPointer())
 	return cret
 }
@@ -210,7 +200,6 @@ var xSettingsGetDefaultMonospaceFontSize func(uintptr) uint32
 
 // Gets the #WebKitSettings:default-monospace-font-size property.
 func (x *Settings) GetDefaultMonospaceFontSize() uint32 {
-
 	cret := xSettingsGetDefaultMonospaceFontSize(x.GoPointer())
 	return cret
 }
@@ -219,7 +208,6 @@ var xSettingsGetDisableWebSecurity func(uintptr) bool
 
 // Get the #WebKitSettings:disable-web-security property.
 func (x *Settings) GetDisableWebSecurity() bool {
-
 	cret := xSettingsGetDisableWebSecurity(x.GoPointer())
 	return cret
 }
@@ -228,7 +216,6 @@ var xSettingsGetDrawCompositingIndicators func(uintptr) bool
 
 // Get the #WebKitSettings:draw-compositing-indicators property.
 func (x *Settings) GetDrawCompositingIndicators() bool {
-
 	cret := xSettingsGetDrawCompositingIndicators(x.GoPointer())
 	return cret
 }
@@ -237,7 +224,6 @@ var xSettingsGetEnable2dCanvasAcceleration func(uintptr) bool
 
 // Get the #WebKitSettings:enable-2d-canvas-acceleration property.
 func (x *Settings) GetEnable2dCanvasAcceleration() bool {
-
 	cret := xSettingsGetEnable2dCanvasAcceleration(x.GoPointer())
 	return cret
 }
@@ -246,7 +232,6 @@ var xSettingsGetEnableBackForwardNavigationGestures func(uintptr) bool
 
 // Get the #WebKitSettings:enable-back-forward-navigation-gestures property.
 func (x *Settings) GetEnableBackForwardNavigationGestures() bool {
-
 	cret := xSettingsGetEnableBackForwardNavigationGestures(x.GoPointer())
 	return cret
 }
@@ -255,7 +240,6 @@ var xSettingsGetEnableCaretBrowsing func(uintptr) bool
 
 // Get the #WebKitSettings:enable-caret-browsing property.
 func (x *Settings) GetEnableCaretBrowsing() bool {
-
 	cret := xSettingsGetEnableCaretBrowsing(x.GoPointer())
 	return cret
 }
@@ -264,7 +248,6 @@ var xSettingsGetEnableDeveloperExtras func(uintptr) bool
 
 // Get the #WebKitSettings:enable-developer-extras property.
 func (x *Settings) GetEnableDeveloperExtras() bool {
-
 	cret := xSettingsGetEnableDeveloperExtras(x.GoPointer())
 	return cret
 }
@@ -273,7 +256,6 @@ var xSettingsGetEnableDnsPrefetching func(uintptr) bool
 
 // Get the #WebKitSettings:enable-dns-prefetching property.
 func (x *Settings) GetEnableDnsPrefetching() bool {
-
 	cret := xSettingsGetEnableDnsPrefetching(x.GoPointer())
 	return cret
 }
@@ -282,7 +264,6 @@ var xSettingsGetEnableEncryptedMedia func(uintptr) bool
 
 // Get the #WebKitSettings:enable-encrypted-media property.
 func (x *Settings) GetEnableEncryptedMedia() bool {
-
 	cret := xSettingsGetEnableEncryptedMedia(x.GoPointer())
 	return cret
 }
@@ -291,7 +272,6 @@ var xSettingsGetEnableFullscreen func(uintptr) bool
 
 // Get the #WebKitSettings:enable-fullscreen property.
 func (x *Settings) GetEnableFullscreen() bool {
-
 	cret := xSettingsGetEnableFullscreen(x.GoPointer())
 	return cret
 }
@@ -300,7 +280,6 @@ var xSettingsGetEnableHtml5Database func(uintptr) bool
 
 // Get the #WebKitSettings:enable-html5-database property.
 func (x *Settings) GetEnableHtml5Database() bool {
-
 	cret := xSettingsGetEnableHtml5Database(x.GoPointer())
 	return cret
 }
@@ -309,7 +288,6 @@ var xSettingsGetEnableHtml5LocalStorage func(uintptr) bool
 
 // Get the #WebKitSettings:enable-html5-local-storage property.
 func (x *Settings) GetEnableHtml5LocalStorage() bool {
-
 	cret := xSettingsGetEnableHtml5LocalStorage(x.GoPointer())
 	return cret
 }
@@ -318,7 +296,6 @@ var xSettingsGetEnableHyperlinkAuditing func(uintptr) bool
 
 // Get the #WebKitSettings:enable-hyperlink-auditing property.
 func (x *Settings) GetEnableHyperlinkAuditing() bool {
-
 	cret := xSettingsGetEnableHyperlinkAuditing(x.GoPointer())
 	return cret
 }
@@ -327,7 +304,6 @@ var xSettingsGetEnableJavascript func(uintptr) bool
 
 // Get the #WebKitSettings:enable-javascript property.
 func (x *Settings) GetEnableJavascript() bool {
-
 	cret := xSettingsGetEnableJavascript(x.GoPointer())
 	return cret
 }
@@ -336,7 +312,6 @@ var xSettingsGetEnableJavascriptMarkup func(uintptr) bool
 
 // Get the #WebKitSettings:enable-javascript-markup property.
 func (x *Settings) GetEnableJavascriptMarkup() bool {
-
 	cret := xSettingsGetEnableJavascriptMarkup(x.GoPointer())
 	return cret
 }
@@ -345,7 +320,6 @@ var xSettingsGetEnableMedia func(uintptr) bool
 
 // Get the #WebKitSettings:enable-media property.
 func (x *Settings) GetEnableMedia() bool {
-
 	cret := xSettingsGetEnableMedia(x.GoPointer())
 	return cret
 }
@@ -354,7 +328,6 @@ var xSettingsGetEnableMediaCapabilities func(uintptr) bool
 
 // Get the #WebKitSettings:enable-media-capabilities property.
 func (x *Settings) GetEnableMediaCapabilities() bool {
-
 	cret := xSettingsGetEnableMediaCapabilities(x.GoPointer())
 	return cret
 }
@@ -363,7 +336,6 @@ var xSettingsGetEnableMediaStream func(uintptr) bool
 
 // Get the #WebKitSettings:enable-media-stream property.
 func (x *Settings) GetEnableMediaStream() bool {
-
 	cret := xSettingsGetEnableMediaStream(x.GoPointer())
 	return cret
 }
@@ -372,7 +344,6 @@ var xSettingsGetEnableMediasource func(uintptr) bool
 
 // Get the #WebKitSettings:enable-mediasource property.
 func (x *Settings) GetEnableMediasource() bool {
-
 	cret := xSettingsGetEnableMediasource(x.GoPointer())
 	return cret
 }
@@ -381,7 +352,6 @@ var xSettingsGetEnableMockCaptureDevices func(uintptr) bool
 
 // Get the #WebKitSettings:enable-mock-capture-devices property.
 func (x *Settings) GetEnableMockCaptureDevices() bool {
-
 	cret := xSettingsGetEnableMockCaptureDevices(x.GoPointer())
 	return cret
 }
@@ -390,7 +360,6 @@ var xSettingsGetEnableOfflineWebApplicationCache func(uintptr) bool
 
 // Get the #WebKitSettings:enable-offline-web-application-cache property.
 func (x *Settings) GetEnableOfflineWebApplicationCache() bool {
-
 	cret := xSettingsGetEnableOfflineWebApplicationCache(x.GoPointer())
 	return cret
 }
@@ -399,7 +368,6 @@ var xSettingsGetEnablePageCache func(uintptr) bool
 
 // Get the #WebKitSettings:enable-page-cache property.
 func (x *Settings) GetEnablePageCache() bool {
-
 	cret := xSettingsGetEnablePageCache(x.GoPointer())
 	return cret
 }
@@ -408,7 +376,6 @@ var xSettingsGetEnableResizableTextAreas func(uintptr) bool
 
 // Get the #WebKitSettings:enable-resizable-text-areas property.
 func (x *Settings) GetEnableResizableTextAreas() bool {
-
 	cret := xSettingsGetEnableResizableTextAreas(x.GoPointer())
 	return cret
 }
@@ -417,7 +384,6 @@ var xSettingsGetEnableSiteSpecificQuirks func(uintptr) bool
 
 // Get the #WebKitSettings:enable-site-specific-quirks property.
 func (x *Settings) GetEnableSiteSpecificQuirks() bool {
-
 	cret := xSettingsGetEnableSiteSpecificQuirks(x.GoPointer())
 	return cret
 }
@@ -426,7 +392,6 @@ var xSettingsGetEnableSmoothScrolling func(uintptr) bool
 
 // Get the #WebKitSettings:enable-smooth-scrolling property.
 func (x *Settings) GetEnableSmoothScrolling() bool {
-
 	cret := xSettingsGetEnableSmoothScrolling(x.GoPointer())
 	return cret
 }
@@ -435,7 +400,6 @@ var xSettingsGetEnableSpatialNavigation func(uintptr) bool
 
 // Get the #WebKitSettings:enable-spatial-navigation property.
 func (x *Settings) GetEnableSpatialNavigation() bool {
-
 	cret := xSettingsGetEnableSpatialNavigation(x.GoPointer())
 	return cret
 }
@@ -444,7 +408,6 @@ var xSettingsGetEnableTabsToLinks func(uintptr) bool
 
 // Get the #WebKitSettings:enable-tabs-to-links property.
 func (x *Settings) GetEnableTabsToLinks() bool {
-
 	cret := xSettingsGetEnableTabsToLinks(x.GoPointer())
 	return cret
 }
@@ -453,7 +416,6 @@ var xSettingsGetEnableWebaudio func(uintptr) bool
 
 // Get the #WebKitSettings:enable-webaudio property.
 func (x *Settings) GetEnableWebaudio() bool {
-
 	cret := xSettingsGetEnableWebaudio(x.GoPointer())
 	return cret
 }
@@ -462,7 +424,6 @@ var xSettingsGetEnableWebgl func(uintptr) bool
 
 // Get the #WebKitSettings:enable-webgl property.
 func (x *Settings) GetEnableWebgl() bool {
-
 	cret := xSettingsGetEnableWebgl(x.GoPointer())
 	return cret
 }
@@ -471,7 +432,6 @@ var xSettingsGetEnableWebrtc func(uintptr) bool
 
 // Get the [property@Settings:enable-webrtc] property.
 func (x *Settings) GetEnableWebrtc() bool {
-
 	cret := xSettingsGetEnableWebrtc(x.GoPointer())
 	return cret
 }
@@ -480,7 +440,6 @@ var xSettingsGetEnableWriteConsoleMessagesToStdout func(uintptr) bool
 
 // Get the #WebKitSettings:enable-write-console-messages-to-stdout property.
 func (x *Settings) GetEnableWriteConsoleMessagesToStdout() bool {
-
 	cret := xSettingsGetEnableWriteConsoleMessagesToStdout(x.GoPointer())
 	return cret
 }
@@ -489,7 +448,6 @@ var xSettingsGetFantasyFontFamily func(uintptr) string
 
 // Gets the #WebKitSettings:fantasy-font-family property.
 func (x *Settings) GetFantasyFontFamily() string {
-
 	cret := xSettingsGetFantasyFontFamily(x.GoPointer())
 	return cret
 }
@@ -498,7 +456,6 @@ var xSettingsGetFeatureEnabled func(uintptr, *Feature) bool
 
 // Gets whether a feature is enabled.
 func (x *Settings) GetFeatureEnabled(FeatureVar *Feature) bool {
-
 	cret := xSettingsGetFeatureEnabled(x.GoPointer(), FeatureVar)
 	return cret
 }
@@ -507,7 +464,6 @@ var xSettingsGetHardwareAccelerationPolicy func(uintptr) HardwareAccelerationPol
 
 // Get the #WebKitSettings:hardware-acceleration-policy property.
 func (x *Settings) GetHardwareAccelerationPolicy() HardwareAccelerationPolicy {
-
 	cret := xSettingsGetHardwareAccelerationPolicy(x.GoPointer())
 	return cret
 }
@@ -516,7 +472,6 @@ var xSettingsGetJavascriptCanAccessClipboard func(uintptr) bool
 
 // Get the #WebKitSettings:javascript-can-access-clipboard property.
 func (x *Settings) GetJavascriptCanAccessClipboard() bool {
-
 	cret := xSettingsGetJavascriptCanAccessClipboard(x.GoPointer())
 	return cret
 }
@@ -525,7 +480,6 @@ var xSettingsGetJavascriptCanOpenWindowsAutomatically func(uintptr) bool
 
 // Get the #WebKitSettings:javascript-can-open-windows-automatically property.
 func (x *Settings) GetJavascriptCanOpenWindowsAutomatically() bool {
-
 	cret := xSettingsGetJavascriptCanOpenWindowsAutomatically(x.GoPointer())
 	return cret
 }
@@ -534,7 +488,6 @@ var xSettingsGetLoadIconsIgnoringImageLoadSetting func(uintptr) bool
 
 // Setting no longer supported. This function returns %FALSE.
 func (x *Settings) GetLoadIconsIgnoringImageLoadSetting() bool {
-
 	cret := xSettingsGetLoadIconsIgnoringImageLoadSetting(x.GoPointer())
 	return cret
 }
@@ -543,7 +496,6 @@ var xSettingsGetMediaContentTypesRequiringHardwareSupport func(uintptr) string
 
 // Gets the #WebKitSettings:media-content-types-requiring-hardware-support property.
 func (x *Settings) GetMediaContentTypesRequiringHardwareSupport() string {
-
 	cret := xSettingsGetMediaContentTypesRequiringHardwareSupport(x.GoPointer())
 	return cret
 }
@@ -552,7 +504,6 @@ var xSettingsGetMediaPlaybackAllowsInline func(uintptr) bool
 
 // Get the #WebKitSettings:media-playback-allows-inline property.
 func (x *Settings) GetMediaPlaybackAllowsInline() bool {
-
 	cret := xSettingsGetMediaPlaybackAllowsInline(x.GoPointer())
 	return cret
 }
@@ -561,7 +512,6 @@ var xSettingsGetMediaPlaybackRequiresUserGesture func(uintptr) bool
 
 // Get the #WebKitSettings:media-playback-requires-user-gesture property.
 func (x *Settings) GetMediaPlaybackRequiresUserGesture() bool {
-
 	cret := xSettingsGetMediaPlaybackRequiresUserGesture(x.GoPointer())
 	return cret
 }
@@ -570,7 +520,6 @@ var xSettingsGetMinimumFontSize func(uintptr) uint32
 
 // Gets the #WebKitSettings:minimum-font-size property.
 func (x *Settings) GetMinimumFontSize() uint32 {
-
 	cret := xSettingsGetMinimumFontSize(x.GoPointer())
 	return cret
 }
@@ -579,7 +528,6 @@ var xSettingsGetMonospaceFontFamily func(uintptr) string
 
 // Gets the #WebKitSettings:monospace-font-family property.
 func (x *Settings) GetMonospaceFontFamily() string {
-
 	cret := xSettingsGetMonospaceFontFamily(x.GoPointer())
 	return cret
 }
@@ -588,7 +536,6 @@ var xSettingsGetPictographFontFamily func(uintptr) string
 
 // Gets the #WebKitSettings:pictograph-font-family property.
 func (x *Settings) GetPictographFontFamily() string {
-
 	cret := xSettingsGetPictographFontFamily(x.GoPointer())
 	return cret
 }
@@ -597,7 +544,6 @@ var xSettingsGetPrintBackgrounds func(uintptr) bool
 
 // Get the #WebKitSettings:print-backgrounds property.
 func (x *Settings) GetPrintBackgrounds() bool {
-
 	cret := xSettingsGetPrintBackgrounds(x.GoPointer())
 	return cret
 }
@@ -606,7 +552,6 @@ var xSettingsGetSansSerifFontFamily func(uintptr) string
 
 // Gets the #WebKitSettings:sans-serif-font-family property.
 func (x *Settings) GetSansSerifFontFamily() string {
-
 	cret := xSettingsGetSansSerifFontFamily(x.GoPointer())
 	return cret
 }
@@ -615,7 +560,6 @@ var xSettingsGetSerifFontFamily func(uintptr) string
 
 // Gets the #WebKitSettings:serif-font-family property.
 func (x *Settings) GetSerifFontFamily() string {
-
 	cret := xSettingsGetSerifFontFamily(x.GoPointer())
 	return cret
 }
@@ -624,7 +568,6 @@ var xSettingsGetUserAgent func(uintptr) string
 
 // Get the #WebKitSettings:user-agent property.
 func (x *Settings) GetUserAgent() string {
-
 	cret := xSettingsGetUserAgent(x.GoPointer())
 	return cret
 }
@@ -633,7 +576,6 @@ var xSettingsGetWebrtcUdpPortsRange func(uintptr) string
 
 // Get the [property@Settings:webrtc-udp-ports-range] property.
 func (x *Settings) GetWebrtcUdpPortsRange() string {
-
 	cret := xSettingsGetWebrtcUdpPortsRange(x.GoPointer())
 	return cret
 }
@@ -642,7 +584,6 @@ var xSettingsGetZoomTextOnly func(uintptr) bool
 
 // Get the #WebKitSettings:zoom-text-only property.
 func (x *Settings) GetZoomTextOnly() bool {
-
 	cret := xSettingsGetZoomTextOnly(x.GoPointer())
 	return cret
 }
@@ -651,342 +592,266 @@ var xSettingsSetAllowFileAccessFromFileUrls func(uintptr, bool)
 
 // Set the #WebKitSettings:allow-file-access-from-file-urls property.
 func (x *Settings) SetAllowFileAccessFromFileUrls(AllowedVar bool) {
-
 	xSettingsSetAllowFileAccessFromFileUrls(x.GoPointer(), AllowedVar)
-
 }
 
 var xSettingsSetAllowModalDialogs func(uintptr, bool)
 
 // Set the #WebKitSettings:allow-modal-dialogs property.
 func (x *Settings) SetAllowModalDialogs(AllowedVar bool) {
-
 	xSettingsSetAllowModalDialogs(x.GoPointer(), AllowedVar)
-
 }
 
 var xSettingsSetAllowTopNavigationToDataUrls func(uintptr, bool)
 
 // Set the #WebKitSettings:allow-top-navigation-to-data-urls property.
 func (x *Settings) SetAllowTopNavigationToDataUrls(AllowedVar bool) {
-
 	xSettingsSetAllowTopNavigationToDataUrls(x.GoPointer(), AllowedVar)
-
 }
 
 var xSettingsSetAllowUniversalAccessFromFileUrls func(uintptr, bool)
 
 // Set the #WebKitSettings:allow-universal-access-from-file-urls property.
 func (x *Settings) SetAllowUniversalAccessFromFileUrls(AllowedVar bool) {
-
 	xSettingsSetAllowUniversalAccessFromFileUrls(x.GoPointer(), AllowedVar)
-
 }
 
 var xSettingsSetAutoLoadImages func(uintptr, bool)
 
 // Set the #WebKitSettings:auto-load-images property.
 func (x *Settings) SetAutoLoadImages(EnabledVar bool) {
-
 	xSettingsSetAutoLoadImages(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetCursiveFontFamily func(uintptr, string)
 
 // Set the #WebKitSettings:cursive-font-family property.
 func (x *Settings) SetCursiveFontFamily(CursiveFontFamilyVar string) {
-
 	xSettingsSetCursiveFontFamily(x.GoPointer(), CursiveFontFamilyVar)
-
 }
 
 var xSettingsSetDefaultCharset func(uintptr, string)
 
 // Set the #WebKitSettings:default-charset property.
 func (x *Settings) SetDefaultCharset(DefaultCharsetVar string) {
-
 	xSettingsSetDefaultCharset(x.GoPointer(), DefaultCharsetVar)
-
 }
 
 var xSettingsSetDefaultFontFamily func(uintptr, string)
 
 // Set the #WebKitSettings:default-font-family property.
 func (x *Settings) SetDefaultFontFamily(DefaultFontFamilyVar string) {
-
 	xSettingsSetDefaultFontFamily(x.GoPointer(), DefaultFontFamilyVar)
-
 }
 
 var xSettingsSetDefaultFontSize func(uintptr, uint32)
 
 // Set the #WebKitSettings:default-font-size property.
 func (x *Settings) SetDefaultFontSize(FontSizeVar uint32) {
-
 	xSettingsSetDefaultFontSize(x.GoPointer(), FontSizeVar)
-
 }
 
 var xSettingsSetDefaultMonospaceFontSize func(uintptr, uint32)
 
 // Set the #WebKitSettings:default-monospace-font-size property.
 func (x *Settings) SetDefaultMonospaceFontSize(FontSizeVar uint32) {
-
 	xSettingsSetDefaultMonospaceFontSize(x.GoPointer(), FontSizeVar)
-
 }
 
 var xSettingsSetDisableWebSecurity func(uintptr, bool)
 
 // Set the #WebKitSettings:disable-web-security property.
 func (x *Settings) SetDisableWebSecurity(DisabledVar bool) {
-
 	xSettingsSetDisableWebSecurity(x.GoPointer(), DisabledVar)
-
 }
 
 var xSettingsSetDrawCompositingIndicators func(uintptr, bool)
 
 // Set the #WebKitSettings:draw-compositing-indicators property.
 func (x *Settings) SetDrawCompositingIndicators(EnabledVar bool) {
-
 	xSettingsSetDrawCompositingIndicators(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnable2dCanvasAcceleration func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-2d-canvas-acceleration property.
 func (x *Settings) SetEnable2dCanvasAcceleration(EnabledVar bool) {
-
 	xSettingsSetEnable2dCanvasAcceleration(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableBackForwardNavigationGestures func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-back-forward-navigation-gestures property.
 func (x *Settings) SetEnableBackForwardNavigationGestures(EnabledVar bool) {
-
 	xSettingsSetEnableBackForwardNavigationGestures(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableCaretBrowsing func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-caret-browsing property.
 func (x *Settings) SetEnableCaretBrowsing(EnabledVar bool) {
-
 	xSettingsSetEnableCaretBrowsing(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableDeveloperExtras func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-developer-extras property.
 func (x *Settings) SetEnableDeveloperExtras(EnabledVar bool) {
-
 	xSettingsSetEnableDeveloperExtras(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableDnsPrefetching func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-dns-prefetching property.
 func (x *Settings) SetEnableDnsPrefetching(EnabledVar bool) {
-
 	xSettingsSetEnableDnsPrefetching(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableEncryptedMedia func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-encrypted-media property.
 func (x *Settings) SetEnableEncryptedMedia(EnabledVar bool) {
-
 	xSettingsSetEnableEncryptedMedia(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableFullscreen func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-fullscreen property.
 func (x *Settings) SetEnableFullscreen(EnabledVar bool) {
-
 	xSettingsSetEnableFullscreen(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableHtml5Database func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-html5-database property.
 func (x *Settings) SetEnableHtml5Database(EnabledVar bool) {
-
 	xSettingsSetEnableHtml5Database(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableHtml5LocalStorage func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-html5-local-storage property.
 func (x *Settings) SetEnableHtml5LocalStorage(EnabledVar bool) {
-
 	xSettingsSetEnableHtml5LocalStorage(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableHyperlinkAuditing func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-hyperlink-auditing property.
 func (x *Settings) SetEnableHyperlinkAuditing(EnabledVar bool) {
-
 	xSettingsSetEnableHyperlinkAuditing(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableJavascript func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-javascript property.
 func (x *Settings) SetEnableJavascript(EnabledVar bool) {
-
 	xSettingsSetEnableJavascript(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableJavascriptMarkup func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-javascript-markup property.
 func (x *Settings) SetEnableJavascriptMarkup(EnabledVar bool) {
-
 	xSettingsSetEnableJavascriptMarkup(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableMedia func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-media property.
 func (x *Settings) SetEnableMedia(EnabledVar bool) {
-
 	xSettingsSetEnableMedia(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableMediaCapabilities func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-media-capabilities property.
 func (x *Settings) SetEnableMediaCapabilities(EnabledVar bool) {
-
 	xSettingsSetEnableMediaCapabilities(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableMediaStream func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-media-stream property.
 func (x *Settings) SetEnableMediaStream(EnabledVar bool) {
-
 	xSettingsSetEnableMediaStream(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableMediasource func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-mediasource property.
 func (x *Settings) SetEnableMediasource(EnabledVar bool) {
-
 	xSettingsSetEnableMediasource(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableMockCaptureDevices func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-mock-capture-devices property.
 func (x *Settings) SetEnableMockCaptureDevices(EnabledVar bool) {
-
 	xSettingsSetEnableMockCaptureDevices(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableOfflineWebApplicationCache func(uintptr, bool)
 
 // Setting no longer supported. This function does nothing.
 func (x *Settings) SetEnableOfflineWebApplicationCache(EnabledVar bool) {
-
 	xSettingsSetEnableOfflineWebApplicationCache(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnablePageCache func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-page-cache property.
 func (x *Settings) SetEnablePageCache(EnabledVar bool) {
-
 	xSettingsSetEnablePageCache(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableResizableTextAreas func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-resizable-text-areas property.
 func (x *Settings) SetEnableResizableTextAreas(EnabledVar bool) {
-
 	xSettingsSetEnableResizableTextAreas(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableSiteSpecificQuirks func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-site-specific-quirks property.
 func (x *Settings) SetEnableSiteSpecificQuirks(EnabledVar bool) {
-
 	xSettingsSetEnableSiteSpecificQuirks(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableSmoothScrolling func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-smooth-scrolling property.
 func (x *Settings) SetEnableSmoothScrolling(EnabledVar bool) {
-
 	xSettingsSetEnableSmoothScrolling(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableSpatialNavigation func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-spatial-navigation property.
 func (x *Settings) SetEnableSpatialNavigation(EnabledVar bool) {
-
 	xSettingsSetEnableSpatialNavigation(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableTabsToLinks func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-tabs-to-links property.
 func (x *Settings) SetEnableTabsToLinks(EnabledVar bool) {
-
 	xSettingsSetEnableTabsToLinks(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableWebaudio func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-webaudio property.
 func (x *Settings) SetEnableWebaudio(EnabledVar bool) {
-
 	xSettingsSetEnableWebaudio(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableWebgl func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-webgl property.
 func (x *Settings) SetEnableWebgl(EnabledVar bool) {
-
 	xSettingsSetEnableWebgl(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableWebrtc func(uintptr, bool)
@@ -995,27 +860,21 @@ var xSettingsSetEnableWebrtc func(uintptr, bool)
 //
 // Setting this property to %TRUE implies the media-stream web-setting will also be enabled.
 func (x *Settings) SetEnableWebrtc(EnabledVar bool) {
-
 	xSettingsSetEnableWebrtc(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetEnableWriteConsoleMessagesToStdout func(uintptr, bool)
 
 // Set the #WebKitSettings:enable-write-console-messages-to-stdout property.
 func (x *Settings) SetEnableWriteConsoleMessagesToStdout(EnabledVar bool) {
-
 	xSettingsSetEnableWriteConsoleMessagesToStdout(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetFantasyFontFamily func(uintptr, string)
 
 // Set the #WebKitSettings:fantasy-font-family property.
 func (x *Settings) SetFantasyFontFamily(FantasyFontFamilyVar string) {
-
 	xSettingsSetFantasyFontFamily(x.GoPointer(), FantasyFontFamilyVar)
-
 }
 
 var xSettingsSetFeatureEnabled func(uintptr, *Feature, bool)
@@ -1027,141 +886,111 @@ var xSettingsSetFeatureEnabled func(uintptr, *Feature, bool)
 // initial status, pass the value returned by
 // [id@webkit_feature_get_default_value] as the @enabled parameter.
 func (x *Settings) SetFeatureEnabled(FeatureVar *Feature, EnabledVar bool) {
-
 	xSettingsSetFeatureEnabled(x.GoPointer(), FeatureVar, EnabledVar)
-
 }
 
 var xSettingsSetHardwareAccelerationPolicy func(uintptr, HardwareAccelerationPolicy)
 
 // Set the #WebKitSettings:hardware-acceleration-policy property.
 func (x *Settings) SetHardwareAccelerationPolicy(PolicyVar HardwareAccelerationPolicy) {
-
 	xSettingsSetHardwareAccelerationPolicy(x.GoPointer(), PolicyVar)
-
 }
 
 var xSettingsSetJavascriptCanAccessClipboard func(uintptr, bool)
 
 // Set the #WebKitSettings:javascript-can-access-clipboard property.
 func (x *Settings) SetJavascriptCanAccessClipboard(EnabledVar bool) {
-
 	xSettingsSetJavascriptCanAccessClipboard(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetJavascriptCanOpenWindowsAutomatically func(uintptr, bool)
 
 // Set the #WebKitSettings:javascript-can-open-windows-automatically property.
 func (x *Settings) SetJavascriptCanOpenWindowsAutomatically(EnabledVar bool) {
-
 	xSettingsSetJavascriptCanOpenWindowsAutomatically(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetLoadIconsIgnoringImageLoadSetting func(uintptr, bool)
 
 // Setting no longer supported. This function does nothing.
 func (x *Settings) SetLoadIconsIgnoringImageLoadSetting(EnabledVar bool) {
-
 	xSettingsSetLoadIconsIgnoringImageLoadSetting(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetMediaContentTypesRequiringHardwareSupport func(uintptr, uintptr)
 
 // Set the #WebKitSettings:media-content-types-requiring-hardware-support property.
 func (x *Settings) SetMediaContentTypesRequiringHardwareSupport(ContentTypesVar *string) {
-
 	ContentTypesVarPtr := core.GStrdupNullable(ContentTypesVar)
 	defer core.GFreeNullable(ContentTypesVarPtr)
 
 	xSettingsSetMediaContentTypesRequiringHardwareSupport(x.GoPointer(), ContentTypesVarPtr)
-
 }
 
 var xSettingsSetMediaPlaybackAllowsInline func(uintptr, bool)
 
 // Set the #WebKitSettings:media-playback-allows-inline property.
 func (x *Settings) SetMediaPlaybackAllowsInline(EnabledVar bool) {
-
 	xSettingsSetMediaPlaybackAllowsInline(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetMediaPlaybackRequiresUserGesture func(uintptr, bool)
 
 // Set the #WebKitSettings:media-playback-requires-user-gesture property.
 func (x *Settings) SetMediaPlaybackRequiresUserGesture(EnabledVar bool) {
-
 	xSettingsSetMediaPlaybackRequiresUserGesture(x.GoPointer(), EnabledVar)
-
 }
 
 var xSettingsSetMinimumFontSize func(uintptr, uint32)
 
 // Set the #WebKitSettings:minimum-font-size property.
 func (x *Settings) SetMinimumFontSize(FontSizeVar uint32) {
-
 	xSettingsSetMinimumFontSize(x.GoPointer(), FontSizeVar)
-
 }
 
 var xSettingsSetMonospaceFontFamily func(uintptr, string)
 
 // Set the #WebKitSettings:monospace-font-family property.
 func (x *Settings) SetMonospaceFontFamily(MonospaceFontFamilyVar string) {
-
 	xSettingsSetMonospaceFontFamily(x.GoPointer(), MonospaceFontFamilyVar)
-
 }
 
 var xSettingsSetPictographFontFamily func(uintptr, string)
 
 // Set the #WebKitSettings:pictograph-font-family property.
 func (x *Settings) SetPictographFontFamily(PictographFontFamilyVar string) {
-
 	xSettingsSetPictographFontFamily(x.GoPointer(), PictographFontFamilyVar)
-
 }
 
 var xSettingsSetPrintBackgrounds func(uintptr, bool)
 
 // Set the #WebKitSettings:print-backgrounds property.
 func (x *Settings) SetPrintBackgrounds(PrintBackgroundsVar bool) {
-
 	xSettingsSetPrintBackgrounds(x.GoPointer(), PrintBackgroundsVar)
-
 }
 
 var xSettingsSetSansSerifFontFamily func(uintptr, string)
 
 // Set the #WebKitSettings:sans-serif-font-family property.
 func (x *Settings) SetSansSerifFontFamily(SansSerifFontFamilyVar string) {
-
 	xSettingsSetSansSerifFontFamily(x.GoPointer(), SansSerifFontFamilyVar)
-
 }
 
 var xSettingsSetSerifFontFamily func(uintptr, string)
 
 // Set the #WebKitSettings:serif-font-family property.
 func (x *Settings) SetSerifFontFamily(SerifFontFamilyVar string) {
-
 	xSettingsSetSerifFontFamily(x.GoPointer(), SerifFontFamilyVar)
-
 }
 
 var xSettingsSetUserAgent func(uintptr, uintptr)
 
 // Set the #WebKitSettings:user-agent property.
 func (x *Settings) SetUserAgent(UserAgentVar *string) {
-
 	UserAgentVarPtr := core.GStrdupNullable(UserAgentVar)
 	defer core.GFreeNullable(UserAgentVarPtr)
 
 	xSettingsSetUserAgent(x.GoPointer(), UserAgentVarPtr)
-
 }
 
 var xSettingsSetUserAgentWithApplicationDetails func(uintptr, uintptr, uintptr)
@@ -1172,7 +1001,6 @@ var xSettingsSetUserAgentWithApplicationDetails func(uintptr, uintptr, uintptr)
 // agent. If no application name or version is given, the default user agent used will be used. If only
 // the version is given, the default engine version is used with the given application name.
 func (x *Settings) SetUserAgentWithApplicationDetails(ApplicationNameVar *string, ApplicationVersionVar *string) {
-
 	ApplicationNameVarPtr := core.GStrdupNullable(ApplicationNameVar)
 	defer core.GFreeNullable(ApplicationNameVarPtr)
 
@@ -1180,25 +1008,20 @@ func (x *Settings) SetUserAgentWithApplicationDetails(ApplicationNameVar *string
 	defer core.GFreeNullable(ApplicationVersionVarPtr)
 
 	xSettingsSetUserAgentWithApplicationDetails(x.GoPointer(), ApplicationNameVarPtr, ApplicationVersionVarPtr)
-
 }
 
 var xSettingsSetWebrtcUdpPortsRange func(uintptr, string)
 
 // Set the [property@Settings:webrtc-udp-ports-range] property.
 func (x *Settings) SetWebrtcUdpPortsRange(UdpPortRangeVar string) {
-
 	xSettingsSetWebrtcUdpPortsRange(x.GoPointer(), UdpPortRangeVar)
-
 }
 
 var xSettingsSetZoomTextOnly func(uintptr, bool)
 
 // Set the #WebKitSettings:zoom-text-only property.
 func (x *Settings) SetZoomTextOnly(ZoomTextOnlyVar bool) {
-
 	xSettingsSetZoomTextOnly(x.GoPointer(), ZoomTextOnlyVar)
-
 }
 
 func (c *Settings) GoPointer() uintptr {
@@ -2424,7 +2247,6 @@ var xSettingsFontSizeToPixels func(uint32) uint32
 // in points to font size values in pixels when setting the font size properties
 // of #WebKitSettings.
 func SettingsFontSizeToPixels(PointsVar uint32) uint32 {
-
 	cret := xSettingsFontSizeToPixels(PointsVar)
 	return cret
 }
@@ -2437,12 +2259,11 @@ var xSettingsFontSizeToPoints func(uint32) uint32
 // in pixels to font size values in points when getting the font size properties
 // of #WebKitSettings.
 func SettingsFontSizeToPoints(PixelsVar uint32) uint32 {
-
 	cret := xSettingsFontSizeToPoints(PixelsVar)
 	return cret
 }
 
-var xSettingsGetAllFeatures func() *FeatureList
+var xSettingsGetAllFeatures func() uintptr
 
 // Gets the list of all available WebKit features.
 //
@@ -2454,12 +2275,14 @@ var xSettingsGetAllFeatures func() *FeatureList
 // [func@Settings.get_development_features] and
 // [func@Settings.get_experimental_features] instead.
 func SettingsGetAllFeatures() *FeatureList {
-
 	cret := xSettingsGetAllFeatures()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*FeatureList)(unsafe.Pointer(cret))
 }
 
-var xSettingsGetDevelopmentFeatures func() *FeatureList
+var xSettingsGetDevelopmentFeatures func() uintptr
 
 // Gets the list of available development WebKit features.
 //
@@ -2469,12 +2292,14 @@ var xSettingsGetDevelopmentFeatures func() *FeatureList
 // *not* be exposed to end users; see [enum@FeatureStatus] for
 // more details.
 func SettingsGetDevelopmentFeatures() *FeatureList {
-
 	cret := xSettingsGetDevelopmentFeatures()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*FeatureList)(unsafe.Pointer(cret))
 }
 
-var xSettingsGetExperimentalFeatures func() *FeatureList
+var xSettingsGetExperimentalFeatures func() uintptr
 
 // Gets the list of available experimental WebKit features.
 //
@@ -2483,14 +2308,16 @@ var xSettingsGetExperimentalFeatures func() *FeatureList
 // certain applications may want to expose to end users; see
 // [enum@FeatureStatus] for more details.
 func SettingsGetExperimentalFeatures() *FeatureList {
-
 	cret := xSettingsGetExperimentalFeatures()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*FeatureList)(unsafe.Pointer(cret))
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -2632,4 +2459,8 @@ func init() {
 	core.PuregoSafeRegister(&xSettingsGetDevelopmentFeatures, libs, "webkit_settings_get_development_features")
 	core.PuregoSafeRegister(&xSettingsGetExperimentalFeatures, libs, "webkit_settings_get_experimental_features")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	SettingsGLibType()
 }

@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // The prototype for a logging filter.
@@ -164,7 +164,6 @@ var xLoggerGetMaxBodySize func(uintptr) int
 
 // Get the maximum body size for @logger.
 func (x *Logger) GetMaxBodySize() int {
-
 	cret := xLoggerGetMaxBodySize(x.GoPointer())
 	return cret
 }
@@ -173,9 +172,7 @@ var xLoggerSetMaxBodySize func(uintptr, int)
 
 // Sets the maximum body size for @logger (-1 means no limit).
 func (x *Logger) SetMaxBodySize(MaxBodySizeVar int) {
-
 	xLoggerSetMaxBodySize(x.GoPointer(), MaxBodySizeVar)
-
 }
 
 var xLoggerSetPrinter func(uintptr, uintptr, uintptr, uintptr)
@@ -183,39 +180,7 @@ var xLoggerSetPrinter func(uintptr, uintptr, uintptr, uintptr)
 // Sets up an alternate log printing routine, if you don't want
 // the log to go to `stdout`.
 func (x *Logger) SetPrinter(PrinterVar *LoggerPrinter, PrinterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
-
-	var PrinterVarRef uintptr
-	if PrinterVar != nil {
-		PrinterVarPtr := uintptr(unsafe.Pointer(PrinterVar))
-		if cbRefPtr, ok := glib.GetCallback(PrinterVarPtr); ok {
-			PrinterVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 LoggerLogLevel, arg2 byte, arg3 uintptr, arg4 uintptr) {
-				cbFn := *PrinterVar
-				cbFn(arg0, arg1, arg2, core.GoString(arg3), arg4)
-			}
-			PrinterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(PrinterVarPtr, PrinterVarRef, PrinterVar)
-		}
-	}
-
-	var DestroyVarRef uintptr
-	if DestroyVar != nil {
-		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
-			DestroyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyVar
-				cbFn(arg0)
-			}
-			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
-		}
-	}
-
-	xLoggerSetPrinter(x.GoPointer(), PrinterVarRef, PrinterDataVar, DestroyVarRef)
-
+	xLoggerSetPrinter(x.GoPointer(), glib.NewCallback(PrinterVar), PrinterDataVar, glib.NewCallbackNullable(DestroyVar))
 }
 
 var xLoggerSetRequestFilter func(uintptr, uintptr, uintptr, uintptr)
@@ -227,39 +192,7 @@ var xLoggerSetRequestFilter func(uintptr, uintptr, uintptr, uintptr)
 // set a request filter, @logger will just always log requests at the
 // level passed to [ctor@Logger.new].)
 func (x *Logger) SetRequestFilter(RequestFilterVar *LoggerFilter, FilterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
-
-	var RequestFilterVarRef uintptr
-	if RequestFilterVar != nil {
-		RequestFilterVarPtr := uintptr(unsafe.Pointer(RequestFilterVar))
-		if cbRefPtr, ok := glib.GetCallback(RequestFilterVarPtr); ok {
-			RequestFilterVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) LoggerLogLevel {
-				cbFn := *RequestFilterVar
-				return cbFn(arg0, arg1, arg2)
-			}
-			RequestFilterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(RequestFilterVarPtr, RequestFilterVarRef, RequestFilterVar)
-		}
-	}
-
-	var DestroyVarRef uintptr
-	if DestroyVar != nil {
-		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
-			DestroyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyVar
-				cbFn(arg0)
-			}
-			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
-		}
-	}
-
-	xLoggerSetRequestFilter(x.GoPointer(), RequestFilterVarRef, FilterDataVar, DestroyVarRef)
-
+	xLoggerSetRequestFilter(x.GoPointer(), glib.NewCallback(RequestFilterVar), FilterDataVar, glib.NewCallbackNullable(DestroyVar))
 }
 
 var xLoggerSetResponseFilter func(uintptr, uintptr, uintptr, uintptr)
@@ -271,39 +204,7 @@ var xLoggerSetResponseFilter func(uintptr, uintptr, uintptr, uintptr)
 // set a response filter, @logger will just always log responses at
 // the level passed to [ctor@Logger.new].)
 func (x *Logger) SetResponseFilter(ResponseFilterVar *LoggerFilter, FilterDataVar uintptr, DestroyVar *glib.DestroyNotify) {
-
-	var ResponseFilterVarRef uintptr
-	if ResponseFilterVar != nil {
-		ResponseFilterVarPtr := uintptr(unsafe.Pointer(ResponseFilterVar))
-		if cbRefPtr, ok := glib.GetCallback(ResponseFilterVarPtr); ok {
-			ResponseFilterVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) LoggerLogLevel {
-				cbFn := *ResponseFilterVar
-				return cbFn(arg0, arg1, arg2)
-			}
-			ResponseFilterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(ResponseFilterVarPtr, ResponseFilterVarRef, ResponseFilterVar)
-		}
-	}
-
-	var DestroyVarRef uintptr
-	if DestroyVar != nil {
-		DestroyVarPtr := uintptr(unsafe.Pointer(DestroyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyVarPtr); ok {
-			DestroyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyVar
-				cbFn(arg0)
-			}
-			DestroyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyVarPtr, DestroyVarRef, DestroyVar)
-		}
-	}
-
-	xLoggerSetResponseFilter(x.GoPointer(), ResponseFilterVarRef, FilterDataVar, DestroyVarRef)
-
+	xLoggerSetResponseFilter(x.GoPointer(), glib.NewCallback(ResponseFilterVar), FilterDataVar, glib.NewCallbackNullable(DestroyVar))
 }
 
 func (c *Logger) GoPointer() uintptr {
@@ -340,7 +241,7 @@ func (x *Logger) GetPropertyMaxBodySize() int {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -361,5 +262,4 @@ func init() {
 	core.PuregoSafeRegister(&xLoggerSetPrinter, libs, "soup_logger_set_printer")
 	core.PuregoSafeRegister(&xLoggerSetRequestFilter, libs, "soup_logger_set_request_filter")
 	core.PuregoSafeRegister(&xLoggerSetResponseFilter, libs, "soup_logger_set_response_filter")
-
 }

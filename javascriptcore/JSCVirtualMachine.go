@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type VirtualMachineClass struct {
@@ -72,7 +72,7 @@ func (c *VirtualMachine) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("JAVASCRIPTCORE", "javascriptcoregtk-6.0")
-	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("JAVASCRIPTCORE") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -85,5 +85,4 @@ func init() {
 	core.PuregoSafeRegister(&xVirtualMachineGLibType, libs, "jsc_virtual_machine_get_type")
 
 	core.PuregoSafeRegister(&xNewVirtualMachine, libs, "jsc_virtual_machine_new")
-
 }

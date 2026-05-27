@@ -5,9 +5,9 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // One item of a #WebKitOptionMenu.
@@ -30,29 +30,28 @@ func (x *OptionMenuItem) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xOptionMenuItemCopy func(uintptr) *OptionMenuItem
+var xOptionMenuItemCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitOptionMenuItem.
 func (x *OptionMenuItem) Copy() *OptionMenuItem {
-
 	cret := xOptionMenuItemCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*OptionMenuItem)(unsafe.Pointer(cret))
 }
 
 var xOptionMenuItemFree func(uintptr)
 
 // Free the #WebKitOptionMenuItem.
 func (x *OptionMenuItem) Free() {
-
 	xOptionMenuItemFree(x.GoPointer())
-
 }
 
 var xOptionMenuItemGetLabel func(uintptr) string
 
 // Get the label of a #WebKitOptionMenuItem.
 func (x *OptionMenuItem) GetLabel() string {
-
 	cret := xOptionMenuItemGetLabel(x.GoPointer())
 	return cret
 }
@@ -61,7 +60,6 @@ var xOptionMenuItemGetTooltip func(uintptr) string
 
 // Get the tooltip of a #WebKitOptionMenuItem.
 func (x *OptionMenuItem) GetTooltip() string {
-
 	cret := xOptionMenuItemGetTooltip(x.GoPointer())
 	return cret
 }
@@ -70,7 +68,6 @@ var xOptionMenuItemIsEnabled func(uintptr) bool
 
 // Whether a #WebKitOptionMenuItem is enabled.
 func (x *OptionMenuItem) IsEnabled() bool {
-
 	cret := xOptionMenuItemIsEnabled(x.GoPointer())
 	return cret
 }
@@ -79,7 +76,6 @@ var xOptionMenuItemIsGroupChild func(uintptr) bool
 
 // Whether a #WebKitOptionMenuItem is a group child.
 func (x *OptionMenuItem) IsGroupChild() bool {
-
 	cret := xOptionMenuItemIsGroupChild(x.GoPointer())
 	return cret
 }
@@ -88,7 +84,6 @@ var xOptionMenuItemIsGroupLabel func(uintptr) bool
 
 // Whether a #WebKitOptionMenuItem is a group label.
 func (x *OptionMenuItem) IsGroupLabel() bool {
-
 	cret := xOptionMenuItemIsGroupLabel(x.GoPointer())
 	return cret
 }
@@ -97,14 +92,13 @@ var xOptionMenuItemIsSelected func(uintptr) bool
 
 // Whether a #WebKitOptionMenuItem is the currently selected one.
 func (x *OptionMenuItem) IsSelected() bool {
-
 	cret := xOptionMenuItemIsSelected(x.GoPointer())
 	return cret
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -124,5 +118,4 @@ func init() {
 	core.PuregoSafeRegister(&xOptionMenuItemIsGroupChild, libs, "webkit_option_menu_item_is_group_child")
 	core.PuregoSafeRegister(&xOptionMenuItemIsGroupLabel, libs, "webkit_option_menu_item_is_group_label")
 	core.PuregoSafeRegister(&xOptionMenuItemIsSelected, libs, "webkit_option_menu_item_is_selected")
-
 }

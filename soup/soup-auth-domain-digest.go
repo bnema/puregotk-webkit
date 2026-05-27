@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Callback used by #SoupAuthDomainDigest for authentication purposes.
@@ -83,39 +83,7 @@ var xAuthDomainDigestSetAuthCallback func(uintptr, uintptr, uintptr, uintptr)
 // [property@AuthDomainDigest:auth-data] properties, which can also be used to
 // set the callback at construct time.
 func (x *AuthDomainDigest) SetAuthCallback(CallbackVar *AuthDomainDigestAuthCallback, UserDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr, arg3 uintptr) string {
-				cbFn := *CallbackVar
-				return cbFn(arg0, arg1, core.GoString(arg2), arg3)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var DnotifyVarRef uintptr
-	if DnotifyVar != nil {
-		DnotifyVarPtr := uintptr(unsafe.Pointer(DnotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DnotifyVarPtr); ok {
-			DnotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DnotifyVar
-				cbFn(arg0)
-			}
-			DnotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DnotifyVarPtr, DnotifyVarRef, DnotifyVar)
-		}
-	}
-
-	xAuthDomainDigestSetAuthCallback(x.GoPointer(), CallbackVarRef, UserDataVar, DnotifyVarRef)
-
+	xAuthDomainDigestSetAuthCallback(x.GoPointer(), glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DnotifyVar))
 }
 
 func (c *AuthDomainDigest) GoPointer() uintptr {
@@ -164,14 +132,13 @@ var xAuthDomainDigestEncodePassword func(string, string, string) string
 // that the encoded password returned by this method is identical to
 // the encoded password stored in an Apache .htdigest file.)
 func AuthDomainDigestEncodePassword(UsernameVar string, RealmVar string, PasswordVar string) string {
-
 	cret := xAuthDomainDigestEncodePassword(UsernameVar, RealmVar, PasswordVar)
 	return cret
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -188,5 +155,4 @@ func init() {
 	core.PuregoSafeRegister(&xAuthDomainDigestSetAuthCallback, libs, "soup_auth_domain_digest_set_auth_callback")
 
 	core.PuregoSafeRegister(&xAuthDomainDigestEncodePassword, libs, "soup_auth_domain_digest_encode_password")
-
 }

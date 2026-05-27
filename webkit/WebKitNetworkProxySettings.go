@@ -5,9 +5,9 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Configures network proxies.
@@ -29,7 +29,7 @@ func (x *NetworkProxySettings) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewNetworkProxySettings func(uintptr, []string) *NetworkProxySettings
+var xNewNetworkProxySettings func(uintptr, []string) uintptr
 
 // Create a new #WebKitNetworkProxySettings with the given @default_proxy_uri and @ignore_hosts.
 //
@@ -63,12 +63,14 @@ var xNewNetworkProxySettings func(uintptr, []string) *NetworkProxySettings
 // to connections made to hosts identified by address. That is, if example.com has an address of 192.168.1.1, and @ignore_hosts
 // contains only "192.168.1.1", then a connection to "example.com" will use the proxy, and a connection to 192.168.1.1" will not.
 func NewNetworkProxySettings(DefaultProxyUriVar *string, IgnoreHostsVar []string) *NetworkProxySettings {
-
 	DefaultProxyUriVarPtr := core.GStrdupNullable(DefaultProxyUriVar)
 	defer core.GFreeNullable(DefaultProxyUriVarPtr)
 
 	cret := xNewNetworkProxySettings(DefaultProxyUriVarPtr, IgnoreHostsVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*NetworkProxySettings)(unsafe.Pointer(cret))
 }
 
 var xNetworkProxySettingsAddProxyForScheme func(uintptr, string, string)
@@ -79,27 +81,25 @@ var xNetworkProxySettingsAddProxyForScheme func(uintptr, string, string)
 // As with the default proxy URI, if @proxy_uri starts with "socks://", it will be treated as referring to
 // all three of the socks5, socks4a, and socks4 proxy types.
 func (x *NetworkProxySettings) AddProxyForScheme(SchemeVar string, ProxyUriVar string) {
-
 	xNetworkProxySettingsAddProxyForScheme(x.GoPointer(), SchemeVar, ProxyUriVar)
-
 }
 
-var xNetworkProxySettingsCopy func(uintptr) *NetworkProxySettings
+var xNetworkProxySettingsCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitNetworkProxySettings.
 func (x *NetworkProxySettings) Copy() *NetworkProxySettings {
-
 	cret := xNetworkProxySettingsCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*NetworkProxySettings)(unsafe.Pointer(cret))
 }
 
 var xNetworkProxySettingsFree func(uintptr)
 
 // Free the #WebKitNetworkProxySettings.
 func (x *NetworkProxySettings) Free() {
-
 	xNetworkProxySettingsFree(x.GoPointer())
-
 }
 
 // Enum values used to set the network proxy mode.
@@ -123,7 +123,7 @@ const (
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -142,5 +142,4 @@ func init() {
 	core.PuregoSafeRegister(&xNetworkProxySettingsAddProxyForScheme, libs, "webkit_network_proxy_settings_add_proxy_for_scheme")
 	core.PuregoSafeRegister(&xNetworkProxySettingsCopy, libs, "webkit_network_proxy_settings_copy")
 	core.PuregoSafeRegister(&xNetworkProxySettingsFree, libs, "webkit_network_proxy_settings_free")
-
 }

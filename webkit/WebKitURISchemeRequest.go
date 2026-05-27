@@ -5,13 +5,13 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type URISchemeRequestClass struct {
@@ -54,30 +54,24 @@ var xURISchemeRequestFinish func(uintptr, uintptr, int64, uintptr)
 
 // Finish a #WebKitURISchemeRequest by setting the contents of the request and its mime type.
 func (x *URISchemeRequest) Finish(StreamVar *gio.InputStream, StreamLengthVar int64, ContentTypeVar *string) {
-
 	ContentTypeVarPtr := core.GStrdupNullable(ContentTypeVar)
 	defer core.GFreeNullable(ContentTypeVarPtr)
 
 	xURISchemeRequestFinish(x.GoPointer(), StreamVar.GoPointer(), StreamLengthVar, ContentTypeVarPtr)
-
 }
 
 var xURISchemeRequestFinishError func(uintptr, *glib.Error)
 
 // Finish a #WebKitURISchemeRequest with a #GError.
 func (x *URISchemeRequest) FinishError(ErrorVar *glib.Error) {
-
 	xURISchemeRequestFinishError(x.GoPointer(), ErrorVar)
-
 }
 
 var xURISchemeRequestFinishWithResponse func(uintptr, uintptr)
 
 // Finish a #WebKitURISchemeRequest by returning a #WebKitURISchemeResponse
 func (x *URISchemeRequest) FinishWithResponse(ResponseVar *URISchemeResponse) {
-
 	xURISchemeRequestFinishWithResponse(x.GoPointer(), ResponseVar.GoPointer())
-
 }
 
 var xURISchemeRequestGetHttpBody func(uintptr) uintptr
@@ -96,20 +90,21 @@ func (x *URISchemeRequest) GetHttpBody() *gio.InputStream {
 	return cls
 }
 
-var xURISchemeRequestGetHttpHeaders func(uintptr) *soup.MessageHeaders
+var xURISchemeRequestGetHttpHeaders func(uintptr) uintptr
 
 // Get the #SoupMessageHeaders of the request.
 func (x *URISchemeRequest) GetHttpHeaders() *soup.MessageHeaders {
-
 	cret := xURISchemeRequestGetHttpHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*soup.MessageHeaders)(unsafe.Pointer(cret))
 }
 
 var xURISchemeRequestGetHttpMethod func(uintptr) string
 
 // Get the HTTP method of the @request.
 func (x *URISchemeRequest) GetHttpMethod() string {
-
 	cret := xURISchemeRequestGetHttpMethod(x.GoPointer())
 	return cret
 }
@@ -118,7 +113,6 @@ var xURISchemeRequestGetPath func(uintptr) string
 
 // Get the URI path of @request.
 func (x *URISchemeRequest) GetPath() string {
-
 	cret := xURISchemeRequestGetPath(x.GoPointer())
 	return cret
 }
@@ -127,7 +121,6 @@ var xURISchemeRequestGetScheme func(uintptr) string
 
 // Get the URI scheme of @request.
 func (x *URISchemeRequest) GetScheme() string {
-
 	cret := xURISchemeRequestGetScheme(x.GoPointer())
 	return cret
 }
@@ -136,7 +129,6 @@ var xURISchemeRequestGetUri func(uintptr) string
 
 // Get the URI of @request.
 func (x *URISchemeRequest) GetUri() string {
-
 	cret := xURISchemeRequestGetUri(x.GoPointer())
 	return cret
 }
@@ -171,7 +163,7 @@ func (c *URISchemeRequest) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -194,4 +186,8 @@ func init() {
 	core.PuregoSafeRegister(&xURISchemeRequestGetUri, libs, "webkit_uri_scheme_request_get_uri")
 	core.PuregoSafeRegister(&xURISchemeRequestGetWebView, libs, "webkit_uri_scheme_request_get_web_view")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	URISchemeRequestGLibType()
 }

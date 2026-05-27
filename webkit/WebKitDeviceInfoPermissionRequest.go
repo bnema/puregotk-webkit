@@ -57,14 +57,10 @@ func (c *DeviceInfoPermissionRequest) SetGoPointer(ptr uintptr) {
 
 // Allow the action which triggered this request.
 func (x *DeviceInfoPermissionRequest) Allow() {
-
 	XWebkitPermissionRequestAllow(x.GoPointer())
-
 }
 
 // Deny the action which triggered this request.
 func (x *DeviceInfoPermissionRequest) Deny() {
-
 	XWebkitPermissionRequestDeny(x.GoPointer())
-
 }

@@ -2,8 +2,8 @@
 package webkit
 
 import (
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
-	"github.com/ebitengine/purego"
 )
 
 var xUriForDisplay func(string) string
@@ -16,14 +16,13 @@ var xUriForDisplay func(string) string
 // against IDN homograph attacks, so in some cases the host part of the returned
 // URI may be in Punycode if the safety check fails.
 func UriForDisplay(UriVar string) string {
-
 	cret := xUriForDisplay(UriVar)
 	return cret
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -34,5 +33,4 @@ func init() {
 	}
 
 	core.PuregoSafeRegister(&xUriForDisplay, libs, "webkit_uri_for_display")
-
 }

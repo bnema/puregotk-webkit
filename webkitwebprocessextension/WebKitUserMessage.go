@@ -5,12 +5,12 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type UserMessageClass struct {
@@ -79,12 +79,7 @@ var xNewUserMessageWithFdList func(string, *glib.Variant, uintptr) uintptr
 func NewUserMessageWithFdList(NameVar string, ParametersVar *glib.Variant, FdListVar *gio.UnixFDList) *UserMessage {
 	var cls *UserMessage
 
-	var FdListVarPtr uintptr
-	if FdListVar != nil {
-		FdListVarPtr = FdListVar.GoPointer()
-	}
-
-	cret := xNewUserMessageWithFdList(NameVar, ParametersVar, FdListVarPtr)
+	cret := xNewUserMessageWithFdList(NameVar, ParametersVar, FdListVar.GoPointer())
 
 	if cret == 0 {
 		return nil
@@ -116,18 +111,19 @@ var xUserMessageGetName func(uintptr) string
 
 // Get the @message name.
 func (x *UserMessage) GetName() string {
-
 	cret := xUserMessageGetName(x.GoPointer())
 	return cret
 }
 
-var xUserMessageGetParameters func(uintptr) *glib.Variant
+var xUserMessageGetParameters func(uintptr) uintptr
 
 // Get the @message parameters.
 func (x *UserMessage) GetParameters() *glib.Variant {
-
 	cret := xUserMessageGetParameters(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Variant)(unsafe.Pointer(cret))
 }
 
 var xUserMessageSendReply func(uintptr, uintptr)
@@ -138,9 +134,7 @@ var xUserMessageSendReply func(uintptr, uintptr)
 // You can only send a reply to a #WebKitUserMessage that has been
 // received.
 func (x *UserMessage) SendReply(ReplyVar *UserMessage) {
-
 	xUserMessageSendReply(x.GoPointer(), ReplyVar.GoPointer())
-
 }
 
 func (c *UserMessage) GoPointer() uintptr {
@@ -196,14 +190,13 @@ var xUserMessageErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of user message errors.
 func UserMessageErrorQuark() glib.Quark {
-
 	cret := xUserMessageErrorQuark()
 	return cret
 }
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -224,5 +217,4 @@ func init() {
 	core.PuregoSafeRegister(&xUserMessageSendReply, libs, "webkit_user_message_send_reply")
 
 	core.PuregoSafeRegister(&xUserMessageErrorQuark, libs, "webkit_user_message_error_quark")
-
 }

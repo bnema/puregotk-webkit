@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type WebInspectorClass struct {
@@ -68,18 +68,14 @@ var xWebInspectorAttach func(uintptr)
 // The signal #WebKitWebInspector::attach
 // will be emitted. If the inspector is already attached it does nothing.
 func (x *WebInspector) Attach() {
-
 	xWebInspectorAttach(x.GoPointer())
-
 }
 
 var xWebInspectorClose func(uintptr)
 
 // Request @inspector to be closed.
 func (x *WebInspector) Close() {
-
 	xWebInspectorClose(x.GoPointer())
-
 }
 
 var xWebInspectorDetach func(uintptr)
@@ -89,9 +85,7 @@ var xWebInspectorDetach func(uintptr)
 // The signal #WebKitWebInspector::detach
 // will be emitted. If the inspector is already detached it does nothing.
 func (x *WebInspector) Detach() {
-
 	xWebInspectorDetach(x.GoPointer())
-
 }
 
 var xWebInspectorGetAttachedHeight func(uintptr) uint
@@ -102,7 +96,6 @@ var xWebInspectorGetAttachedHeight func(uintptr) uint
 // it's attached. If the inspector view is not attached this
 // returns 0.
 func (x *WebInspector) GetAttachedHeight() uint {
-
 	cret := xWebInspectorGetAttachedHeight(x.GoPointer())
 	return cret
 }
@@ -112,7 +105,6 @@ var xWebInspectorGetCanAttach func(uintptr) bool
 // Whether the @inspector can be attached to the same window that contains
 // the inspected view.
 func (x *WebInspector) GetCanAttach() bool {
-
 	cret := xWebInspectorGetCanAttach(x.GoPointer())
 	return cret
 }
@@ -126,7 +118,6 @@ var xWebInspectorGetInspectedUri func(uintptr) string
 // has been closed or when inspected view was loaded from a HTML string
 // instead of a URI.
 func (x *WebInspector) GetInspectedUri() string {
-
 	cret := xWebInspectorGetInspectedUri(x.GoPointer())
 	return cret
 }
@@ -156,7 +147,6 @@ var xWebInspectorIsAttached func(uintptr) bool
 // Whether the @inspector view is currently attached to the same window that contains
 // the inspected view.
 func (x *WebInspector) IsAttached() bool {
-
 	cret := xWebInspectorIsAttached(x.GoPointer())
 	return cret
 }
@@ -165,9 +155,7 @@ var xWebInspectorShow func(uintptr)
 
 // Request @inspector to be shown.
 func (x *WebInspector) Show() {
-
 	xWebInspectorShow(x.GoPointer())
-
 }
 
 func (c *WebInspector) GoPointer() uintptr {
@@ -229,7 +217,6 @@ func (x *WebInspector) ConnectAttach(cb *func(WebInspector) bool) uint {
 		cbFn := *cb
 
 		return cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -263,7 +250,6 @@ func (x *WebInspector) ConnectBringToFront(cb *func(WebInspector) bool) uint {
 		cbFn := *cb
 
 		return cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -289,7 +275,6 @@ func (x *WebInspector) ConnectClosed(cb *func(WebInspector)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -321,7 +306,6 @@ func (x *WebInspector) ConnectDetach(cb *func(WebInspector) bool) uint {
 		cbFn := *cb
 
 		return cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -353,7 +337,6 @@ func (x *WebInspector) ConnectOpenWindow(cb *func(WebInspector) bool) uint {
 		cbFn := *cb
 
 		return cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -364,7 +347,7 @@ func (x *WebInspector) ConnectOpenWindow(cb *func(WebInspector) bool) uint {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -386,4 +369,8 @@ func init() {
 	core.PuregoSafeRegister(&xWebInspectorIsAttached, libs, "webkit_web_inspector_is_attached")
 	core.PuregoSafeRegister(&xWebInspectorShow, libs, "webkit_web_inspector_show")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	WebInspectorGLibType()
 }

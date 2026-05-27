@@ -72,14 +72,10 @@ func (c *GeolocationPermissionRequest) SetGoPointer(ptr uintptr) {
 
 // Allow the action which triggered this request.
 func (x *GeolocationPermissionRequest) Allow() {
-
 	XWebkitPermissionRequestAllow(x.GoPointer())
-
 }
 
 // Deny the action which triggered this request.
 func (x *GeolocationPermissionRequest) Deny() {
-
 	XWebkitPermissionRequestDeny(x.GoPointer())
-
 }

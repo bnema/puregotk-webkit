@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type BackForwardListItemClass struct {
@@ -47,7 +47,6 @@ var xBackForwardListItemGetOriginalUri func(uintptr) string
 //
 // See also webkit_back_forward_list_item_get_uri().
 func (x *BackForwardListItem) GetOriginalUri() string {
-
 	cret := xBackForwardListItemGetOriginalUri(x.GoPointer())
 	return cret
 }
@@ -56,7 +55,6 @@ var xBackForwardListItemGetTitle func(uintptr) string
 
 // Obtain the title of the item.
 func (x *BackForwardListItem) GetTitle() string {
-
 	cret := xBackForwardListItemGetTitle(x.GoPointer())
 	return cret
 }
@@ -69,7 +67,6 @@ var xBackForwardListItemGetUri func(uintptr) string
 // for example, redirected to a new location.
 // See also webkit_back_forward_list_item_get_original_uri().
 func (x *BackForwardListItem) GetUri() string {
-
 	cret := xBackForwardListItemGetUri(x.GoPointer())
 	return cret
 }
@@ -87,7 +84,7 @@ func (c *BackForwardListItem) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -103,4 +100,8 @@ func init() {
 	core.PuregoSafeRegister(&xBackForwardListItemGetTitle, libs, "webkit_back_forward_list_item_get_title")
 	core.PuregoSafeRegister(&xBackForwardListItemGetUri, libs, "webkit_back_forward_list_item_get_uri")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	BackForwardListItemGLibType()
 }

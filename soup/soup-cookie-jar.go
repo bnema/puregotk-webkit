@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type CookieJarClass struct {
@@ -197,9 +197,7 @@ var xCookieJarAddCookie func(uintptr, *Cookie)
 //
 // @cookie will be 'stolen' by the jar, so don't free it afterwards.
 func (x *CookieJar) AddCookie(CookieVar *Cookie) {
-
 	xCookieJarAddCookie(x.GoPointer(), CookieVar)
-
 }
 
 var xCookieJarAddCookieFull func(uintptr, *Cookie, *glib.Uri, *glib.Uri)
@@ -218,9 +216,7 @@ var xCookieJarAddCookieFull func(uintptr, *Cookie, *glib.Uri, *glib.Uri)
 //
 // @cookie will be 'stolen' by the jar, so don't free it afterwards.
 func (x *CookieJar) AddCookieFull(CookieVar *Cookie, UriVar *glib.Uri, FirstPartyVar *glib.Uri) {
-
 	xCookieJarAddCookieFull(x.GoPointer(), CookieVar, UriVar, FirstPartyVar)
-
 }
 
 var xCookieJarAddCookieWithFirstParty func(uintptr, *glib.Uri, *Cookie)
@@ -239,12 +235,10 @@ var xCookieJarAddCookieWithFirstParty func(uintptr, *glib.Uri, *Cookie)
 // For secure cookies to work properly you may want to use
 // [method@CookieJar.add_cookie_full].
 func (x *CookieJar) AddCookieWithFirstParty(FirstPartyVar *glib.Uri, CookieVar *Cookie) {
-
 	xCookieJarAddCookieWithFirstParty(x.GoPointer(), FirstPartyVar, CookieVar)
-
 }
 
-var xCookieJarAllCookies func(uintptr) *glib.SList
+var xCookieJarAllCookies func(uintptr) uintptr
 
 // Constructs a [struct@GLib.List] with every cookie inside the @jar.
 //
@@ -253,9 +247,11 @@ var xCookieJarAllCookies func(uintptr) *glib.SList
 //
 // For historical reasons this list is in reverse order.
 func (x *CookieJar) AllCookies() *glib.SList {
-
 	cret := xCookieJarAllCookies(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.SList)(unsafe.Pointer(cret))
 }
 
 var xCookieJarDeleteCookie func(uintptr, *Cookie)
@@ -264,21 +260,18 @@ var xCookieJarDeleteCookie func(uintptr, *Cookie)
 //
 // Emits the [signal@CookieJar::changed] signal.
 func (x *CookieJar) DeleteCookie(CookieVar *Cookie) {
-
 	xCookieJarDeleteCookie(x.GoPointer(), CookieVar)
-
 }
 
 var xCookieJarGetAcceptPolicy func(uintptr) CookieJarAcceptPolicy
 
 // Gets @jar's [enum@CookieJarAcceptPolicy].
 func (x *CookieJar) GetAcceptPolicy() CookieJarAcceptPolicy {
-
 	cret := xCookieJarGetAcceptPolicy(x.GoPointer())
 	return cret
 }
 
-var xCookieJarGetCookieList func(uintptr, *glib.Uri, bool) *glib.SList
+var xCookieJarGetCookieList func(uintptr, *glib.Uri, bool) uintptr
 
 // Retrieves the list of cookies that would be sent with a request to @uri
 // as a [struct@GLib.List] of #SoupCookie objects.
@@ -291,12 +284,14 @@ var xCookieJarGetCookieList func(uintptr, *glib.Uri, bool) *glib.SList
 // almost certainly be setting @for_http to %FALSE if you are calling
 // this.
 func (x *CookieJar) GetCookieList(UriVar *glib.Uri, ForHttpVar bool) *glib.SList {
-
 	cret := xCookieJarGetCookieList(x.GoPointer(), UriVar, ForHttpVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.SList)(unsafe.Pointer(cret))
 }
 
-var xCookieJarGetCookieListWithSameSiteInfo func(uintptr, *glib.Uri, *glib.Uri, *glib.Uri, bool, bool, bool) *glib.SList
+var xCookieJarGetCookieListWithSameSiteInfo func(uintptr, *glib.Uri, *glib.Uri, *glib.Uri, bool, bool, bool) uintptr
 
 // This is an extended version of [method@CookieJar.get_cookie_list] that
 // provides more information required to use SameSite cookies.
@@ -305,9 +300,11 @@ var xCookieJarGetCookieListWithSameSiteInfo func(uintptr, *glib.Uri, *glib.Uri, 
 // spec](https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00) for
 // more detailed information.
 func (x *CookieJar) GetCookieListWithSameSiteInfo(UriVar *glib.Uri, TopLevelVar *glib.Uri, SiteForCookiesVar *glib.Uri, ForHttpVar bool, IsSafeMethodVar bool, IsTopLevelNavigationVar bool) *glib.SList {
-
 	cret := xCookieJarGetCookieListWithSameSiteInfo(x.GoPointer(), UriVar, TopLevelVar, SiteForCookiesVar, ForHttpVar, IsSafeMethodVar, IsTopLevelNavigationVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.SList)(unsafe.Pointer(cret))
 }
 
 var xCookieJarGetCookies func(uintptr, *glib.Uri, bool) string
@@ -323,7 +320,6 @@ var xCookieJarGetCookies func(uintptr, *glib.Uri, bool) string
 // almost certainly be setting @for_http to %FALSE if you are calling
 // this.
 func (x *CookieJar) GetCookies(UriVar *glib.Uri, ForHttpVar bool) string {
-
 	cret := xCookieJarGetCookies(x.GoPointer(), UriVar, ForHttpVar)
 	return cret
 }
@@ -332,7 +328,6 @@ var xCookieJarIsPersistent func(uintptr) bool
 
 // Gets whether @jar stores cookies persistenly.
 func (x *CookieJar) IsPersistent() bool {
-
 	cret := xCookieJarIsPersistent(x.GoPointer())
 	return cret
 }
@@ -341,9 +336,7 @@ var xCookieJarSetAcceptPolicy func(uintptr, CookieJarAcceptPolicy)
 
 // Sets @policy as the cookie acceptance policy for @jar.
 func (x *CookieJar) SetAcceptPolicy(PolicyVar CookieJarAcceptPolicy) {
-
 	xCookieJarSetAcceptPolicy(x.GoPointer(), PolicyVar)
-
 }
 
 var xCookieJarSetCookie func(uintptr, *glib.Uri, string)
@@ -358,9 +351,7 @@ var xCookieJarSetCookie func(uintptr, *glib.Uri, string)
 // will have no way of knowing if the cookie is being set by a third
 // party or not.
 func (x *CookieJar) SetCookie(UriVar *glib.Uri, CookieVar string) {
-
 	xCookieJarSetCookie(x.GoPointer(), UriVar, CookieVar)
-
 }
 
 var xCookieJarSetCookieWithFirstParty func(uintptr, *glib.Uri, *glib.Uri, string)
@@ -371,9 +362,7 @@ var xCookieJarSetCookieWithFirstParty func(uintptr, *glib.Uri, *glib.Uri, string
 // @first_party will be used to reject cookies coming from third party resources
 // in case such a security policy is set in the @jar.
 func (x *CookieJar) SetCookieWithFirstParty(UriVar *glib.Uri, FirstPartyVar *glib.Uri, CookieVar string) {
-
 	xCookieJarSetCookieWithFirstParty(x.GoPointer(), UriVar, FirstPartyVar, CookieVar)
-
 }
 
 func (c *CookieJar) GoPointer() uintptr {
@@ -427,7 +416,6 @@ func (x *CookieJar) ConnectChanged(cb *func(CookieJar, uintptr, uintptr)) uint {
 		cbFn := *cb
 
 		cbFn(fa, OldCookieVarp, NewCookieVarp)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -438,7 +426,7 @@ func (x *CookieJar) ConnectChanged(cb *func(CookieJar, uintptr, uintptr)) uint {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -467,5 +455,4 @@ func init() {
 	core.PuregoSafeRegister(&xCookieJarSetAcceptPolicy, libs, "soup_cookie_jar_set_accept_policy")
 	core.PuregoSafeRegister(&xCookieJarSetCookie, libs, "soup_cookie_jar_set_cookie")
 	core.PuregoSafeRegister(&xCookieJarSetCookieWithFirstParty, libs, "soup_cookie_jar_set_cookie_with_first_party")
-
 }

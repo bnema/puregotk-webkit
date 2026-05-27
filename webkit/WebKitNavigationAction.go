@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Provides details about interaction resulting in a resource load.
@@ -26,22 +26,22 @@ func (x *NavigationAction) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNavigationActionCopy func(uintptr) *NavigationAction
+var xNavigationActionCopy func(uintptr) uintptr
 
 // Make a copy of @navigation.
 func (x *NavigationAction) Copy() *NavigationAction {
-
 	cret := xNavigationActionCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*NavigationAction)(unsafe.Pointer(cret))
 }
 
 var xNavigationActionFree func(uintptr)
 
 // Free the #WebKitNavigationAction
 func (x *NavigationAction) Free() {
-
 	xNavigationActionFree(x.GoPointer())
-
 }
 
 var xNavigationActionGetFrameName func(uintptr) string
@@ -50,7 +50,6 @@ var xNavigationActionGetFrameName func(uintptr) string
 // link with a target attribute equal to "_blank", this will return the value of that attribute.
 // In all other cases this function will return %NULL.
 func (x *NavigationAction) GetFrameName() string {
-
 	cret := xNavigationActionGetFrameName(x.GoPointer())
 	return cret
 }
@@ -62,7 +61,6 @@ var xNavigationActionGetModifiers func(uintptr) uint
 // Return a bitmask of #GdkModifierType values describing the modifier keys that were in effect
 // when the navigation was requested
 func (x *NavigationAction) GetModifiers() uint {
-
 	cret := xNavigationActionGetModifiers(x.GoPointer())
 	return cret
 }
@@ -74,7 +72,6 @@ var xNavigationActionGetMouseButton func(uintptr) uint
 // Return the number of the mouse button that triggered the navigation, or 0 if
 // the navigation was not started by a mouse event.
 func (x *NavigationAction) GetMouseButton() uint {
-
 	cret := xNavigationActionGetMouseButton(x.GoPointer())
 	return cret
 }
@@ -83,7 +80,6 @@ var xNavigationActionGetNavigationType func(uintptr) NavigationType
 
 // Return the type of action that triggered the navigation.
 func (x *NavigationAction) GetNavigationType() NavigationType {
-
 	cret := xNavigationActionGetNavigationType(x.GoPointer())
 	return cret
 }
@@ -115,7 +111,6 @@ var xNavigationActionIsRedirect func(uintptr) bool
 
 // Returns whether the @navigation was redirected.
 func (x *NavigationAction) IsRedirect() bool {
-
 	cret := xNavigationActionIsRedirect(x.GoPointer())
 	return cret
 }
@@ -124,7 +119,6 @@ var xNavigationActionIsUserGesture func(uintptr) bool
 
 // Return whether the navigation was triggered by a user gesture like a mouse click.
 func (x *NavigationAction) IsUserGesture() bool {
-
 	cret := xNavigationActionIsUserGesture(x.GoPointer())
 	return cret
 }
@@ -156,7 +150,7 @@ const (
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -179,5 +173,4 @@ func init() {
 	core.PuregoSafeRegister(&xNavigationActionGetRequest, libs, "webkit_navigation_action_get_request")
 	core.PuregoSafeRegister(&xNavigationActionIsRedirect, libs, "webkit_navigation_action_is_redirect")
 	core.PuregoSafeRegister(&xNavigationActionIsUserGesture, libs, "webkit_navigation_action_is_user_gesture")
-
 }

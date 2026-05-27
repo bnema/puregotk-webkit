@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Handles serialization of a web view's browsing state.
@@ -26,34 +26,40 @@ func (x *WebViewSessionState) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewWebViewSessionState func(*glib.Bytes) *WebViewSessionState
+var xNewWebViewSessionState func(*glib.Bytes) uintptr
 
 // Creates a new #WebKitWebViewSessionState from serialized data.
 func NewWebViewSessionState(DataVar *glib.Bytes) *WebViewSessionState {
-
 	cret := xNewWebViewSessionState(DataVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*WebViewSessionState)(unsafe.Pointer(cret))
 }
 
-var xWebViewSessionStateRef func(uintptr) *WebViewSessionState
+var xWebViewSessionStateRef func(uintptr) uintptr
 
 // Atomically increments the reference count of @state by one.
 //
 // This
 // function is MT-safe and may be called from any thread.
 func (x *WebViewSessionState) Ref() *WebViewSessionState {
-
 	cret := xWebViewSessionStateRef(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*WebViewSessionState)(unsafe.Pointer(cret))
 }
 
-var xWebViewSessionStateSerialize func(uintptr) *glib.Bytes
+var xWebViewSessionStateSerialize func(uintptr) uintptr
 
 // Serializes a #WebKitWebViewSessionState.
 func (x *WebViewSessionState) Serialize() *glib.Bytes {
-
 	cret := xWebViewSessionStateSerialize(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Bytes)(unsafe.Pointer(cret))
 }
 
 var xWebViewSessionStateUnref func(uintptr)
@@ -64,14 +70,12 @@ var xWebViewSessionStateUnref func(uintptr)
 // reference count drops to 0, all memory allocated by the #WebKitWebViewSessionState is
 // released. This function is MT-safe and may be called from any thread.
 func (x *WebViewSessionState) Unref() {
-
 	xWebViewSessionStateUnref(x.GoPointer())
-
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -88,5 +92,4 @@ func init() {
 	core.PuregoSafeRegister(&xWebViewSessionStateRef, libs, "webkit_web_view_session_state_ref")
 	core.PuregoSafeRegister(&xWebViewSessionStateSerialize, libs, "webkit_web_view_session_state_serialize")
 	core.PuregoSafeRegister(&xWebViewSessionStateUnref, libs, "webkit_web_view_session_state_unref")
-
 }

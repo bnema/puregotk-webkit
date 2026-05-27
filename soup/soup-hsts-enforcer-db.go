@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type HSTSEnforcerDBClass struct {
@@ -94,7 +94,7 @@ func (x *HSTSEnforcerDB) GetPropertyFilename() string {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -107,5 +107,4 @@ func init() {
 	core.PuregoSafeRegister(&xHSTSEnforcerDBGLibType, libs, "soup_hsts_enforcer_db_get_type")
 
 	core.PuregoSafeRegister(&xNewHSTSEnforcerDB, libs, "soup_hsts_enforcer_db_new")
-
 }

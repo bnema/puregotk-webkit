@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type BackForwardListClass struct {
@@ -70,22 +70,26 @@ func (x *BackForwardList) GetBackItem() *BackForwardListItem {
 	return cls
 }
 
-var xBackForwardListGetBackList func(uintptr) *glib.List
+var xBackForwardListGetBackList func(uintptr) uintptr
 
 // Obtain the list of items preceding the current one.
 func (x *BackForwardList) GetBackList() *glib.List {
-
 	cret := xBackForwardListGetBackList(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
 }
 
-var xBackForwardListGetBackListWithLimit func(uintptr, uint) *glib.List
+var xBackForwardListGetBackListWithLimit func(uintptr, uint) uintptr
 
 // Obtain a list up to some number of items preceding the current one.
 func (x *BackForwardList) GetBackListWithLimit(LimitVar uint) *glib.List {
-
 	cret := xBackForwardListGetBackListWithLimit(x.GoPointer(), LimitVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
 }
 
 var xBackForwardListGetCurrentItem func(uintptr) uintptr
@@ -122,29 +126,32 @@ func (x *BackForwardList) GetForwardItem() *BackForwardListItem {
 	return cls
 }
 
-var xBackForwardListGetForwardList func(uintptr) *glib.List
+var xBackForwardListGetForwardList func(uintptr) uintptr
 
 // Obtain the list of items following the current one.
 func (x *BackForwardList) GetForwardList() *glib.List {
-
 	cret := xBackForwardListGetForwardList(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
 }
 
-var xBackForwardListGetForwardListWithLimit func(uintptr, uint) *glib.List
+var xBackForwardListGetForwardListWithLimit func(uintptr, uint) uintptr
 
 // Obtain a list up to some number of items following the current one.
 func (x *BackForwardList) GetForwardListWithLimit(LimitVar uint) *glib.List {
-
 	cret := xBackForwardListGetForwardListWithLimit(x.GoPointer(), LimitVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
 }
 
 var xBackForwardListGetLength func(uintptr) uint
 
 // Obtain the amount of items in the list.
 func (x *BackForwardList) GetLength() uint {
-
 	cret := xBackForwardListGetLength(x.GoPointer())
 	return cret
 }
@@ -182,7 +189,7 @@ func (c *BackForwardList) SetGoPointer(ptr uintptr) {
 // items are removed. Note that both @item_added and @items_removed can
 // %NULL when only the current item is updated. Items are only removed
 // when the list is cleared or the maximum items limit is reached.
-func (x *BackForwardList) ConnectChanged(cb *func(BackForwardList, *BackForwardListItem, uintptr)) uint {
+func (x *BackForwardList) ConnectChanged(cb *func(BackForwardList, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
@@ -195,15 +202,7 @@ func (x *BackForwardList) ConnectChanged(cb *func(BackForwardList, *BackForwardL
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *BackForwardListItem {
-			if ItemAddedVarp == 0 {
-				return nil
-			}
-			cls := &BackForwardListItem{}
-			cls.Ptr = ItemAddedVarp
-			return cls
-		}(), ItemsRemovedVarp)
-
+		cbFn(fa, ItemAddedVarp, ItemsRemovedVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -214,7 +213,7 @@ func (x *BackForwardList) ConnectChanged(cb *func(BackForwardList, *BackForwardL
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -236,4 +235,8 @@ func init() {
 	core.PuregoSafeRegister(&xBackForwardListGetLength, libs, "webkit_back_forward_list_get_length")
 	core.PuregoSafeRegister(&xBackForwardListGetNthItem, libs, "webkit_back_forward_list_get_nth_item")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	BackForwardListGLibType()
 }

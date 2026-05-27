@@ -2,11 +2,11 @@
 package soup
 
 import (
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Pre-defined close codes that can be passed to
@@ -152,12 +152,10 @@ var xWebsocketClientPrepareHandshake func(uintptr, uintptr, []string, []gobject.
 // [method@Session.websocket_connect_async] to create a WebSocket connection, it
 // will call this for you.
 func WebsocketClientPrepareHandshake(MsgVar *Message, OriginVar *string, ProtocolsVar []string, SupportedExtensionsVar []gobject.TypeClass) {
-
 	OriginVarPtr := core.GStrdupNullable(OriginVar)
 	defer core.GFreeNullable(OriginVarPtr)
 
 	xWebsocketClientPrepareHandshake(MsgVar.GoPointer(), OriginVarPtr, ProtocolsVar, SupportedExtensionsVar)
-
 }
 
 var xWebsocketClientVerifyHandshake func(uintptr, []gobject.TypeClass, **glib.List, **glib.Error) bool
@@ -181,14 +179,12 @@ func WebsocketClientVerifyHandshake(MsgVar *Message, SupportedExtensionsVar []go
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xWebsocketErrorQuark func() glib.Quark
 
 // Registers error quark for SoupWebsocket if needed.
 func WebsocketErrorQuark() glib.Quark {
-
 	cret := xWebsocketErrorQuark()
 	return cret
 }
@@ -223,7 +219,6 @@ func WebsocketServerCheckHandshake(MsgVar *ServerMessage, OriginVar *string, Pro
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xWebsocketServerProcessHandshake func(uintptr, uintptr, []string, []gobject.TypeClass, **glib.List) bool
@@ -244,7 +239,6 @@ var xWebsocketServerProcessHandshake func(uintptr, uintptr, []string, []gobject.
 // [method@Server.add_websocket_handler] to handle accepting WebSocket
 // connections, it will call this for you.
 func WebsocketServerProcessHandshake(MsgVar *ServerMessage, ExpectedOriginVar *string, ProtocolsVar []string, SupportedExtensionsVar []gobject.TypeClass, AcceptedExtensionsVar **glib.List) bool {
-
 	ExpectedOriginVarPtr := core.GStrdupNullable(ExpectedOriginVar)
 	defer core.GFreeNullable(ExpectedOriginVarPtr)
 
@@ -254,7 +248,7 @@ func WebsocketServerProcessHandshake(MsgVar *ServerMessage, ExpectedOriginVar *s
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -279,5 +273,4 @@ func init() {
 	core.PuregoSafeRegister(&xWebsocketErrorQuark, libs, "soup_websocket_error_quark")
 	core.PuregoSafeRegister(&xWebsocketServerCheckHandshake, libs, "soup_websocket_server_check_handshake")
 	core.PuregoSafeRegister(&xWebsocketServerProcessHandshake, libs, "soup_websocket_server_process_handshake")
-
 }

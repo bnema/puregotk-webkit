@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Function used to handle JavaScript exceptions in a #JSCContext.
@@ -119,7 +119,6 @@ var xContextCheckSyntax func(uintptr, string, int, CheckSyntaxMode, string, uint
 // In case of errors @exception will be set to a new #JSCException with the details. You can pass %NULL to
 // @exception to ignore the error details.
 func (x *Context) CheckSyntax(CodeVar string, LengthVar int, ModeVar CheckSyntaxMode, UriVar string, LineNumberVar uint, ExceptionVar **Exception) CheckSyntaxResult {
-
 	cret := xContextCheckSyntax(x.GoPointer(), CodeVar, LengthVar, ModeVar, UriVar, LineNumberVar, ExceptionVar)
 	return cret
 }
@@ -128,9 +127,7 @@ var xContextClearException func(uintptr)
 
 // Clear the uncaught exception in @context if any.
 func (x *Context) ClearException() {
-
 	xContextClearException(x.GoPointer())
-
 }
 
 var xContextEvaluate func(uintptr, string, int) uintptr
@@ -159,12 +156,7 @@ var xContextEvaluateInObject func(uintptr, string, int, uintptr, uintptr, string
 func (x *Context) EvaluateInObject(CodeVar string, LengthVar int, ObjectInstanceVar uintptr, ObjectClassVar *Class, UriVar string, LineNumberVar uint, ObjectVar **Value) *Value {
 	var cls *Value
 
-	var ObjectClassVarPtr uintptr
-	if ObjectClassVar != nil {
-		ObjectClassVarPtr = ObjectClassVar.GoPointer()
-	}
-
-	cret := xContextEvaluateInObject(x.GoPointer(), CodeVar, LengthVar, ObjectInstanceVar, ObjectClassVarPtr, UriVar, LineNumberVar, ObjectVar)
+	cret := xContextEvaluateInObject(x.GoPointer(), CodeVar, LengthVar, ObjectInstanceVar, ObjectClassVar.GoPointer(), UriVar, LineNumberVar, ObjectVar)
 
 	if cret == 0 {
 		return nil
@@ -263,9 +255,7 @@ var xContextPopExceptionHandler func(uintptr)
 // Remove the last #JSCExceptionHandler previously pushed to @context with
 // jsc_context_push_exception_handler().
 func (x *Context) PopExceptionHandler() {
-
 	xContextPopExceptionHandler(x.GoPointer())
-
 }
 
 var xContextPushExceptionHandler func(uintptr, uintptr, uintptr, uintptr)
@@ -279,39 +269,7 @@ var xContextPushExceptionHandler func(uintptr, uintptr, uintptr, uintptr)
 // jsc_context_pop_exception_handler() to remove it and set the previous one. When @handler
 // is removed from the context, @destroy_notify i called with @user_data as parameter.
 func (x *Context) PushExceptionHandler(HandlerVar *ExceptionHandler, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify) {
-
-	var HandlerVarRef uintptr
-	if HandlerVar != nil {
-		HandlerVarPtr := uintptr(unsafe.Pointer(HandlerVar))
-		if cbRefPtr, ok := glib.GetCallback(HandlerVarPtr); ok {
-			HandlerVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *HandlerVar
-				cbFn(arg0, arg1, arg2)
-			}
-			HandlerVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(HandlerVarPtr, HandlerVarRef, HandlerVar)
-		}
-	}
-
-	var DestroyNotifyVarRef uintptr
-	if DestroyNotifyVar != nil {
-		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
-			DestroyNotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyNotifyVar
-				cbFn(arg0)
-			}
-			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
-		}
-	}
-
-	xContextPushExceptionHandler(x.GoPointer(), HandlerVarRef, UserDataVar, DestroyNotifyVarRef)
-
+	xContextPushExceptionHandler(x.GoPointer(), glib.NewCallback(HandlerVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar))
 }
 
 var xContextRegisterClass func(uintptr, string, uintptr, *ClassVTable, uintptr) uintptr
@@ -325,27 +283,7 @@ var xContextRegisterClass func(uintptr, string, uintptr, *ClassVTable, uintptr) 
 func (x *Context) RegisterClass(NameVar string, ParentClassVar *Class, VtableVar *ClassVTable, DestroyNotifyVar *glib.DestroyNotify) *Class {
 	var cls *Class
 
-	var DestroyNotifyVarRef uintptr
-	if DestroyNotifyVar != nil {
-		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
-			DestroyNotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyNotifyVar
-				cbFn(arg0)
-			}
-			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
-		}
-	}
-
-	var ParentClassVarPtr uintptr
-	if ParentClassVar != nil {
-		ParentClassVarPtr = ParentClassVar.GoPointer()
-	}
-
-	cret := xContextRegisterClass(x.GoPointer(), NameVar, ParentClassVarPtr, VtableVar, DestroyNotifyVarRef)
+	cret := xContextRegisterClass(x.GoPointer(), NameVar, ParentClassVar.GoPointer(), VtableVar, glib.NewCallbackNullable(DestroyNotifyVar))
 
 	if cret == 0 {
 		return nil
@@ -360,9 +298,7 @@ var xContextSetValue func(uintptr, string, uintptr)
 
 // Set a property of @context global object with @name and @value.
 func (x *Context) SetValue(NameVar string, ValueVar *Value) {
-
 	xContextSetValue(x.GoPointer(), NameVar, ValueVar.GoPointer())
-
 }
 
 var xContextThrow func(uintptr, string)
@@ -370,18 +306,14 @@ var xContextThrow func(uintptr, string)
 // Throw an exception to @context using the given error message. The created #JSCException
 // can be retrieved with jsc_context_get_exception().
 func (x *Context) Throw(ErrorMessageVar string) {
-
 	xContextThrow(x.GoPointer(), ErrorMessageVar)
-
 }
 
 var xContextThrowException func(uintptr, uintptr)
 
 // Throw @exception to @context.
 func (x *Context) ThrowException(ExceptionVar *Exception) {
-
 	xContextThrowException(x.GoPointer(), ExceptionVar.GoPointer())
-
 }
 
 var xContextThrowPrintf func(uintptr, string, ...interface{})
@@ -389,9 +321,7 @@ var xContextThrowPrintf func(uintptr, string, ...interface{})
 // Throw an exception to @context using the given formatted string as error message.
 // The created #JSCException can be retrieved with jsc_context_get_exception().
 func (x *Context) ThrowPrintf(FormatVar string, varArgs ...interface{}) {
-
 	xContextThrowPrintf(x.GoPointer(), FormatVar, varArgs...)
-
 }
 
 var xContextThrowWithName func(uintptr, string, string)
@@ -399,9 +329,7 @@ var xContextThrowWithName func(uintptr, string, string)
 // Throw an exception to @context using the given error name and message. The created #JSCException
 // can be retrieved with jsc_context_get_exception().
 func (x *Context) ThrowWithName(ErrorNameVar string, ErrorMessageVar string) {
-
 	xContextThrowWithName(x.GoPointer(), ErrorNameVar, ErrorMessageVar)
-
 }
 
 var xContextThrowWithNamePrintf func(uintptr, string, string, ...interface{})
@@ -409,9 +337,7 @@ var xContextThrowWithNamePrintf func(uintptr, string, string, ...interface{})
 // Throw an exception to @context using the given error name and the formatted string as error message.
 // The created #JSCException can be retrieved with jsc_context_get_exception().
 func (x *Context) ThrowWithNamePrintf(ErrorNameVar string, FormatVar string, varArgs ...interface{}) {
-
 	xContextThrowWithNamePrintf(x.GoPointer(), ErrorNameVar, FormatVar, varArgs...)
-
 }
 
 func (c *Context) GoPointer() uintptr {
@@ -445,7 +371,7 @@ func ContextGetCurrent() *Context {
 
 func init() {
 	core.SetPackageName("JAVASCRIPTCORE", "javascriptcoregtk-6.0")
-	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("JAVASCRIPTCORE") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -480,5 +406,4 @@ func init() {
 	core.PuregoSafeRegister(&xContextThrowWithNamePrintf, libs, "jsc_context_throw_with_name_printf")
 
 	core.PuregoSafeRegister(&xContextGetCurrent, libs, "jsc_context_get_current")
-
 }

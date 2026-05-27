@@ -2,8 +2,8 @@
 package soup
 
 import (
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
-	"github.com/ebitengine/purego"
 )
 
 const (
@@ -43,7 +43,6 @@ var xCheckVersion func(uint, uint, uint) bool
 // This is useful for compiling against older versions of libsoup, but using
 // features from newer versions.
 func CheckVersion(MajorVar uint, MinorVar uint, MicroVar uint) bool {
-
 	cret := xCheckVersion(MajorVar, MinorVar, MicroVar)
 	return cret
 }
@@ -59,7 +58,6 @@ var xGetMajorVersion func() uint
 // macro, which represents the major version of the libsoup headers you
 // have included when compiling your code.
 func GetMajorVersion() uint {
-
 	cret := xGetMajorVersion()
 	return cret
 }
@@ -75,7 +73,6 @@ var xGetMicroVersion func() uint
 // macro, which represents the micro version of the libsoup headers you
 // have included when compiling your code.
 func GetMicroVersion() uint {
-
 	cret := xGetMicroVersion()
 	return cret
 }
@@ -91,14 +88,13 @@ var xGetMinorVersion func() uint
 // macro, which represents the minor version of the libsoup headers you
 // have included when compiling your code.
 func GetMinorVersion() uint {
-
 	cret := xGetMinorVersion()
 	return cret
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -112,5 +108,4 @@ func init() {
 	core.PuregoSafeRegister(&xGetMajorVersion, libs, "soup_get_major_version")
 	core.PuregoSafeRegister(&xGetMicroVersion, libs, "soup_get_micro_version")
 	core.PuregoSafeRegister(&xGetMinorVersion, libs, "soup_get_minor_version")
-
 }

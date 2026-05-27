@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type PolicyDecisionClass struct {
@@ -260,9 +260,7 @@ var xPolicyDecisionDownload func(uintptr)
 
 // Spawn a download from this decision.
 func (x *PolicyDecision) Download() {
-
 	xPolicyDecisionDownload(x.GoPointer())
-
 }
 
 var xPolicyDecisionIgnore func(uintptr)
@@ -272,18 +270,14 @@ var xPolicyDecisionIgnore func(uintptr)
 // Ignore the action which triggered this decision. For instance, for a
 // #WebKitResponsePolicyDecision, this would cancel the request.
 func (x *PolicyDecision) Ignore() {
-
 	xPolicyDecisionIgnore(x.GoPointer())
-
 }
 
 var xPolicyDecisionUse func(uintptr)
 
 // Accept the action which triggered this decision.
 func (x *PolicyDecision) Use() {
-
 	xPolicyDecisionUse(x.GoPointer())
-
 }
 
 var xPolicyDecisionUseWithPolicies func(uintptr, uintptr)
@@ -298,9 +292,7 @@ var xPolicyDecisionUseWithPolicies func(uintptr, uintptr)
 // be accepted under the priviso no movies are allowed to autoplay. The
 // autoplay policy in this case would be set in the @policies.
 func (x *PolicyDecision) UseWithPolicies(PoliciesVar *WebsitePolicies) {
-
 	xPolicyDecisionUseWithPolicies(x.GoPointer(), PoliciesVar.GoPointer())
-
 }
 
 func (c *PolicyDecision) GoPointer() uintptr {
@@ -316,7 +308,7 @@ func (c *PolicyDecision) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -333,4 +325,8 @@ func init() {
 	core.PuregoSafeRegister(&xPolicyDecisionUse, libs, "webkit_policy_decision_use")
 	core.PuregoSafeRegister(&xPolicyDecisionUseWithPolicies, libs, "webkit_policy_decision_use_with_policies")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	PolicyDecisionGLibType()
 }

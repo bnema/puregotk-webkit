@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Groups information used for user authentication.
@@ -27,58 +27,59 @@ func (x *Credential) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewCredential func(string, string, CredentialPersistence) *Credential
+var xNewCredential func(string, string, CredentialPersistence) uintptr
 
 // Create a new credential from the provided username, password and persistence mode.
 func NewCredential(UsernameVar string, PasswordVar string, PersistenceVar CredentialPersistence) *Credential {
-
 	cret := xNewCredential(UsernameVar, PasswordVar, PersistenceVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*Credential)(unsafe.Pointer(cret))
 }
 
-var xNewCredentialForCertificate func(uintptr, CredentialPersistence) *Credential
+var xNewCredentialForCertificate func(uintptr, CredentialPersistence) uintptr
 
 // Create a new credential from the @certificate and persistence mode.
 //
 // Note that %WEBKIT_CREDENTIAL_PERSISTENCE_PERMANENT is not supported for certificate credentials.
 func NewCredentialForCertificate(CertificateVar *gio.TlsCertificate, PersistenceVar CredentialPersistence) *Credential {
-
-	var CertificateVarPtr uintptr
-	if CertificateVar != nil {
-		CertificateVarPtr = CertificateVar.GoPointer()
+	cret := xNewCredentialForCertificate(CertificateVar.GoPointer(), PersistenceVar)
+	if cret == 0 {
+		return nil
 	}
-
-	cret := xNewCredentialForCertificate(CertificateVarPtr, PersistenceVar)
-	return cret
+	return (*Credential)(unsafe.Pointer(cret))
 }
 
-var xNewCredentialForCertificatePin func(string, CredentialPersistence) *Credential
+var xNewCredentialForCertificatePin func(string, CredentialPersistence) uintptr
 
 // Create a new credential from the provided PIN and persistence mode.
 //
 // Note that %WEBKIT_CREDENTIAL_PERSISTENCE_PERMANENT is not supported for certificate pin credentials.
 func NewCredentialForCertificatePin(PinVar string, PersistenceVar CredentialPersistence) *Credential {
-
 	cret := xNewCredentialForCertificatePin(PinVar, PersistenceVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*Credential)(unsafe.Pointer(cret))
 }
 
-var xCredentialCopy func(uintptr) *Credential
+var xCredentialCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitCredential.
 func (x *Credential) Copy() *Credential {
-
 	cret := xCredentialCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*Credential)(unsafe.Pointer(cret))
 }
 
 var xCredentialFree func(uintptr)
 
 // Free the #WebKitCredential.
 func (x *Credential) Free() {
-
 	xCredentialFree(x.GoPointer())
-
 }
 
 var xCredentialGetCertificate func(uintptr) uintptr
@@ -102,7 +103,6 @@ var xCredentialGetPassword func(uintptr) string
 
 // Get the password currently held by this #WebKitCredential.
 func (x *Credential) GetPassword() string {
-
 	cret := xCredentialGetPassword(x.GoPointer())
 	return cret
 }
@@ -111,7 +111,6 @@ var xCredentialGetPersistence func(uintptr) CredentialPersistence
 
 // Get the persistence mode currently held by this #WebKitCredential.
 func (x *Credential) GetPersistence() CredentialPersistence {
-
 	cret := xCredentialGetPersistence(x.GoPointer())
 	return cret
 }
@@ -120,7 +119,6 @@ var xCredentialGetUsername func(uintptr) string
 
 // Get the username currently held by this #WebKitCredential.
 func (x *Credential) GetUsername() string {
-
 	cret := xCredentialGetUsername(x.GoPointer())
 	return cret
 }
@@ -129,7 +127,6 @@ var xCredentialHasPassword func(uintptr) bool
 
 // Determine whether this credential has a password stored.
 func (x *Credential) HasPassword() bool {
-
 	cret := xCredentialHasPassword(x.GoPointer())
 	return cret
 }
@@ -155,7 +152,7 @@ const (
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -180,5 +177,4 @@ func init() {
 	core.PuregoSafeRegister(&xCredentialGetPersistence, libs, "webkit_credential_get_persistence")
 	core.PuregoSafeRegister(&xCredentialGetUsername, libs, "webkit_credential_get_username")
 	core.PuregoSafeRegister(&xCredentialHasPassword, libs, "webkit_credential_has_password")
-
 }

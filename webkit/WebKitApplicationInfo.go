@@ -5,9 +5,9 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Information about an application running in automation mode.
@@ -25,13 +25,15 @@ func (x *ApplicationInfo) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewApplicationInfo func() *ApplicationInfo
+var xNewApplicationInfo func() uintptr
 
 // Creates a new #WebKitApplicationInfo
 func NewApplicationInfo() *ApplicationInfo {
-
 	cret := xNewApplicationInfo()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*ApplicationInfo)(unsafe.Pointer(cret))
 }
 
 var xApplicationInfoGetName func(uintptr) string
@@ -41,7 +43,6 @@ var xApplicationInfoGetName func(uintptr) string
 // If webkit_application_info_set_name() hasn't been
 // called with a valid name, this returns g_get_prgname().
 func (x *ApplicationInfo) GetName() string {
-
 	cret := xApplicationInfoGetName(x.GoPointer())
 	return cret
 }
@@ -50,21 +51,21 @@ var xApplicationInfoGetVersion func(uintptr, *uint64, *uint64, *uint64)
 
 // Get the application version previously set with webkit_application_info_set_version().
 func (x *ApplicationInfo) GetVersion(MajorVar *uint64, MinorVar *uint64, MicroVar *uint64) {
-
 	xApplicationInfoGetVersion(x.GoPointer(), MajorVar, MinorVar, MicroVar)
-
 }
 
-var xApplicationInfoRef func(uintptr) *ApplicationInfo
+var xApplicationInfoRef func(uintptr) uintptr
 
 // Atomically increments the reference count of @info by one.
 //
 // This
 // function is MT-safe and may be called from any thread.
 func (x *ApplicationInfo) Ref() *ApplicationInfo {
-
 	cret := xApplicationInfoRef(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*ApplicationInfo)(unsafe.Pointer(cret))
 }
 
 var xApplicationInfoSetName func(uintptr, string)
@@ -74,9 +75,7 @@ var xApplicationInfoSetName func(uintptr, string)
 // If not provided, or %NULL is passed,
 // g_get_prgname() will be used.
 func (x *ApplicationInfo) SetName(NameVar string) {
-
 	xApplicationInfoSetName(x.GoPointer(), NameVar)
-
 }
 
 var xApplicationInfoSetVersion func(uintptr, uint64, uint64, uint64)
@@ -88,9 +87,7 @@ var xApplicationInfoSetVersion func(uintptr, uint64, uint64, uint64)
 // 0 as both micro and minor to use only major number. Any other format must
 // be converted to major.minor.micro so that it can be used in version comparisons.
 func (x *ApplicationInfo) SetVersion(MajorVar uint64, MinorVar uint64, MicroVar uint64) {
-
 	xApplicationInfoSetVersion(x.GoPointer(), MajorVar, MinorVar, MicroVar)
-
 }
 
 var xApplicationInfoUnref func(uintptr)
@@ -102,14 +99,12 @@ var xApplicationInfoUnref func(uintptr)
 // released. This function is MT-safe and may be called from any
 // thread.
 func (x *ApplicationInfo) Unref() {
-
 	xApplicationInfoUnref(x.GoPointer())
-
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -129,5 +124,4 @@ func init() {
 	core.PuregoSafeRegister(&xApplicationInfoSetName, libs, "webkit_application_info_set_name")
 	core.PuregoSafeRegister(&xApplicationInfoSetVersion, libs, "webkit_application_info_set_version")
 	core.PuregoSafeRegister(&xApplicationInfoUnref, libs, "webkit_application_info_unref")
-
 }

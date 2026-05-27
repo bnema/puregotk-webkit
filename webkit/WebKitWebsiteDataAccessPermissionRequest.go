@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type WebsiteDataAccessPermissionRequestClass struct {
@@ -48,7 +48,6 @@ var xWebsiteDataAccessPermissionRequestGetCurrentDomain func(uintptr) string
 
 // Get the current domain being browsed.
 func (x *WebsiteDataAccessPermissionRequest) GetCurrentDomain() string {
-
 	cret := xWebsiteDataAccessPermissionRequestGetCurrentDomain(x.GoPointer())
 	return cret
 }
@@ -57,7 +56,6 @@ var xWebsiteDataAccessPermissionRequestGetRequestingDomain func(uintptr) string
 
 // Get the domain requesting permission to access its cookies while browsing the current domain.
 func (x *WebsiteDataAccessPermissionRequest) GetRequestingDomain() string {
-
 	cret := xWebsiteDataAccessPermissionRequestGetRequestingDomain(x.GoPointer())
 	return cret
 }
@@ -75,21 +73,17 @@ func (c *WebsiteDataAccessPermissionRequest) SetGoPointer(ptr uintptr) {
 
 // Allow the action which triggered this request.
 func (x *WebsiteDataAccessPermissionRequest) Allow() {
-
 	XWebkitPermissionRequestAllow(x.GoPointer())
-
 }
 
 // Deny the action which triggered this request.
 func (x *WebsiteDataAccessPermissionRequest) Deny() {
-
 	XWebkitPermissionRequestDeny(x.GoPointer())
-
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -104,4 +98,8 @@ func init() {
 	core.PuregoSafeRegister(&xWebsiteDataAccessPermissionRequestGetCurrentDomain, libs, "webkit_website_data_access_permission_request_get_current_domain")
 	core.PuregoSafeRegister(&xWebsiteDataAccessPermissionRequestGetRequestingDomain, libs, "webkit_website_data_access_permission_request_get_requesting_domain")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	WebsiteDataAccessPermissionRequestGLibType()
 }

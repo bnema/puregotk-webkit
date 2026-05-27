@@ -5,12 +5,12 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type UserContentFilterStoreClass struct {
@@ -79,29 +79,7 @@ var xUserContentFilterStoreFetchIdentifiers func(uintptr, uintptr, uintptr, uint
 // webkit_user_content_filter_store_fetch_identifiers_finish() to obtain the list of
 // filter identifiers.
 func (x *UserContentFilterStore) FetchIdentifiers(CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xUserContentFilterStoreFetchIdentifiers(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xUserContentFilterStoreFetchIdentifiers(x.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xUserContentFilterStoreFetchIdentifiersFinish func(uintptr, uintptr) []string
@@ -111,7 +89,6 @@ var xUserContentFilterStoreFetchIdentifiersFinish func(uintptr, uintptr) []strin
 // Finishes an asynchronous fetch of the list of identifiers for the stored filters previously
 // started with webkit_user_content_filter_store_fetch_identifiers().
 func (x *UserContentFilterStore) FetchIdentifiersFinish(ResultVar gio.AsyncResult) []string {
-
 	cret := xUserContentFilterStoreFetchIdentifiersFinish(x.GoPointer(), ResultVar.GoPointer())
 	return cret
 }
@@ -120,7 +97,6 @@ var xUserContentFilterStoreGetPath func(uintptr) string
 
 // Gets the storage path for user content filters.
 func (x *UserContentFilterStore) GetPath() string {
-
 	cret := xUserContentFilterStoreGetPath(x.GoPointer())
 	return cret
 }
@@ -135,32 +111,10 @@ var xUserContentFilterStoreLoad func(uintptr, string, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be invoked, which then can use
 // webkit_user_content_filter_store_load_finish() to obtain the resulting filter.
 func (x *UserContentFilterStore) Load(IdentifierVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xUserContentFilterStoreLoad(x.GoPointer(), IdentifierVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xUserContentFilterStoreLoad(x.GoPointer(), IdentifierVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
-var xUserContentFilterStoreLoadFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
+var xUserContentFilterStoreLoadFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finishes an asynchronous filter load previously started with
 // webkit_user_content_filter_store_load().
@@ -168,11 +122,13 @@ func (x *UserContentFilterStore) LoadFinish(ResultVar gio.AsyncResult) (*UserCon
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreLoadFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
-
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*UserContentFilter)(unsafe.Pointer(cret)), nil
 }
 
 var xUserContentFilterStoreRemove func(uintptr, string, uintptr, uintptr, uintptr)
@@ -183,29 +139,7 @@ var xUserContentFilterStoreRemove func(uintptr, string, uintptr, uintptr, uintpt
 // webkit_user_content_filter_store_remove_finish() to check whether the removal was
 // successful.
 func (x *UserContentFilterStore) Remove(IdentifierVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xUserContentFilterStoreRemove(x.GoPointer(), IdentifierVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xUserContentFilterStoreRemove(x.GoPointer(), IdentifierVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xUserContentFilterStoreRemoveFinish func(uintptr, uintptr, **glib.Error) bool
@@ -220,7 +154,6 @@ func (x *UserContentFilterStore) RemoveFinish(ResultVar gio.AsyncResult) (bool, 
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xUserContentFilterStoreSave func(uintptr, string, *glib.Bytes, uintptr, uintptr, uintptr)
@@ -238,32 +171,10 @@ var xUserContentFilterStoreSave func(uintptr, string, *glib.Bytes, uintptr, uint
 // When the operation is finished, @callback will be invoked, which then can use
 // webkit_user_content_filter_store_save_finish() to obtain the resulting filter.
 func (x *UserContentFilterStore) Save(IdentifierVar string, SourceVar *glib.Bytes, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xUserContentFilterStoreSave(x.GoPointer(), IdentifierVar, SourceVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xUserContentFilterStoreSave(x.GoPointer(), IdentifierVar, SourceVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
-var xUserContentFilterStoreSaveFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
+var xUserContentFilterStoreSaveFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finishes an asynchronous filter save previously started with
 // webkit_user_content_filter_store_save().
@@ -271,11 +182,13 @@ func (x *UserContentFilterStore) SaveFinish(ResultVar gio.AsyncResult) (*UserCon
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreSaveFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
-
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*UserContentFilter)(unsafe.Pointer(cret)), nil
 }
 
 var xUserContentFilterStoreSaveFromFile func(uintptr, string, uintptr, uintptr, uintptr, uintptr)
@@ -289,32 +202,10 @@ var xUserContentFilterStoreSaveFromFile func(uintptr, string, uintptr, uintptr, 
 // When the operation is finished, @callback will be invoked, which then can use
 // webkit_user_content_filter_store_save_finish() to obtain the resulting filter.
 func (x *UserContentFilterStore) SaveFromFile(IdentifierVar string, FileVar gio.File, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xUserContentFilterStoreSaveFromFile(x.GoPointer(), IdentifierVar, FileVar.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xUserContentFilterStoreSaveFromFile(x.GoPointer(), IdentifierVar, FileVar.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
-var xUserContentFilterStoreSaveFromFileFinish func(uintptr, uintptr, **glib.Error) *UserContentFilter
+var xUserContentFilterStoreSaveFromFileFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finishes and asynchronous filter save previously started with
 // webkit_user_content_filter_store_save_from_file().
@@ -322,11 +213,13 @@ func (x *UserContentFilterStore) SaveFromFileFinish(ResultVar gio.AsyncResult) (
 	var cerr *glib.Error
 
 	cret := xUserContentFilterStoreSaveFromFileFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
-
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*UserContentFilter)(unsafe.Pointer(cret)), nil
 }
 
 func (c *UserContentFilterStore) GoPointer() uintptr {
@@ -361,7 +254,7 @@ func (x *UserContentFilterStore) GetPropertyPath() string {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -387,4 +280,8 @@ func init() {
 	core.PuregoSafeRegister(&xUserContentFilterStoreSaveFromFile, libs, "webkit_user_content_filter_store_save_from_file")
 	core.PuregoSafeRegister(&xUserContentFilterStoreSaveFromFileFinish, libs, "webkit_user_content_filter_store_save_from_file_finish")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	UserContentFilterStoreGLibType()
 }

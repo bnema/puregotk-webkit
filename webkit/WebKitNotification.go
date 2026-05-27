@@ -5,11 +5,11 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type NotificationClass struct {
@@ -46,25 +46,20 @@ var xNotificationClicked func(uintptr)
 // This will emit the
 // #WebKitNotification::clicked signal.
 func (x *Notification) Clicked() {
-
 	xNotificationClicked(x.GoPointer())
-
 }
 
 var xNotificationClose func(uintptr)
 
 // Closes the notification.
 func (x *Notification) Close() {
-
 	xNotificationClose(x.GoPointer())
-
 }
 
 var xNotificationGetBody func(uintptr) string
 
 // Obtains the body for the notification.
 func (x *Notification) GetBody() string {
-
 	cret := xNotificationGetBody(x.GoPointer())
 	return cret
 }
@@ -73,7 +68,6 @@ var xNotificationGetId func(uintptr) uint64
 
 // Obtains the unique id for the notification.
 func (x *Notification) GetId() uint64 {
-
 	cret := xNotificationGetId(x.GoPointer())
 	return cret
 }
@@ -82,7 +76,6 @@ var xNotificationGetTag func(uintptr) string
 
 // Obtains the tag identifier for the notification.
 func (x *Notification) GetTag() string {
-
 	cret := xNotificationGetTag(x.GoPointer())
 	return cret
 }
@@ -91,7 +84,6 @@ var xNotificationGetTitle func(uintptr) string
 
 // Obtains the title for the notification.
 func (x *Notification) GetTitle() string {
-
 	cret := xNotificationGetTitle(x.GoPointer())
 	return cret
 }
@@ -154,7 +146,6 @@ func (x *Notification) ConnectClicked(cb *func(Notification)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -181,7 +172,6 @@ func (x *Notification) ConnectClosed(cb *func(Notification)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -192,7 +182,7 @@ func (x *Notification) ConnectClosed(cb *func(Notification)) uint {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -211,4 +201,8 @@ func init() {
 	core.PuregoSafeRegister(&xNotificationGetTag, libs, "webkit_notification_get_tag")
 	core.PuregoSafeRegister(&xNotificationGetTitle, libs, "webkit_notification_get_title")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	NotificationGLibType()
 }

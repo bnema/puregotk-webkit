@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type ResponsePolicyDecisionClass struct {
@@ -88,7 +88,6 @@ var xResponsePolicyDecisionIsMainFrameMainResource func(uintptr) bool
 
 // Gets whether the request is the main frame main resource
 func (x *ResponsePolicyDecision) IsMainFrameMainResource() bool {
-
 	cret := xResponsePolicyDecisionIsMainFrameMainResource(x.GoPointer())
 	return cret
 }
@@ -100,7 +99,6 @@ var xResponsePolicyDecisionIsMimeTypeSupported func(uintptr) bool
 // Gets whether the MIME type of the response can be displayed in the #WebKitWebView
 // that triggered this policy decision request. See also webkit_web_view_can_show_mime_type().
 func (x *ResponsePolicyDecision) IsMimeTypeSupported() bool {
-
 	cret := xResponsePolicyDecisionIsMimeTypeSupported(x.GoPointer())
 	return cret
 }
@@ -118,7 +116,7 @@ func (c *ResponsePolicyDecision) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -135,4 +133,8 @@ func init() {
 	core.PuregoSafeRegister(&xResponsePolicyDecisionIsMainFrameMainResource, libs, "webkit_response_policy_decision_is_main_frame_main_resource")
 	core.PuregoSafeRegister(&xResponsePolicyDecisionIsMimeTypeSupported, libs, "webkit_response_policy_decision_is_mime_type_supported")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	ResponsePolicyDecisionGLibType()
 }
