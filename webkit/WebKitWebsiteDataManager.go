@@ -5,12 +5,12 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Describes a first party origin.

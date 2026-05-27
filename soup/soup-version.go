@@ -2,8 +2,8 @@
 package soup
 
 import (
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
-	"github.com/ebitengine/purego"
 )
 
 const (

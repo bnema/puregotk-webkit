@@ -4,9 +4,9 @@ package javascriptcore
 import (
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
-	"github.com/ebitengine/purego"
 )
 
 // Function used to iterate options.

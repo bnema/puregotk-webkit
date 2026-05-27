@@ -5,9 +5,9 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // A boxed type representing the settings for the memory pressure handler

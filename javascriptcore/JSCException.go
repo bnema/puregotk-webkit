@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 type ExceptionClass struct {

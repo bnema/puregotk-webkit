@@ -39,7 +39,7 @@ import (
 	"structs"
 {{- end}}
 {{- if $NeedsPurego}}
-	"github.com/ebitengine/purego"
+	"github.com/bnema/purego"
 {{- end}}
 {{- if $NeedsCore}}
 	"github.com/bnema/puregotk/pkg/core"

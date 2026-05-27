@@ -5,10 +5,10 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
 	"github.com/bnema/puregotk/v4/gtk"
-	"github.com/ebitengine/purego"
 )
 
 type WebViewBaseClass struct {

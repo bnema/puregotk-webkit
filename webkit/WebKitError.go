@@ -2,10 +2,10 @@
 package webkit
 
 import (
+	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject/types"
-	"github.com/ebitengine/purego"
 )
 
 // Enum values used to denote the various download errors.
