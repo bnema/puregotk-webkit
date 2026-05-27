@@ -56,14 +56,10 @@ func (c *PointerLockPermissionRequest) SetGoPointer(ptr uintptr) {
 
 // Allow the action which triggered this request.
 func (x *PointerLockPermissionRequest) Allow() {
-
 	XWebkitPermissionRequestAllow(x.GoPointer())
-
 }
 
 // Deny the action which triggered this request.
 func (x *PointerLockPermissionRequest) Deny() {
-
 	XWebkitPermissionRequestDeny(x.GoPointer())
-
 }

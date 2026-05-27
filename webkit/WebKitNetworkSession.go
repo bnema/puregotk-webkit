@@ -93,9 +93,7 @@ var xNetworkSessionAllowTlsCertificateForHost func(uintptr, uintptr, string)
 // If @host is an IPv6 address, it should not be surrounded by brackets. This
 // expectation matches g_uri_get_host().
 func (x *NetworkSession) AllowTlsCertificateForHost(CertificateVar *gio.TlsCertificate, HostVar string) {
-
 	xNetworkSessionAllowTlsCertificateForHost(x.GoPointer(), CertificateVar.GoPointer(), HostVar)
-
 }
 
 var xNetworkSessionDownloadUri func(uintptr, string) uintptr
@@ -139,7 +137,6 @@ var xNetworkSessionGetItpEnabled func(uintptr) bool
 
 // Get whether Intelligent Tracking Prevention (ITP) is enabled or not.
 func (x *NetworkSession) GetItpEnabled() bool {
-
 	cret := xNetworkSessionGetItpEnabled(x.GoPointer())
 	return cret
 }
@@ -154,43 +151,23 @@ var xNetworkSessionGetItpSummary func(uintptr, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be called. You can then call
 // webkit_network_session_get_itp_summary_finish() to get the result of the operation.
 func (x *NetworkSession) GetItpSummary(CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xNetworkSessionGetItpSummary(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xNetworkSessionGetItpSummary(x.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
-var xNetworkSessionGetItpSummaryFinish func(uintptr, uintptr, **glib.Error) *glib.List
+var xNetworkSessionGetItpSummaryFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finish an asynchronous operation started with webkit_network_session_get_itp_summary().
 func (x *NetworkSession) GetItpSummaryFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
 	var cerr *glib.Error
 
 	cret := xNetworkSessionGetItpSummaryFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
-
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret)), nil
 }
 
 var xNetworkSessionGetPersistentCredentialStorageEnabled func(uintptr) bool
@@ -199,7 +176,6 @@ var xNetworkSessionGetPersistentCredentialStorageEnabled func(uintptr) bool
 //
 // See also webkit_network_session_set_persistent_credential_storage_enabled().
 func (x *NetworkSession) GetPersistentCredentialStorageEnabled() bool {
-
 	cret := xNetworkSessionGetPersistentCredentialStorageEnabled(x.GoPointer())
 	return cret
 }
@@ -208,7 +184,6 @@ var xNetworkSessionGetTlsErrorsPolicy func(uintptr) TLSErrorsPolicy
 
 // Get the TLS errors policy of @session.
 func (x *NetworkSession) GetTlsErrorsPolicy() TLSErrorsPolicy {
-
 	cret := xNetworkSessionGetTlsErrorsPolicy(x.GoPointer())
 	return cret
 }
@@ -236,7 +211,6 @@ var xNetworkSessionIsEphemeral func(uintptr) bool
 // A #WebKitNetworkSession is ephemeral when its #WebKitWebsiteDataManager is ephemeral.
 // See #WebKitWebsiteDataManager:is-ephemeral for more details.
 func (x *NetworkSession) IsEphemeral() bool {
-
 	cret := xNetworkSessionIsEphemeral(x.GoPointer())
 	return cret
 }
@@ -246,9 +220,7 @@ var xNetworkSessionPrefetchDns func(uintptr, string)
 // Resolve the domain name of the given @hostname in advance, so that if a URI
 // of @hostname is requested the load will be performed more quickly.
 func (x *NetworkSession) PrefetchDns(HostnameVar string) {
-
 	xNetworkSessionPrefetchDns(x.GoPointer(), HostnameVar)
-
 }
 
 var xNetworkSessionSetItpEnabled func(uintptr, bool)
@@ -260,9 +232,7 @@ var xNetworkSessionSetItpEnabled func(uintptr, bool)
 // Note that while ITP is enabled the accept policy %WEBKIT_COOKIE_POLICY_ACCEPT_NO_THIRD_PARTY is ignored and
 // %WEBKIT_COOKIE_POLICY_ACCEPT_ALWAYS is used instead. See also webkit_cookie_session_set_accept_policy().
 func (x *NetworkSession) SetItpEnabled(EnabledVar bool) {
-
 	xNetworkSessionSetItpEnabled(x.GoPointer(), EnabledVar)
-
 }
 
 var xNetworkSessionSetPersistentCredentialStorageEnabled func(uintptr, bool)
@@ -273,9 +243,7 @@ var xNetworkSessionSetPersistentCredentialStorageEnabled func(uintptr, bool)
 // non-ephemeral sessions, the network process will try to read and write HTTP authentiacation
 // credentials from persistent storage.
 func (x *NetworkSession) SetPersistentCredentialStorageEnabled(EnabledVar bool) {
-
 	xNetworkSessionSetPersistentCredentialStorageEnabled(x.GoPointer(), EnabledVar)
-
 }
 
 var xNetworkSessionSetProxySettings func(uintptr, NetworkProxyMode, *NetworkProxySettings)
@@ -290,18 +258,14 @@ var xNetworkSessionSetProxySettings func(uintptr, NetworkProxyMode, *NetworkProx
 // When @proxy_mode is %WEBKIT_NETWORK_PROXY_MODE_CUSTOM @proxy_settings must be
 // a valid #WebKitNetworkProxySettings; otherwise, @proxy_settings must be %NULL.
 func (x *NetworkSession) SetProxySettings(ProxyModeVar NetworkProxyMode, ProxySettingsVar *NetworkProxySettings) {
-
 	xNetworkSessionSetProxySettings(x.GoPointer(), ProxyModeVar, ProxySettingsVar)
-
 }
 
 var xNetworkSessionSetTlsErrorsPolicy func(uintptr, TLSErrorsPolicy)
 
 // Set the TLS errors policy of @session as @policy.
 func (x *NetworkSession) SetTlsErrorsPolicy(PolicyVar TLSErrorsPolicy) {
-
 	xNetworkSessionSetTlsErrorsPolicy(x.GoPointer(), PolicyVar)
-
 }
 
 func (c *NetworkSession) GoPointer() uintptr {
@@ -351,7 +315,7 @@ func (x *NetworkSession) GetPropertyIsEphemeral() bool {
 }
 
 // This signal is emitted when a new download request is made.
-func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, *Download)) uint {
+func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "download-started", cbRefPtr)
@@ -364,8 +328,7 @@ func (x *NetworkSession) ConnectDownloadStarted(cb *func(NetworkSession, *Downlo
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *Download { cls := &Download{}; cls.Ptr = DownloadVarp; return cls }())
-
+		cbFn(fa, DownloadVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -408,14 +371,12 @@ var xNetworkSessionSetMemoryPressureSettings func(*MemoryPressureSettings)
 // to remove the custom settings and disable the periodic check, this function must be called
 // passing %NULL as the value of @settings.
 func NetworkSessionSetMemoryPressureSettings(SettingsVar *MemoryPressureSettings) {
-
 	xNetworkSessionSetMemoryPressureSettings(SettingsVar)
-
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -449,4 +410,8 @@ func init() {
 	core.PuregoSafeRegister(&xNetworkSessionGetDefault, libs, "webkit_network_session_get_default")
 	core.PuregoSafeRegister(&xNetworkSessionSetMemoryPressureSettings, libs, "webkit_network_session_set_memory_pressure_settings")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	NetworkSessionGLibType()
 }

@@ -49,7 +49,6 @@ var xWebHitTestResultContextIsEditable func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_EDITABLE flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsEditable() bool {
-
 	cret := xWebHitTestResultContextIsEditable(x.GoPointer())
 	return cret
 }
@@ -61,7 +60,6 @@ var xWebHitTestResultContextIsImage func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsImage() bool {
-
 	cret := xWebHitTestResultContextIsImage(x.GoPointer())
 	return cret
 }
@@ -73,7 +71,6 @@ var xWebHitTestResultContextIsLink func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsLink() bool {
-
 	cret := xWebHitTestResultContextIsLink(x.GoPointer())
 	return cret
 }
@@ -85,7 +82,6 @@ var xWebHitTestResultContextIsMedia func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_MEDIA flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsMedia() bool {
-
 	cret := xWebHitTestResultContextIsMedia(x.GoPointer())
 	return cret
 }
@@ -97,7 +93,6 @@ var xWebHitTestResultContextIsScrollbar func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_SCROLLBAR flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsScrollbar() bool {
-
 	cret := xWebHitTestResultContextIsScrollbar(x.GoPointer())
 	return cret
 }
@@ -109,7 +104,6 @@ var xWebHitTestResultContextIsSelection func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_SELECTION flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsSelection() bool {
-
 	cret := xWebHitTestResultContextIsSelection(x.GoPointer())
 	return cret
 }
@@ -118,7 +112,6 @@ var xWebHitTestResultGetContext func(uintptr) uint
 
 // Gets the the context flags for the hit test result.
 func (x *WebHitTestResult) GetContext() uint {
-
 	cret := xWebHitTestResultGetContext(x.GoPointer())
 	return cret
 }
@@ -127,7 +120,6 @@ var xWebHitTestResultGetImageUri func(uintptr) string
 
 // Obtains the URI associated with the image element at the hit test position.
 func (x *WebHitTestResult) GetImageUri() string {
-
 	cret := xWebHitTestResultGetImageUri(x.GoPointer())
 	return cret
 }
@@ -138,12 +130,7 @@ var xWebHitTestResultGetJsNode func(uintptr, uintptr) uintptr
 func (x *WebHitTestResult) GetJsNode(WorldVar *ScriptWorld) *javascriptcore.Value {
 	var cls *javascriptcore.Value
 
-	var WorldVarPtr uintptr
-	if WorldVar != nil {
-		WorldVarPtr = WorldVar.GoPointer()
-	}
-
-	cret := xWebHitTestResultGetJsNode(x.GoPointer(), WorldVarPtr)
+	cret := xWebHitTestResultGetJsNode(x.GoPointer(), WorldVar.GoPointer())
 
 	if cret == 0 {
 		return nil
@@ -157,7 +144,6 @@ var xWebHitTestResultGetLinkLabel func(uintptr) string
 
 // Obtains the label associated with the link element at the hit test position.
 func (x *WebHitTestResult) GetLinkLabel() string {
-
 	cret := xWebHitTestResultGetLinkLabel(x.GoPointer())
 	return cret
 }
@@ -166,7 +152,6 @@ var xWebHitTestResultGetLinkTitle func(uintptr) string
 
 // Obtains the title associated with the link element at the hit test position.
 func (x *WebHitTestResult) GetLinkTitle() string {
-
 	cret := xWebHitTestResultGetLinkTitle(x.GoPointer())
 	return cret
 }
@@ -175,7 +160,6 @@ var xWebHitTestResultGetLinkUri func(uintptr) string
 
 // Obtains the URI associated with the link element at the hit test position.
 func (x *WebHitTestResult) GetLinkUri() string {
-
 	cret := xWebHitTestResultGetLinkUri(x.GoPointer())
 	return cret
 }
@@ -184,7 +168,6 @@ var xWebHitTestResultGetMediaUri func(uintptr) string
 
 // Obtains the URI associated with the media element at the hit test position.
 func (x *WebHitTestResult) GetMediaUri() string {
-
 	cret := xWebHitTestResultGetMediaUri(x.GoPointer())
 	return cret
 }
@@ -202,7 +185,7 @@ func (c *WebHitTestResult) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -227,5 +210,4 @@ func init() {
 	core.PuregoSafeRegister(&xWebHitTestResultGetLinkTitle, libs, "webkit_web_hit_test_result_get_link_title")
 	core.PuregoSafeRegister(&xWebHitTestResultGetLinkUri, libs, "webkit_web_hit_test_result_get_link_uri")
 	core.PuregoSafeRegister(&xWebHitTestResultGetMediaUri, libs, "webkit_web_hit_test_result_get_media_uri")
-
 }

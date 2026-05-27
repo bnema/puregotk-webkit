@@ -63,12 +63,7 @@ var xWebPageGetFormManager func(uintptr, uintptr) uintptr
 func (x *WebPage) GetFormManager(WorldVar *ScriptWorld) *WebFormManager {
 	var cls *WebFormManager
 
-	var WorldVarPtr uintptr
-	if WorldVar != nil {
-		WorldVarPtr = WorldVar.GoPointer()
-	}
-
-	cret := xWebPageGetFormManager(x.GoPointer(), WorldVarPtr)
+	cret := xWebPageGetFormManager(x.GoPointer(), WorldVar.GoPointer())
 
 	if cret == 0 {
 		return nil
@@ -83,7 +78,6 @@ var xWebPageGetId func(uintptr) uint64
 
 // Get the identifier of the #WebKitWebPage
 func (x *WebPage) GetId() uint64 {
-
 	cret := xWebPageGetId(x.GoPointer())
 	return cret
 }
@@ -112,7 +106,6 @@ var xWebPageGetUri func(uintptr) string
 // You can monitor the active URI by connecting to the notify::uri
 // signal of @web_page.
 func (x *WebPage) GetUri() string {
-
 	cret := xWebPageGetUri(x.GoPointer())
 	return cret
 }
@@ -125,29 +118,7 @@ var xWebPageSendMessageToView func(uintptr, uintptr, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be called. You can then call
 // webkit_web_page_send_message_to_view_finish() to get the message reply.
 func (x *WebPage) SendMessageToView(MessageVar *UserMessage, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xWebPageSendMessageToView(x.GoPointer(), MessageVar.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xWebPageSendMessageToView(x.GoPointer(), MessageVar.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xWebPageSendMessageToViewFinish func(uintptr, uintptr, **glib.Error) uintptr
@@ -168,7 +139,6 @@ func (x *WebPage) SendMessageToViewFinish(ResultVar gio.AsyncResult) (*UserMessa
 		return cls, nil
 	}
 	return cls, cerr
-
 }
 
 func (c *WebPage) GoPointer() uintptr {
@@ -208,7 +178,6 @@ func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint {
 		cbFn := *cb
 
 		cbFn(fa, ConsoleMessageVarp)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -225,7 +194,7 @@ func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint {
 // add menu entries depending on the node at the coordinates of the
 // @hit_test_result. Otherwise, it's recommended to use #WebKitWebView::context-menu
 // signal instead.
-func (x *WebPage) ConnectContextMenu(cb *func(WebPage, *ContextMenu, *WebHitTestResult) bool) uint {
+func (x *WebPage) ConnectContextMenu(cb *func(WebPage, uintptr, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
@@ -238,8 +207,7 @@ func (x *WebPage) ConnectContextMenu(cb *func(WebPage, *ContextMenu, *WebHitTest
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, func() *ContextMenu { cls := &ContextMenu{}; cls.Ptr = ContextMenuVarp; return cls }(), func() *WebHitTestResult { cls := &WebHitTestResult{}; cls.Ptr = HitTestResultVarp; return cls }())
-
+		return cbFn(fa, ContextMenuVarp, HitTestResultVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -266,7 +234,6 @@ func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -289,7 +256,7 @@ func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint {
 // Modifications to the #WebKitURIRequest and its associated
 // #SoupMessageHeaders will be taken into account when the request
 // is sent over the network.
-func (x *WebPage) ConnectSendRequest(cb *func(WebPage, *URIRequest, *URIResponse) bool) uint {
+func (x *WebPage) ConnectSendRequest(cb *func(WebPage, uintptr, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "send-request", cbRefPtr)
@@ -302,8 +269,7 @@ func (x *WebPage) ConnectSendRequest(cb *func(WebPage, *URIRequest, *URIResponse
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, func() *URIRequest { cls := &URIRequest{}; cls.Ptr = RequestVarp; return cls }(), func() *URIResponse { cls := &URIResponse{}; cls.Ptr = RedirectedResponseVarp; return cls }())
-
+		return cbFn(fa, RequestVarp, RedirectedResponseVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -320,7 +286,7 @@ func (x *WebPage) ConnectSendRequest(cb *func(WebPage, *URIRequest, *URIResponse
 // @message and returning %TRUE. If the last reference of @message is removed
 // and the message has been replied, the operation in the #WebKitWebView will
 // finish with error %WEBKIT_USER_MESSAGE_UNHANDLED_MESSAGE.
-func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, *UserMessage) bool) uint {
+func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
@@ -333,8 +299,7 @@ func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, *UserMessage) boo
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, func() *UserMessage { cls := &UserMessage{}; cls.Ptr = MessageVarp; return cls }())
-
+		return cbFn(fa, MessageVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -345,7 +310,7 @@ func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, *UserMessage) boo
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -364,5 +329,4 @@ func init() {
 	core.PuregoSafeRegister(&xWebPageGetUri, libs, "webkit_web_page_get_uri")
 	core.PuregoSafeRegister(&xWebPageSendMessageToView, libs, "webkit_web_page_send_message_to_view")
 	core.PuregoSafeRegister(&xWebPageSendMessageToViewFinish, libs, "webkit_web_page_send_message_to_view_finish")
-
 }

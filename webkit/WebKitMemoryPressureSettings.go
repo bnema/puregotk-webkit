@@ -44,38 +44,39 @@ func (x *MemoryPressureSettings) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewMemoryPressureSettings func() *MemoryPressureSettings
+var xNewMemoryPressureSettings func() uintptr
 
 // Create a new #WebKitMemoryPressureSettings with the default values.
 func NewMemoryPressureSettings() *MemoryPressureSettings {
-
 	cret := xNewMemoryPressureSettings()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MemoryPressureSettings)(unsafe.Pointer(cret))
 }
 
-var xMemoryPressureSettingsCopy func(uintptr) *MemoryPressureSettings
+var xMemoryPressureSettingsCopy func(uintptr) uintptr
 
 // Make a copy of @settings.
 func (x *MemoryPressureSettings) Copy() *MemoryPressureSettings {
-
 	cret := xMemoryPressureSettingsCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MemoryPressureSettings)(unsafe.Pointer(cret))
 }
 
 var xMemoryPressureSettingsFree func(uintptr)
 
 // Free the #WebKitMemoryPressureSettings.
 func (x *MemoryPressureSettings) Free() {
-
 	xMemoryPressureSettingsFree(x.GoPointer())
-
 }
 
 var xMemoryPressureSettingsGetConservativeThreshold func(uintptr) float64
 
 // Gets the conservative memory usage threshold.
 func (x *MemoryPressureSettings) GetConservativeThreshold() float64 {
-
 	cret := xMemoryPressureSettingsGetConservativeThreshold(x.GoPointer())
 	return cret
 }
@@ -84,7 +85,6 @@ var xMemoryPressureSettingsGetKillThreshold func(uintptr) float64
 
 // Gets the kill memory usage threshold.
 func (x *MemoryPressureSettings) GetKillThreshold() float64 {
-
 	cret := xMemoryPressureSettingsGetKillThreshold(x.GoPointer())
 	return cret
 }
@@ -93,7 +93,6 @@ var xMemoryPressureSettingsGetMemoryLimit func(uintptr) uint
 
 // Gets the memory usage limit.
 func (x *MemoryPressureSettings) GetMemoryLimit() uint {
-
 	cret := xMemoryPressureSettingsGetMemoryLimit(x.GoPointer())
 	return cret
 }
@@ -102,7 +101,6 @@ var xMemoryPressureSettingsGetPollInterval func(uintptr) float64
 
 // Gets the interval at which memory usage is checked.
 func (x *MemoryPressureSettings) GetPollInterval() float64 {
-
 	cret := xMemoryPressureSettingsGetPollInterval(x.GoPointer())
 	return cret
 }
@@ -111,7 +109,6 @@ var xMemoryPressureSettingsGetStrictThreshold func(uintptr) float64
 
 // Gets the strict memory usage threshold.
 func (x *MemoryPressureSettings) GetStrictThreshold() float64 {
-
 	cret := xMemoryPressureSettingsGetStrictThreshold(x.GoPointer())
 	return cret
 }
@@ -127,9 +124,7 @@ var xMemoryPressureSettingsSetConservativeThreshold func(uintptr, float64)
 // The threshold must be bigger than 0 and smaller than 1, and it must be smaller
 // than the strict threshold defined in @settings. The default value is 0.33.
 func (x *MemoryPressureSettings) SetConservativeThreshold(ValueVar float64) {
-
 	xMemoryPressureSettingsSetConservativeThreshold(x.GoPointer(), ValueVar)
-
 }
 
 var xMemoryPressureSettingsSetKillThreshold func(uintptr, float64)
@@ -141,9 +136,7 @@ var xMemoryPressureSettingsSetKillThreshold func(uintptr, float64)
 // is never killed. If the threshold is not 0, then it must be bigger than the strict threshold
 // defined in @settings. The threshold can also have values bigger than 1. The default value is 0.
 func (x *MemoryPressureSettings) SetKillThreshold(ValueVar float64) {
-
 	xMemoryPressureSettingsSetKillThreshold(x.GoPointer(), ValueVar)
-
 }
 
 var xMemoryPressureSettingsSetMemoryLimit func(uintptr, uint)
@@ -152,9 +145,7 @@ var xMemoryPressureSettingsSetMemoryLimit func(uintptr, uint)
 //
 // The default value is the system's RAM size with a maximum of 3GB.
 func (x *MemoryPressureSettings) SetMemoryLimit(MemoryLimitVar uint) {
-
 	xMemoryPressureSettingsSetMemoryLimit(x.GoPointer(), MemoryLimitVar)
-
 }
 
 var xMemoryPressureSettingsSetPollInterval func(uintptr, float64)
@@ -163,9 +154,7 @@ var xMemoryPressureSettingsSetPollInterval func(uintptr, float64)
 //
 // The poll interval value must be bigger than 0. The default value is 30 seconds.
 func (x *MemoryPressureSettings) SetPollInterval(ValueVar float64) {
-
 	xMemoryPressureSettingsSetPollInterval(x.GoPointer(), ValueVar)
-
 }
 
 var xMemoryPressureSettingsSetStrictThreshold func(uintptr, float64)
@@ -180,14 +169,12 @@ var xMemoryPressureSettingsSetStrictThreshold func(uintptr, float64)
 // than the conservative threshold defined in @settings, and smaller than the kill
 // threshold if the latter is not 0. The default value is 0.5.
 func (x *MemoryPressureSettings) SetStrictThreshold(ValueVar float64) {
-
 	xMemoryPressureSettingsSetStrictThreshold(x.GoPointer(), ValueVar)
-
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -213,5 +200,4 @@ func init() {
 	core.PuregoSafeRegister(&xMemoryPressureSettingsSetMemoryLimit, libs, "webkit_memory_pressure_settings_set_memory_limit")
 	core.PuregoSafeRegister(&xMemoryPressureSettingsSetPollInterval, libs, "webkit_memory_pressure_settings_set_poll_interval")
 	core.PuregoSafeRegister(&xMemoryPressureSettingsSetStrictThreshold, libs, "webkit_memory_pressure_settings_set_strict_threshold")
-
 }

@@ -143,22 +143,7 @@ var xNewValueArrayBuffer func(uintptr, uintptr, uint, uintptr, uintptr) uintptr
 func NewValueArrayBuffer(ContextVar *Context, DataVar uintptr, SizeVar uint, DestroyNotifyVar *glib.DestroyNotify, UserDataVar uintptr) *Value {
 	var cls *Value
 
-	var DestroyNotifyVarRef uintptr
-	if DestroyNotifyVar != nil {
-		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
-			DestroyNotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyNotifyVar
-				cbFn(arg0)
-			}
-			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
-		}
-	}
-
-	cret := xNewValueArrayBuffer(ContextVar.GoPointer(), DataVar, SizeVar, DestroyNotifyVarRef, UserDataVar)
+	cret := xNewValueArrayBuffer(ContextVar.GoPointer(), DataVar, SizeVar, glib.NewCallbackNullable(DestroyNotifyVar), UserDataVar)
 
 	if cret == 0 {
 		return nil
@@ -168,12 +153,12 @@ func NewValueArrayBuffer(ContextVar *Context, DataVar uintptr, SizeVar uint, Des
 	return cls
 }
 
-var xNewValueArrayFromGarray func(uintptr, uintptr) uintptr
+var xNewValueArrayFromGarray func(uintptr, []Value) uintptr
 
 // Create a new #JSCValue referencing an array with the items from @array. If @array
 // is %NULL or empty a new empty array will be created. Elements of @array should be
 // pointers to a #JSCValue.
-func NewValueArrayFromGarray(ContextVar *Context, ArrayVar uintptr) *Value {
+func NewValueArrayFromGarray(ContextVar *Context, ArrayVar []Value) *Value {
 	var cls *Value
 
 	cret := xNewValueArrayFromGarray(ContextVar.GoPointer(), ArrayVar)
@@ -249,40 +234,10 @@ var xNewValueFunction func(uintptr, uintptr, uintptr, uintptr, uintptr, types.GT
 func NewValueFunction(ContextVar *Context, NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParamsVar uint, varArgs ...interface{}) *Value {
 	var cls *Value
 
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func() {
-				cbFn := *CallbackVar
-				cbFn()
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var DestroyNotifyVarRef uintptr
-	if DestroyNotifyVar != nil {
-		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
-			DestroyNotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyNotifyVar
-				cbFn(arg0)
-			}
-			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
-		}
-	}
-
 	NameVarPtr := core.GStrdupNullable(NameVar)
 	defer core.GFreeNullable(NameVarPtr)
 
-	cret := xNewValueFunction(ContextVar.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParamsVar, varArgs...)
+	cret := xNewValueFunction(ContextVar.GoPointer(), NameVarPtr, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParamsVar, varArgs...)
 
 	if cret == 0 {
 		return nil
@@ -306,40 +261,10 @@ var xNewValueFunctionVariadic func(uintptr, uintptr, uintptr, uintptr, uintptr, 
 func NewValueFunctionVariadic(ContextVar *Context, NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType) *Value {
 	var cls *Value
 
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func() {
-				cbFn := *CallbackVar
-				cbFn()
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var DestroyNotifyVarRef uintptr
-	if DestroyNotifyVar != nil {
-		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
-			DestroyNotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyNotifyVar
-				cbFn(arg0)
-			}
-			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
-		}
-	}
-
 	NameVarPtr := core.GStrdupNullable(NameVar)
 	defer core.GFreeNullable(NameVarPtr)
 
-	cret := xNewValueFunctionVariadic(ContextVar.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar)
+	cret := xNewValueFunctionVariadic(ContextVar.GoPointer(), NameVarPtr, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar)
 
 	if cret == 0 {
 		return nil
@@ -363,40 +288,10 @@ var xNewValueFunctionv func(uintptr, uintptr, uintptr, uintptr, uintptr, types.G
 func NewValueFunctionv(ContextVar *Context, NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParametersVar uint, ParameterTypesVar []types.GType) *Value {
 	var cls *Value
 
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func() {
-				cbFn := *CallbackVar
-				cbFn()
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var DestroyNotifyVarRef uintptr
-	if DestroyNotifyVar != nil {
-		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
-			DestroyNotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyNotifyVar
-				cbFn(arg0)
-			}
-			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
-		}
-	}
-
 	NameVarPtr := core.GStrdupNullable(NameVar)
 	defer core.GFreeNullable(NameVarPtr)
 
-	cret := xNewValueFunctionv(ContextVar.GoPointer(), NameVarPtr, CallbackVarRef, UserDataVar, DestroyNotifyVarRef, ReturnTypeVar, NParametersVar, ParameterTypesVar)
+	cret := xNewValueFunctionv(ContextVar.GoPointer(), NameVarPtr, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParametersVar, ParameterTypesVar)
 
 	if cret == 0 {
 		return nil
@@ -446,12 +341,7 @@ var xNewValueObject func(uintptr, uintptr, uintptr) uintptr
 func NewValueObject(ContextVar *Context, InstanceVar uintptr, JscClassVar *Class) *Value {
 	var cls *Value
 
-	var JscClassVarPtr uintptr
-	if JscClassVar != nil {
-		JscClassVarPtr = JscClassVar.GoPointer()
-	}
-
-	cret := xNewValueObject(ContextVar.GoPointer(), InstanceVar, JscClassVarPtr)
+	cret := xNewValueObject(ContextVar.GoPointer(), InstanceVar, JscClassVar.GoPointer())
 
 	if cret == 0 {
 		return nil
@@ -471,22 +361,7 @@ var xNewValuePromise func(uintptr, uintptr, uintptr) uintptr
 func NewValuePromise(ContextVar *Context, ExecutorVar *Executor, UserDataVar uintptr) *Value {
 	var cls *Value
 
-	var ExecutorVarRef uintptr
-	if ExecutorVar != nil {
-		ExecutorVarPtr := uintptr(unsafe.Pointer(ExecutorVar))
-		if cbRefPtr, ok := glib.GetCallback(ExecutorVarPtr); ok {
-			ExecutorVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *ExecutorVar
-				cbFn(arg0, arg1, arg2)
-			}
-			ExecutorVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(ExecutorVarPtr, ExecutorVarRef, ExecutorVar)
-		}
-	}
-
-	cret := xNewValuePromise(ContextVar.GoPointer(), ExecutorVarRef, UserDataVar)
+	cret := xNewValuePromise(ContextVar.GoPointer(), glib.NewCallback(ExecutorVar), UserDataVar)
 
 	if cret == 0 {
 		return nil
@@ -589,7 +464,6 @@ var xValueArrayBufferGetData func(uintptr, *uint) uintptr
 // the meantime. Consider taking a copy of the data and using the copy instead
 // in asynchronous code.
 func (x *Value) ArrayBufferGetData(SizeVar *uint) uintptr {
-
 	cret := xValueArrayBufferGetData(x.GoPointer(), SizeVar)
 	return cret
 }
@@ -601,7 +475,6 @@ var xValueArrayBufferGetSize func(uintptr) uint
 // Obtains the size in bytes of the memory region that holds the contents of
 // an %ArrayBuffer.
 func (x *Value) ArrayBufferGetSize() uint {
-
 	cret := xValueArrayBufferGetSize(x.GoPointer())
 	return cret
 }
@@ -623,11 +496,11 @@ func (x *Value) ConstructorCall(FirstParameterTypeVar types.GType, varArgs ...in
 	return cls
 }
 
-var xValueConstructorCallv func(uintptr, uint, uintptr) uintptr
+var xValueConstructorCallv func(uintptr, uint, []Value) uintptr
 
 // Invoke &lt;function&gt;new&lt;/function&gt; with constructor referenced by @value. If @n_parameters
 // is 0 no parameters will be passed to the constructor.
-func (x *Value) ConstructorCallv(NParametersVar uint, ParametersVar uintptr) *Value {
+func (x *Value) ConstructorCallv(NParametersVar uint, ParametersVar []Value) *Value {
 	var cls *Value
 
 	cret := xValueConstructorCallv(x.GoPointer(), NParametersVar, ParametersVar)
@@ -660,14 +533,14 @@ func (x *Value) FunctionCall(FirstParameterTypeVar types.GType, varArgs ...inter
 	return cls
 }
 
-var xValueFunctionCallv func(uintptr, uint, uintptr) uintptr
+var xValueFunctionCallv func(uintptr, uint, []Value) uintptr
 
 // Call function referenced by @value, passing the given @parameters. If @n_parameters
 // is 0 no parameters will be passed to the function.
 //
 // This function always returns a #JSCValue, in case of void functions a #JSCValue referencing
 // &lt;function&gt;undefined&lt;/function&gt; is returned
-func (x *Value) FunctionCallv(NParametersVar uint, ParametersVar uintptr) *Value {
+func (x *Value) FunctionCallv(NParametersVar uint, ParametersVar []Value) *Value {
 	var cls *Value
 
 	cret := xValueFunctionCallv(x.GoPointer(), NParametersVar, ParametersVar)
@@ -701,7 +574,6 @@ var xValueIsArray func(uintptr) bool
 
 // Get whether the value referenced by @value is an array.
 func (x *Value) IsArray() bool {
-
 	cret := xValueIsArray(x.GoPointer())
 	return cret
 }
@@ -710,7 +582,6 @@ var xValueIsArrayBuffer func(uintptr) bool
 
 // Check whether the @value is an %ArrayBuffer.
 func (x *Value) IsArrayBuffer() bool {
-
 	cret := xValueIsArrayBuffer(x.GoPointer())
 	return cret
 }
@@ -719,7 +590,6 @@ var xValueIsBoolean func(uintptr) bool
 
 // Get whether the value referenced by @value is a boolean.
 func (x *Value) IsBoolean() bool {
-
 	cret := xValueIsBoolean(x.GoPointer())
 	return cret
 }
@@ -728,7 +598,6 @@ var xValueIsConstructor func(uintptr) bool
 
 // Get whether the value referenced by @value is a constructor.
 func (x *Value) IsConstructor() bool {
-
 	cret := xValueIsConstructor(x.GoPointer())
 	return cret
 }
@@ -737,7 +606,6 @@ var xValueIsFunction func(uintptr) bool
 
 // Get whether the value referenced by @value is a function
 func (x *Value) IsFunction() bool {
-
 	cret := xValueIsFunction(x.GoPointer())
 	return cret
 }
@@ -746,7 +614,6 @@ var xValueIsNull func(uintptr) bool
 
 // Get whether the value referenced by @value is &lt;function&gt;null&lt;/function&gt;.
 func (x *Value) IsNull() bool {
-
 	cret := xValueIsNull(x.GoPointer())
 	return cret
 }
@@ -755,7 +622,6 @@ var xValueIsNumber func(uintptr) bool
 
 // Get whether the value referenced by @value is a number.
 func (x *Value) IsNumber() bool {
-
 	cret := xValueIsNumber(x.GoPointer())
 	return cret
 }
@@ -764,7 +630,6 @@ var xValueIsObject func(uintptr) bool
 
 // Get whether the value referenced by @value is an object.
 func (x *Value) IsObject() bool {
-
 	cret := xValueIsObject(x.GoPointer())
 	return cret
 }
@@ -773,7 +638,6 @@ var xValueIsString func(uintptr) bool
 
 // Get whether the value referenced by @value is a string
 func (x *Value) IsString() bool {
-
 	cret := xValueIsString(x.GoPointer())
 	return cret
 }
@@ -782,7 +646,6 @@ var xValueIsTypedArray func(uintptr) bool
 
 // Determines whether a value is a typed array.
 func (x *Value) IsTypedArray() bool {
-
 	cret := xValueIsTypedArray(x.GoPointer())
 	return cret
 }
@@ -791,7 +654,6 @@ var xValueIsUndefined func(uintptr) bool
 
 // Get whether the value referenced by @value is &lt;function&gt;undefined&lt;/function&gt;.
 func (x *Value) IsUndefined() bool {
-
 	cret := xValueIsUndefined(x.GoPointer())
 	return cret
 }
@@ -841,54 +703,7 @@ var xValueObjectDefinePropertyAccessor func(uintptr, string, ValuePropertyFlags,
 // Note that @getter and @setter are called as functions and not methods, so they don't receive an instance as
 // first parameter. Use jsc_class_add_property() if you want to add property accessor invoked as a method.
 func (x *Value) ObjectDefinePropertyAccessor(PropertyNameVar string, FlagsVar ValuePropertyFlags, PropertyTypeVar types.GType, GetterVar *gobject.Callback, SetterVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify) {
-
-	var GetterVarRef uintptr
-	if GetterVar != nil {
-		GetterVarPtr := uintptr(unsafe.Pointer(GetterVar))
-		if cbRefPtr, ok := glib.GetCallback(GetterVarPtr); ok {
-			GetterVarRef = cbRefPtr
-		} else {
-			fcb := func() {
-				cbFn := *GetterVar
-				cbFn()
-			}
-			GetterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(GetterVarPtr, GetterVarRef, GetterVar)
-		}
-	}
-
-	var SetterVarRef uintptr
-	if SetterVar != nil {
-		SetterVarPtr := uintptr(unsafe.Pointer(SetterVar))
-		if cbRefPtr, ok := glib.GetCallback(SetterVarPtr); ok {
-			SetterVarRef = cbRefPtr
-		} else {
-			fcb := func() {
-				cbFn := *SetterVar
-				cbFn()
-			}
-			SetterVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(SetterVarPtr, SetterVarRef, SetterVar)
-		}
-	}
-
-	var DestroyNotifyVarRef uintptr
-	if DestroyNotifyVar != nil {
-		DestroyNotifyVarPtr := uintptr(unsafe.Pointer(DestroyNotifyVar))
-		if cbRefPtr, ok := glib.GetCallback(DestroyNotifyVarPtr); ok {
-			DestroyNotifyVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *DestroyNotifyVar
-				cbFn(arg0)
-			}
-			DestroyNotifyVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(DestroyNotifyVarPtr, DestroyNotifyVarRef, DestroyNotifyVar)
-		}
-	}
-
-	xValueObjectDefinePropertyAccessor(x.GoPointer(), PropertyNameVar, FlagsVar, PropertyTypeVar, GetterVarRef, SetterVarRef, UserDataVar, DestroyNotifyVarRef)
-
+	xValueObjectDefinePropertyAccessor(x.GoPointer(), PropertyNameVar, FlagsVar, PropertyTypeVar, glib.NewCallbackNullable(GetterVar), glib.NewCallbackNullable(SetterVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar))
 }
 
 var xValueObjectDefinePropertyData func(uintptr, string, ValuePropertyFlags, uintptr)
@@ -896,14 +711,7 @@ var xValueObjectDefinePropertyData func(uintptr, string, ValuePropertyFlags, uin
 // Define or modify a property with @property_name in object referenced by @value. This is equivalent to
 // JavaScript &lt;function&gt;Object.defineProperty()&lt;/function&gt; when used with a data descriptor.
 func (x *Value) ObjectDefinePropertyData(PropertyNameVar string, FlagsVar ValuePropertyFlags, PropertyValueVar *Value) {
-
-	var PropertyValueVarPtr uintptr
-	if PropertyValueVar != nil {
-		PropertyValueVarPtr = PropertyValueVar.GoPointer()
-	}
-
-	xValueObjectDefinePropertyData(x.GoPointer(), PropertyNameVar, FlagsVar, PropertyValueVarPtr)
-
+	xValueObjectDefinePropertyData(x.GoPointer(), PropertyNameVar, FlagsVar, PropertyValueVar.GoPointer())
 }
 
 var xValueObjectDeleteProperty func(uintptr, string) bool
@@ -911,7 +719,6 @@ var xValueObjectDeleteProperty func(uintptr, string) bool
 // Try to delete property with @name from @value. This function will return %FALSE if
 // the property was defined without %JSC_VALUE_PROPERTY_CONFIGURABLE flag.
 func (x *Value) ObjectDeleteProperty(NameVar string) bool {
-
 	cret := xValueObjectDeleteProperty(x.GoPointer(), NameVar)
 	return cret
 }
@@ -921,7 +728,6 @@ var xValueObjectEnumerateProperties func(uintptr) []string
 // Get the list of property names of @value. Only properties defined with %JSC_VALUE_PROPERTY_ENUMERABLE
 // flag will be collected.
 func (x *Value) ObjectEnumerateProperties() []string {
-
 	cret := xValueObjectEnumerateProperties(x.GoPointer())
 	return cret
 }
@@ -962,7 +768,6 @@ var xValueObjectHasProperty func(uintptr, string) bool
 
 // Get whether @value has property with @name.
 func (x *Value) ObjectHasProperty(NameVar string) bool {
-
 	cret := xValueObjectHasProperty(x.GoPointer(), NameVar)
 	return cret
 }
@@ -990,7 +795,7 @@ func (x *Value) ObjectInvokeMethod(NameVar string, FirstParameterTypeVar types.G
 	return cls
 }
 
-var xValueObjectInvokeMethodv func(uintptr, string, uint, uintptr) uintptr
+var xValueObjectInvokeMethodv func(uintptr, string, uint, []Value) uintptr
 
 // Invoke method with @name on object referenced by @value, passing the given @parameters. If
 // @n_parameters is 0 no parameters will be passed to the method.
@@ -1000,7 +805,7 @@ var xValueObjectInvokeMethodv func(uintptr, string, uint, uintptr) uintptr
 //
 // This function always returns a #JSCValue, in case of void methods a #JSCValue referencing
 // &lt;function&gt;undefined&lt;/function&gt; is returned.
-func (x *Value) ObjectInvokeMethodv(NameVar string, NParametersVar uint, ParametersVar uintptr) *Value {
+func (x *Value) ObjectInvokeMethodv(NameVar string, NParametersVar uint, ParametersVar []Value) *Value {
 	var cls *Value
 
 	cret := xValueObjectInvokeMethodv(x.GoPointer(), NameVar, NParametersVar, ParametersVar)
@@ -1017,7 +822,6 @@ var xValueObjectIsInstanceOf func(uintptr, string) bool
 
 // Get whether the value referenced by @value is an instance of class @name.
 func (x *Value) ObjectIsInstanceOf(NameVar string) bool {
-
 	cret := xValueObjectIsInstanceOf(x.GoPointer(), NameVar)
 	return cret
 }
@@ -1026,25 +830,20 @@ var xValueObjectSetProperty func(uintptr, string, uintptr)
 
 // Set @property with @name on @value.
 func (x *Value) ObjectSetProperty(NameVar string, PropertyVar *Value) {
-
 	xValueObjectSetProperty(x.GoPointer(), NameVar, PropertyVar.GoPointer())
-
 }
 
 var xValueObjectSetPropertyAtIndex func(uintptr, uint, uintptr)
 
 // Set @property at @index on @value.
 func (x *Value) ObjectSetPropertyAtIndex(IndexVar uint, PropertyVar *Value) {
-
 	xValueObjectSetPropertyAtIndex(x.GoPointer(), IndexVar, PropertyVar.GoPointer())
-
 }
 
 var xValueToBoolean func(uintptr) bool
 
 // Convert @value to a boolean.
 func (x *Value) ToBoolean() bool {
-
 	cret := xValueToBoolean(x.GoPointer())
 	return cret
 }
@@ -1053,7 +852,6 @@ var xValueToDouble func(uintptr) float64
 
 // Convert @value to a double.
 func (x *Value) ToDouble() float64 {
-
 	cret := xValueToDouble(x.GoPointer())
 	return cret
 }
@@ -1062,7 +860,6 @@ var xValueToInt32 func(uintptr) int32
 
 // Convert @value to a #gint32.
 func (x *Value) ToInt32() int32 {
-
 	cret := xValueToInt32(x.GoPointer())
 	return cret
 }
@@ -1072,7 +869,6 @@ var xValueToJson func(uintptr, uint) string
 // Create a JSON string of @value serialization. If @indent is 0, the resulting JSON will
 // not contain newlines. The size of the indent is clamped to 10 spaces.
 func (x *Value) ToJson(IndentVar uint) string {
-
 	cret := xValueToJson(x.GoPointer(), IndentVar)
 	return cret
 }
@@ -1082,19 +878,20 @@ var xValueToString func(uintptr) string
 // Convert @value to a string. Use jsc_value_to_string_as_bytes() instead, if you need to
 // handle strings containing null characters.
 func (x *Value) ToString() string {
-
 	cret := xValueToString(x.GoPointer())
 	return cret
 }
 
-var xValueToStringAsBytes func(uintptr) *glib.Bytes
+var xValueToStringAsBytes func(uintptr) uintptr
 
 // Convert @value to a string and return the results as #GBytes. This is needed
 // to handle strings with null characters.
 func (x *Value) ToStringAsBytes() *glib.Bytes {
-
 	cret := xValueToStringAsBytes(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Bytes)(unsafe.Pointer(cret))
 }
 
 var xValueTypedArrayGetBuffer func(uintptr) uintptr
@@ -1142,7 +939,6 @@ var xValueTypedArrayGetData func(uintptr, *uint) uintptr
 // the same after calls to other JSC API functions. See
 // jsc_value_array_buffer_get_data() for details.
 func (x *Value) TypedArrayGetData(LengthVar *uint) uintptr {
-
 	cret := xValueTypedArrayGetData(x.GoPointer(), LengthVar)
 	return cret
 }
@@ -1151,7 +947,6 @@ var xValueTypedArrayGetLength func(uintptr) uint
 
 // Gets the number of elements in a typed array.
 func (x *Value) TypedArrayGetLength() uint {
-
 	cret := xValueTypedArrayGetLength(x.GoPointer())
 	return cret
 }
@@ -1160,7 +955,6 @@ var xValueTypedArrayGetOffset func(uintptr) uint
 
 // Gets the offset over the underlying array buffer data.
 func (x *Value) TypedArrayGetOffset() uint {
-
 	cret := xValueTypedArrayGetOffset(x.GoPointer())
 	return cret
 }
@@ -1169,7 +963,6 @@ var xValueTypedArrayGetSize func(uintptr) uint
 
 // Gets the size of a typed array.
 func (x *Value) TypedArrayGetSize() uint {
-
 	cret := xValueTypedArrayGetSize(x.GoPointer())
 	return cret
 }
@@ -1178,7 +971,6 @@ var xValueTypedArrayGetType func(uintptr) TypedArrayType
 
 // Gets the type of elements contained in a typed array.
 func (x *Value) TypedArrayGetType() TypedArrayType {
-
 	cret := xValueTypedArrayGetType(x.GoPointer())
 	return cret
 }
@@ -1196,7 +988,7 @@ func (c *Value) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("JAVASCRIPTCORE", "javascriptcoregtk-6.0")
-	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("JAVASCRIPTCORE") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -1269,5 +1061,4 @@ func init() {
 	core.PuregoSafeRegister(&xValueTypedArrayGetOffset, libs, "jsc_value_typed_array_get_offset")
 	core.PuregoSafeRegister(&xValueTypedArrayGetSize, libs, "jsc_value_typed_array_get_size")
 	core.PuregoSafeRegister(&xValueTypedArrayGetType, libs, "jsc_value_typed_array_get_type")
-
 }

@@ -51,9 +51,7 @@ var xSecurityManagerRegisterUriSchemeAsCorsEnabled func(uintptr, string)
 // This means that CORS requests are allowed. See W3C CORS specification
 // http://www.w3.org/TR/cors/.
 func (x *SecurityManager) RegisterUriSchemeAsCorsEnabled(SchemeVar string) {
-
 	xSecurityManagerRegisterUriSchemeAsCorsEnabled(x.GoPointer(), SchemeVar)
-
 }
 
 var xSecurityManagerRegisterUriSchemeAsDisplayIsolated func(uintptr, string)
@@ -63,9 +61,7 @@ var xSecurityManagerRegisterUriSchemeAsDisplayIsolated func(uintptr, string)
 // This means that pages cannot
 // display these URIs unless they are from the same scheme.
 func (x *SecurityManager) RegisterUriSchemeAsDisplayIsolated(SchemeVar string) {
-
 	xSecurityManagerRegisterUriSchemeAsDisplayIsolated(x.GoPointer(), SchemeVar)
-
 }
 
 var xSecurityManagerRegisterUriSchemeAsEmptyDocument func(uintptr, string)
@@ -75,9 +71,7 @@ var xSecurityManagerRegisterUriSchemeAsEmptyDocument func(uintptr, string)
 // This means that
 // they are allowed to commit synchronously.
 func (x *SecurityManager) RegisterUriSchemeAsEmptyDocument(SchemeVar string) {
-
 	xSecurityManagerRegisterUriSchemeAsEmptyDocument(x.GoPointer(), SchemeVar)
-
 }
 
 var xSecurityManagerRegisterUriSchemeAsLocal func(uintptr, string)
@@ -87,9 +81,7 @@ var xSecurityManagerRegisterUriSchemeAsLocal func(uintptr, string)
 // This means that other non-local pages
 // cannot link to or access URIs of this scheme.
 func (x *SecurityManager) RegisterUriSchemeAsLocal(SchemeVar string) {
-
 	xSecurityManagerRegisterUriSchemeAsLocal(x.GoPointer(), SchemeVar)
-
 }
 
 var xSecurityManagerRegisterUriSchemeAsNoAccess func(uintptr, string)
@@ -99,9 +91,7 @@ var xSecurityManagerRegisterUriSchemeAsNoAccess func(uintptr, string)
 // This means that pages loaded
 // with this URI scheme cannot access pages loaded with any other URI scheme.
 func (x *SecurityManager) RegisterUriSchemeAsNoAccess(SchemeVar string) {
-
 	xSecurityManagerRegisterUriSchemeAsNoAccess(x.GoPointer(), SchemeVar)
-
 }
 
 var xSecurityManagerRegisterUriSchemeAsSecure func(uintptr, string)
@@ -112,9 +102,7 @@ var xSecurityManagerRegisterUriSchemeAsSecure func(uintptr, string)
 // content warnings won't be generated for this scheme when
 // included by an HTTPS page.
 func (x *SecurityManager) RegisterUriSchemeAsSecure(SchemeVar string) {
-
 	xSecurityManagerRegisterUriSchemeAsSecure(x.GoPointer(), SchemeVar)
-
 }
 
 var xSecurityManagerUriSchemeIsCorsEnabled func(uintptr, string) bool
@@ -123,7 +111,6 @@ var xSecurityManagerUriSchemeIsCorsEnabled func(uintptr, string) bool
 //
 // See also webkit_security_manager_register_uri_scheme_as_cors_enabled().
 func (x *SecurityManager) UriSchemeIsCorsEnabled(SchemeVar string) bool {
-
 	cret := xSecurityManagerUriSchemeIsCorsEnabled(x.GoPointer(), SchemeVar)
 	return cret
 }
@@ -134,7 +121,6 @@ var xSecurityManagerUriSchemeIsDisplayIsolated func(uintptr, string) bool
 //
 // See also webkit_security_manager_register_uri_scheme_as_display_isolated().
 func (x *SecurityManager) UriSchemeIsDisplayIsolated(SchemeVar string) bool {
-
 	cret := xSecurityManagerUriSchemeIsDisplayIsolated(x.GoPointer(), SchemeVar)
 	return cret
 }
@@ -145,7 +131,6 @@ var xSecurityManagerUriSchemeIsEmptyDocument func(uintptr, string) bool
 //
 // See also webkit_security_manager_register_uri_scheme_as_empty_document().
 func (x *SecurityManager) UriSchemeIsEmptyDocument(SchemeVar string) bool {
-
 	cret := xSecurityManagerUriSchemeIsEmptyDocument(x.GoPointer(), SchemeVar)
 	return cret
 }
@@ -156,7 +141,6 @@ var xSecurityManagerUriSchemeIsLocal func(uintptr, string) bool
 //
 // See also webkit_security_manager_register_uri_scheme_as_local().
 func (x *SecurityManager) UriSchemeIsLocal(SchemeVar string) bool {
-
 	cret := xSecurityManagerUriSchemeIsLocal(x.GoPointer(), SchemeVar)
 	return cret
 }
@@ -167,7 +151,6 @@ var xSecurityManagerUriSchemeIsNoAccess func(uintptr, string) bool
 //
 // See also webkit_security_manager_register_uri_scheme_as_no_access().
 func (x *SecurityManager) UriSchemeIsNoAccess(SchemeVar string) bool {
-
 	cret := xSecurityManagerUriSchemeIsNoAccess(x.GoPointer(), SchemeVar)
 	return cret
 }
@@ -178,7 +161,6 @@ var xSecurityManagerUriSchemeIsSecure func(uintptr, string) bool
 //
 // See also webkit_security_manager_register_uri_scheme_as_secure().
 func (x *SecurityManager) UriSchemeIsSecure(SchemeVar string) bool {
-
 	cret := xSecurityManagerUriSchemeIsSecure(x.GoPointer(), SchemeVar)
 	return cret
 }
@@ -196,7 +178,7 @@ func (c *SecurityManager) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -221,4 +203,8 @@ func init() {
 	core.PuregoSafeRegister(&xSecurityManagerUriSchemeIsNoAccess, libs, "webkit_security_manager_uri_scheme_is_no_access")
 	core.PuregoSafeRegister(&xSecurityManagerUriSchemeIsSecure, libs, "webkit_security_manager_uri_scheme_is_secure")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	SecurityManagerGLibType()
 }

@@ -32,7 +32,6 @@ var xGetMajorVersion func() uint
 // macro, which represents the major version of the WebKit headers you
 // have included when compiling your code.
 func GetMajorVersion() uint {
-
 	cret := xGetMajorVersion()
 	return cret
 }
@@ -48,7 +47,6 @@ var xGetMicroVersion func() uint
 // macro, which represents the micro version of the WebKit headers you
 // have included when compiling your code.
 func GetMicroVersion() uint {
-
 	cret := xGetMicroVersion()
 	return cret
 }
@@ -64,14 +62,13 @@ var xGetMinorVersion func() uint
 // macro, which represents the minor version of the WebKit headers you
 // have included when compiling your code.
 func GetMinorVersion() uint {
-
 	cret := xGetMinorVersion()
 	return cret
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -84,5 +81,4 @@ func init() {
 	core.PuregoSafeRegister(&xGetMajorVersion, libs, "webkit_get_major_version")
 	core.PuregoSafeRegister(&xGetMicroVersion, libs, "webkit_get_micro_version")
 	core.PuregoSafeRegister(&xGetMinorVersion, libs, "webkit_get_minor_version")
-
 }

@@ -42,13 +42,15 @@ func NavigationPolicyDecisionNewFromInternalPtr(ptr uintptr) *NavigationPolicyDe
 	return cls
 }
 
-var xNavigationPolicyDecisionGetNavigationAction func(uintptr) *NavigationAction
+var xNavigationPolicyDecisionGetNavigationAction func(uintptr) uintptr
 
 // Gets the value of the #WebKitNavigationPolicyDecision:navigation-action property.
 func (x *NavigationPolicyDecision) GetNavigationAction() *NavigationAction {
-
 	cret := xNavigationPolicyDecisionGetNavigationAction(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*NavigationAction)(unsafe.Pointer(cret))
 }
 
 func (c *NavigationPolicyDecision) GoPointer() uintptr {
@@ -72,7 +74,7 @@ func (x *NavigationPolicyDecision) GetPropertyNavigationAction() uintptr {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -86,4 +88,8 @@ func init() {
 
 	core.PuregoSafeRegister(&xNavigationPolicyDecisionGetNavigationAction, libs, "webkit_navigation_policy_decision_get_navigation_action")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	NavigationPolicyDecisionGLibType()
 }

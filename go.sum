@@ -1,7 +1,7 @@
 github.com/bnema/purego v0.11.0-bnema.3 h1:lpTXuapRIBH2OTgLJTjYlK1olHmZkEQLloqgP8zpocs=
 github.com/bnema/purego v0.11.0-bnema.3/go.mod h1:5BnOIUj+0fvk/vwv45iottFoGfkDT7cnLXnpM2s6Hng=
-github.com/bnema/puregotk v0.5.3 h1:5I10nPIUWRMzN75+AgJfOEYeuPtGGmV7ggZadtsCTl0=
-github.com/bnema/puregotk v0.5.3/go.mod h1:k9obstQtCopDsU4677xV9xJcMXMLbESRD5re7NAi7BM=
+github.com/bnema/puregotk v0.5.4 h1:SYIS5r5JySaFVw/PrOMoO+j8YlYyB9sJ7g4At8Pv0EI=
+github.com/bnema/puregotk v0.5.4/go.mod h1:pXquWfuhZzVdDJU08CH3De8l9N4MsuOpTjbKHpiOeIs=
 github.com/go-quicktest/qt v1.101.0 h1:O1K29Txy5P2OK0dGo59b7b0LR6wKfIhttaAhHUyn7eI=
 github.com/go-quicktest/qt v1.101.0/go.mod h1:14Bz/f7NwaXPtdYEgzsx46kqSxVwTbzVZsDC26tQJow=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=

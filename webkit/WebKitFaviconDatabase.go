@@ -47,7 +47,6 @@ var xFaviconDatabaseErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of favicon database errors.
 func FaviconDatabaseErrorQuark() glib.Quark {
-
 	cret := xFaviconDatabaseErrorQuark()
 	return cret
 }
@@ -83,9 +82,7 @@ var xFaviconDatabaseClear func(uintptr)
 
 // Clears all icons from the database.
 func (x *FaviconDatabase) Clear() {
-
 	xFaviconDatabaseClear(x.GoPointer())
-
 }
 
 var xFaviconDatabaseGetFavicon func(uintptr, string, uintptr, uintptr, uintptr)
@@ -100,29 +97,7 @@ var xFaviconDatabaseGetFavicon func(uintptr, string, uintptr, uintptr, uintptr)
 // be invoked. You can then call webkit_favicon_database_get_favicon_finish()
 // to get the result of the operation.
 func (x *FaviconDatabase) GetFavicon(PageUriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xFaviconDatabaseGetFavicon(x.GoPointer(), PageUriVar, CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xFaviconDatabaseGetFavicon(x.GoPointer(), PageUriVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xFaviconDatabaseGetFaviconFinish func(uintptr, uintptr, **glib.Error) uintptr
@@ -143,14 +118,12 @@ func (x *FaviconDatabase) GetFaviconFinish(ResultVar gio.AsyncResult) (*gdk.Text
 		return cls, nil
 	}
 	return cls, cerr
-
 }
 
 var xFaviconDatabaseGetFaviconUri func(uintptr, string) string
 
 // Obtains the URI of the favicon for the given @page_uri.
 func (x *FaviconDatabase) GetFaviconUri(PageUriVar string) string {
-
 	cret := xFaviconDatabaseGetFaviconUri(x.GoPointer(), PageUriVar)
 	return cret
 }
@@ -180,13 +153,12 @@ func (x *FaviconDatabase) ConnectFaviconChanged(cb *func(FaviconDatabase, string
 		return handlerID
 	}
 
-	fcb := func(clsPtr uintptr, PageUriVarp uintptr, FaviconUriVarp uintptr) {
+	fcb := func(clsPtr uintptr, PageUriVarp string, FaviconUriVarp string) {
 		fa := FaviconDatabase{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, core.GoString(PageUriVarp), core.GoString(FaviconUriVarp))
-
+		cbFn(fa, PageUriVarp, FaviconUriVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -197,7 +169,7 @@ func (x *FaviconDatabase) ConnectFaviconChanged(cb *func(FaviconDatabase, string
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -218,4 +190,8 @@ func init() {
 	core.PuregoSafeRegister(&xFaviconDatabaseGetFaviconFinish, libs, "webkit_favicon_database_get_favicon_finish")
 	core.PuregoSafeRegister(&xFaviconDatabaseGetFaviconUri, libs, "webkit_favicon_database_get_favicon_uri")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	FaviconDatabaseGLibType()
 }

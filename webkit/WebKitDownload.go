@@ -54,9 +54,7 @@ var xDownloadCancel func(uintptr)
 // #WebKitDownload::failed is emitted with
 // %WEBKIT_DOWNLOAD_ERROR_CANCELLED_BY_USER error.
 func (x *Download) Cancel() {
-
 	xDownloadCancel(x.GoPointer())
-
 }
 
 var xDownloadGetAllowOverwrite func(uintptr) bool
@@ -67,7 +65,6 @@ var xDownloadGetAllowOverwrite func(uintptr) bool
 // which determines whether the download will overwrite an existing file on
 // disk, or if it will fail if the destination already exists.
 func (x *Download) GetAllowOverwrite() bool {
-
 	cret := xDownloadGetAllowOverwrite(x.GoPointer())
 	return cret
 }
@@ -79,7 +76,6 @@ var xDownloadGetDestination func(uintptr) string
 // You can connect to #WebKitDownload::created-destination to make
 // sure this method returns a valid destination.
 func (x *Download) GetDestination() string {
-
 	cret := xDownloadGetDestination(x.GoPointer())
 	return cret
 }
@@ -91,7 +87,6 @@ var xDownloadGetElapsedTime func(uintptr) float64
 // If the download finished, had an error or was cancelled this is
 // the time between its start and the event.
 func (x *Download) GetElapsedTime() float64 {
-
 	cret := xDownloadGetElapsedTime(x.GoPointer())
 	return cret
 }
@@ -103,7 +98,6 @@ var xDownloadGetEstimatedProgress func(uintptr) float64
 // You can monitor the estimated progress of the download operation by
 // connecting to the notify::estimated-progress signal of @download.
 func (x *Download) GetEstimatedProgress() float64 {
-
 	cret := xDownloadGetEstimatedProgress(x.GoPointer())
 	return cret
 }
@@ -115,7 +109,6 @@ var xDownloadGetReceivedDataLength func(uintptr) uint64
 // Gets the length of the data already downloaded for @download
 // in bytes.
 func (x *Download) GetReceivedDataLength() uint64 {
-
 	cret := xDownloadGetReceivedDataLength(x.GoPointer())
 	return cret
 }
@@ -185,9 +178,7 @@ var xDownloadSetAllowOverwrite func(uintptr, bool)
 // the download may overwrite an existing file on disk, or if it will fail if
 // the destination already exists.
 func (x *Download) SetAllowOverwrite(AllowedVar bool) {
-
 	xDownloadSetAllowOverwrite(x.GoPointer(), AllowedVar)
-
 }
 
 var xDownloadSetDestination func(uintptr, string)
@@ -208,9 +199,7 @@ var xDownloadSetDestination func(uintptr, string)
 // the file will be saved with the filename suggested by the server in
 // %G_USER_DIRECTORY_DOWNLOAD directory.
 func (x *Download) SetDestination(DestinationVar string) {
-
 	xDownloadSetDestination(x.GoPointer(), DestinationVar)
-
 }
 
 func (c *Download) GoPointer() uintptr {
@@ -277,13 +266,12 @@ func (x *Download) ConnectCreatedDestination(cb *func(Download, string)) uint {
 		return handlerID
 	}
 
-	fcb := func(clsPtr uintptr, DestinationVarp uintptr) {
+	fcb := func(clsPtr uintptr, DestinationVarp string) {
 		fa := Download{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, core.GoString(DestinationVarp))
-
+		cbFn(fa, DestinationVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -311,13 +299,12 @@ func (x *Download) ConnectDecideDestination(cb *func(Download, string) bool) uin
 		return handlerID
 	}
 
-	fcb := func(clsPtr uintptr, SuggestedFilenameVarp uintptr) bool {
+	fcb := func(clsPtr uintptr, SuggestedFilenameVarp string) bool {
 		fa := Download{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, core.GoString(SuggestedFilenameVarp))
-
+		return cbFn(fa, SuggestedFilenameVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -346,7 +333,6 @@ func (x *Download) ConnectFailed(cb *func(Download, *glib.Error)) uint {
 		cbFn := *cb
 
 		cbFn(fa, (*glib.Error)(ErrorVarp))
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -371,7 +357,6 @@ func (x *Download) ConnectFinished(cb *func(Download)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -397,7 +382,6 @@ func (x *Download) ConnectReceivedData(cb *func(Download, uint64)) uint {
 		cbFn := *cb
 
 		cbFn(fa, DataLengthVarp)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -408,7 +392,7 @@ func (x *Download) ConnectReceivedData(cb *func(Download, uint64)) uint {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -432,4 +416,8 @@ func init() {
 	core.PuregoSafeRegister(&xDownloadSetAllowOverwrite, libs, "webkit_download_set_allow_overwrite")
 	core.PuregoSafeRegister(&xDownloadSetDestination, libs, "webkit_download_set_destination")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	DownloadGLibType()
 }

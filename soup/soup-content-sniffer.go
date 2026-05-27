@@ -69,7 +69,6 @@ var xContentSnifferSniff func(uintptr, uintptr, *glib.Bytes, **glib.HashTable) s
 // The result may also be influenced by the Content-Type declared in @msg's
 // response headers.
 func (x *ContentSniffer) Sniff(MsgVar *Message, BufferVar *glib.Bytes, ParamsVar **glib.HashTable) string {
-
 	cret := xContentSnifferSniff(x.GoPointer(), MsgVar.GoPointer(), BufferVar, ParamsVar)
 	return cret
 }
@@ -87,7 +86,7 @@ func (c *ContentSniffer) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -102,5 +101,4 @@ func init() {
 	core.PuregoSafeRegister(&xNewContentSniffer, libs, "soup_content_sniffer_new")
 
 	core.PuregoSafeRegister(&xContentSnifferSniff, libs, "soup_content_sniffer_sniff")
-
 }

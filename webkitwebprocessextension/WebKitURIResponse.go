@@ -49,25 +49,25 @@ var xURIResponseGetContentLength func(uintptr) uint64
 //
 // It can be 0 if the server provided an incorrect or missing Content-Length.
 func (x *URIResponse) GetContentLength() uint64 {
-
 	cret := xURIResponseGetContentLength(x.GoPointer())
 	return cret
 }
 
-var xURIResponseGetHttpHeaders func(uintptr) *soup.MessageHeaders
+var xURIResponseGetHttpHeaders func(uintptr) uintptr
 
 // Get the HTTP headers of a #WebKitURIResponse as a #SoupMessageHeaders.
 func (x *URIResponse) GetHttpHeaders() *soup.MessageHeaders {
-
 	cret := xURIResponseGetHttpHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*soup.MessageHeaders)(unsafe.Pointer(cret))
 }
 
 var xURIResponseGetMimeType func(uintptr) string
 
 // Gets the MIME type of the response.
 func (x *URIResponse) GetMimeType() string {
-
 	cret := xURIResponseGetMimeType(x.GoPointer())
 	return cret
 }
@@ -81,7 +81,6 @@ var xURIResponseGetStatusCode func(uintptr) uint
 // example %SOUP_STATUS_OK, though the server can respond with any
 // unsigned integer.
 func (x *URIResponse) GetStatusCode() uint {
-
 	cret := xURIResponseGetStatusCode(x.GoPointer())
 	return cret
 }
@@ -94,7 +93,6 @@ var xURIResponseGetSuggestedFilename func(uintptr) string
 // the 'Content-Disposition' HTTP header, or %NULL if it's not
 // present.
 func (x *URIResponse) GetSuggestedFilename() string {
-
 	cret := xURIResponseGetSuggestedFilename(x.GoPointer())
 	return cret
 }
@@ -103,7 +101,6 @@ var xURIResponseGetUri func(uintptr) string
 
 // Gets the URI which resulted in the response.
 func (x *URIResponse) GetUri() string {
-
 	cret := xURIResponseGetUri(x.GoPointer())
 	return cret
 }
@@ -169,7 +166,7 @@ func (x *URIResponse) GetPropertyUri() string {
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -187,5 +184,4 @@ func init() {
 	core.PuregoSafeRegister(&xURIResponseGetStatusCode, libs, "webkit_uri_response_get_status_code")
 	core.PuregoSafeRegister(&xURIResponseGetSuggestedFilename, libs, "webkit_uri_response_get_suggested_filename")
 	core.PuregoSafeRegister(&xURIResponseGetUri, libs, "webkit_uri_response_get_uri")
-
 }

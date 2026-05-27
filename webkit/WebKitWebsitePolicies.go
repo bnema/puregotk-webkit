@@ -100,7 +100,6 @@ var xWebsitePoliciesGetAutoplayPolicy func(uintptr) AutoplayPolicy
 
 // Get the #WebKitWebsitePolicies:autoplay property.
 func (x *WebsitePolicies) GetAutoplayPolicy() AutoplayPolicy {
-
 	cret := xWebsitePoliciesGetAutoplayPolicy(x.GoPointer())
 	return cret
 }
@@ -118,7 +117,7 @@ func (c *WebsitePolicies) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -137,4 +136,8 @@ func init() {
 
 	core.PuregoSafeRegister(&xWebsitePoliciesGetAutoplayPolicy, libs, "webkit_website_policies_get_autoplay_policy")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	WebsitePoliciesGLibType()
 }

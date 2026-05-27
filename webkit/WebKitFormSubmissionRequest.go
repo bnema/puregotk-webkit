@@ -56,7 +56,6 @@ var xFormSubmissionRequestListTextFields func(uintptr, *[]string, *[]string) boo
 // If this function returns %FALSE, then both @field_names and
 // @field_values will be empty.
 func (x *FormSubmissionRequest) ListTextFields(FieldNamesVar *[]string, FieldValuesVar *[]string) bool {
-
 	cret := xFormSubmissionRequestListTextFields(x.GoPointer(), FieldNamesVar, FieldValuesVar)
 	return cret
 }
@@ -65,9 +64,7 @@ var xFormSubmissionRequestSubmit func(uintptr)
 
 // Continue the form submission.
 func (x *FormSubmissionRequest) Submit() {
-
 	xFormSubmissionRequestSubmit(x.GoPointer())
-
 }
 
 func (c *FormSubmissionRequest) GoPointer() uintptr {
@@ -83,7 +80,7 @@ func (c *FormSubmissionRequest) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -98,4 +95,8 @@ func init() {
 	core.PuregoSafeRegister(&xFormSubmissionRequestListTextFields, libs, "webkit_form_submission_request_list_text_fields")
 	core.PuregoSafeRegister(&xFormSubmissionRequestSubmit, libs, "webkit_form_submission_request_submit")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	FormSubmissionRequestGLibType()
 }

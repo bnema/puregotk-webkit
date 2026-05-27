@@ -2,7 +2,6 @@
 package webkit
 
 import (
-	"fmt"
 	"structs"
 	"unsafe"
 
@@ -64,22 +63,23 @@ func AutomationSessionNewFromInternalPtr(ptr uintptr) *AutomationSession {
 	return cls
 }
 
-var xAutomationSessionGetApplicationInfo func(uintptr) *ApplicationInfo
+var xAutomationSessionGetApplicationInfo func(uintptr) uintptr
 
 // Get the the previously set #WebKitAutomationSession.
 //
 // Get the #WebKitAutomationSession previously set with webkit_automation_session_set_application_info().
 func (x *AutomationSession) GetApplicationInfo() *ApplicationInfo {
-
 	cret := xAutomationSessionGetApplicationInfo(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*ApplicationInfo)(unsafe.Pointer(cret))
 }
 
 var xAutomationSessionGetId func(uintptr) string
 
 // Get the unique identifier of a #WebKitAutomationSession
 func (x *AutomationSession) GetId() string {
-
 	cret := xAutomationSessionGetId(x.GoPointer())
 	return cret
 }
@@ -95,9 +95,7 @@ var xAutomationSessionSetApplicationInfo func(uintptr, *ApplicationInfo)
 // after the automation session has been fully created, so this must be called in the callback of
 // #WebKitWebContext::automation-started signal.
 func (x *AutomationSession) SetApplicationInfo(InfoVar *ApplicationInfo) {
-
 	xAutomationSessionSetApplicationInfo(x.GoPointer(), InfoVar)
-
 }
 
 func (c *AutomationSession) GoPointer() uintptr {
@@ -140,7 +138,7 @@ func (x *AutomationSession) GetPropertyId() string {
 // a new web view added to a new window.
 // When creating a new web view and there's an active browsing context, the new window
 // or tab shouldn't be focused.
-func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) *WebView) uint {
+func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) WebView) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
@@ -155,38 +153,10 @@ func (x *AutomationSession) ConnectCreateWebView(cb *func(AutomationSession) *We
 
 		CreateWebViewCls := cbFn(fa)
 		return CreateWebViewCls.Ptr
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
 	handlerID := gobject.SignalConnect(x.GoPointer(), "create-web-view", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
-	return handlerID
-}
-
-// ConnectCreateWebViewWithDetail connects to the "create-web-view" signal with a detail string.
-// The detail is appended as "create-web-view::<detail>".
-func (x *AutomationSession) ConnectCreateWebViewWithDetail(detail string, cb *func(AutomationSession) *WebView) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	signalName := fmt.Sprintf("create-web-view::%s", detail)
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) uintptr {
-		fa := AutomationSession{}
-		fa.Ptr = clsPtr
-		cbFn := *cb
-
-		CreateWebViewCls := cbFn(fa)
-		return CreateWebViewCls.Ptr
-
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), signalName, cbRefPtr)
 	glib.SaveHandlerMapping(handlerID, cbPtr)
 	return handlerID
 }
@@ -207,7 +177,6 @@ func (x *AutomationSession) ConnectWillClose(cb *func(AutomationSession)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -218,7 +187,7 @@ func (x *AutomationSession) ConnectWillClose(cb *func(AutomationSession)) uint {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -236,4 +205,8 @@ func init() {
 	core.PuregoSafeRegister(&xAutomationSessionGetId, libs, "webkit_automation_session_get_id")
 	core.PuregoSafeRegister(&xAutomationSessionSetApplicationInfo, libs, "webkit_automation_session_set_application_info")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	AutomationSessionGLibType()
 }

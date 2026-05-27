@@ -98,7 +98,6 @@ var xWindowPropertiesGetFullscreen func(uintptr) bool
 
 // Get whether the window should be shown in fullscreen state or not.
 func (x *WindowProperties) GetFullscreen() bool {
-
 	cret := xWindowPropertiesGetFullscreen(x.GoPointer())
 	return cret
 }
@@ -107,16 +106,13 @@ var xWindowPropertiesGetGeometry func(uintptr, *gdk.Rectangle)
 
 // Get the geometry the window should have on the screen when shown.
 func (x *WindowProperties) GetGeometry(GeometryVar *gdk.Rectangle) {
-
 	xWindowPropertiesGetGeometry(x.GoPointer(), GeometryVar)
-
 }
 
 var xWindowPropertiesGetLocationbarVisible func(uintptr) bool
 
 // Get whether the window should have the locationbar visible or not.
 func (x *WindowProperties) GetLocationbarVisible() bool {
-
 	cret := xWindowPropertiesGetLocationbarVisible(x.GoPointer())
 	return cret
 }
@@ -125,7 +121,6 @@ var xWindowPropertiesGetMenubarVisible func(uintptr) bool
 
 // Get whether the window should have the menubar visible or not.
 func (x *WindowProperties) GetMenubarVisible() bool {
-
 	cret := xWindowPropertiesGetMenubarVisible(x.GoPointer())
 	return cret
 }
@@ -134,7 +129,6 @@ var xWindowPropertiesGetResizable func(uintptr) bool
 
 // Get whether the window should be resizable by the user or not.
 func (x *WindowProperties) GetResizable() bool {
-
 	cret := xWindowPropertiesGetResizable(x.GoPointer())
 	return cret
 }
@@ -143,7 +137,6 @@ var xWindowPropertiesGetScrollbarsVisible func(uintptr) bool
 
 // Get whether the window should have the scrollbars visible or not.
 func (x *WindowProperties) GetScrollbarsVisible() bool {
-
 	cret := xWindowPropertiesGetScrollbarsVisible(x.GoPointer())
 	return cret
 }
@@ -152,7 +145,6 @@ var xWindowPropertiesGetStatusbarVisible func(uintptr) bool
 
 // Get whether the window should have the statusbar visible or not.
 func (x *WindowProperties) GetStatusbarVisible() bool {
-
 	cret := xWindowPropertiesGetStatusbarVisible(x.GoPointer())
 	return cret
 }
@@ -161,7 +153,6 @@ var xWindowPropertiesGetToolbarVisible func(uintptr) bool
 
 // Get whether the window should have the toolbar visible or not.
 func (x *WindowProperties) GetToolbarVisible() bool {
-
 	cret := xWindowPropertiesGetToolbarVisible(x.GoPointer())
 	return cret
 }
@@ -315,7 +306,7 @@ func (x *WindowProperties) GetPropertyToolbarVisible() bool {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -336,4 +327,8 @@ func init() {
 	core.PuregoSafeRegister(&xWindowPropertiesGetStatusbarVisible, libs, "webkit_window_properties_get_statusbar_visible")
 	core.PuregoSafeRegister(&xWindowPropertiesGetToolbarVisible, libs, "webkit_window_properties_get_toolbar_visible")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	WindowPropertiesGLibType()
 }

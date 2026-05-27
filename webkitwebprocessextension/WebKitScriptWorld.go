@@ -85,7 +85,6 @@ var xScriptWorldGetName func(uintptr) string
 
 // Get the name of a #WebKitScriptWorld.
 func (x *ScriptWorld) GetName() string {
-
 	cret := xScriptWorldGetName(x.GoPointer())
 	return cret
 }
@@ -106,7 +105,7 @@ func (c *ScriptWorld) SetGoPointer(ptr uintptr) {
 // object using the JavaScriptCore API. You can get the window object of @frame
 // from the JavaScript execution context of @world that is returned by
 // webkit_frame_get_js_context_for_script_world().
-func (x *ScriptWorld) ConnectWindowObjectCleared(cb *func(ScriptWorld, *WebPage, *Frame)) uint {
+func (x *ScriptWorld) ConnectWindowObjectCleared(cb *func(ScriptWorld, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "window-object-cleared", cbRefPtr)
@@ -119,8 +118,7 @@ func (x *ScriptWorld) ConnectWindowObjectCleared(cb *func(ScriptWorld, *WebPage,
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *WebPage { cls := &WebPage{}; cls.Ptr = PageVarp; return cls }(), func() *Frame { cls := &Frame{}; cls.Ptr = FrameVarp; return cls }())
-
+		cbFn(fa, PageVarp, FrameVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -151,7 +149,7 @@ func ScriptWorldGetDefault() *ScriptWorld {
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -169,5 +167,4 @@ func init() {
 	core.PuregoSafeRegister(&xScriptWorldGetName, libs, "webkit_script_world_get_name")
 
 	core.PuregoSafeRegister(&xScriptWorldGetDefault, libs, "webkit_script_world_get_default")
-
 }

@@ -59,20 +59,21 @@ func NewURIRequest(UriVar string) *URIRequest {
 	return cls
 }
 
-var xURIRequestGetHttpHeaders func(uintptr) *soup.MessageHeaders
+var xURIRequestGetHttpHeaders func(uintptr) uintptr
 
 // Get the HTTP headers of a #WebKitURIRequest as a #SoupMessageHeaders.
 func (x *URIRequest) GetHttpHeaders() *soup.MessageHeaders {
-
 	cret := xURIRequestGetHttpHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*soup.MessageHeaders)(unsafe.Pointer(cret))
 }
 
 var xURIRequestGetHttpMethod func(uintptr) string
 
 // Get the HTTP method of the #WebKitURIRequest.
 func (x *URIRequest) GetHttpMethod() string {
-
 	cret := xURIRequestGetHttpMethod(x.GoPointer())
 	return cret
 }
@@ -81,7 +82,6 @@ var xURIRequestGetUri func(uintptr) string
 
 // Obtains the request URI.
 func (x *URIRequest) GetUri() string {
-
 	cret := xURIRequestGetUri(x.GoPointer())
 	return cret
 }
@@ -90,9 +90,7 @@ var xURIRequestSetUri func(uintptr, string)
 
 // Set the URI of @request
 func (x *URIRequest) SetUri(UriVar string) {
-
 	xURIRequestSetUri(x.GoPointer(), UriVar)
-
 }
 
 func (c *URIRequest) GoPointer() uintptr {
@@ -125,7 +123,7 @@ func (x *URIRequest) GetPropertyUri() string {
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -143,5 +141,4 @@ func init() {
 	core.PuregoSafeRegister(&xURIRequestGetHttpMethod, libs, "webkit_uri_request_get_http_method")
 	core.PuregoSafeRegister(&xURIRequestGetUri, libs, "webkit_uri_request_get_uri")
 	core.PuregoSafeRegister(&xURIRequestSetUri, libs, "webkit_uri_request_set_uri")
-
 }

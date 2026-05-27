@@ -180,14 +180,13 @@ var xStatusGetPhrase func(uint) string
 // Instead, you should create you own error messages based on the
 // status code, and on what you were trying to do.
 func StatusGetPhrase(StatusCodeVar uint) string {
-
 	cret := xStatusGetPhrase(StatusCodeVar)
 	return cret
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -202,5 +201,4 @@ func init() {
 	core.PuregoSafeRegister(&xStatusGLibType, libs, "soup_status_get_type")
 
 	core.PuregoSafeRegister(&xStatusGetPhrase, libs, "soup_status_get_phrase")
-
 }

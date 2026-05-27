@@ -129,9 +129,7 @@ var xCacheClear func(uintptr)
 //
 // This is not thread safe and must be called only from the thread that created the #SoupCache
 func (x *Cache) Clear() {
-
 	xCacheClear(x.GoPointer())
-
 }
 
 var xCacheDump func(uintptr)
@@ -146,9 +144,7 @@ var xCacheDump func(uintptr)
 //
 // This is not thread safe and must be called only from the thread that created the #SoupCache
 func (x *Cache) Dump() {
-
 	xCacheDump(x.GoPointer())
-
 }
 
 var xCacheFlush func(uintptr)
@@ -161,16 +157,13 @@ var xCacheFlush func(uintptr)
 //
 // Contrast with [method@Cache.dump], which writes out the cache index file.
 func (x *Cache) Flush() {
-
 	xCacheFlush(x.GoPointer())
-
 }
 
 var xCacheGetMaxSize func(uintptr) uint
 
 // Gets the maximum size of the cache.
 func (x *Cache) GetMaxSize() uint {
-
 	cret := xCacheGetMaxSize(x.GoPointer())
 	return cret
 }
@@ -181,18 +174,14 @@ var xCacheLoad func(uintptr)
 //
 // This is not thread safe and must be called only from the thread that created the #SoupCache
 func (x *Cache) Load() {
-
 	xCacheLoad(x.GoPointer())
-
 }
 
 var xCacheSetMaxSize func(uintptr, uint)
 
 // Sets the maximum size of the cache.
 func (x *Cache) SetMaxSize(MaxSizeVar uint) {
-
 	xCacheSetMaxSize(x.GoPointer(), MaxSizeVar)
-
 }
 
 func (c *Cache) GoPointer() uintptr {
@@ -225,7 +214,7 @@ func (x *Cache) GetPropertyCacheDir() string {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -249,5 +238,4 @@ func init() {
 	core.PuregoSafeRegister(&xCacheGetMaxSize, libs, "soup_cache_get_max_size")
 	core.PuregoSafeRegister(&xCacheLoad, libs, "soup_cache_load")
 	core.PuregoSafeRegister(&xCacheSetMaxSize, libs, "soup_cache_set_max_size")
-
 }

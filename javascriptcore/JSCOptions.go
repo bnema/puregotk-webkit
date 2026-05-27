@@ -59,31 +59,13 @@ var xOptionsForeach func(uintptr, uintptr)
 // Iterates all available options calling @function for each one. Iteration can
 // stop early if @function returns %FALSE.
 func OptionsForeach(FunctionVar *OptionsFunc, UserDataVar uintptr) {
-
-	var FunctionVarRef uintptr
-	if FunctionVar != nil {
-		FunctionVarPtr := uintptr(unsafe.Pointer(FunctionVar))
-		if cbRefPtr, ok := glib.GetCallback(FunctionVarPtr); ok {
-			FunctionVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 OptionType, arg2 uintptr, arg3 uintptr) bool {
-				cbFn := *FunctionVar
-				return cbFn(core.GoString(arg0), arg1, core.GoString(arg2), arg3)
-			}
-			FunctionVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(FunctionVarPtr, FunctionVarRef, FunctionVar)
-		}
-	}
-
-	xOptionsForeach(FunctionVarRef, UserDataVar)
-
+	xOptionsForeach(glib.NewCallback(FunctionVar), UserDataVar)
 }
 
 var xOptionsGetBoolean func(string, *bool) bool
 
 // Get @option as a #gboolean value.
 func OptionsGetBoolean(OptionVar string, ValueVar *bool) bool {
-
 	cret := xOptionsGetBoolean(OptionVar, ValueVar)
 	return cret
 }
@@ -92,7 +74,6 @@ var xOptionsGetDouble func(string, *float64) bool
 
 // Get @option as a #gdouble value.
 func OptionsGetDouble(OptionVar string, ValueVar *float64) bool {
-
 	cret := xOptionsGetDouble(OptionVar, ValueVar)
 	return cret
 }
@@ -101,12 +82,11 @@ var xOptionsGetInt func(string, *int) bool
 
 // Get @option as a #gint value.
 func OptionsGetInt(OptionVar string, ValueVar *int) bool {
-
 	cret := xOptionsGetInt(OptionVar, ValueVar)
 	return cret
 }
 
-var xOptionsGetOptionGroup func() *glib.OptionGroup
+var xOptionsGetOptionGroup func() uintptr
 
 // Create a #GOptionGroup to handle JSCOptions as command line arguments.
 // The options will be exposed as command line arguments with the form
@@ -116,9 +96,11 @@ var xOptionsGetOptionGroup func() *glib.OptionGroup
 // pass the returned group to g_option_context_add_group(), and the rest will
 // be taken care for automatically.
 func OptionsGetOptionGroup() *glib.OptionGroup {
-
 	cret := xOptionsGetOptionGroup()
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.OptionGroup)(unsafe.Pointer(cret))
 }
 
 var xOptionsGetRangeString func(string, *string) bool
@@ -128,7 +110,6 @@ var xOptionsGetRangeString func(string, *string) bool
 // Values between low and high (both included) will be considered in
 // the range, unless &lt;emphasis&gt;!&lt;/emphasis&gt; is used to invert the range.
 func OptionsGetRangeString(OptionVar string, ValueVar *string) bool {
-
 	cret := xOptionsGetRangeString(OptionVar, ValueVar)
 	return cret
 }
@@ -137,7 +118,6 @@ var xOptionsGetSize func(string, *uint) bool
 
 // Get @option as a #gsize value.
 func OptionsGetSize(OptionVar string, ValueVar *uint) bool {
-
 	cret := xOptionsGetSize(OptionVar, ValueVar)
 	return cret
 }
@@ -146,7 +126,6 @@ var xOptionsGetString func(string, *string) bool
 
 // Get @option as a string.
 func OptionsGetString(OptionVar string, ValueVar *string) bool {
-
 	cret := xOptionsGetString(OptionVar, ValueVar)
 	return cret
 }
@@ -155,7 +134,6 @@ var xOptionsGetUint func(string, *uint) bool
 
 // Get @option as a #guint value.
 func OptionsGetUint(OptionVar string, ValueVar *uint) bool {
-
 	cret := xOptionsGetUint(OptionVar, ValueVar)
 	return cret
 }
@@ -164,7 +142,6 @@ var xOptionsSetBoolean func(string, bool) bool
 
 // Set @option as a #gboolean value.
 func OptionsSetBoolean(OptionVar string, ValueVar bool) bool {
-
 	cret := xOptionsSetBoolean(OptionVar, ValueVar)
 	return cret
 }
@@ -173,7 +150,6 @@ var xOptionsSetDouble func(string, float64) bool
 
 // Set @option as a #gdouble value.
 func OptionsSetDouble(OptionVar string, ValueVar float64) bool {
-
 	cret := xOptionsSetDouble(OptionVar, ValueVar)
 	return cret
 }
@@ -182,7 +158,6 @@ var xOptionsSetInt func(string, int) bool
 
 // Set @option as a #gint value.
 func OptionsSetInt(OptionVar string, ValueVar int) bool {
-
 	cret := xOptionsSetInt(OptionVar, ValueVar)
 	return cret
 }
@@ -194,7 +169,6 @@ var xOptionsSetRangeString func(string, string) bool
 // Values between low and high (both included) will be considered in
 // the range, unless &lt;emphasis&gt;!&lt;/emphasis&gt; is used to invert the range.
 func OptionsSetRangeString(OptionVar string, ValueVar string) bool {
-
 	cret := xOptionsSetRangeString(OptionVar, ValueVar)
 	return cret
 }
@@ -203,7 +177,6 @@ var xOptionsSetSize func(string, uint) bool
 
 // Set @option as a #gsize value.
 func OptionsSetSize(OptionVar string, ValueVar uint) bool {
-
 	cret := xOptionsSetSize(OptionVar, ValueVar)
 	return cret
 }
@@ -212,7 +185,6 @@ var xOptionsSetString func(string, string) bool
 
 // Set @option as a string.
 func OptionsSetString(OptionVar string, ValueVar string) bool {
-
 	cret := xOptionsSetString(OptionVar, ValueVar)
 	return cret
 }
@@ -221,14 +193,13 @@ var xOptionsSetUint func(string, uint) bool
 
 // Set @option as a #guint value.
 func OptionsSetUint(OptionVar string, ValueVar uint) bool {
-
 	cret := xOptionsSetUint(OptionVar, ValueVar)
 	return cret
 }
 
 func init() {
 	core.SetPackageName("JAVASCRIPTCORE", "javascriptcoregtk-6.0")
-	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("JAVASCRIPTCORE") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -254,5 +225,4 @@ func init() {
 	core.PuregoSafeRegister(&xOptionsSetSize, libs, "jsc_options_set_size")
 	core.PuregoSafeRegister(&xOptionsSetString, libs, "jsc_options_set_string")
 	core.PuregoSafeRegister(&xOptionsSetUint, libs, "jsc_options_set_uint")
-
 }

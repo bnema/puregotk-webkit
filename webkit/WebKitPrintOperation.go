@@ -139,9 +139,7 @@ var xPrintOperationPrint func(uintptr)
 // through the File Chooser portal. This function will not work for physical
 // printers when running in a sandbox.
 func (x *PrintOperation) Print() {
-
 	xPrintOperationPrint(x.GoPointer())
-
 }
 
 var xPrintOperationRunDialog func(uintptr, uintptr) PrintOperationResponse
@@ -161,13 +159,7 @@ var xPrintOperationRunDialog func(uintptr, uintptr) PrintOperationResponse
 // webkit_print_operation_get_print_settings() and webkit_print_operation_get_page_setup()
 // after this method.
 func (x *PrintOperation) RunDialog(ParentVar *gtk.Window) PrintOperationResponse {
-
-	var ParentVarPtr uintptr
-	if ParentVar != nil {
-		ParentVarPtr = ParentVar.GoPointer()
-	}
-
-	cret := xPrintOperationRunDialog(x.GoPointer(), ParentVarPtr)
+	cret := xPrintOperationRunDialog(x.GoPointer(), ParentVar.GoPointer())
 	return cret
 }
 
@@ -178,9 +170,7 @@ var xPrintOperationSetPageSetup func(uintptr, uintptr)
 // Current page setup is used for the
 // initial values of the print dialog when webkit_print_operation_run_dialog() is called.
 func (x *PrintOperation) SetPageSetup(PageSetupVar *gtk.PageSetup) {
-
 	xPrintOperationSetPageSetup(x.GoPointer(), PageSetupVar.GoPointer())
-
 }
 
 var xPrintOperationSetPrintSettings func(uintptr, uintptr)
@@ -190,9 +180,7 @@ var xPrintOperationSetPrintSettings func(uintptr, uintptr)
 // Set the current print settings of @print_operation. Current print settings are used for
 // the initial values of the print dialog when webkit_print_operation_run_dialog() is called.
 func (x *PrintOperation) SetPrintSettings(PrintSettingsVar *gtk.PrintSettings) {
-
 	xPrintOperationSetPrintSettings(x.GoPointer(), PrintSettingsVar.GoPointer())
-
 }
 
 func (c *PrintOperation) GoPointer() uintptr {
@@ -223,7 +211,6 @@ func (x *PrintOperation) ConnectFailed(cb *func(PrintOperation, *glib.Error)) ui
 		cbFn := *cb
 
 		cbFn(fa, (*glib.Error)(ErrorVarp))
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -248,7 +235,6 @@ func (x *PrintOperation) ConnectFinished(cb *func(PrintOperation)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -259,7 +245,7 @@ func (x *PrintOperation) ConnectFinished(cb *func(PrintOperation)) uint {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -282,4 +268,8 @@ func init() {
 	core.PuregoSafeRegister(&xPrintOperationSetPageSetup, libs, "webkit_print_operation_set_page_setup")
 	core.PuregoSafeRegister(&xPrintOperationSetPrintSettings, libs, "webkit_print_operation_set_print_settings")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	PrintOperationGLibType()
 }

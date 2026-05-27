@@ -57,29 +57,7 @@ var xWebResourceGetData func(uintptr, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be called. You can then call
 // webkit_web_resource_get_data_finish() to get the result of the operation.
 func (x *WebResource) GetData(CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xWebResourceGetData(x.GoPointer(), CancellableVarPtr, CallbackVarRef, UserDataVar)
-
+	xWebResourceGetData(x.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
 var xWebResourceGetDataFinish func(uintptr, uintptr, *uint, **glib.Error) uintptr
@@ -93,7 +71,6 @@ func (x *WebResource) GetDataFinish(ResultVar gio.AsyncResult, LengthVar *uint) 
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xWebResourceGetResponse func(uintptr) uintptr
@@ -155,7 +132,6 @@ var xWebResourceGetUri func(uintptr) string
 // You can monitor the active URI by connecting to the notify::uri
 // signal of @resource.
 func (x *WebResource) GetUri() string {
-
 	cret := xWebResourceGetUri(x.GoPointer())
 	return cret
 }
@@ -196,7 +172,6 @@ func (x *WebResource) ConnectFailed(cb *func(WebResource, *glib.Error)) uint {
 		cbFn := *cb
 
 		cbFn(fa, (*glib.Error)(ErrorVarp))
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -206,7 +181,7 @@ func (x *WebResource) ConnectFailed(cb *func(WebResource, *glib.Error)) uint {
 }
 
 // This signal is emitted when a TLS error occurs during the resource load operation.
-func (x *WebResource) ConnectFailedWithTlsErrors(cb *func(WebResource, *gio.TlsCertificate, gio.TlsCertificateFlags)) uint {
+func (x *WebResource) ConnectFailedWithTlsErrors(cb *func(WebResource, uintptr, gio.TlsCertificateFlags)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "failed-with-tls-errors", cbRefPtr)
@@ -219,8 +194,7 @@ func (x *WebResource) ConnectFailedWithTlsErrors(cb *func(WebResource, *gio.TlsC
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *gio.TlsCertificate { cls := &gio.TlsCertificate{}; cls.Ptr = CertificateVarp; return cls }(), ErrorsVarp)
-
+		cbFn(fa, CertificateVarp, ErrorsVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -246,7 +220,6 @@ func (x *WebResource) ConnectFinished(cb *func(WebResource)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -261,7 +234,7 @@ func (x *WebResource) ConnectFinished(cb *func(WebResource)) uint {
 // request sent to the server due to the redirection and the
 // @redirected_response parameter containing the response
 // received by the server for the initial request.
-func (x *WebResource) ConnectSentRequest(cb *func(WebResource, *URIRequest, *URIResponse)) uint {
+func (x *WebResource) ConnectSentRequest(cb *func(WebResource, uintptr, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "sent-request", cbRefPtr)
@@ -274,8 +247,7 @@ func (x *WebResource) ConnectSentRequest(cb *func(WebResource, *URIRequest, *URI
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *URIRequest { cls := &URIRequest{}; cls.Ptr = RequestVarp; return cls }(), func() *URIResponse { cls := &URIResponse{}; cls.Ptr = RedirectedResponseVarp; return cls }())
-
+		cbFn(fa, RequestVarp, RedirectedResponseVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -286,7 +258,7 @@ func (x *WebResource) ConnectSentRequest(cb *func(WebResource, *URIRequest, *URI
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -303,4 +275,8 @@ func init() {
 	core.PuregoSafeRegister(&xWebResourceGetResponse, libs, "webkit_web_resource_get_response")
 	core.PuregoSafeRegister(&xWebResourceGetUri, libs, "webkit_web_resource_get_uri")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	WebResourceGLibType()
 }

@@ -52,14 +52,13 @@ var xAuthNegotiateSupported func() bool
 // still be added to a [class@Session], but libsoup will never attempt to
 // actually use this auth type.
 func AuthNegotiateSupported() bool {
-
 	cret := xAuthNegotiateSupported()
 	return cret
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -72,5 +71,4 @@ func init() {
 	core.PuregoSafeRegister(&xAuthNegotiateGLibType, libs, "soup_auth_negotiate_get_type")
 
 	core.PuregoSafeRegister(&xAuthNegotiateSupported, libs, "soup_auth_negotiate_supported")
-
 }

@@ -24,29 +24,28 @@ func (x *ConsoleMessage) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xConsoleMessageCopy func(uintptr) *ConsoleMessage
+var xConsoleMessageCopy func(uintptr) uintptr
 
 // Make a copy of @console_message.
 func (x *ConsoleMessage) Copy() *ConsoleMessage {
-
 	cret := xConsoleMessageCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*ConsoleMessage)(unsafe.Pointer(cret))
 }
 
 var xConsoleMessageFree func(uintptr)
 
 // Free the #WebKitConsoleMessage
 func (x *ConsoleMessage) Free() {
-
 	xConsoleMessageFree(x.GoPointer())
-
 }
 
 var xConsoleMessageGetLevel func(uintptr) ConsoleMessageLevel
 
 // Gets the log level of a #WebKitConsoleMessage
 func (x *ConsoleMessage) GetLevel() ConsoleMessageLevel {
-
 	cret := xConsoleMessageGetLevel(x.GoPointer())
 	return cret
 }
@@ -55,7 +54,6 @@ var xConsoleMessageGetLine func(uintptr) uint
 
 // Gets the line number of a #WebKitConsoleMessage
 func (x *ConsoleMessage) GetLine() uint {
-
 	cret := xConsoleMessageGetLine(x.GoPointer())
 	return cret
 }
@@ -64,7 +62,6 @@ var xConsoleMessageGetSource func(uintptr) ConsoleMessageSource
 
 // Gets the source of a #WebKitConsoleMessage
 func (x *ConsoleMessage) GetSource() ConsoleMessageSource {
-
 	cret := xConsoleMessageGetSource(x.GoPointer())
 	return cret
 }
@@ -73,7 +70,6 @@ var xConsoleMessageGetSourceId func(uintptr) string
 
 // Gets the source identifier of a #WebKitConsoleMessage
 func (x *ConsoleMessage) GetSourceId() string {
-
 	cret := xConsoleMessageGetSourceId(x.GoPointer())
 	return cret
 }
@@ -82,7 +78,6 @@ var xConsoleMessageGetText func(uintptr) string
 
 // Gets the text message of a #WebKitConsoleMessage
 func (x *ConsoleMessage) GetText() string {
-
 	cret := xConsoleMessageGetText(x.GoPointer())
 	return cret
 }
@@ -135,7 +130,7 @@ const (
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -158,5 +153,4 @@ func init() {
 	core.PuregoSafeRegister(&xConsoleMessageGetSource, libs, "webkit_console_message_get_source")
 	core.PuregoSafeRegister(&xConsoleMessageGetSourceId, libs, "webkit_console_message_get_source_id")
 	core.PuregoSafeRegister(&xConsoleMessageGetText, libs, "webkit_console_message_get_text")
-
 }

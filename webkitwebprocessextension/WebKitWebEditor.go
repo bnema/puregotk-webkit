@@ -88,7 +88,6 @@ func (x *WebEditor) ConnectSelectionChanged(cb *func(WebEditor)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -99,7 +98,7 @@ func (x *WebEditor) ConnectSelectionChanged(cb *func(WebEditor)) uint {
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -112,5 +111,4 @@ func init() {
 	core.PuregoSafeRegister(&xWebEditorGLibType, libs, "webkit_web_editor_get_type")
 
 	core.PuregoSafeRegister(&xWebEditorGetPage, libs, "webkit_web_editor_get_page")
-
 }

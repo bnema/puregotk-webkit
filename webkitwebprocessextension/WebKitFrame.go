@@ -48,7 +48,6 @@ var xFrameGetId func(uintptr) uint64
 // frame in the same web process will have the same ID; however, frames
 // in other web processes may.
 func (x *Frame) GetId() uint64 {
-
 	cret := xFrameGetId(x.GoPointer())
 	return cret
 }
@@ -90,7 +89,6 @@ var xFrameGetUri func(uintptr) string
 
 // Gets the current active URI of @frame.
 func (x *Frame) GetUri() string {
-
 	cret := xFrameGetUri(x.GoPointer())
 	return cret
 }
@@ -99,7 +97,6 @@ var xFrameIsMainFrame func(uintptr) bool
 
 // Gets whether @frame is the main frame of a #WebKitWebPage
 func (x *Frame) IsMainFrame() bool {
-
 	cret := xFrameIsMainFrame(x.GoPointer())
 	return cret
 }
@@ -117,7 +114,7 @@ func (c *Frame) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -134,5 +131,4 @@ func init() {
 	core.PuregoSafeRegister(&xFrameGetJsContextForScriptWorld, libs, "webkit_frame_get_js_context_for_script_world")
 	core.PuregoSafeRegister(&xFrameGetUri, libs, "webkit_frame_get_uri")
 	core.PuregoSafeRegister(&xFrameIsMainFrame, libs, "webkit_frame_is_main_frame")
-
 }

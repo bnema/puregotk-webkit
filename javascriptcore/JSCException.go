@@ -144,7 +144,6 @@ var xExceptionGetBacktraceString func(uintptr) string
 
 // Get a string with the exception backtrace.
 func (x *Exception) GetBacktraceString() string {
-
 	cret := xExceptionGetBacktraceString(x.GoPointer())
 	return cret
 }
@@ -153,7 +152,6 @@ var xExceptionGetColumnNumber func(uintptr) uint
 
 // Get the column number at which @exception happened.
 func (x *Exception) GetColumnNumber() uint {
-
 	cret := xExceptionGetColumnNumber(x.GoPointer())
 	return cret
 }
@@ -162,7 +160,6 @@ var xExceptionGetLineNumber func(uintptr) uint
 
 // Get the line number at which @exception happened.
 func (x *Exception) GetLineNumber() uint {
-
 	cret := xExceptionGetLineNumber(x.GoPointer())
 	return cret
 }
@@ -171,7 +168,6 @@ var xExceptionGetMessage func(uintptr) string
 
 // Get the error message of @exception.
 func (x *Exception) GetMessage() string {
-
 	cret := xExceptionGetMessage(x.GoPointer())
 	return cret
 }
@@ -180,7 +176,6 @@ var xExceptionGetName func(uintptr) string
 
 // Get the error name of @exception
 func (x *Exception) GetName() string {
-
 	cret := xExceptionGetName(x.GoPointer())
 	return cret
 }
@@ -189,7 +184,6 @@ var xExceptionGetSourceUri func(uintptr) string
 
 // Get the source URI of @exception.
 func (x *Exception) GetSourceUri() string {
-
 	cret := xExceptionGetSourceUri(x.GoPointer())
 	return cret
 }
@@ -199,7 +193,6 @@ var xExceptionReport func(uintptr) string
 // Return a report message of @exception, containing all the possible details such us
 // source URI, line, column and backtrace, and formatted to be printed.
 func (x *Exception) Report() string {
-
 	cret := xExceptionReport(x.GoPointer())
 	return cret
 }
@@ -208,7 +201,6 @@ var xExceptionToString func(uintptr) string
 
 // Get the string representation of @exception error.
 func (x *Exception) ToString() string {
-
 	cret := xExceptionToString(x.GoPointer())
 	return cret
 }
@@ -226,7 +218,7 @@ func (c *Exception) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("JAVASCRIPTCORE", "javascriptcoregtk-6.0")
-	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("JAVASCRIPTCORE") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -253,5 +245,4 @@ func init() {
 	core.PuregoSafeRegister(&xExceptionGetSourceUri, libs, "jsc_exception_get_source_uri")
 	core.PuregoSafeRegister(&xExceptionReport, libs, "jsc_exception_report")
 	core.PuregoSafeRegister(&xExceptionToString, libs, "jsc_exception_to_string")
-
 }

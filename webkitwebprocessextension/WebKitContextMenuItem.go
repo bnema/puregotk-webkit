@@ -172,7 +172,6 @@ var xContextMenuItemGetStockAction func(uintptr) ContextMenuAction
 // returned. If the #WebKitContextMenuItem is a separator %WEBKIT_CONTEXT_MENU_ACTION_NO_ACTION
 // will be returned.
 func (x *ContextMenuItem) GetStockAction() ContextMenuAction {
-
 	cret := xContextMenuItemGetStockAction(x.GoPointer())
 	return cret
 }
@@ -198,7 +197,6 @@ var xContextMenuItemIsSeparator func(uintptr) bool
 
 // Checks whether @item is a separator.
 func (x *ContextMenuItem) IsSeparator() bool {
-
 	cret := xContextMenuItemIsSeparator(x.GoPointer())
 	return cret
 }
@@ -210,14 +208,7 @@ var xContextMenuItemSetSubmenu func(uintptr, uintptr)
 // If @submenu is %NULL the current
 // submenu of @item is removed.
 func (x *ContextMenuItem) SetSubmenu(SubmenuVar *ContextMenu) {
-
-	var SubmenuVarPtr uintptr
-	if SubmenuVar != nil {
-		SubmenuVarPtr = SubmenuVar.GoPointer()
-	}
-
-	xContextMenuItemSetSubmenu(x.GoPointer(), SubmenuVarPtr)
-
+	xContextMenuItemSetSubmenu(x.GoPointer(), SubmenuVar.GoPointer())
 }
 
 func (c *ContextMenuItem) GoPointer() uintptr {
@@ -233,7 +224,7 @@ func (c *ContextMenuItem) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -256,5 +247,4 @@ func init() {
 	core.PuregoSafeRegister(&xContextMenuItemGetSubmenu, libs, "webkit_context_menu_item_get_submenu")
 	core.PuregoSafeRegister(&xContextMenuItemIsSeparator, libs, "webkit_context_menu_item_is_separator")
 	core.PuregoSafeRegister(&xContextMenuItemSetSubmenu, libs, "webkit_context_menu_item_set_submenu")
-
 }

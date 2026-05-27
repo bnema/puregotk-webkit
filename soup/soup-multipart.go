@@ -37,7 +37,7 @@ func (x *Multipart) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewMultipart func(string) *Multipart
+var xNewMultipart func(string) uintptr
 
 // Creates a new empty #SoupMultipart with a randomly-generated
 // boundary string.
@@ -46,18 +46,22 @@ var xNewMultipart func(string) *Multipart
 //
 // See also: [ctor@Message.new_from_multipart].
 func NewMultipart(MimeTypeVar string) *Multipart {
-
 	cret := xNewMultipart(MimeTypeVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*Multipart)(unsafe.Pointer(cret))
 }
 
-var xNewMultipartFromMessage func(*MessageHeaders, *glib.Bytes) *Multipart
+var xNewMultipartFromMessage func(*MessageHeaders, *glib.Bytes) uintptr
 
 // Parses @headers and @body to form a new #SoupMultipart
 func NewMultipartFromMessage(HeadersVar *MessageHeaders, BodyVar *glib.Bytes) *Multipart {
-
 	cret := xNewMultipartFromMessage(HeadersVar, BodyVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*Multipart)(unsafe.Pointer(cret))
 }
 
 var xMultipartAppendFormFile func(uintptr, string, uintptr, uintptr, *glib.Bytes)
@@ -66,7 +70,6 @@ var xMultipartAppendFormFile func(uintptr, string, uintptr, uintptr, *glib.Bytes
 //
 // Uses "Content-Disposition: form-data", as per the HTML forms specification.
 func (x *Multipart) AppendFormFile(ControlNameVar string, FilenameVar *string, ContentTypeVar *string, BodyVar *glib.Bytes) {
-
 	FilenameVarPtr := core.GStrdupNullable(FilenameVar)
 	defer core.GFreeNullable(FilenameVarPtr)
 
@@ -74,7 +77,6 @@ func (x *Multipart) AppendFormFile(ControlNameVar string, FilenameVar *string, C
 	defer core.GFreeNullable(ContentTypeVarPtr)
 
 	xMultipartAppendFormFile(x.GoPointer(), ControlNameVar, FilenameVarPtr, ContentTypeVarPtr, BodyVar)
-
 }
 
 var xMultipartAppendFormString func(uintptr, string, string)
@@ -83,9 +85,7 @@ var xMultipartAppendFormString func(uintptr, string, string)
 //
 // Uses "Content-Disposition: form-data", as per the HTML forms specification.
 func (x *Multipart) AppendFormString(ControlNameVar string, DataVar string) {
-
 	xMultipartAppendFormString(x.GoPointer(), ControlNameVar, DataVar)
-
 }
 
 var xMultipartAppendPart func(uintptr, *MessageHeaders, *glib.Bytes)
@@ -96,25 +96,20 @@ var xMultipartAppendPart func(uintptr, *MessageHeaders, *glib.Bytes)
 // you should free your copies if you are not using them for anything
 // else.)
 func (x *Multipart) AppendPart(HeadersVar *MessageHeaders, BodyVar *glib.Bytes) {
-
 	xMultipartAppendPart(x.GoPointer(), HeadersVar, BodyVar)
-
 }
 
 var xMultipartFree func(uintptr)
 
 // Frees @multipart.
 func (x *Multipart) Free() {
-
 	xMultipartFree(x.GoPointer())
-
 }
 
 var xMultipartGetLength func(uintptr) int
 
 // Gets the number of body parts in @multipart.
 func (x *Multipart) GetLength() int {
-
 	cret := xMultipartGetLength(x.GoPointer())
 	return cret
 }
@@ -123,7 +118,6 @@ var xMultipartGetPart func(uintptr, int, **MessageHeaders, **glib.Bytes) bool
 
 // Gets the indicated body part from @multipart.
 func (x *Multipart) GetPart(PartVar int, HeadersVar **MessageHeaders, BodyVar **glib.Bytes) bool {
-
 	cret := xMultipartGetPart(x.GoPointer(), PartVar, HeadersVar, BodyVar)
 	return cret
 }
@@ -132,14 +126,12 @@ var xMultipartToMessage func(uintptr, *MessageHeaders, **glib.Bytes)
 
 // Serializes @multipart to @dest_headers and @dest_body.
 func (x *Multipart) ToMessage(DestHeadersVar *MessageHeaders, DestBodyVar **glib.Bytes) {
-
 	xMultipartToMessage(x.GoPointer(), DestHeadersVar, DestBodyVar)
-
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -161,5 +153,4 @@ func init() {
 	core.PuregoSafeRegister(&xMultipartGetLength, libs, "soup_multipart_get_length")
 	core.PuregoSafeRegister(&xMultipartGetPart, libs, "soup_multipart_get_part")
 	core.PuregoSafeRegister(&xMultipartToMessage, libs, "soup_multipart_to_message")
-
 }

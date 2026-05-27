@@ -40,49 +40,47 @@ func (x *GeolocationPosition) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewGeolocationPosition func(float64, float64, float64) *GeolocationPosition
+var xNewGeolocationPosition func(float64, float64, float64) uintptr
 
 // Create a new #WebKitGeolocationPosition.
 func NewGeolocationPosition(LatitudeVar float64, LongitudeVar float64, AccuracyVar float64) *GeolocationPosition {
-
 	cret := xNewGeolocationPosition(LatitudeVar, LongitudeVar, AccuracyVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*GeolocationPosition)(unsafe.Pointer(cret))
 }
 
-var xGeolocationPositionCopy func(uintptr) *GeolocationPosition
+var xGeolocationPositionCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitGeolocationPosition.
 func (x *GeolocationPosition) Copy() *GeolocationPosition {
-
 	cret := xGeolocationPositionCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*GeolocationPosition)(unsafe.Pointer(cret))
 }
 
 var xGeolocationPositionFree func(uintptr)
 
 // Free the #WebKitGeolocationPosition
 func (x *GeolocationPosition) Free() {
-
 	xGeolocationPositionFree(x.GoPointer())
-
 }
 
 var xGeolocationPositionSetAltitude func(uintptr, float64)
 
 // Set the @position altitude.
 func (x *GeolocationPosition) SetAltitude(AltitudeVar float64) {
-
 	xGeolocationPositionSetAltitude(x.GoPointer(), AltitudeVar)
-
 }
 
 var xGeolocationPositionSetAltitudeAccuracy func(uintptr, float64)
 
 // Set the accuracy of @position altitude.
 func (x *GeolocationPosition) SetAltitudeAccuracy(AltitudeAccuracyVar float64) {
-
 	xGeolocationPositionSetAltitudeAccuracy(x.GoPointer(), AltitudeAccuracyVar)
-
 }
 
 var xGeolocationPositionSetHeading func(uintptr, float64)
@@ -92,18 +90,14 @@ var xGeolocationPositionSetHeading func(uintptr, float64)
 // Set the @position heading, as a positive angle between the direction of movement and the North
 // direction, in clockwise direction.
 func (x *GeolocationPosition) SetHeading(HeadingVar float64) {
-
 	xGeolocationPositionSetHeading(x.GoPointer(), HeadingVar)
-
 }
 
 var xGeolocationPositionSetSpeed func(uintptr, float64)
 
 // Set the @position speed.
 func (x *GeolocationPosition) SetSpeed(SpeedVar float64) {
-
 	xGeolocationPositionSetSpeed(x.GoPointer(), SpeedVar)
-
 }
 
 var xGeolocationPositionSetTimestamp func(uintptr, uint64)
@@ -112,9 +106,7 @@ var xGeolocationPositionSetTimestamp func(uintptr, uint64)
 //
 // By default it's the time when the @position was created.
 func (x *GeolocationPosition) SetTimestamp(TimestampVar uint64) {
-
 	xGeolocationPositionSetTimestamp(x.GoPointer(), TimestampVar)
-
 }
 
 // Geolocation manager.
@@ -145,16 +137,13 @@ var xGeolocationManagerFailed func(uintptr, string)
 
 // Notify @manager that determining the position failed.
 func (x *GeolocationManager) Failed(ErrorMessageVar string) {
-
 	xGeolocationManagerFailed(x.GoPointer(), ErrorMessageVar)
-
 }
 
 var xGeolocationManagerGetEnableHighAccuracy func(uintptr) bool
 
 // Get whether high accuracy is enabled.
 func (x *GeolocationManager) GetEnableHighAccuracy() bool {
-
 	cret := xGeolocationManagerGetEnableHighAccuracy(x.GoPointer())
 	return cret
 }
@@ -163,9 +152,7 @@ var xGeolocationManagerUpdatePosition func(uintptr, *GeolocationPosition)
 
 // Notify @manager that position has been updated to @position.
 func (x *GeolocationManager) UpdatePosition(PositionVar *GeolocationPosition) {
-
 	xGeolocationManagerUpdatePosition(x.GoPointer(), PositionVar)
-
 }
 
 func (c *GeolocationManager) GoPointer() uintptr {
@@ -211,7 +198,6 @@ func (x *GeolocationManager) ConnectStart(cb *func(GeolocationManager) bool) uin
 		cbFn := *cb
 
 		return cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -236,7 +222,6 @@ func (x *GeolocationManager) ConnectStop(cb *func(GeolocationManager)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -247,7 +232,7 @@ func (x *GeolocationManager) ConnectStop(cb *func(GeolocationManager)) uint {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -275,4 +260,8 @@ func init() {
 	core.PuregoSafeRegister(&xGeolocationManagerGetEnableHighAccuracy, libs, "webkit_geolocation_manager_get_enable_high_accuracy")
 	core.PuregoSafeRegister(&xGeolocationManagerUpdatePosition, libs, "webkit_geolocation_manager_update_position")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	GeolocationManagerGLibType()
 }

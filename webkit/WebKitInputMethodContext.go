@@ -843,31 +843,33 @@ func (x *InputMethodUnderline) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
-var xNewInputMethodUnderline func(uint, uint) *InputMethodUnderline
+var xNewInputMethodUnderline func(uint, uint) uintptr
 
 // Create a new #WebKitInputMethodUnderline for the given range in preedit string
 func NewInputMethodUnderline(StartOffsetVar uint, EndOffsetVar uint) *InputMethodUnderline {
-
 	cret := xNewInputMethodUnderline(StartOffsetVar, EndOffsetVar)
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*InputMethodUnderline)(unsafe.Pointer(cret))
 }
 
-var xInputMethodUnderlineCopy func(uintptr) *InputMethodUnderline
+var xInputMethodUnderlineCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitInputMethodUnderline.
 func (x *InputMethodUnderline) Copy() *InputMethodUnderline {
-
 	cret := xInputMethodUnderlineCopy(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*InputMethodUnderline)(unsafe.Pointer(cret))
 }
 
 var xInputMethodUnderlineFree func(uintptr)
 
 // Free the #WebKitInputMethodUnderline.
 func (x *InputMethodUnderline) Free() {
-
 	xInputMethodUnderlineFree(x.GoPointer())
-
 }
 
 var xInputMethodUnderlineSetColor func(uintptr, *gdk.RGBA)
@@ -877,9 +879,7 @@ var xInputMethodUnderlineSetColor func(uintptr, *gdk.RGBA)
 // If @rgba is %NULL the foreground text color will be used
 // for the underline too.
 func (x *InputMethodUnderline) SetColor(RgbaVar *gdk.RGBA) {
-
 	xInputMethodUnderlineSetColor(x.GoPointer(), RgbaVar)
-
 }
 
 // Enum values used to describe hints that might be taken into account by input methods.
@@ -969,7 +969,6 @@ var xInputMethodContextFilterKeyEvent func(uintptr, uintptr) bool
 // If %TRUE is returned, then no further processing should be
 // done for the key event.
 func (x *InputMethodContext) FilterKeyEvent(KeyEventVar *gdk.Event) bool {
-
 	cret := xInputMethodContextFilterKeyEvent(x.GoPointer(), KeyEventVar.GoPointer())
 	return cret
 }
@@ -978,7 +977,6 @@ var xInputMethodContextGetInputHints func(uintptr) InputHints
 
 // Get the value of the #WebKitInputMethodContext:input-hints property.
 func (x *InputMethodContext) GetInputHints() InputHints {
-
 	cret := xInputMethodContextGetInputHints(x.GoPointer())
 	return cret
 }
@@ -987,7 +985,6 @@ var xInputMethodContextGetInputPurpose func(uintptr) InputPurpose
 
 // Get the value of the #WebKitInputMethodContext:input-purpose property.
 func (x *InputMethodContext) GetInputPurpose() InputPurpose {
-
 	cret := xInputMethodContextGetInputPurpose(x.GoPointer())
 	return cret
 }
@@ -999,36 +996,28 @@ var xInputMethodContextGetPreedit func(uintptr, *string, **glib.List, *uint)
 // Get the current pre-edit string for the @context, and a list of WebKitInputMethodUnderline to apply to the string.
 // The string will be displayed inserted at @cursor_offset.
 func (x *InputMethodContext) GetPreedit(TextVar *string, UnderlinesVar **glib.List, CursorOffsetVar *uint) {
-
 	xInputMethodContextGetPreedit(x.GoPointer(), TextVar, UnderlinesVar, CursorOffsetVar)
-
 }
 
 var xInputMethodContextNotifyCursorArea func(uintptr, int, int, int, int)
 
 // Notify @context that cursor area changed in input associated.
 func (x *InputMethodContext) NotifyCursorArea(XVar int, YVar int, WidthVar int, HeightVar int) {
-
 	xInputMethodContextNotifyCursorArea(x.GoPointer(), XVar, YVar, WidthVar, HeightVar)
-
 }
 
 var xInputMethodContextNotifyFocusIn func(uintptr)
 
 // Notify @context that input associated has gained focus.
 func (x *InputMethodContext) NotifyFocusIn() {
-
 	xInputMethodContextNotifyFocusIn(x.GoPointer())
-
 }
 
 var xInputMethodContextNotifyFocusOut func(uintptr)
 
 // Notify @context that input associated has lost focus.
 func (x *InputMethodContext) NotifyFocusOut() {
-
 	xInputMethodContextNotifyFocusOut(x.GoPointer())
-
 }
 
 var xInputMethodContextNotifySurrounding func(uintptr, string, int, uint, uint)
@@ -1037,9 +1026,7 @@ var xInputMethodContextNotifySurrounding func(uintptr, string, int, uint, uint)
 //
 // If there's no selection @selection_index is the same as @cursor_index.
 func (x *InputMethodContext) NotifySurrounding(TextVar string, LengthVar int, CursorIndexVar uint, SelectionIndexVar uint) {
-
 	xInputMethodContextNotifySurrounding(x.GoPointer(), TextVar, LengthVar, CursorIndexVar, SelectionIndexVar)
-
 }
 
 var xInputMethodContextReset func(uintptr)
@@ -1048,36 +1035,28 @@ var xInputMethodContextReset func(uintptr)
 //
 // This will typically cause the input to clear the preedit state.
 func (x *InputMethodContext) Reset() {
-
 	xInputMethodContextReset(x.GoPointer())
-
 }
 
 var xInputMethodContextSetEnablePreedit func(uintptr, bool)
 
 // Set whether @context should enable preedit to display feedback.
 func (x *InputMethodContext) SetEnablePreedit(EnabledVar bool) {
-
 	xInputMethodContextSetEnablePreedit(x.GoPointer(), EnabledVar)
-
 }
 
 var xInputMethodContextSetInputHints func(uintptr, InputHints)
 
 // Set the value of the #WebKitInputMethodContext:input-hints property.
 func (x *InputMethodContext) SetInputHints(HintsVar InputHints) {
-
 	xInputMethodContextSetInputHints(x.GoPointer(), HintsVar)
-
 }
 
 var xInputMethodContextSetInputPurpose func(uintptr, InputPurpose)
 
 // Set the value of the #WebKitInputMethodContext:input-purpose property.
 func (x *InputMethodContext) SetInputPurpose(PurposeVar InputPurpose) {
-
 	xInputMethodContextSetInputPurpose(x.GoPointer(), PurposeVar)
-
 }
 
 func (c *InputMethodContext) GoPointer() uintptr {
@@ -1102,13 +1081,12 @@ func (x *InputMethodContext) ConnectCommitted(cb *func(InputMethodContext, strin
 		return handlerID
 	}
 
-	fcb := func(clsPtr uintptr, TextVarp uintptr) {
+	fcb := func(clsPtr uintptr, TextVarp string) {
 		fa := InputMethodContext{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, core.GoString(TextVarp))
-
+		cbFn(fa, TextVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1133,7 +1111,6 @@ func (x *InputMethodContext) ConnectDeleteSurrounding(cb *func(InputMethodContex
 		cbFn := *cb
 
 		cbFn(fa, OffsetVarp, NCharsVarp)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1159,7 +1136,6 @@ func (x *InputMethodContext) ConnectPreeditChanged(cb *func(InputMethodContext))
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1183,7 +1159,6 @@ func (x *InputMethodContext) ConnectPreeditFinished(cb *func(InputMethodContext)
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1207,7 +1182,6 @@ func (x *InputMethodContext) ConnectPreeditStarted(cb *func(InputMethodContext))
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -1218,7 +1192,7 @@ func (x *InputMethodContext) ConnectPreeditStarted(cb *func(InputMethodContext))
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -1255,4 +1229,8 @@ func init() {
 	core.PuregoSafeRegister(&xInputMethodContextSetInputHints, libs, "webkit_input_method_context_set_input_hints")
 	core.PuregoSafeRegister(&xInputMethodContextSetInputPurpose, libs, "webkit_input_method_context_set_input_purpose")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	InputMethodContextGLibType()
 }

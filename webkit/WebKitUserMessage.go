@@ -42,7 +42,6 @@ var xUserMessageErrorQuark func() glib.Quark
 
 // Gets the quark for the domain of user message errors.
 func UserMessageErrorQuark() glib.Quark {
-
 	cret := xUserMessageErrorQuark()
 	return cret
 }
@@ -94,12 +93,7 @@ var xNewUserMessageWithFdList func(string, *glib.Variant, uintptr) uintptr
 func NewUserMessageWithFdList(NameVar string, ParametersVar *glib.Variant, FdListVar *gio.UnixFDList) *UserMessage {
 	var cls *UserMessage
 
-	var FdListVarPtr uintptr
-	if FdListVar != nil {
-		FdListVarPtr = FdListVar.GoPointer()
-	}
-
-	cret := xNewUserMessageWithFdList(NameVar, ParametersVar, FdListVarPtr)
+	cret := xNewUserMessageWithFdList(NameVar, ParametersVar, FdListVar.GoPointer())
 
 	if cret == 0 {
 		return nil
@@ -131,18 +125,19 @@ var xUserMessageGetName func(uintptr) string
 
 // Get the @message name.
 func (x *UserMessage) GetName() string {
-
 	cret := xUserMessageGetName(x.GoPointer())
 	return cret
 }
 
-var xUserMessageGetParameters func(uintptr) *glib.Variant
+var xUserMessageGetParameters func(uintptr) uintptr
 
 // Get the @message parameters.
 func (x *UserMessage) GetParameters() *glib.Variant {
-
 	cret := xUserMessageGetParameters(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Variant)(unsafe.Pointer(cret))
 }
 
 var xUserMessageSendReply func(uintptr, uintptr)
@@ -153,9 +148,7 @@ var xUserMessageSendReply func(uintptr, uintptr)
 // You can only send a reply to a #WebKitUserMessage that has been
 // received.
 func (x *UserMessage) SendReply(ReplyVar *UserMessage) {
-
 	xUserMessageSendReply(x.GoPointer(), ReplyVar.GoPointer())
-
 }
 
 func (c *UserMessage) GoPointer() uintptr {
@@ -209,7 +202,7 @@ func (x *UserMessage) GetPropertyParameters() uintptr {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -233,4 +226,8 @@ func init() {
 	core.PuregoSafeRegister(&xUserMessageGetParameters, libs, "webkit_user_message_get_parameters")
 	core.PuregoSafeRegister(&xUserMessageSendReply, libs, "webkit_user_message_send_reply")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	UserMessageGLibType()
 }

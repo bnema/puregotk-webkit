@@ -100,9 +100,7 @@ var xContextMenuAppend func(uintptr, uintptr)
 
 // Adds @item at the end of the @menu.
 func (x *ContextMenu) Append(ItemVar *ContextMenuItem) {
-
 	xContextMenuAppend(x.GoPointer(), ItemVar.GoPointer())
-
 }
 
 var xContextMenuFirst func(uintptr) uintptr
@@ -171,34 +169,37 @@ func (x *ContextMenu) GetItemAtPosition(PositionVar uint) *ContextMenuItem {
 	return cls
 }
 
-var xContextMenuGetItems func(uintptr) *glib.List
+var xContextMenuGetItems func(uintptr) uintptr
 
 // Returns the item list of @menu.
 func (x *ContextMenu) GetItems() *glib.List {
-
 	cret := xContextMenuGetItems(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.List)(unsafe.Pointer(cret))
 }
 
 var xContextMenuGetNItems func(uintptr) uint
 
 // Gets the length of the @menu.
 func (x *ContextMenu) GetNItems() uint {
-
 	cret := xContextMenuGetNItems(x.GoPointer())
 	return cret
 }
 
-var xContextMenuGetUserData func(uintptr) *glib.Variant
+var xContextMenuGetUserData func(uintptr) uintptr
 
 // Gets the user data of @menu.
 //
 // This function can be used from the UI Process to get user data previously set
 // from the Web Process with webkit_context_menu_set_user_data().
 func (x *ContextMenu) GetUserData() *glib.Variant {
-
 	cret := xContextMenuGetUserData(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*glib.Variant)(unsafe.Pointer(cret))
 }
 
 var xContextMenuInsert func(uintptr, uintptr, int)
@@ -209,9 +210,7 @@ var xContextMenuInsert func(uintptr, uintptr, int)
 // in the #WebKitContextMenu, the item is added on to the end of
 // the @menu. The first position is 0.
 func (x *ContextMenu) Insert(ItemVar *ContextMenuItem, PositionVar int) {
-
 	xContextMenuInsert(x.GoPointer(), ItemVar.GoPointer(), PositionVar)
-
 }
 
 var xContextMenuLast func(uintptr) uintptr
@@ -240,18 +239,14 @@ var xContextMenuMoveItem func(uintptr, uintptr, int)
 // the @menu.
 // The first position is 0.
 func (x *ContextMenu) MoveItem(ItemVar *ContextMenuItem, PositionVar int) {
-
 	xContextMenuMoveItem(x.GoPointer(), ItemVar.GoPointer(), PositionVar)
-
 }
 
 var xContextMenuPrepend func(uintptr, uintptr)
 
 // Adds @item at the beginning of the @menu.
 func (x *ContextMenu) Prepend(ItemVar *ContextMenuItem) {
-
 	xContextMenuPrepend(x.GoPointer(), ItemVar.GoPointer())
-
 }
 
 var xContextMenuRemove func(uintptr, uintptr)
@@ -260,18 +255,14 @@ var xContextMenuRemove func(uintptr, uintptr)
 //
 // See also webkit_context_menu_remove_all() to remove all items.
 func (x *ContextMenu) Remove(ItemVar *ContextMenuItem) {
-
 	xContextMenuRemove(x.GoPointer(), ItemVar.GoPointer())
-
 }
 
 var xContextMenuRemoveAll func(uintptr)
 
 // Removes all items of the @menu.
 func (x *ContextMenu) RemoveAll() {
-
 	xContextMenuRemoveAll(x.GoPointer())
-
 }
 
 var xContextMenuSetUserData func(uintptr, *glib.Variant)
@@ -282,9 +273,7 @@ var xContextMenuSetUserData func(uintptr, *glib.Variant)
 // that can be retrieved from the UI Process using webkit_context_menu_get_user_data().
 // If the @user_data #GVariant is floating, it is consumed.
 func (x *ContextMenu) SetUserData(UserDataVar *glib.Variant) {
-
 	xContextMenuSetUserData(x.GoPointer(), UserDataVar)
-
 }
 
 func (c *ContextMenu) GoPointer() uintptr {
@@ -300,7 +289,7 @@ func (c *ContextMenu) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
-	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -329,5 +318,4 @@ func init() {
 	core.PuregoSafeRegister(&xContextMenuRemove, libs, "webkit_context_menu_remove")
 	core.PuregoSafeRegister(&xContextMenuRemoveAll, libs, "webkit_context_menu_remove_all")
 	core.PuregoSafeRegister(&xContextMenuSetUserData, libs, "webkit_context_menu_set_user_data")
-
 }

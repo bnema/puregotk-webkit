@@ -99,7 +99,6 @@ func (x *WeakValue) ConnectCleared(cb *func(WeakValue)) uint {
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -110,7 +109,7 @@ func (x *WeakValue) ConnectCleared(cb *func(WeakValue)) uint {
 
 func init() {
 	core.SetPackageName("JAVASCRIPTCORE", "javascriptcoregtk-6.0")
-	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("JAVASCRIPTCORE") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -125,5 +124,4 @@ func init() {
 	core.PuregoSafeRegister(&xNewWeakValue, libs, "jsc_weak_value_new")
 
 	core.PuregoSafeRegister(&xWeakValueGetValue, libs, "jsc_weak_value_get_value")
-
 }

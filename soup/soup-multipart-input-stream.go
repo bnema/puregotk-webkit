@@ -70,7 +70,7 @@ func NewMultipartInputStream(MsgVar *Message, BaseStreamVar *gio.InputStream) *M
 	return cls
 }
 
-var xMultipartInputStreamGetHeaders func(uintptr) *MessageHeaders
+var xMultipartInputStreamGetHeaders func(uintptr) uintptr
 
 // Obtains the headers for the part currently being processed.
 //
@@ -82,9 +82,11 @@ var xMultipartInputStreamGetHeaders func(uintptr) *MessageHeaders
 // Note that if a part had no headers at all an empty [struct@MessageHeaders]
 // will be returned.
 func (x *MultipartInputStream) GetHeaders() *MessageHeaders {
-
 	cret := xMultipartInputStreamGetHeaders(x.GoPointer())
-	return cret
+	if cret == 0 {
+		return nil
+	}
+	return (*MessageHeaders)(unsafe.Pointer(cret))
 }
 
 var xMultipartInputStreamNextPart func(uintptr, uintptr, **glib.Error) uintptr
@@ -107,12 +109,7 @@ func (x *MultipartInputStream) NextPart(CancellableVar *gio.Cancellable) (*gio.I
 	var cls *gio.InputStream
 	var cerr *glib.Error
 
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	cret := xMultipartInputStreamNextPart(x.GoPointer(), CancellableVarPtr, &cerr)
+	cret := xMultipartInputStreamNextPart(x.GoPointer(), CancellableVar.GoPointer(), &cerr)
 
 	if cret == 0 {
 		return nil, cerr
@@ -123,7 +120,6 @@ func (x *MultipartInputStream) NextPart(CancellableVar *gio.Cancellable) (*gio.I
 		return cls, nil
 	}
 	return cls, cerr
-
 }
 
 var xMultipartInputStreamNextPartAsync func(uintptr, int, uintptr, uintptr, uintptr)
@@ -132,29 +128,7 @@ var xMultipartInputStreamNextPartAsync func(uintptr, int, uintptr, uintptr, uint
 //
 // See [method@MultipartInputStream.next_part] for details on the workflow.
 func (x *MultipartInputStream) NextPartAsync(IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, DataVar uintptr) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr, arg2 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1, arg2)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	xMultipartInputStreamNextPartAsync(x.GoPointer(), IoPriorityVar, CancellableVarPtr, CallbackVarRef, DataVar)
-
+	xMultipartInputStreamNextPartAsync(x.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), DataVar)
 }
 
 var xMultipartInputStreamNextPartFinish func(uintptr, uintptr, **glib.Error) uintptr
@@ -175,7 +149,6 @@ func (x *MultipartInputStream) NextPartFinish(ResultVar gio.AsyncResult) (*gio.I
 		return cls, nil
 	}
 	return cls, cerr
-
 }
 
 func (c *MultipartInputStream) GoPointer() uintptr {
@@ -197,7 +170,6 @@ func (c *MultipartInputStream) SetGoPointer(ptr uintptr) {
 // For any given stream, the value returned by this method is constant;
 // a stream cannot switch from pollable to non-pollable or vice versa.
 func (x *MultipartInputStream) CanPoll() bool {
-
 	cret := gio.XGPollableInputStreamCanPoll(x.GoPointer())
 	return cret
 }
@@ -214,13 +186,7 @@ func (x *MultipartInputStream) CanPoll() bool {
 // The behaviour of this method is undefined if
 // g_pollable_input_stream_can_poll() returns %FALSE for @stream.
 func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) *glib.Source {
-
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	cret := gio.XGPollableInputStreamCreateSource(x.GoPointer(), CancellableVarPtr)
+	cret := gio.XGPollableInputStreamCreateSource(x.GoPointer(), CancellableVar.GoPointer())
 	if cret == 0 {
 		return nil
 	}
@@ -239,7 +205,6 @@ func (x *MultipartInputStream) CreateSource(CancellableVar *gio.Cancellable) *gl
 // The behaviour of this method is undefined if
 // g_pollable_input_stream_can_poll() returns %FALSE for @stream.
 func (x *MultipartInputStream) IsReadable() bool {
-
 	cret := gio.XGPollableInputStreamIsReadable(x.GoPointer())
 	return cret
 }
@@ -261,22 +226,16 @@ func (x *MultipartInputStream) IsReadable() bool {
 func (x *MultipartInputStream) ReadNonblocking(BufferVar *[]byte, CountVar uint, CancellableVar *gio.Cancellable) (int, error) {
 	var cerr *glib.Error
 
-	var CancellableVarPtr uintptr
-	if CancellableVar != nil {
-		CancellableVarPtr = CancellableVar.GoPointer()
-	}
-
-	cret := gio.XGPollableInputStreamReadNonblocking(x.GoPointer(), BufferVar, CountVar, CancellableVarPtr, &cerr)
+	cret := gio.XGPollableInputStreamReadNonblocking(x.GoPointer(), BufferVar, CountVar, CancellableVar.GoPointer(), &cerr)
 	if cerr == nil {
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -294,5 +253,4 @@ func init() {
 	core.PuregoSafeRegister(&xMultipartInputStreamNextPart, libs, "soup_multipart_input_stream_next_part")
 	core.PuregoSafeRegister(&xMultipartInputStreamNextPartAsync, libs, "soup_multipart_input_stream_next_part_async")
 	core.PuregoSafeRegister(&xMultipartInputStreamNextPartFinish, libs, "soup_multipart_input_stream_next_part_finish")
-
 }

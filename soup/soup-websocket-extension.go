@@ -128,8 +128,12 @@ func (x *WebsocketExtensionClass) OverrideProcessOutgoingMessage(cb func(*Websoc
 	if cb == nil {
 		x.xProcessOutgoingMessage = 0
 	} else {
-		x.xProcessOutgoingMessage = purego.NewCallback(func(ExtensionVarp uintptr, HeaderVarp *byte, PayloadVarp *glib.Bytes) *glib.Bytes {
-			return cb(WebsocketExtensionNewFromInternalPtr(ExtensionVarp), HeaderVarp, PayloadVarp)
+		x.xProcessOutgoingMessage = purego.NewCallback(func(ExtensionVarp uintptr, HeaderVarp *byte, PayloadVarp *glib.Bytes) uintptr {
+			ret := cb(WebsocketExtensionNewFromInternalPtr(ExtensionVarp), HeaderVarp, PayloadVarp)
+			if ret == nil {
+				return 0
+			}
+			return uintptr(unsafe.Pointer(ret))
 		})
 	}
 }
@@ -142,10 +146,14 @@ func (x *WebsocketExtensionClass) GetProcessOutgoingMessage() func(*WebsocketExt
 	if x.xProcessOutgoingMessage == 0 {
 		return nil
 	}
-	var rawCallback func(ExtensionVarp uintptr, HeaderVarp *byte, PayloadVarp *glib.Bytes) *glib.Bytes
+	var rawCallback func(ExtensionVarp uintptr, HeaderVarp *byte, PayloadVarp *glib.Bytes) uintptr
 	purego.RegisterFunc(&rawCallback, x.xProcessOutgoingMessage)
 	return func(ExtensionVar *WebsocketExtension, HeaderVar *byte, PayloadVar *glib.Bytes) *glib.Bytes {
-		return rawCallback(ExtensionVar.GoPointer(), HeaderVar, PayloadVar)
+		rawRet := rawCallback(ExtensionVar.GoPointer(), HeaderVar, PayloadVar)
+		if rawRet == 0 {
+			return nil
+		}
+		return (*glib.Bytes)(unsafe.Pointer(rawRet))
 	}
 }
 
@@ -157,8 +165,12 @@ func (x *WebsocketExtensionClass) OverrideProcessIncomingMessage(cb func(*Websoc
 	if cb == nil {
 		x.xProcessIncomingMessage = 0
 	} else {
-		x.xProcessIncomingMessage = purego.NewCallback(func(ExtensionVarp uintptr, HeaderVarp *byte, PayloadVarp *glib.Bytes) *glib.Bytes {
-			return cb(WebsocketExtensionNewFromInternalPtr(ExtensionVarp), HeaderVarp, PayloadVarp)
+		x.xProcessIncomingMessage = purego.NewCallback(func(ExtensionVarp uintptr, HeaderVarp *byte, PayloadVarp *glib.Bytes) uintptr {
+			ret := cb(WebsocketExtensionNewFromInternalPtr(ExtensionVarp), HeaderVarp, PayloadVarp)
+			if ret == nil {
+				return 0
+			}
+			return uintptr(unsafe.Pointer(ret))
 		})
 	}
 }
@@ -171,10 +183,14 @@ func (x *WebsocketExtensionClass) GetProcessIncomingMessage() func(*WebsocketExt
 	if x.xProcessIncomingMessage == 0 {
 		return nil
 	}
-	var rawCallback func(ExtensionVarp uintptr, HeaderVarp *byte, PayloadVarp *glib.Bytes) *glib.Bytes
+	var rawCallback func(ExtensionVarp uintptr, HeaderVarp *byte, PayloadVarp *glib.Bytes) uintptr
 	purego.RegisterFunc(&rawCallback, x.xProcessIncomingMessage)
 	return func(ExtensionVar *WebsocketExtension, HeaderVar *byte, PayloadVar *glib.Bytes) *glib.Bytes {
-		return rawCallback(ExtensionVar.GoPointer(), HeaderVar, PayloadVar)
+		rawRet := rawCallback(ExtensionVar.GoPointer(), HeaderVar, PayloadVar)
+		if rawRet == 0 {
+			return nil
+		}
+		return (*glib.Bytes)(unsafe.Pointer(rawRet))
 	}
 }
 
@@ -208,7 +224,6 @@ func (x *WebsocketExtension) Configure(ConnectionTypeVar WebsocketConnectionType
 		return cret, nil
 	}
 	return cret, cerr
-
 }
 
 var xWebsocketExtensionGetRequestParams func(uintptr) string
@@ -218,7 +233,6 @@ var xWebsocketExtensionGetRequestParams func(uintptr) string
 // If the extension doesn't include any parameter in the request, this function
 // returns %NULL.
 func (x *WebsocketExtension) GetRequestParams() string {
-
 	cret := xWebsocketExtensionGetRequestParams(x.GoPointer())
 	return cret
 }
@@ -230,12 +244,11 @@ var xWebsocketExtensionGetResponseParams func(uintptr) string
 // If the extension doesn't include any parameter in the response, this function
 // returns %NULL.
 func (x *WebsocketExtension) GetResponseParams() string {
-
 	cret := xWebsocketExtensionGetResponseParams(x.GoPointer())
 	return cret
 }
 
-var xWebsocketExtensionProcessIncomingMessage func(uintptr, *byte, *glib.Bytes, **glib.Error) *glib.Bytes
+var xWebsocketExtensionProcessIncomingMessage func(uintptr, *byte, *glib.Bytes, **glib.Error) uintptr
 
 // Process a message after it's received.
 //
@@ -248,14 +261,16 @@ func (x *WebsocketExtension) ProcessIncomingMessage(HeaderVar *byte, PayloadVar 
 	var cerr *glib.Error
 
 	cret := xWebsocketExtensionProcessIncomingMessage(x.GoPointer(), HeaderVar, PayloadVar, &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
-
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*glib.Bytes)(unsafe.Pointer(cret)), nil
 }
 
-var xWebsocketExtensionProcessOutgoingMessage func(uintptr, *byte, *glib.Bytes, **glib.Error) *glib.Bytes
+var xWebsocketExtensionProcessOutgoingMessage func(uintptr, *byte, *glib.Bytes, **glib.Error) uintptr
 
 // Process a message before it's sent.
 //
@@ -268,11 +283,13 @@ func (x *WebsocketExtension) ProcessOutgoingMessage(HeaderVar *byte, PayloadVar 
 	var cerr *glib.Error
 
 	cret := xWebsocketExtensionProcessOutgoingMessage(x.GoPointer(), HeaderVar, PayloadVar, &cerr)
-	if cerr == nil {
-		return cret, nil
+	if cerr != nil {
+		return nil, cerr
 	}
-	return cret, cerr
-
+	if cret == 0 {
+		return nil, nil
+	}
+	return (*glib.Bytes)(unsafe.Pointer(cret)), nil
 }
 
 func (c *WebsocketExtension) GoPointer() uintptr {
@@ -288,7 +305,7 @@ func (c *WebsocketExtension) SetGoPointer(ptr uintptr) {
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
-	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0"})
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("SOUP") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -305,5 +322,4 @@ func init() {
 	core.PuregoSafeRegister(&xWebsocketExtensionGetResponseParams, libs, "soup_websocket_extension_get_response_params")
 	core.PuregoSafeRegister(&xWebsocketExtensionProcessIncomingMessage, libs, "soup_websocket_extension_process_incoming_message")
 	core.PuregoSafeRegister(&xWebsocketExtensionProcessOutgoingMessage, libs, "soup_websocket_extension_process_outgoing_message")
-
 }

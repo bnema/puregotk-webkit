@@ -121,9 +121,7 @@ var xWebContextAddPathToSandbox func(uintptr, string, bool)
 //
 // See also webkit_web_context_set_sandbox_enabled()
 func (x *WebContext) AddPathToSandbox(PathVar string, ReadOnlyVar bool) {
-
 	xWebContextAddPathToSandbox(x.GoPointer(), PathVar, ReadOnlyVar)
-
 }
 
 var xWebContextGetCacheModel func(uintptr) CacheModel
@@ -134,7 +132,6 @@ var xWebContextGetCacheModel func(uintptr) CacheModel
 // value check the documentation of the function
 // webkit_web_context_set_cache_model().
 func (x *WebContext) GetCacheModel() CacheModel {
-
 	cret := xWebContextGetCacheModel(x.GoPointer())
 	return cret
 }
@@ -194,7 +191,6 @@ var xWebContextGetSpellCheckingEnabled func(uintptr) bool
 
 // Get whether spell checking feature is currently enabled.
 func (x *WebContext) GetSpellCheckingEnabled() bool {
-
 	cret := xWebContextGetSpellCheckingEnabled(x.GoPointer())
 	return cret
 }
@@ -209,7 +205,6 @@ var xWebContextGetSpellCheckingLanguages func(uintptr) []string
 // See webkit_web_context_set_spell_checking_languages() for more
 // details on the format of the languages in the list.
 func (x *WebContext) GetSpellCheckingLanguages() []string {
-
 	cret := xWebContextGetSpellCheckingLanguages(x.GoPointer())
 	return cret
 }
@@ -218,7 +213,6 @@ var xWebContextGetTimeZoneOverride func(uintptr) string
 
 // Get the #WebKitWebContext:time-zone-override property.
 func (x *WebContext) GetTimeZoneOverride() string {
-
 	cret := xWebContextGetTimeZoneOverride(x.GoPointer())
 	return cret
 }
@@ -242,9 +236,7 @@ var xWebContextInitializeNotificationPermissions func(uintptr, *glib.List, *glib
 // ensure that new web processes receive the most recent set of
 // permissions.
 func (x *WebContext) InitializeNotificationPermissions(AllowedOriginsVar *glib.List, DisallowedOriginsVar *glib.List) {
-
 	xWebContextInitializeNotificationPermissions(x.GoPointer(), AllowedOriginsVar, DisallowedOriginsVar)
-
 }
 
 var xWebContextIsAutomationAllowed func(uintptr) bool
@@ -253,7 +245,6 @@ var xWebContextIsAutomationAllowed func(uintptr) bool
 //
 // See also webkit_web_context_set_automation_allowed().
 func (x *WebContext) IsAutomationAllowed() bool {
-
 	cret := xWebContextIsAutomationAllowed(x.GoPointer())
 	return cret
 }
@@ -301,39 +292,7 @@ var xWebContextRegisterUriScheme func(uintptr, string, uintptr, uintptr, uintptr
 //
 // ```
 func (x *WebContext) RegisterUriScheme(SchemeVar string, CallbackVar *URISchemeRequestCallback, UserDataVar uintptr, UserDataDestroyFuncVar *glib.DestroyNotify) {
-
-	var CallbackVarRef uintptr
-	if CallbackVar != nil {
-		CallbackVarPtr := uintptr(unsafe.Pointer(CallbackVar))
-		if cbRefPtr, ok := glib.GetCallback(CallbackVarPtr); ok {
-			CallbackVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr, arg1 uintptr) {
-				cbFn := *CallbackVar
-				cbFn(arg0, arg1)
-			}
-			CallbackVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(CallbackVarPtr, CallbackVarRef, CallbackVar)
-		}
-	}
-
-	var UserDataDestroyFuncVarRef uintptr
-	if UserDataDestroyFuncVar != nil {
-		UserDataDestroyFuncVarPtr := uintptr(unsafe.Pointer(UserDataDestroyFuncVar))
-		if cbRefPtr, ok := glib.GetCallback(UserDataDestroyFuncVarPtr); ok {
-			UserDataDestroyFuncVarRef = cbRefPtr
-		} else {
-			fcb := func(arg0 uintptr) {
-				cbFn := *UserDataDestroyFuncVar
-				cbFn(arg0)
-			}
-			UserDataDestroyFuncVarRef = purego.NewCallback(fcb)
-			glib.SaveCallbackWithClosure(UserDataDestroyFuncVarPtr, UserDataDestroyFuncVarRef, UserDataDestroyFuncVar)
-		}
-	}
-
-	xWebContextRegisterUriScheme(x.GoPointer(), SchemeVar, CallbackVarRef, UserDataVar, UserDataDestroyFuncVarRef)
-
+	xWebContextRegisterUriScheme(x.GoPointer(), SchemeVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(UserDataDestroyFuncVar))
 }
 
 var xWebContextSendMessageToAllExtensions func(uintptr, uintptr)
@@ -342,9 +301,7 @@ var xWebContextSendMessageToAllExtensions func(uintptr, uintptr)
 //
 // If @message is floating, it's consumed.
 func (x *WebContext) SendMessageToAllExtensions(MessageVar *UserMessage) {
-
 	xWebContextSendMessageToAllExtensions(x.GoPointer(), MessageVar.GoPointer())
-
 }
 
 var xWebContextSetAutomationAllowed func(uintptr, bool)
@@ -360,9 +317,7 @@ var xWebContextSetAutomationAllowed func(uintptr, bool)
 // Note that only one #WebKitWebContext can have automation enabled, so this will do nothing
 // if there's another #WebKitWebContext with automation already enabled.
 func (x *WebContext) SetAutomationAllowed(AllowedVar bool) {
-
 	xWebContextSetAutomationAllowed(x.GoPointer(), AllowedVar)
-
 }
 
 var xWebContextSetCacheModel func(uintptr, CacheModel)
@@ -388,9 +343,7 @@ var xWebContextSetCacheModel func(uintptr, CacheModel)
 // specifying %WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER. The default value is
 // %WEBKIT_CACHE_MODEL_WEB_BROWSER.
 func (x *WebContext) SetCacheModel(CacheModelVar CacheModel) {
-
 	xWebContextSetCacheModel(x.GoPointer(), CacheModelVar)
-
 }
 
 var xWebContextSetPreferredLanguages func(uintptr, []string)
@@ -406,18 +359,14 @@ var xWebContextSetPreferredLanguages func(uintptr, []string)
 //   - The first item in the list sets the default locale for JavaScript
 //     `Intl` functions.
 func (x *WebContext) SetPreferredLanguages(LanguagesVar []string) {
-
 	xWebContextSetPreferredLanguages(x.GoPointer(), LanguagesVar)
-
 }
 
 var xWebContextSetSpellCheckingEnabled func(uintptr, bool)
 
 // Enable or disable the spell checking feature.
 func (x *WebContext) SetSpellCheckingEnabled(EnabledVar bool) {
-
 	xWebContextSetSpellCheckingEnabled(x.GoPointer(), EnabledVar)
-
 }
 
 var xWebContextSetSpellCheckingLanguages func(uintptr, []string)
@@ -434,9 +383,7 @@ var xWebContextSetSpellCheckingLanguages func(uintptr, []string)
 // least once in order to properly enable the spell checking feature
 // in WebKit.
 func (x *WebContext) SetSpellCheckingLanguages(LanguagesVar []string) {
-
 	xWebContextSetSpellCheckingLanguages(x.GoPointer(), LanguagesVar)
-
 }
 
 var xWebContextSetWebProcessExtensionsDirectory func(uintptr, string)
@@ -451,9 +398,7 @@ var xWebContextSetWebProcessExtensionsDirectory func(uintptr, string)
 // If your web process extension is installed to an unusual location,
 // then you may also need to call webkit_web_context_add_path_to_sandbox().
 func (x *WebContext) SetWebProcessExtensionsDirectory(DirectoryVar string) {
-
 	xWebContextSetWebProcessExtensionsDirectory(x.GoPointer(), DirectoryVar)
-
 }
 
 var xWebContextSetWebProcessExtensionsInitializationUserData func(uintptr, *glib.Variant)
@@ -467,9 +412,7 @@ var xWebContextSetWebProcessExtensionsInitializationUserData func(uintptr, *glib
 // #WebKitWebContext::initialize-web-process-extensions to call this method
 // before anything is loaded.
 func (x *WebContext) SetWebProcessExtensionsInitializationUserData(UserDataVar *glib.Variant) {
-
 	xWebContextSetWebProcessExtensionsInitializationUserData(x.GoPointer(), UserDataVar)
-
 }
 
 func (c *WebContext) GoPointer() uintptr {
@@ -526,7 +469,7 @@ func (x *WebContext) GetPropertyTimeZoneOverride() string {
 // This signal is emitted when a new automation request is made.
 // Note that it will never be emitted if automation is not enabled in @context,
 // see webkit_web_context_set_automation_allowed() for more details.
-func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, *AutomationSession)) uint {
+func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, uintptr)) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "automation-started", cbRefPtr)
@@ -539,8 +482,7 @@ func (x *WebContext) ConnectAutomationStarted(cb *func(WebContext, *AutomationSe
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		cbFn(fa, func() *AutomationSession { cls := &AutomationSession{}; cls.Ptr = SessionVarp; return cls }())
-
+		cbFn(fa, SessionVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -571,7 +513,6 @@ func (x *WebContext) ConnectInitializeNotificationPermissions(cb *func(WebContex
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -598,7 +539,6 @@ func (x *WebContext) ConnectInitializeWebProcessExtensions(cb *func(WebContext))
 		cbFn := *cb
 
 		cbFn(fa)
-
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -613,7 +553,7 @@ func (x *WebContext) ConnectInitializeWebProcessExtensions(cb *func(WebContext))
 //
 // You can handle the user message asynchronously by calling g_object_ref() on
 // @message and returning %TRUE.
-func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, *UserMessage) bool) uint {
+func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, uintptr) bool) uint {
 	cbPtr := uintptr(unsafe.Pointer(cb))
 	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
 		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
@@ -626,8 +566,7 @@ func (x *WebContext) ConnectUserMessageReceived(cb *func(WebContext, *UserMessag
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
-		return cbFn(fa, func() *UserMessage { cls := &UserMessage{}; cls.Ptr = MessageVarp; return cls }())
-
+		return cbFn(fa, MessageVarp)
 	}
 	cbRefPtr := purego.NewCallback(fcb)
 	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
@@ -655,7 +594,7 @@ func WebContextGetDefault() *WebContext {
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
-	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1"})
+	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
 	var libs []uintptr
 	for _, libPath := range core.GetPaths("WEBKIT") {
 		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
@@ -693,4 +632,8 @@ func init() {
 
 	core.PuregoSafeRegister(&xWebContextGetDefault, libs, "webkit_web_context_get_default")
 
+	// Manually register types since they aren't being automatically registered when
+	// the library is loaded
+	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	WebContextGLibType()
 }
