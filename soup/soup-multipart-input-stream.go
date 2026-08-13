@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
@@ -22,6 +21,14 @@ func (x *MultipartInputStreamClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func MultipartInputStreamClassNewFromInternalPtr(ptr uintptr) *MultipartInputStreamClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*MultipartInputStreamClass)(rawPtr)
+}
+
 // Handles streams of multipart messages.
 //
 // This adds support for the multipart responses. For handling the
@@ -30,7 +37,7 @@ func (x *MultipartInputStreamClass) GoPointer() uintptr {
 // [method@MultipartInputStream.next_part] before reading. Responses
 // which are not wrapped will be treated like non-multipart responses.
 //
-// Note that although #SoupMultipartInputStream is a [class@Gio.InputStream],
+// Note that although [class@MultipartInputStream] is a [class@Gio.InputStream],
 // you should not read directly from it, and the results are undefined
 // if you do.
 type MultipartInputStream struct {
@@ -40,6 +47,7 @@ type MultipartInputStream struct {
 var xMultipartInputStreamGLibType func() types.GType
 
 func MultipartInputStreamGLibType() types.GType {
+	core.LazyRegister(&xMultipartInputStreamGLibType, "SOUP", "soup_multipart_input_stream_get_type", false)
 	return xMultipartInputStreamGLibType()
 }
 
@@ -51,13 +59,14 @@ func MultipartInputStreamNewFromInternalPtr(ptr uintptr) *MultipartInputStream {
 
 var xNewMultipartInputStream func(uintptr, uintptr) uintptr
 
-// Creates a new #SoupMultipartInputStream that wraps the
+// Creates a new [class@MultipartInputStream] that wraps the
 // [class@Gio.InputStream] obtained by sending the [class@Message].
 //
 // Reads should not be done directly through this object, use the input streams
 // returned by [method@MultipartInputStream.next_part] or its async
 // counterpart instead.
 func NewMultipartInputStream(MsgVar *Message, BaseStreamVar *gio.InputStream) *MultipartInputStream {
+	core.LazyRegister(&xNewMultipartInputStream, "SOUP", "soup_multipart_input_stream_new", false)
 	var cls *MultipartInputStream
 
 	cret := xNewMultipartInputStream(MsgVar.GoPointer(), BaseStreamVar.GoPointer())
@@ -75,13 +84,15 @@ var xMultipartInputStreamGetHeaders func(uintptr) uintptr
 // Obtains the headers for the part currently being processed.
 //
 // Note that the [struct@MessageHeaders] that are returned are owned by the
-// #SoupMultipartInputStream and will be replaced when a call is made to
+// [class@MultipartInputStream] and will be replaced when a call is made to
 // [method@MultipartInputStream.next_part] or its async counterpart, so if
 // keeping the headers is required, a copy must be made.
 //
 // Note that if a part had no headers at all an empty [struct@MessageHeaders]
 // will be returned.
 func (x *MultipartInputStream) GetHeaders() *MessageHeaders {
+	core.LazyRegister(&xMultipartInputStreamGetHeaders, "SOUP", "soup_multipart_input_stream_get_headers", false)
+
 	cret := xMultipartInputStreamGetHeaders(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -94,7 +105,7 @@ var xMultipartInputStreamNextPart func(uintptr, uintptr, **glib.Error) uintptr
 // Obtains an input stream for the next part.
 //
 // When dealing with a multipart response the input stream needs to be wrapped
-// in a #SoupMultipartInputStream and this function or its async counterpart
+// in a [class@MultipartInputStream] and this function or its async counterpart
 // need to be called to obtain the first part for reading.
 //
 // After calling this function,
@@ -106,6 +117,7 @@ var xMultipartInputStreamNextPart func(uintptr, uintptr, **glib.Error) uintptr
 // @error will only be set if an error happens during a read, %NULL
 // is a valid return value otherwise.
 func (x *MultipartInputStream) NextPart(CancellableVar *gio.Cancellable) (*gio.InputStream, error) {
+	core.LazyRegister(&xMultipartInputStreamNextPart, "SOUP", "soup_multipart_input_stream_next_part", false)
 	var cls *gio.InputStream
 	var cerr *glib.Error
 
@@ -128,6 +140,8 @@ var xMultipartInputStreamNextPartAsync func(uintptr, int, uintptr, uintptr, uint
 //
 // See [method@MultipartInputStream.next_part] for details on the workflow.
 func (x *MultipartInputStream) NextPartAsync(IoPriorityVar int, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, DataVar uintptr) {
+	core.LazyRegister(&xMultipartInputStreamNextPartAsync, "SOUP", "soup_multipart_input_stream_next_part_async", false)
+
 	xMultipartInputStreamNextPartAsync(x.GoPointer(), IoPriorityVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), DataVar)
 }
 
@@ -135,6 +149,7 @@ var xMultipartInputStreamNextPartFinish func(uintptr, uintptr, **glib.Error) uin
 
 // Finishes an asynchronous request for the next part.
 func (x *MultipartInputStream) NextPartFinish(ResultVar gio.AsyncResult) (*gio.InputStream, error) {
+	core.LazyRegister(&xMultipartInputStreamNextPartFinish, "SOUP", "soup_multipart_input_stream_next_part_finish", false)
 	var cls *gio.InputStream
 	var cerr *glib.Error
 
@@ -236,21 +251,4 @@ func (x *MultipartInputStream) ReadNonblocking(BufferVar *[]byte, CountVar uint,
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
 	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("SOUP") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xMultipartInputStreamGLibType, libs, "soup_multipart_input_stream_get_type")
-
-	core.PuregoSafeRegister(&xNewMultipartInputStream, libs, "soup_multipart_input_stream_new")
-
-	core.PuregoSafeRegister(&xMultipartInputStreamGetHeaders, libs, "soup_multipart_input_stream_get_headers")
-	core.PuregoSafeRegister(&xMultipartInputStreamNextPart, libs, "soup_multipart_input_stream_next_part")
-	core.PuregoSafeRegister(&xMultipartInputStreamNextPartAsync, libs, "soup_multipart_input_stream_next_part_async")
-	core.PuregoSafeRegister(&xMultipartInputStreamNextPartFinish, libs, "soup_multipart_input_stream_next_part_finish")
 }

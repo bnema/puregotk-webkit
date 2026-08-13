@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
@@ -24,12 +23,21 @@ func (x *CookieManagerClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func CookieManagerClassNewFromInternalPtr(ptr uintptr) *CookieManagerClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*CookieManagerClass)(rawPtr)
+}
+
 // Enum values used to denote the cookie acceptance policies.
 type CookieAcceptPolicy int
 
 var xCookieAcceptPolicyGLibType func() types.GType
 
 func CookieAcceptPolicyGLibType() types.GType {
+	core.LazyRegister(&xCookieAcceptPolicyGLibType, "WEBKIT", "webkit_cookie_accept_policy_get_type", false)
 	return xCookieAcceptPolicyGLibType()
 }
 
@@ -49,6 +57,7 @@ type CookiePersistentStorage int
 var xCookiePersistentStorageGLibType func() types.GType
 
 func CookiePersistentStorageGLibType() types.GType {
+	core.LazyRegister(&xCookiePersistentStorageGLibType, "WEBKIT", "webkit_cookie_persistent_storage_get_type", false)
 	return xCookiePersistentStorageGLibType()
 }
 
@@ -76,6 +85,7 @@ type CookieManager struct {
 var xCookieManagerGLibType func() types.GType
 
 func CookieManagerGLibType() types.GType {
+	core.LazyRegister(&xCookieManagerGLibType, "WEBKIT", "webkit_cookie_manager_get_type", false)
 	return xCookieManagerGLibType()
 }
 
@@ -92,6 +102,8 @@ var xCookieManagerAddCookie func(uintptr, *soup.Cookie, uintptr, uintptr, uintpt
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_add_cookie_finish() to get the result of the operation.
 func (x *CookieManager) AddCookie(CookieVar *soup.Cookie, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xCookieManagerAddCookie, "WEBKIT", "webkit_cookie_manager_add_cookie", false)
+
 	xCookieManagerAddCookie(x.GoPointer(), CookieVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -99,6 +111,7 @@ var xCookieManagerAddCookieFinish func(uintptr, uintptr, **glib.Error) bool
 
 // Finish an asynchronous operation started with webkit_cookie_manager_add_cookie().
 func (x *CookieManager) AddCookieFinish(ResultVar gio.AsyncResult) (bool, error) {
+	core.LazyRegister(&xCookieManagerAddCookieFinish, "WEBKIT", "webkit_cookie_manager_add_cookie_finish", false)
 	var cerr *glib.Error
 
 	cret := xCookieManagerAddCookieFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -115,6 +128,8 @@ var xCookieManagerDeleteCookie func(uintptr, *soup.Cookie, uintptr, uintptr, uin
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_delete_cookie_finish() to get the result of the operation.
 func (x *CookieManager) DeleteCookie(CookieVar *soup.Cookie, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xCookieManagerDeleteCookie, "WEBKIT", "webkit_cookie_manager_delete_cookie", false)
+
 	xCookieManagerDeleteCookie(x.GoPointer(), CookieVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -122,6 +137,7 @@ var xCookieManagerDeleteCookieFinish func(uintptr, uintptr, **glib.Error) bool
 
 // Finish an asynchronous operation started with webkit_cookie_manager_delete_cookie().
 func (x *CookieManager) DeleteCookieFinish(ResultVar gio.AsyncResult) (bool, error) {
+	core.LazyRegister(&xCookieManagerDeleteCookieFinish, "WEBKIT", "webkit_cookie_manager_delete_cookie_finish", false)
 	var cerr *glib.Error
 
 	cret := xCookieManagerDeleteCookieFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -142,6 +158,8 @@ var xCookieManagerGetAcceptPolicy func(uintptr, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_get_accept_policy_finish() to get the result of the operation.
 func (x *CookieManager) GetAcceptPolicy(CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xCookieManagerGetAcceptPolicy, "WEBKIT", "webkit_cookie_manager_get_accept_policy", false)
+
 	xCookieManagerGetAcceptPolicy(x.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -149,6 +167,7 @@ var xCookieManagerGetAcceptPolicyFinish func(uintptr, uintptr, **glib.Error) Coo
 
 // Finish an asynchronous operation started with webkit_cookie_manager_get_accept_policy().
 func (x *CookieManager) GetAcceptPolicyFinish(ResultVar gio.AsyncResult) (CookieAcceptPolicy, error) {
+	core.LazyRegister(&xCookieManagerGetAcceptPolicyFinish, "WEBKIT", "webkit_cookie_manager_get_accept_policy_finish", false)
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetAcceptPolicyFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -165,6 +184,8 @@ var xCookieManagerGetAllCookies func(uintptr, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_get_all_cookies_finish() to get the result of the operation.
 func (x *CookieManager) GetAllCookies(CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xCookieManagerGetAllCookies, "WEBKIT", "webkit_cookie_manager_get_all_cookies", false)
+
 	xCookieManagerGetAllCookies(x.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -175,6 +196,7 @@ var xCookieManagerGetAllCookiesFinish func(uintptr, uintptr, **glib.Error) uintp
 // The return value is a #GList of #SoupCookie instances which should be released
 // with g_list_free_full() and soup_cookie_free().
 func (x *CookieManager) GetAllCookiesFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
+	core.LazyRegister(&xCookieManagerGetAllCookiesFinish, "WEBKIT", "webkit_cookie_manager_get_all_cookies_finish", false)
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetAllCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -197,6 +219,8 @@ var xCookieManagerGetCookies func(uintptr, string, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_get_cookies_finish() to get the result of the operation.
 func (x *CookieManager) GetCookies(UriVar string, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xCookieManagerGetCookies, "WEBKIT", "webkit_cookie_manager_get_cookies", false)
+
 	xCookieManagerGetCookies(x.GoPointer(), UriVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -207,6 +231,7 @@ var xCookieManagerGetCookiesFinish func(uintptr, uintptr, **glib.Error) uintptr
 // The return value is a #GList of #SoupCookie instances which should be released
 // with g_list_free_full() and soup_cookie_free().
 func (x *CookieManager) GetCookiesFinish(ResultVar gio.AsyncResult) (*glib.List, error) {
+	core.LazyRegister(&xCookieManagerGetCookiesFinish, "WEBKIT", "webkit_cookie_manager_get_cookies_finish", false)
 	var cerr *glib.Error
 
 	cret := xCookieManagerGetCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -226,6 +251,8 @@ var xCookieManagerReplaceCookies func(uintptr, *glib.List, uintptr, uintptr, uin
 // When the operation is finished, @callback will be called. You can then call
 // webkit_cookie_manager_replace_cookies_finish() to get the result of the operation.
 func (x *CookieManager) ReplaceCookies(CookiesVar *glib.List, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xCookieManagerReplaceCookies, "WEBKIT", "webkit_cookie_manager_replace_cookies", false)
+
 	xCookieManagerReplaceCookies(x.GoPointer(), CookiesVar, CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -233,6 +260,7 @@ var xCookieManagerReplaceCookiesFinish func(uintptr, uintptr, **glib.Error) bool
 
 // Finish an asynchronous operation started with webkit_cookie_manager_replace_cookies().
 func (x *CookieManager) ReplaceCookiesFinish(ResultVar gio.AsyncResult) (bool, error) {
+	core.LazyRegister(&xCookieManagerReplaceCookiesFinish, "WEBKIT", "webkit_cookie_manager_replace_cookies_finish", false)
 	var cerr *glib.Error
 
 	cret := xCookieManagerReplaceCookiesFinish(x.GoPointer(), ResultVar.GoPointer(), &cerr)
@@ -251,6 +279,8 @@ var xCookieManagerSetAcceptPolicy func(uintptr, CookieAcceptPolicy)
 // will be used instead. Once disabled, the policy will be set back to %WEBKIT_COOKIE_POLICY_ACCEPT_NO_THIRD_PARTY.
 // See also webkit_website_data_manager_set_itp_enabled().
 func (x *CookieManager) SetAcceptPolicy(PolicyVar CookieAcceptPolicy) {
+	core.LazyRegister(&xCookieManagerSetAcceptPolicy, "WEBKIT", "webkit_cookie_manager_set_accept_policy", false)
+
 	xCookieManagerSetAcceptPolicy(x.GoPointer(), PolicyVar)
 }
 
@@ -268,6 +298,8 @@ var xCookieManagerSetPersistentStorage func(uintptr, string, CookiePersistentSto
 //
 // This method should never be called on a #WebKitCookieManager associated to an ephemeral #WebKitWebsiteDataManager.
 func (x *CookieManager) SetPersistentStorage(FilenameVar string, StorageVar CookiePersistentStorage) {
+	core.LazyRegister(&xCookieManagerSetPersistentStorage, "WEBKIT", "webkit_cookie_manager_set_persistent_storage", false)
+
 	xCookieManagerSetPersistentStorage(x.GoPointer(), FilenameVar, StorageVar)
 }
 
@@ -284,62 +316,32 @@ func (c *CookieManager) SetGoPointer(ptr uintptr) {
 
 // This signal is emitted when cookies are added, removed or modified.
 func (x *CookieManager) ConnectChanged(cb *func(CookieManager)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.CookieManager.Changed", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(CookieManager))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := CookieManager{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "changed", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
 	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKIT") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
 
-	core.PuregoSafeRegister(&xCookieAcceptPolicyGLibType, libs, "webkit_cookie_accept_policy_get_type")
-
-	core.PuregoSafeRegister(&xCookiePersistentStorageGLibType, libs, "webkit_cookie_persistent_storage_get_type")
-
-	core.PuregoSafeRegister(&xCookieManagerGLibType, libs, "webkit_cookie_manager_get_type")
-
-	core.PuregoSafeRegister(&xCookieManagerAddCookie, libs, "webkit_cookie_manager_add_cookie")
-	core.PuregoSafeRegister(&xCookieManagerAddCookieFinish, libs, "webkit_cookie_manager_add_cookie_finish")
-	core.PuregoSafeRegister(&xCookieManagerDeleteCookie, libs, "webkit_cookie_manager_delete_cookie")
-	core.PuregoSafeRegister(&xCookieManagerDeleteCookieFinish, libs, "webkit_cookie_manager_delete_cookie_finish")
-	core.PuregoSafeRegister(&xCookieManagerGetAcceptPolicy, libs, "webkit_cookie_manager_get_accept_policy")
-	core.PuregoSafeRegister(&xCookieManagerGetAcceptPolicyFinish, libs, "webkit_cookie_manager_get_accept_policy_finish")
-	core.PuregoSafeRegister(&xCookieManagerGetAllCookies, libs, "webkit_cookie_manager_get_all_cookies")
-	core.PuregoSafeRegister(&xCookieManagerGetAllCookiesFinish, libs, "webkit_cookie_manager_get_all_cookies_finish")
-	core.PuregoSafeRegister(&xCookieManagerGetCookies, libs, "webkit_cookie_manager_get_cookies")
-	core.PuregoSafeRegister(&xCookieManagerGetCookiesFinish, libs, "webkit_cookie_manager_get_cookies_finish")
-	core.PuregoSafeRegister(&xCookieManagerReplaceCookies, libs, "webkit_cookie_manager_replace_cookies")
-	core.PuregoSafeRegister(&xCookieManagerReplaceCookiesFinish, libs, "webkit_cookie_manager_replace_cookies_finish")
-	core.PuregoSafeRegister(&xCookieManagerSetAcceptPolicy, libs, "webkit_cookie_manager_set_accept_policy")
-	core.PuregoSafeRegister(&xCookieManagerSetPersistentStorage, libs, "webkit_cookie_manager_set_persistent_storage")
-
-	// Manually register types since they aren't being automatically registered when
-	// the library is loaded
-	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	// Manually register types since they aren't automatically registered when
+	// WebKit is loaded. See https://bugs.webkit.org/show_bug.cgi?id=175937.
 	CookieManagerGLibType()
 }

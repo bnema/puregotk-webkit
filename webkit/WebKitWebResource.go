@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
@@ -21,6 +20,14 @@ type WebResourceClass struct {
 
 func (x *WebResourceClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func WebResourceClassNewFromInternalPtr(ptr uintptr) *WebResourceClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*WebResourceClass)(rawPtr)
 }
 
 // Represents a resource at the end of a URI.
@@ -41,6 +48,7 @@ type WebResource struct {
 var xWebResourceGLibType func() types.GType
 
 func WebResourceGLibType() types.GType {
+	core.LazyRegister(&xWebResourceGLibType, "WEBKIT", "webkit_web_resource_get_type", false)
 	return xWebResourceGLibType()
 }
 
@@ -57,6 +65,8 @@ var xWebResourceGetData func(uintptr, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be called. You can then call
 // webkit_web_resource_get_data_finish() to get the result of the operation.
 func (x *WebResource) GetData(CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xWebResourceGetData, "WEBKIT", "webkit_web_resource_get_data", false)
+
 	xWebResourceGetData(x.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -64,6 +74,7 @@ var xWebResourceGetDataFinish func(uintptr, uintptr, *uint, **glib.Error) uintpt
 
 // Finish an asynchronous operation started with webkit_web_resource_get_data().
 func (x *WebResource) GetDataFinish(ResultVar gio.AsyncResult, LengthVar *uint) (uintptr, error) {
+	core.LazyRegister(&xWebResourceGetDataFinish, "WEBKIT", "webkit_web_resource_get_data_finish", false)
 	var cerr *glib.Error
 
 	cret := xWebResourceGetDataFinish(x.GoPointer(), ResultVar.GoPointer(), LengthVar, &cerr)
@@ -81,6 +92,7 @@ var xWebResourceGetResponse func(uintptr) uintptr
 // is received from the server. You can connect to notify::response
 // signal to be notified when the response is received.
 func (x *WebResource) GetResponse() *URIResponse {
+	core.LazyRegister(&xWebResourceGetResponse, "WEBKIT", "webkit_web_resource_get_response", false)
 	var cls *URIResponse
 
 	cret := xWebResourceGetResponse(x.GoPointer())
@@ -132,6 +144,8 @@ var xWebResourceGetUri func(uintptr) string
 // You can monitor the active URI by connecting to the notify::uri
 // signal of @resource.
 func (x *WebResource) GetUri() string {
+	core.LazyRegister(&xWebResourceGetUri, "WEBKIT", "webkit_web_resource_get_uri", false)
+
 	cret := xWebResourceGetUri(x.GoPointer())
 	return cret
 }
@@ -159,47 +173,47 @@ func (x *WebResource) GetPropertyUri() string {
 // This signal is emitted when an error occurs during the resource
 // load operation.
 func (x *WebResource) ConnectFailed(cb *func(WebResource, *glib.Error)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, ErrorVarp unsafe.Pointer) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.WebResource.Failed", func(clsPtr uintptr, ErrorVarp unsafe.Pointer, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebResource, *glib.Error))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebResource{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, (*glib.Error)(ErrorVarp))
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "failed", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "failed", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // This signal is emitted when a TLS error occurs during the resource load operation.
 func (x *WebResource) ConnectFailedWithTlsErrors(cb *func(WebResource, uintptr, gio.TlsCertificateFlags)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "failed-with-tls-errors", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, CertificateVarp uintptr, ErrorsVarp gio.TlsCertificateFlags) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.WebResource.FailedWithTlsErrors", func(clsPtr uintptr, CertificateVarp uintptr, ErrorsVarp gio.TlsCertificateFlags, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebResource, uintptr, gio.TlsCertificateFlags))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebResource{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, CertificateVarp, ErrorsVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "failed-with-tls-errors", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "failed-with-tls-errors", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -207,24 +221,24 @@ func (x *WebResource) ConnectFailedWithTlsErrors(cb *func(WebResource, uintptr, 
 // or due to an error. In case of errors #WebKitWebResource::failed signal
 // is emitted before this one.
 func (x *WebResource) ConnectFinished(cb *func(WebResource)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.WebResource.Finished", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebResource))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebResource{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "finished", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -235,48 +249,32 @@ func (x *WebResource) ConnectFinished(cb *func(WebResource)) uint {
 // @redirected_response parameter containing the response
 // received by the server for the initial request.
 func (x *WebResource) ConnectSentRequest(cb *func(WebResource, uintptr, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "sent-request", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, RequestVarp uintptr, RedirectedResponseVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.WebResource.SentRequest", func(clsPtr uintptr, RequestVarp uintptr, RedirectedResponseVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebResource, uintptr, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebResource{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, RequestVarp, RedirectedResponseVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "sent-request", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "sent-request", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
 	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKIT") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
 
-	core.PuregoSafeRegister(&xWebResourceGLibType, libs, "webkit_web_resource_get_type")
-
-	core.PuregoSafeRegister(&xWebResourceGetData, libs, "webkit_web_resource_get_data")
-	core.PuregoSafeRegister(&xWebResourceGetDataFinish, libs, "webkit_web_resource_get_data_finish")
-	core.PuregoSafeRegister(&xWebResourceGetResponse, libs, "webkit_web_resource_get_response")
-	core.PuregoSafeRegister(&xWebResourceGetUri, libs, "webkit_web_resource_get_uri")
-
-	// Manually register types since they aren't being automatically registered when
-	// the library is loaded
-	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	// Manually register types since they aren't automatically registered when
+	// WebKit is loaded. See https://bugs.webkit.org/show_bug.cgi?id=175937.
 	WebResourceGLibType()
 }

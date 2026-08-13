@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
@@ -21,9 +20,17 @@ func (x *CookieJarDBClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func CookieJarDBClassNewFromInternalPtr(ptr uintptr) *CookieJarDBClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*CookieJarDBClass)(rawPtr)
+}
+
 // Database-based Cookie Jar.
 //
-// #SoupCookieJarDB is a [class@CookieJar] that reads cookies from and writes
+// [class@CookieJarDB] is a [class@CookieJar] that reads cookies from and writes
 // them to a sqlite database in the new Mozilla format.
 //
 // (This is identical to `SoupCookieJarSqlite` in
@@ -36,6 +43,7 @@ type CookieJarDB struct {
 var xCookieJarDBGLibType func() types.GType
 
 func CookieJarDBGLibType() types.GType {
+	core.LazyRegister(&xCookieJarDBGLibType, "SOUP", "soup_cookie_jar_db_get_type", false)
 	return xCookieJarDBGLibType()
 }
 
@@ -47,7 +55,7 @@ func CookieJarDBNewFromInternalPtr(ptr uintptr) *CookieJarDB {
 
 var xNewCookieJarDB func(string, bool) uintptr
 
-// Creates a #SoupCookieJarDB.
+// Creates a [class@CookieJarDB].
 //
 // @filename will be read in at startup to create an initial set of cookies. If
 // @read_only is %FALSE, then the non-session cookies will be written to
@@ -55,6 +63,7 @@ var xNewCookieJarDB func(string, bool) uintptr
 // jar. (If @read_only is %TRUE, then the cookie jar will only be used for this
 // session, and changes made to it will be lost when the jar is destroyed.)
 func NewCookieJarDB(FilenameVar string, ReadOnlyVar bool) *CookieJarDB {
+	core.LazyRegister(&xNewCookieJarDB, "SOUP", "soup_cookie_jar_db_new", false)
 	var cls *CookieJarDB
 
 	cret := xNewCookieJarDB(FilenameVar, ReadOnlyVar)
@@ -98,16 +107,4 @@ func (x *CookieJarDB) GetPropertyFilename() string {
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
 	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("SOUP") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xCookieJarDBGLibType, libs, "soup_cookie_jar_db_get_type")
-
-	core.PuregoSafeRegister(&xNewCookieJarDB, libs, "soup_cookie_jar_db_new")
 }

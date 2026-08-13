@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gdk"
 	"github.com/bnema/puregotk/v4/glib"
@@ -21,6 +20,14 @@ type ColorChooserRequestClass struct {
 
 func (x *ColorChooserRequestClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func ColorChooserRequestClassNewFromInternalPtr(ptr uintptr) *ColorChooserRequestClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*ColorChooserRequestClass)(rawPtr)
 }
 
 // A request to open a color chooser.
@@ -45,6 +52,7 @@ type ColorChooserRequest struct {
 var xColorChooserRequestGLibType func() types.GType
 
 func ColorChooserRequestGLibType() types.GType {
+	core.LazyRegister(&xColorChooserRequestGLibType, "WEBKIT", "webkit_color_chooser_request_get_type", false)
 	return xColorChooserRequestGLibType()
 }
 
@@ -63,6 +71,8 @@ var xColorChooserRequestCancel func(uintptr)
 // The signal #WebKitColorChooserRequest::finished
 // is emitted to notify that the request has finished.
 func (x *ColorChooserRequest) Cancel() {
+	core.LazyRegister(&xColorChooserRequestCancel, "WEBKIT", "webkit_color_chooser_request_cancel", false)
+
 	xColorChooserRequestCancel(x.GoPointer())
 }
 
@@ -76,6 +86,8 @@ var xColorChooserRequestFinish func(uintptr)
 // The signal #WebKitColorChooserRequest::finished
 // is emitted to notify that the request has finished.
 func (x *ColorChooserRequest) Finish() {
+	core.LazyRegister(&xColorChooserRequestFinish, "WEBKIT", "webkit_color_chooser_request_finish", false)
+
 	xColorChooserRequestFinish(x.GoPointer())
 }
 
@@ -83,6 +95,8 @@ var xColorChooserRequestGetElementRectangle func(uintptr, *gdk.Rectangle)
 
 // Gets the bounding box of the color input element.
 func (x *ColorChooserRequest) GetElementRectangle(RectVar *gdk.Rectangle) {
+	core.LazyRegister(&xColorChooserRequestGetElementRectangle, "WEBKIT", "webkit_color_chooser_request_get_element_rectangle", false)
+
 	xColorChooserRequestGetElementRectangle(x.GoPointer(), RectVar)
 }
 
@@ -90,6 +104,8 @@ var xColorChooserRequestGetRgba func(uintptr, *gdk.RGBA)
 
 // Gets the current #GdkRGBA color of @request
 func (x *ColorChooserRequest) GetRgba(RgbaVar *gdk.RGBA) {
+	core.LazyRegister(&xColorChooserRequestGetRgba, "WEBKIT", "webkit_color_chooser_request_get_rgba", false)
+
 	xColorChooserRequestGetRgba(x.GoPointer(), RgbaVar)
 }
 
@@ -97,6 +113,8 @@ var xColorChooserRequestSetRgba func(uintptr, *gdk.RGBA)
 
 // Sets the current #GdkRGBA color of @request
 func (x *ColorChooserRequest) SetRgba(RgbaVar *gdk.RGBA) {
+	core.LazyRegister(&xColorChooserRequestSetRgba, "WEBKIT", "webkit_color_chooser_request_set_rgba", false)
+
 	xColorChooserRequestSetRgba(x.GoPointer(), RgbaVar)
 }
 
@@ -133,49 +151,32 @@ func (x *ColorChooserRequest) GetPropertyRgba() uintptr {
 // or cancelled it with webkit_color_chooser_request_cancel() or because the
 // color input element is removed from the DOM.
 func (x *ColorChooserRequest) ConnectFinished(cb *func(ColorChooserRequest)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.ColorChooserRequest.Finished", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ColorChooserRequest))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ColorChooserRequest{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "finished", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
 	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKIT") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
 
-	core.PuregoSafeRegister(&xColorChooserRequestGLibType, libs, "webkit_color_chooser_request_get_type")
-
-	core.PuregoSafeRegister(&xColorChooserRequestCancel, libs, "webkit_color_chooser_request_cancel")
-	core.PuregoSafeRegister(&xColorChooserRequestFinish, libs, "webkit_color_chooser_request_finish")
-	core.PuregoSafeRegister(&xColorChooserRequestGetElementRectangle, libs, "webkit_color_chooser_request_get_element_rectangle")
-	core.PuregoSafeRegister(&xColorChooserRequestGetRgba, libs, "webkit_color_chooser_request_get_rgba")
-	core.PuregoSafeRegister(&xColorChooserRequestSetRgba, libs, "webkit_color_chooser_request_set_rgba")
-
-	// Manually register types since they aren't being automatically registered when
-	// the library is loaded
-	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	// Manually register types since they aren't automatically registered when
+	// WebKit is loaded. See https://bugs.webkit.org/show_bug.cgi?id=175937.
 	ColorChooserRequestGLibType()
 }

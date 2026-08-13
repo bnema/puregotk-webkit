@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk-webkit/soup"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
@@ -22,6 +21,14 @@ func (x *URIRequestClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func URIRequestClassNewFromInternalPtr(ptr uintptr) *URIRequestClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*URIRequestClass)(rawPtr)
+}
+
 // Represents a URI request.
 //
 // A #WebKitURIRequest can be created with a URI using the
@@ -34,6 +41,7 @@ type URIRequest struct {
 var xURIRequestGLibType func() types.GType
 
 func URIRequestGLibType() types.GType {
+	core.LazyRegister(&xURIRequestGLibType, "WEBKITWEBPROCESSEXTENSION", "webkit_uri_request_get_type", false)
 	return xURIRequestGLibType()
 }
 
@@ -47,6 +55,7 @@ var xNewURIRequest func(string) uintptr
 
 // Creates a new #WebKitURIRequest for the given URI.
 func NewURIRequest(UriVar string) *URIRequest {
+	core.LazyRegister(&xNewURIRequest, "WEBKITWEBPROCESSEXTENSION", "webkit_uri_request_new", false)
 	var cls *URIRequest
 
 	cret := xNewURIRequest(UriVar)
@@ -63,6 +72,8 @@ var xURIRequestGetHttpHeaders func(uintptr) uintptr
 
 // Get the HTTP headers of a #WebKitURIRequest as a #SoupMessageHeaders.
 func (x *URIRequest) GetHttpHeaders() *soup.MessageHeaders {
+	core.LazyRegister(&xURIRequestGetHttpHeaders, "WEBKITWEBPROCESSEXTENSION", "webkit_uri_request_get_http_headers", false)
+
 	cret := xURIRequestGetHttpHeaders(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -74,6 +85,8 @@ var xURIRequestGetHttpMethod func(uintptr) string
 
 // Get the HTTP method of the #WebKitURIRequest.
 func (x *URIRequest) GetHttpMethod() string {
+	core.LazyRegister(&xURIRequestGetHttpMethod, "WEBKITWEBPROCESSEXTENSION", "webkit_uri_request_get_http_method", false)
+
 	cret := xURIRequestGetHttpMethod(x.GoPointer())
 	return cret
 }
@@ -82,6 +95,8 @@ var xURIRequestGetUri func(uintptr) string
 
 // Obtains the request URI.
 func (x *URIRequest) GetUri() string {
+	core.LazyRegister(&xURIRequestGetUri, "WEBKITWEBPROCESSEXTENSION", "webkit_uri_request_get_uri", false)
+
 	cret := xURIRequestGetUri(x.GoPointer())
 	return cret
 }
@@ -90,6 +105,8 @@ var xURIRequestSetUri func(uintptr, string)
 
 // Set the URI of @request
 func (x *URIRequest) SetUri(UriVar string) {
+	core.LazyRegister(&xURIRequestSetUri, "WEBKITWEBPROCESSEXTENSION", "webkit_uri_request_set_uri", false)
+
 	xURIRequestSetUri(x.GoPointer(), UriVar)
 }
 
@@ -124,21 +141,4 @@ func (x *URIRequest) GetPropertyUri() string {
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xURIRequestGLibType, libs, "webkit_uri_request_get_type")
-
-	core.PuregoSafeRegister(&xNewURIRequest, libs, "webkit_uri_request_new")
-
-	core.PuregoSafeRegister(&xURIRequestGetHttpHeaders, libs, "webkit_uri_request_get_http_headers")
-	core.PuregoSafeRegister(&xURIRequestGetHttpMethod, libs, "webkit_uri_request_get_http_method")
-	core.PuregoSafeRegister(&xURIRequestGetUri, libs, "webkit_uri_request_get_uri")
-	core.PuregoSafeRegister(&xURIRequestSetUri, libs, "webkit_uri_request_set_uri")
 }

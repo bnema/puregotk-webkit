@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
@@ -22,6 +21,14 @@ func (x *WebEditorClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func WebEditorClassNewFromInternalPtr(ptr uintptr) *WebEditorClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*WebEditorClass)(rawPtr)
+}
+
 // Access to editing capabilities of a #WebKitWebPage.
 //
 // The WebKitWebEditor provides access to various editing capabilities of
@@ -34,6 +41,7 @@ type WebEditor struct {
 var xWebEditorGLibType func() types.GType
 
 func WebEditorGLibType() types.GType {
+	core.LazyRegister(&xWebEditorGLibType, "WEBKITWEBPROCESSEXTENSION", "webkit_web_editor_get_type", false)
 	return xWebEditorGLibType()
 }
 
@@ -47,6 +55,7 @@ var xWebEditorGetPage func(uintptr) uintptr
 
 // Gets the #WebKitWebPage that is associated with the #WebKitWebEditor.
 func (x *WebEditor) GetPage() *WebPage {
+	core.LazyRegister(&xWebEditorGetPage, "WEBKITWEBPROCESSEXTENSION", "webkit_web_editor_get_page", false)
 	var cls *WebPage
 
 	cret := xWebEditorGetPage(x.GoPointer())
@@ -75,40 +84,28 @@ func (c *WebEditor) SetGoPointer(ptr uintptr) {
 // as well as for every caret position change as the caret is a collapsed
 // selection.
 func (x *WebEditor) ConnectSelectionChanged(cb *func(WebEditor)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "selection-changed", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebEditor.SelectionChanged", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebEditor))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebEditor{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "selection-changed", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "selection-changed", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xWebEditorGLibType, libs, "webkit_web_editor_get_type")
-
-	core.PuregoSafeRegister(&xWebEditorGetPage, libs, "webkit_web_editor_get_page")
 }

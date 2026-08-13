@@ -33,7 +33,9 @@ No Cgo needed, thus:
 go get github.com/bnema/puregotk-webkit
 ```
 
-Requires [puregotk](https://github.com/jwijenbergh/puregotk) as a dependency.
+Requires [puregotk](https://github.com/bnema/puregotk) and WebKitGTK 6.0 2.52 or newer.
+The bindings are generated against WebKitGTK 2.52 GIR data; importing the
+`webkit` package on an older WebKitGTK runtime is not supported.
 
 ## Basic Example
 

@@ -42,6 +42,14 @@ func (x *ClassClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func ClassClassNewFromInternalPtr(ptr uintptr) *ClassClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*ClassClass)(rawPtr)
+}
+
 // Virtual table for a JSCClass. This can be optionally used when registering a #JSCClass in a #JSCContext
 // to provide a custom implementation for the class. All virtual functions are optional and can be set to
 // %NULL to fallback to the default implementation.
@@ -77,6 +85,14 @@ type ClassVTable struct {
 
 func (x *ClassVTable) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func ClassVTableNewFromInternalPtr(ptr uintptr) *ClassVTable {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*ClassVTable)(rawPtr)
 }
 
 // OverrideJscReserved0 sets the "_jsc_reserved0" callback function.
@@ -275,6 +291,7 @@ type Class struct {
 var xClassGLibType func() types.GType
 
 func ClassGLibType() types.GType {
+	core.LazyRegister(&xClassGLibType, "JAVASCRIPTCORE", "jsc_class_get_type", false)
 	return xClassGLibType()
 }
 
@@ -297,6 +314,7 @@ var xClassAddConstructor func(uintptr, uintptr, uintptr, uintptr, uintptr, types
 // Note that the value returned by @callback is adopted by @jsc_class, and the #GDestroyNotify passed to
 // jsc_context_register_class() is responsible for disposing of it.
 func (x *Class) AddConstructor(NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParamsVar uint, varArgs ...interface{}) *Value {
+	core.LazyRegister(&xClassAddConstructor, "JAVASCRIPTCORE", "jsc_class_add_constructor", false)
 	var cls *Value
 
 	NameVarPtr := core.GStrdupNullable(NameVar)
@@ -325,6 +343,7 @@ var xClassAddConstructorVariadic func(uintptr, uintptr, uintptr, uintptr, uintpt
 // Note that the value returned by @callback is adopted by @jsc_class, and the #GDestroyNotify passed to
 // jsc_context_register_class() is responsible for disposing of it.
 func (x *Class) AddConstructorVariadic(NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType) *Value {
+	core.LazyRegister(&xClassAddConstructorVariadic, "JAVASCRIPTCORE", "jsc_class_add_constructor_variadic", false)
 	var cls *Value
 
 	NameVarPtr := core.GStrdupNullable(NameVar)
@@ -353,6 +372,7 @@ var xClassAddConstructorv func(uintptr, uintptr, uintptr, uintptr, uintptr, type
 // Note that the value returned by @callback is adopted by @jsc_class, and the #GDestroyNotify passed to
 // jsc_context_register_class() is responsible for disposing of it.
 func (x *Class) AddConstructorv(NameVar *string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParametersVar uint, ParameterTypesVar []types.GType) *Value {
+	core.LazyRegister(&xClassAddConstructorv, "JAVASCRIPTCORE", "jsc_class_add_constructorv", false)
 	var cls *Value
 
 	NameVarPtr := core.GStrdupNullable(NameVar)
@@ -380,6 +400,8 @@ var xClassAddMethod func(uintptr, string, uintptr, uintptr, uintptr, types.GType
 // If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a #JSCValue created
 // with jsc_value_new_object() that receives the copy as the instance parameter.
 func (x *Class) AddMethod(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParamsVar uint, varArgs ...interface{}) {
+	core.LazyRegister(&xClassAddMethod, "JAVASCRIPTCORE", "jsc_class_add_method", false)
+
 	xClassAddMethod(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParamsVar, varArgs...)
 }
 
@@ -395,6 +417,8 @@ var xClassAddMethodVariadic func(uintptr, string, uintptr, uintptr, uintptr, typ
 // If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a #JSCValue created
 // with jsc_value_new_object() that receives the copy as the instance parameter.
 func (x *Class) AddMethodVariadic(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType) {
+	core.LazyRegister(&xClassAddMethodVariadic, "JAVASCRIPTCORE", "jsc_class_add_method_variadic", false)
+
 	xClassAddMethodVariadic(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar)
 }
 
@@ -410,12 +434,14 @@ var xClassAddMethodv func(uintptr, string, uintptr, uintptr, uintptr, types.GTyp
 // If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a #JSCValue created
 // with jsc_value_new_object() that receives the copy as the instance parameter.
 func (x *Class) AddMethodv(NameVar string, CallbackVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify, ReturnTypeVar types.GType, NParametersVar uint, ParameterTypesVar []types.GType) {
+	core.LazyRegister(&xClassAddMethodv, "JAVASCRIPTCORE", "jsc_class_add_methodv", false)
+
 	xClassAddMethodv(x.GoPointer(), NameVar, glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar), ReturnTypeVar, NParametersVar, ParameterTypesVar)
 }
 
 var xClassAddProperty func(uintptr, string, types.GType, uintptr, uintptr, uintptr, uintptr)
 
-// Add a property with @name to @jsc_class. When the property value needs to be getted, @getter is called
+// Add a property with @name to @jsc_class. When the property value is read, @getter is called
 // receiving the the class instance as first parameter and @user_data as last parameter. When the property
 // value needs to be set, @setter is called receiving the the class instance as first parameter, followed
 // by the value to be set and then @user_data as the last parameter. When the property is cleared in the
@@ -426,6 +452,8 @@ var xClassAddProperty func(uintptr, string, types.GType, uintptr, uintptr, uintp
 // If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a #JSCValue created
 // with jsc_value_new_object() that receives the copy as the instance parameter.
 func (x *Class) AddProperty(NameVar string, PropertyTypeVar types.GType, GetterVar *gobject.Callback, SetterVar *gobject.Callback, UserDataVar uintptr, DestroyNotifyVar *glib.DestroyNotify) {
+	core.LazyRegister(&xClassAddProperty, "JAVASCRIPTCORE", "jsc_class_add_property", false)
+
 	xClassAddProperty(x.GoPointer(), NameVar, PropertyTypeVar, glib.NewCallbackNullable(GetterVar), glib.NewCallbackNullable(SetterVar), UserDataVar, glib.NewCallbackNullable(DestroyNotifyVar))
 }
 
@@ -433,6 +461,8 @@ var xClassGetName func(uintptr) string
 
 // Get the class name of @jsc_class
 func (x *Class) GetName() string {
+	core.LazyRegister(&xClassGetName, "JAVASCRIPTCORE", "jsc_class_get_name", false)
+
 	cret := xClassGetName(x.GoPointer())
 	return cret
 }
@@ -441,6 +471,7 @@ var xClassGetParent func(uintptr) uintptr
 
 // Get the parent class of @jsc_class
 func (x *Class) GetParent() *Class {
+	core.LazyRegister(&xClassGetParent, "JAVASCRIPTCORE", "jsc_class_get_parent", false)
 	var cls *Class
 
 	cret := xClassGetParent(x.GoPointer())
@@ -485,24 +516,4 @@ func (x *Class) GetPropertyName() string {
 func init() {
 	core.SetPackageName("JAVASCRIPTCORE", "javascriptcoregtk-6.0")
 	core.SetSharedLibraries("JAVASCRIPTCORE", []string{"libjavascriptcoregtk-6.0.so.1", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("JAVASCRIPTCORE") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xClassGLibType, libs, "jsc_class_get_type")
-
-	core.PuregoSafeRegister(&xClassAddConstructor, libs, "jsc_class_add_constructor")
-	core.PuregoSafeRegister(&xClassAddConstructorVariadic, libs, "jsc_class_add_constructor_variadic")
-	core.PuregoSafeRegister(&xClassAddConstructorv, libs, "jsc_class_add_constructorv")
-	core.PuregoSafeRegister(&xClassAddMethod, libs, "jsc_class_add_method")
-	core.PuregoSafeRegister(&xClassAddMethodVariadic, libs, "jsc_class_add_method_variadic")
-	core.PuregoSafeRegister(&xClassAddMethodv, libs, "jsc_class_add_methodv")
-	core.PuregoSafeRegister(&xClassAddProperty, libs, "jsc_class_add_property")
-	core.PuregoSafeRegister(&xClassGetName, libs, "jsc_class_get_name")
-	core.PuregoSafeRegister(&xClassGetParent, libs, "jsc_class_get_parent")
 }

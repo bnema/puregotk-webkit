@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gdk"
 	"github.com/bnema/puregotk/v4/glib"
@@ -23,6 +22,14 @@ func (x *OptionMenuClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func OptionMenuClassNewFromInternalPtr(ptr uintptr) *OptionMenuClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*OptionMenuClass)(rawPtr)
+}
+
 // Represents the dropdown menu of a `select` element in a #WebKitWebView.
 //
 // When a select element in a #WebKitWebView needs to display a dropdown menu, the signal
@@ -35,6 +42,7 @@ type OptionMenu struct {
 var xOptionMenuGLibType func() types.GType
 
 func OptionMenuGLibType() types.GType {
+	core.LazyRegister(&xOptionMenuGLibType, "WEBKIT", "webkit_option_menu_get_type", false)
 	return xOptionMenuGLibType()
 }
 
@@ -53,6 +61,8 @@ var xOptionMenuActivateItem func(uintptr, uint)
 // webkit_option_menu_close() after activating an item, calling this function again will have no
 // effect.
 func (x *OptionMenu) ActivateItem(IndexVar uint) {
+	core.LazyRegister(&xOptionMenuActivateItem, "WEBKIT", "webkit_option_menu_activate_item", false)
+
 	xOptionMenuActivateItem(x.GoPointer(), IndexVar)
 }
 
@@ -66,6 +76,8 @@ var xOptionMenuClose func(uintptr)
 // nor webkit_option_menu_activate_item() have been called, the element value remains
 // unchanged.
 func (x *OptionMenu) Close() {
+	core.LazyRegister(&xOptionMenuClose, "WEBKIT", "webkit_option_menu_close", false)
+
 	xOptionMenuClose(x.GoPointer())
 }
 
@@ -75,6 +87,7 @@ var xOptionMenuGetEvent func(uintptr) uintptr
 // If @menu was not triggered by a user interaction, like a mouse click,
 // %NULL is returned.
 func (x *OptionMenu) GetEvent() *gdk.Event {
+	core.LazyRegister(&xOptionMenuGetEvent, "WEBKIT", "webkit_option_menu_get_event", false)
 	var cls *gdk.Event
 
 	cret := xOptionMenuGetEvent(x.GoPointer())
@@ -92,6 +105,8 @@ var xOptionMenuGetItem func(uintptr, uint) uintptr
 
 // Returns the #WebKitOptionMenuItem at @index in @menu.
 func (x *OptionMenu) GetItem(IndexVar uint) *OptionMenuItem {
+	core.LazyRegister(&xOptionMenuGetItem, "WEBKIT", "webkit_option_menu_get_item", false)
+
 	cret := xOptionMenuGetItem(x.GoPointer(), IndexVar)
 	if cret == 0 {
 		return nil
@@ -103,6 +118,8 @@ var xOptionMenuGetNItems func(uintptr) uint
 
 // Gets the length of the @menu.
 func (x *OptionMenu) GetNItems() uint {
+	core.LazyRegister(&xOptionMenuGetNItems, "WEBKIT", "webkit_option_menu_get_n_items", false)
+
 	cret := xOptionMenuGetNItems(x.GoPointer())
 	return cret
 }
@@ -116,6 +133,8 @@ var xOptionMenuSelectItem func(uintptr, uint)
 // explicitly activate the item with webkit_option_menu_select_item() or close the menu with
 // webkit_option_menu_close() in which case the currently selected item will be activated.
 func (x *OptionMenu) SelectItem(IndexVar uint) {
+	core.LazyRegister(&xOptionMenuSelectItem, "WEBKIT", "webkit_option_menu_select_item", false)
+
 	xOptionMenuSelectItem(x.GoPointer(), IndexVar)
 }
 
@@ -134,50 +153,32 @@ func (c *OptionMenu) SetGoPointer(ptr uintptr) {
 // when the user explicitly calls webkit_option_menu_close() or when the
 // element is detached from the current page.
 func (x *OptionMenu) ConnectClose(cb *func(OptionMenu)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "close", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.OptionMenu.Close", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(OptionMenu))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := OptionMenu{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "close", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "close", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
 	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKIT") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
 
-	core.PuregoSafeRegister(&xOptionMenuGLibType, libs, "webkit_option_menu_get_type")
-
-	core.PuregoSafeRegister(&xOptionMenuActivateItem, libs, "webkit_option_menu_activate_item")
-	core.PuregoSafeRegister(&xOptionMenuClose, libs, "webkit_option_menu_close")
-	core.PuregoSafeRegister(&xOptionMenuGetEvent, libs, "webkit_option_menu_get_event")
-	core.PuregoSafeRegister(&xOptionMenuGetItem, libs, "webkit_option_menu_get_item")
-	core.PuregoSafeRegister(&xOptionMenuGetNItems, libs, "webkit_option_menu_get_n_items")
-	core.PuregoSafeRegister(&xOptionMenuSelectItem, libs, "webkit_option_menu_select_item")
-
-	// Manually register types since they aren't being automatically registered when
-	// the library is loaded
-	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	// Manually register types since they aren't automatically registered when
+	// WebKit is loaded. See https://bugs.webkit.org/show_bug.cgi?id=175937.
 	OptionMenuGLibType()
 }

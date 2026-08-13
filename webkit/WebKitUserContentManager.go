@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk-webkit/javascriptcore"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
@@ -23,6 +22,7 @@ type ScriptMessageReply struct {
 var xScriptMessageReplyGLibType func() types.GType
 
 func ScriptMessageReplyGLibType() types.GType {
+	core.LazyRegister(&xScriptMessageReplyGLibType, "WEBKIT", "webkit_script_message_reply_get_type", false)
 	return xScriptMessageReplyGLibType()
 }
 
@@ -30,10 +30,20 @@ func (x *ScriptMessageReply) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func ScriptMessageReplyNewFromInternalPtr(ptr uintptr) *ScriptMessageReply {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*ScriptMessageReply)(rawPtr)
+}
+
 var xScriptMessageReplyRef func(uintptr) uintptr
 
 // Atomically increments the reference count of @script_message_reply by one.
 func (x *ScriptMessageReply) Ref() *ScriptMessageReply {
+	core.LazyRegister(&xScriptMessageReplyRef, "WEBKIT", "webkit_script_message_reply_ref", false)
+
 	cret := xScriptMessageReplyRef(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -45,6 +55,8 @@ var xScriptMessageReplyReturnErrorMessage func(uintptr, string)
 
 // Reply to a script message with an error message.
 func (x *ScriptMessageReply) ReturnErrorMessage(ErrorMessageVar string) {
+	core.LazyRegister(&xScriptMessageReplyReturnErrorMessage, "WEBKIT", "webkit_script_message_reply_return_error_message", false)
+
 	xScriptMessageReplyReturnErrorMessage(x.GoPointer(), ErrorMessageVar)
 }
 
@@ -54,6 +66,8 @@ var xScriptMessageReplyReturnValue func(uintptr, uintptr)
 //
 // This function can be called twice for passing the reply value in.
 func (x *ScriptMessageReply) ReturnValue(ReplyValueVar *javascriptcore.Value) {
+	core.LazyRegister(&xScriptMessageReplyReturnValue, "WEBKIT", "webkit_script_message_reply_return_value", false)
+
 	xScriptMessageReplyReturnValue(x.GoPointer(), ReplyValueVar.GoPointer())
 }
 
@@ -65,6 +79,8 @@ var xScriptMessageReplyUnref func(uintptr)
 // #WebKitScriptMessageReply is released. This function is MT-safe and may
 // be called from any thread.
 func (x *ScriptMessageReply) Unref() {
+	core.LazyRegister(&xScriptMessageReplyUnref, "WEBKIT", "webkit_script_message_reply_unref", false)
+
 	xScriptMessageReplyUnref(x.GoPointer())
 }
 
@@ -76,6 +92,14 @@ type UserContentManagerClass struct {
 
 func (x *UserContentManagerClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func UserContentManagerClassNewFromInternalPtr(ptr uintptr) *UserContentManagerClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*UserContentManagerClass)(rawPtr)
 }
 
 // Manages user-defined content which affects web pages.
@@ -98,6 +122,7 @@ type UserContentManager struct {
 var xUserContentManagerGLibType func() types.GType
 
 func UserContentManagerGLibType() types.GType {
+	core.LazyRegister(&xUserContentManagerGLibType, "WEBKIT", "webkit_user_content_manager_get_type", false)
 	return xUserContentManagerGLibType()
 }
 
@@ -111,6 +136,7 @@ var xNewUserContentManager func() uintptr
 
 // Creates a new user content manager.
 func NewUserContentManager() *UserContentManager {
+	core.LazyRegister(&xNewUserContentManager, "WEBKIT", "webkit_user_content_manager_new", false)
 	var cls *UserContentManager
 
 	cret := xNewUserContentManager()
@@ -132,6 +158,8 @@ var xUserContentManagerAddFilter func(uintptr, *UserContentFilter)
 //
 // Filters need to be saved and loaded from #WebKitUserContentFilterStore.
 func (x *UserContentManager) AddFilter(FilterVar *UserContentFilter) {
+	core.LazyRegister(&xUserContentManagerAddFilter, "WEBKIT", "webkit_user_content_manager_add_filter", false)
+
 	xUserContentManagerAddFilter(x.GoPointer(), FilterVar)
 }
 
@@ -142,6 +170,8 @@ var xUserContentManagerAddScript func(uintptr, *UserScript)
 // The same #WebKitUserScript can be reused with multiple
 // #WebKitUserContentManager instances.
 func (x *UserContentManager) AddScript(ScriptVar *UserScript) {
+	core.LazyRegister(&xUserContentManagerAddScript, "WEBKIT", "webkit_user_content_manager_add_script", false)
+
 	xUserContentManagerAddScript(x.GoPointer(), ScriptVar)
 }
 
@@ -152,6 +182,8 @@ var xUserContentManagerAddStyleSheet func(uintptr, *UserStyleSheet)
 // The same #WebKitUserStyleSheet can be reused with multiple
 // #WebKitUserContentManager instances.
 func (x *UserContentManager) AddStyleSheet(StylesheetVar *UserStyleSheet) {
+	core.LazyRegister(&xUserContentManagerAddStyleSheet, "WEBKIT", "webkit_user_content_manager_add_style_sheet", false)
+
 	xUserContentManagerAddStyleSheet(x.GoPointer(), StylesheetVar)
 }
 
@@ -175,7 +207,7 @@ var xUserContentManagerRegisterScriptMessageHandler func(uintptr, string, uintpt
 //
 //	G_CALLBACK (handle_script_message), NULL);
 //
-// webkit_user_content_manager_register_script_message_handler (manager, "foobar");
+// webkit_user_content_manager_register_script_message_handler (manager, "foobar", "world");
 // ```
 //
 // Registering a script message handler will fail if the requested
@@ -186,6 +218,8 @@ var xUserContentManagerRegisterScriptMessageHandler func(uintptr, string, uintpt
 // The registered handler can be unregistered by using
 // webkit_user_content_manager_unregister_script_message_handler().
 func (x *UserContentManager) RegisterScriptMessageHandler(NameVar string, WorldNameVar *string) bool {
+	core.LazyRegister(&xUserContentManagerRegisterScriptMessageHandler, "WEBKIT", "webkit_user_content_manager_register_script_message_handler", false)
+
 	WorldNameVarPtr := core.GStrdupNullable(WorldNameVar)
 	defer core.GFreeNullable(WorldNameVarPtr)
 
@@ -211,6 +245,8 @@ var xUserContentManagerRegisterScriptMessageHandlerWithReply func(uintptr, strin
 // The registered handler can be unregistered by using
 // webkit_user_content_manager_unregister_script_message_handler().
 func (x *UserContentManager) RegisterScriptMessageHandlerWithReply(NameVar string, WorldNameVar *string) bool {
+	core.LazyRegister(&xUserContentManagerRegisterScriptMessageHandlerWithReply, "WEBKIT", "webkit_user_content_manager_register_script_message_handler_with_reply", false)
+
 	WorldNameVarPtr := core.GStrdupNullable(WorldNameVar)
 	defer core.GFreeNullable(WorldNameVarPtr)
 
@@ -222,6 +258,8 @@ var xUserContentManagerRemoveAllFilters func(uintptr)
 
 // Removes all content filters from the given #WebKitUserContentManager.
 func (x *UserContentManager) RemoveAllFilters() {
+	core.LazyRegister(&xUserContentManagerRemoveAllFilters, "WEBKIT", "webkit_user_content_manager_remove_all_filters", false)
+
 	xUserContentManagerRemoveAllFilters(x.GoPointer())
 }
 
@@ -231,6 +269,8 @@ var xUserContentManagerRemoveAllScripts func(uintptr)
 //
 // See also webkit_user_content_manager_remove_script().
 func (x *UserContentManager) RemoveAllScripts() {
+	core.LazyRegister(&xUserContentManagerRemoveAllScripts, "WEBKIT", "webkit_user_content_manager_remove_all_scripts", false)
+
 	xUserContentManagerRemoveAllScripts(x.GoPointer())
 }
 
@@ -238,6 +278,8 @@ var xUserContentManagerRemoveAllStyleSheets func(uintptr)
 
 // Removes all user style sheets from the given #WebKitUserContentManager.
 func (x *UserContentManager) RemoveAllStyleSheets() {
+	core.LazyRegister(&xUserContentManagerRemoveAllStyleSheets, "WEBKIT", "webkit_user_content_manager_remove_all_style_sheets", false)
+
 	xUserContentManagerRemoveAllStyleSheets(x.GoPointer())
 }
 
@@ -247,6 +289,8 @@ var xUserContentManagerRemoveFilter func(uintptr, *UserContentFilter)
 //
 // Since 2.24
 func (x *UserContentManager) RemoveFilter(FilterVar *UserContentFilter) {
+	core.LazyRegister(&xUserContentManagerRemoveFilter, "WEBKIT", "webkit_user_content_manager_remove_filter", false)
+
 	xUserContentManagerRemoveFilter(x.GoPointer(), FilterVar)
 }
 
@@ -258,6 +302,8 @@ var xUserContentManagerRemoveFilterById func(uintptr, string)
 // identifier of a #WebKitUserContentFilter as returned by
 // webkit_user_content_filter_get_identifier().
 func (x *UserContentManager) RemoveFilterById(FilterIdVar string) {
+	core.LazyRegister(&xUserContentManagerRemoveFilterById, "WEBKIT", "webkit_user_content_manager_remove_filter_by_id", false)
+
 	xUserContentManagerRemoveFilterById(x.GoPointer(), FilterIdVar)
 }
 
@@ -267,6 +313,8 @@ var xUserContentManagerRemoveScript func(uintptr, *UserScript)
 //
 // See also webkit_user_content_manager_remove_all_scripts().
 func (x *UserContentManager) RemoveScript(ScriptVar *UserScript) {
+	core.LazyRegister(&xUserContentManagerRemoveScript, "WEBKIT", "webkit_user_content_manager_remove_script", false)
+
 	xUserContentManagerRemoveScript(x.GoPointer(), ScriptVar)
 }
 
@@ -276,6 +324,8 @@ var xUserContentManagerRemoveStyleSheet func(uintptr, *UserStyleSheet)
 //
 // See also webkit_user_content_manager_remove_all_style_sheets().
 func (x *UserContentManager) RemoveStyleSheet(StylesheetVar *UserStyleSheet) {
+	core.LazyRegister(&xUserContentManagerRemoveStyleSheet, "WEBKIT", "webkit_user_content_manager_remove_style_sheet", false)
+
 	xUserContentManagerRemoveStyleSheet(x.GoPointer(), StylesheetVar)
 }
 
@@ -291,6 +341,8 @@ var xUserContentManagerUnregisterScriptMessageHandler func(uintptr, string, uint
 //
 // See also webkit_user_content_manager_register_script_message_handler().
 func (x *UserContentManager) UnregisterScriptMessageHandler(NameVar string, WorldNameVar *string) {
+	core.LazyRegister(&xUserContentManagerUnregisterScriptMessageHandler, "WEBKIT", "webkit_user_content_manager_unregister_script_message_handler", false)
+
 	WorldNameVarPtr := core.GStrdupNullable(WorldNameVar)
 	defer core.GFreeNullable(WorldNameVarPtr)
 
@@ -313,24 +365,24 @@ func (c *UserContentManager) SetGoPointer(ptr uintptr) {
 // &lt;code&gt;&lt;name&gt;&lt;/code&gt; using
 // webkit_user_content_manager_register_script_message_handler()
 func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentManager, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, ValueVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.UserContentManager.ScriptMessageReceived", func(clsPtr uintptr, ValueVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(UserContentManager, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := UserContentManager{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, ValueVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-received", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "script-message-received", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -347,66 +399,34 @@ func (x *UserContentManager) ConnectScriptMessageReceived(cb *func(UserContentMa
 // It is possible to handle the reply asynchronously, by simply calling
 // g_object_ref() on the @reply and returning %TRUE.
 func (x *UserContentManager) ConnectScriptMessageWithReplyReceived(cb *func(UserContentManager, uintptr, uintptr) bool) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, ValueVarp uintptr, ReplyVarp uintptr) bool {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkit.UserContentManager.ScriptMessageWithReplyReceived", func(clsPtr uintptr, ValueVarp uintptr, ReplyVarp uintptr, signalData uintptr) bool {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			var zero bool
+			return zero
+		}
+		cb, ok := handler.(*func(UserContentManager, uintptr, uintptr) bool)
+		if !ok || cb == nil || *cb == nil {
+			var zero bool
+			return zero
+		}
 		fa := UserContentManager{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		return cbFn(fa, ValueVarp, ReplyVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "script-message-with-reply-received", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "script-message-with-reply-received", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
 	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKIT") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
 
-	core.PuregoSafeRegister(&xScriptMessageReplyGLibType, libs, "webkit_script_message_reply_get_type")
-
-	core.PuregoSafeRegister(&xScriptMessageReplyRef, libs, "webkit_script_message_reply_ref")
-	core.PuregoSafeRegister(&xScriptMessageReplyReturnErrorMessage, libs, "webkit_script_message_reply_return_error_message")
-	core.PuregoSafeRegister(&xScriptMessageReplyReturnValue, libs, "webkit_script_message_reply_return_value")
-	core.PuregoSafeRegister(&xScriptMessageReplyUnref, libs, "webkit_script_message_reply_unref")
-
-	core.PuregoSafeRegister(&xUserContentManagerGLibType, libs, "webkit_user_content_manager_get_type")
-
-	core.PuregoSafeRegister(&xNewUserContentManager, libs, "webkit_user_content_manager_new")
-
-	core.PuregoSafeRegister(&xUserContentManagerAddFilter, libs, "webkit_user_content_manager_add_filter")
-	core.PuregoSafeRegister(&xUserContentManagerAddScript, libs, "webkit_user_content_manager_add_script")
-	core.PuregoSafeRegister(&xUserContentManagerAddStyleSheet, libs, "webkit_user_content_manager_add_style_sheet")
-	core.PuregoSafeRegister(&xUserContentManagerRegisterScriptMessageHandler, libs, "webkit_user_content_manager_register_script_message_handler")
-	core.PuregoSafeRegister(&xUserContentManagerRegisterScriptMessageHandlerWithReply, libs, "webkit_user_content_manager_register_script_message_handler_with_reply")
-	core.PuregoSafeRegister(&xUserContentManagerRemoveAllFilters, libs, "webkit_user_content_manager_remove_all_filters")
-	core.PuregoSafeRegister(&xUserContentManagerRemoveAllScripts, libs, "webkit_user_content_manager_remove_all_scripts")
-	core.PuregoSafeRegister(&xUserContentManagerRemoveAllStyleSheets, libs, "webkit_user_content_manager_remove_all_style_sheets")
-	core.PuregoSafeRegister(&xUserContentManagerRemoveFilter, libs, "webkit_user_content_manager_remove_filter")
-	core.PuregoSafeRegister(&xUserContentManagerRemoveFilterById, libs, "webkit_user_content_manager_remove_filter_by_id")
-	core.PuregoSafeRegister(&xUserContentManagerRemoveScript, libs, "webkit_user_content_manager_remove_script")
-	core.PuregoSafeRegister(&xUserContentManagerRemoveStyleSheet, libs, "webkit_user_content_manager_remove_style_sheet")
-	core.PuregoSafeRegister(&xUserContentManagerUnregisterScriptMessageHandler, libs, "webkit_user_content_manager_unregister_script_message_handler")
-
-	// Manually register types since they aren't being automatically registered when
-	// the library is loaded
-	// See https://bugs.webkit.org/show_bug.cgi?id=175937
+	// Manually register types since they aren't automatically registered when
+	// WebKit is loaded. See https://bugs.webkit.org/show_bug.cgi?id=175937.
 	UserContentManagerGLibType()
 }
