@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk-webkit/javascriptcore"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
@@ -23,6 +22,14 @@ func (x *WebFormManagerClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func WebFormManagerClassNewFromInternalPtr(ptr uintptr) *WebFormManagerClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*WebFormManagerClass)(rawPtr)
+}
+
 // Form manager of a #WebKitWebPage in a #WebKitScriptWorld
 type WebFormManager struct {
 	gobject.Object
@@ -31,6 +38,7 @@ type WebFormManager struct {
 var xWebFormManagerGLibType func() types.GType
 
 func WebFormManagerGLibType() types.GType {
+	core.LazyRegister(&xWebFormManagerGLibType, "WEBKITWEBPROCESSEXTENSION", "webkit_web_form_manager_get_type", false)
 	return xWebFormManagerGLibType()
 }
 
@@ -61,24 +69,24 @@ func (c *WebFormManager) SetGoPointer(ptr uintptr) {
 // Clients should take a reference to the members of the @elements array if it is desired to
 // keep them alive after the signal handler returns.
 func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, uintptr, []javascriptcore.Value)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "form-controls-associated", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, FrameVarp uintptr, ElementsVarp []javascriptcore.Value) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebFormManager.FormControlsAssociated", func(clsPtr uintptr, FrameVarp uintptr, ElementsVarp []javascriptcore.Value, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebFormManager, uintptr, []javascriptcore.Value))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebFormManager{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, FrameVarp, ElementsVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "form-controls-associated", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "form-controls-associated", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -95,24 +103,24 @@ func (x *WebFormManager) ConnectFormControlsAssociated(cb *func(WebFormManager, 
 // be needed, for example, to implement a robust browser password manager, as some
 // misguided websites may use such techniques to attempt to thwart password managers.
 func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uintptr, uintptr, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "will-send-submit-event", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, FormVarp uintptr, SourceFrameVarp uintptr, TargetFrameVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebFormManager.WillSendSubmitEvent", func(clsPtr uintptr, FormVarp uintptr, SourceFrameVarp uintptr, TargetFrameVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebFormManager, uintptr, uintptr, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebFormManager{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, FormVarp, SourceFrameVarp, TargetFrameVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "will-send-submit-event", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "will-send-submit-event", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -122,24 +130,24 @@ func (x *WebFormManager) ConnectWillSendSubmitEvent(cb *func(WebFormManager, uin
 // signal is emitted after #WebKitWebFormManager::will-send-submit-event if that
 // signal is emitted.
 func (x *WebFormManager) ConnectWillSubmitForm(cb *func(WebFormManager, uintptr, uintptr, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "will-submit-form", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, FormVarp uintptr, SourceFrameVarp uintptr, TargetFrameVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebFormManager.WillSubmitForm", func(clsPtr uintptr, FormVarp uintptr, SourceFrameVarp uintptr, TargetFrameVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebFormManager, uintptr, uintptr, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebFormManager{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, FormVarp, SourceFrameVarp, TargetFrameVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "will-submit-form", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "will-submit-form", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -149,6 +157,8 @@ var xWebFormManagerInputElementAutoFill func(uintptr, string)
 // the user, triggering a change event, and set it as filled automatically.
 // If @element is not an HTML input element this function does nothing.
 func WebFormManagerInputElementAutoFill(ElementVar *javascriptcore.Value, ValueVar string) {
+	core.LazyRegister(&xWebFormManagerInputElementAutoFill, "WEBKITWEBPROCESSEXTENSION", "webkit_web_form_manager_input_element_auto_fill", false)
+
 	xWebFormManagerInputElementAutoFill(ElementVar.GoPointer(), ValueVar)
 }
 
@@ -156,6 +166,8 @@ var xWebFormManagerInputElementIsAutoFilled func(uintptr) bool
 
 // Get whether @element is an HTML input element that has been filled automatically.
 func WebFormManagerInputElementIsAutoFilled(ElementVar *javascriptcore.Value) bool {
+	core.LazyRegister(&xWebFormManagerInputElementIsAutoFilled, "WEBKITWEBPROCESSEXTENSION", "webkit_web_form_manager_input_element_is_auto_filled", false)
+
 	cret := xWebFormManagerInputElementIsAutoFilled(ElementVar.GoPointer())
 	return cret
 }
@@ -164,6 +176,8 @@ var xWebFormManagerInputElementIsUserEdited func(uintptr) bool
 
 // Get whether @element is an HTML text input element that has been edited by a user action.
 func WebFormManagerInputElementIsUserEdited(ElementVar *javascriptcore.Value) bool {
+	core.LazyRegister(&xWebFormManagerInputElementIsUserEdited, "WEBKITWEBPROCESSEXTENSION", "webkit_web_form_manager_input_element_is_user_edited", false)
+
 	cret := xWebFormManagerInputElementIsUserEdited(ElementVar.GoPointer())
 	return cret
 }
@@ -171,18 +185,4 @@ func WebFormManagerInputElementIsUserEdited(ElementVar *javascriptcore.Value) bo
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xWebFormManagerGLibType, libs, "webkit_web_form_manager_get_type")
-
-	core.PuregoSafeRegister(&xWebFormManagerInputElementAutoFill, libs, "webkit_web_form_manager_input_element_auto_fill")
-	core.PuregoSafeRegister(&xWebFormManagerInputElementIsAutoFilled, libs, "webkit_web_form_manager_input_element_is_auto_filled")
-	core.PuregoSafeRegister(&xWebFormManagerInputElementIsUserEdited, libs, "webkit_web_form_manager_input_element_is_user_edited")
 }

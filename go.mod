@@ -3,8 +3,8 @@ module github.com/bnema/puregotk-webkit
 go 1.26.1
 
 require (
-	github.com/bnema/purego v0.11.0-bnema.3
-	github.com/bnema/puregotk v0.5.4
+	github.com/bnema/purego v0.11.0-bnema.4
+	github.com/bnema/puregotk v0.7.2
 )
 
 require (

@@ -5,6 +5,7 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject/types"
 )
 
@@ -16,6 +17,14 @@ type WebsocketExtensionDeflateClass struct {
 
 func (x *WebsocketExtensionDeflateClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func WebsocketExtensionDeflateClassNewFromInternalPtr(ptr uintptr) *WebsocketExtensionDeflateClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*WebsocketExtensionDeflateClass)(rawPtr)
 }
 
 // A SoupWebsocketExtensionDeflate is a [class@WebsocketExtension]
@@ -30,6 +39,7 @@ type WebsocketExtensionDeflate struct {
 var xWebsocketExtensionDeflateGLibType func() types.GType
 
 func WebsocketExtensionDeflateGLibType() types.GType {
+	core.LazyRegister(&xWebsocketExtensionDeflateGLibType, "SOUP", "soup_websocket_extension_deflate_get_type", false)
 	return xWebsocketExtensionDeflateGLibType()
 }
 
@@ -48,4 +58,9 @@ func (c *WebsocketExtensionDeflate) GoPointer() uintptr {
 
 func (c *WebsocketExtensionDeflate) SetGoPointer(ptr uintptr) {
 	c.Ptr = ptr
+}
+
+func init() {
+	core.SetPackageName("SOUP", "libsoup-3.0")
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 }

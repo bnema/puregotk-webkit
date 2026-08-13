@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk-webkit/javascriptcore"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
@@ -22,6 +21,14 @@ func (x *FrameClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func FrameClassNewFromInternalPtr(ptr uintptr) *FrameClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*FrameClass)(rawPtr)
+}
+
 // A web page frame.
 //
 // Each `WebKitWebPage` has at least one main frame, and can have any number
@@ -33,6 +40,7 @@ type Frame struct {
 var xFrameGLibType func() types.GType
 
 func FrameGLibType() types.GType {
+	core.LazyRegister(&xFrameGLibType, "WEBKITWEBPROCESSEXTENSION", "webkit_frame_get_type", false)
 	return xFrameGLibType()
 }
 
@@ -48,6 +56,8 @@ var xFrameGetId func(uintptr) uint64
 // frame in the same web process will have the same ID; however, frames
 // in other web processes may.
 func (x *Frame) GetId() uint64 {
+	core.LazyRegister(&xFrameGetId, "WEBKITWEBPROCESSEXTENSION", "webkit_frame_get_id", false)
+
 	cret := xFrameGetId(x.GoPointer())
 	return cret
 }
@@ -57,6 +67,7 @@ var xFrameGetJsContext func(uintptr) uintptr
 // Get the JavaScript execution context of @frame. Use this function to bridge
 // between the WebKit and JavaScriptCore APIs.
 func (x *Frame) GetJsContext() *javascriptcore.Context {
+	core.LazyRegister(&xFrameGetJsContext, "WEBKITWEBPROCESSEXTENSION", "webkit_frame_get_js_context", false)
 	var cls *javascriptcore.Context
 
 	cret := xFrameGetJsContext(x.GoPointer())
@@ -73,6 +84,7 @@ var xFrameGetJsContextForScriptWorld func(uintptr, uintptr) uintptr
 
 // Get the JavaScript execution context of @frame for the given #WebKitScriptWorld.
 func (x *Frame) GetJsContextForScriptWorld(WorldVar *ScriptWorld) *javascriptcore.Context {
+	core.LazyRegister(&xFrameGetJsContextForScriptWorld, "WEBKITWEBPROCESSEXTENSION", "webkit_frame_get_js_context_for_script_world", false)
 	var cls *javascriptcore.Context
 
 	cret := xFrameGetJsContextForScriptWorld(x.GoPointer(), WorldVar.GoPointer())
@@ -89,6 +101,8 @@ var xFrameGetUri func(uintptr) string
 
 // Gets the current active URI of @frame.
 func (x *Frame) GetUri() string {
+	core.LazyRegister(&xFrameGetUri, "WEBKITWEBPROCESSEXTENSION", "webkit_frame_get_uri", false)
+
 	cret := xFrameGetUri(x.GoPointer())
 	return cret
 }
@@ -97,6 +111,8 @@ var xFrameIsMainFrame func(uintptr) bool
 
 // Gets whether @frame is the main frame of a #WebKitWebPage
 func (x *Frame) IsMainFrame() bool {
+	core.LazyRegister(&xFrameIsMainFrame, "WEBKITWEBPROCESSEXTENSION", "webkit_frame_is_main_frame", false)
+
 	cret := xFrameIsMainFrame(x.GoPointer())
 	return cret
 }
@@ -115,20 +131,4 @@ func (c *Frame) SetGoPointer(ptr uintptr) {
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xFrameGLibType, libs, "webkit_frame_get_type")
-
-	core.PuregoSafeRegister(&xFrameGetId, libs, "webkit_frame_get_id")
-	core.PuregoSafeRegister(&xFrameGetJsContext, libs, "webkit_frame_get_js_context")
-	core.PuregoSafeRegister(&xFrameGetJsContextForScriptWorld, libs, "webkit_frame_get_js_context_for_script_world")
-	core.PuregoSafeRegister(&xFrameGetUri, libs, "webkit_frame_get_uri")
-	core.PuregoSafeRegister(&xFrameIsMainFrame, libs, "webkit_frame_is_main_frame")
 }

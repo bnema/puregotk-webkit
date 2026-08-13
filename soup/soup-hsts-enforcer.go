@@ -12,7 +12,7 @@ import (
 	"github.com/bnema/puregotk/v4/gobject/types"
 )
 
-// Class structure for #SoupHSTSEnforcer.
+// Class structure for [class@HSTSEnforcer].
 type HSTSEnforcerClass struct {
 	_ structs.HostLayout
 
@@ -29,6 +29,14 @@ type HSTSEnforcerClass struct {
 
 func (x *HSTSEnforcerClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func HSTSEnforcerClassNewFromInternalPtr(ptr uintptr) *HSTSEnforcerClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*HSTSEnforcerClass)(rawPtr)
 }
 
 // OverrideIsPersistent sets the "is_persistent" callback function.
@@ -60,8 +68,8 @@ func (x *HSTSEnforcerClass) GetIsPersistent() func(*HSTSEnforcer) bool {
 
 // OverrideHasValidPolicy sets the "has_valid_policy" callback function.
 // The @has_valid_policy function is called to check whether there is a valid
-// policy for the given domain. This method should return %TRUE for #SoupHSTSEnforcer to
-// change the scheme of the #GUri in the #SoupMessage to HTTPS. Implementations might want to
+// policy for the given domain. This method should return %TRUE for [class@HSTSEnforcer] to
+// change the scheme of the #GUri in the [class@Message] to HTTPS. Implementations might want to
 // chain up to the @has_valid_policy in the parent class to check, for instance, for runtime
 // policies.
 func (x *HSTSEnforcerClass) OverrideHasValidPolicy(cb func(*HSTSEnforcer, string) bool) {
@@ -76,8 +84,8 @@ func (x *HSTSEnforcerClass) OverrideHasValidPolicy(cb func(*HSTSEnforcer, string
 
 // GetHasValidPolicy gets the "has_valid_policy" callback function.
 // The @has_valid_policy function is called to check whether there is a valid
-// policy for the given domain. This method should return %TRUE for #SoupHSTSEnforcer to
-// change the scheme of the #GUri in the #SoupMessage to HTTPS. Implementations might want to
+// policy for the given domain. This method should return %TRUE for [class@HSTSEnforcer] to
+// change the scheme of the #GUri in the [class@Message] to HTTPS. Implementations might want to
 // chain up to the @has_valid_policy in the parent class to check, for instance, for runtime
 // policies.
 func (x *HSTSEnforcerClass) GetHasValidPolicy() func(*HSTSEnforcer, string) bool {
@@ -92,7 +100,7 @@ func (x *HSTSEnforcerClass) GetHasValidPolicy() func(*HSTSEnforcer, string) bool
 }
 
 // OverrideChanged sets the "changed" callback function.
-// The class closure for the #SoupHSTSEnforcer::changed signal.
+// The class closure for the [signal@HSTSEnforcer::changed] signal.
 func (x *HSTSEnforcerClass) OverrideChanged(cb func(*HSTSEnforcer, *HSTSPolicy, *HSTSPolicy)) {
 	if cb == nil {
 		x.xChanged = 0
@@ -104,7 +112,7 @@ func (x *HSTSEnforcerClass) OverrideChanged(cb func(*HSTSEnforcer, *HSTSPolicy, 
 }
 
 // GetChanged gets the "changed" callback function.
-// The class closure for the #SoupHSTSEnforcer::changed signal.
+// The class closure for the [signal@HSTSEnforcer::changed] signal.
 func (x *HSTSEnforcerClass) GetChanged() func(*HSTSEnforcer, *HSTSPolicy, *HSTSPolicy) {
 	if x.xChanged == 0 {
 		return nil
@@ -118,24 +126,24 @@ func (x *HSTSEnforcerClass) GetChanged() func(*HSTSEnforcer, *HSTSPolicy, *HSTSP
 
 // Automatic HTTP Strict Transport Security enforcing for [class@Session].
 //
-// A #SoupHSTSEnforcer stores HSTS policies and enforces them when
-// required. #SoupHSTSEnforcer implements [iface@SessionFeature], so you
+// A [class@HSTSEnforcer] stores HSTS policies and enforces them when
+// required. [class@HSTSEnforcer] implements [iface@SessionFeature], so you
 // can add an HSTS enforcer to a session with
 // [method@Session.add_feature] or [method@Session.add_feature_by_type].
 //
-// #SoupHSTSEnforcer keeps track of all the HTTPS destinations that,
+// [class@HSTSEnforcer] keeps track of all the HTTPS destinations that,
 // when connected to, return the Strict-Transport-Security header with
-// valid values. #SoupHSTSEnforcer will forget those destinations
+// valid values. [class@HSTSEnforcer] will forget those destinations
 // upon expiry or when the server requests it.
 //
-// When the [class@Session] the #SoupHSTSEnforcer is attached to queues or
-// restarts a message, the #SoupHSTSEnforcer will rewrite the URI to HTTPS if
+// When the [class@Session] the [class@HSTSEnforcer] is attached to queues or
+// restarts a message, the [class@HSTSEnforcer] will rewrite the URI to HTTPS if
 // the destination is a known HSTS host and is contacted over an insecure
-// transport protocol (HTTP). Users of #SoupHSTSEnforcer are advised to listen
+// transport protocol (HTTP). Users of [class@HSTSEnforcer] are advised to listen
 // to changes in the [property@Message:uri] property in order to be aware of
 // changes in the message URI.
 //
-// Note that #SoupHSTSEnforcer does not support any form of long-term
+// Note that [class@HSTSEnforcer] does not support any form of long-term
 // HSTS policy persistence. See [class@HSTSEnforcerDB] for a persistent
 // enforcer.
 type HSTSEnforcer struct {
@@ -145,6 +153,7 @@ type HSTSEnforcer struct {
 var xHSTSEnforcerGLibType func() types.GType
 
 func HSTSEnforcerGLibType() types.GType {
+	core.LazyRegister(&xHSTSEnforcerGLibType, "SOUP", "soup_hsts_enforcer_get_type", false)
 	return xHSTSEnforcerGLibType()
 }
 
@@ -156,11 +165,12 @@ func HSTSEnforcerNewFromInternalPtr(ptr uintptr) *HSTSEnforcer {
 
 var xNewHSTSEnforcer func() uintptr
 
-// Creates a new #SoupHSTSEnforcer.
+// Creates a new [class@HSTSEnforcer].
 //
-// The base #SoupHSTSEnforcer class does not support persistent storage of HSTS
+// The base [class@HSTSEnforcer] class does not support persistent storage of HSTS
 // policies, see [class@HSTSEnforcerDB] for that.
 func NewHSTSEnforcer() *HSTSEnforcer {
+	core.LazyRegister(&xNewHSTSEnforcer, "SOUP", "soup_hsts_enforcer_new", false)
 	var cls *HSTSEnforcer
 
 	cret := xNewHSTSEnforcer()
@@ -177,6 +187,8 @@ var xHSTSEnforcerGetDomains func(uintptr, bool) uintptr
 
 // Gets a list of domains for which there are policies in @enforcer.
 func (x *HSTSEnforcer) GetDomains(SessionPoliciesVar bool) *glib.List {
+	core.LazyRegister(&xHSTSEnforcerGetDomains, "SOUP", "soup_hsts_enforcer_get_domains", false)
+
 	cret := xHSTSEnforcerGetDomains(x.GoPointer(), SessionPoliciesVar)
 	if cret == 0 {
 		return nil
@@ -188,6 +200,8 @@ var xHSTSEnforcerGetPolicies func(uintptr, bool) uintptr
 
 // Gets a list with the policies in @enforcer.
 func (x *HSTSEnforcer) GetPolicies(SessionPoliciesVar bool) *glib.List {
+	core.LazyRegister(&xHSTSEnforcerGetPolicies, "SOUP", "soup_hsts_enforcer_get_policies", false)
+
 	cret := xHSTSEnforcerGetPolicies(x.GoPointer(), SessionPoliciesVar)
 	if cret == 0 {
 		return nil
@@ -199,6 +213,8 @@ var xHSTSEnforcerHasValidPolicy func(uintptr, string) bool
 
 // Gets whether @hsts_enforcer has a currently valid policy for @domain.
 func (x *HSTSEnforcer) HasValidPolicy(DomainVar string) bool {
+	core.LazyRegister(&xHSTSEnforcerHasValidPolicy, "SOUP", "soup_hsts_enforcer_has_valid_policy", false)
+
 	cret := xHSTSEnforcerHasValidPolicy(x.GoPointer(), DomainVar)
 	return cret
 }
@@ -207,6 +223,8 @@ var xHSTSEnforcerIsPersistent func(uintptr) bool
 
 // Gets whether @hsts_enforcer stores policies persistenly.
 func (x *HSTSEnforcer) IsPersistent() bool {
+	core.LazyRegister(&xHSTSEnforcerIsPersistent, "SOUP", "soup_hsts_enforcer_is_persistent", false)
+
 	cret := xHSTSEnforcerIsPersistent(x.GoPointer())
 	return cret
 }
@@ -222,6 +240,8 @@ var xHSTSEnforcerSetPolicy func(uintptr, *HSTSPolicy)
 // expire and will be enforced during the lifetime of @hsts_enforcer's
 // [class@Session].
 func (x *HSTSEnforcer) SetPolicy(PolicyVar *HSTSPolicy) {
+	core.LazyRegister(&xHSTSEnforcerSetPolicy, "SOUP", "soup_hsts_enforcer_set_policy", false)
+
 	xHSTSEnforcerSetPolicy(x.GoPointer(), PolicyVar)
 }
 
@@ -232,6 +252,8 @@ var xHSTSEnforcerSetSessionPolicy func(uintptr, string, bool)
 // A session policy is a policy that is permanent to the lifetime of
 // @hsts_enforcer's [class@Session] and doesn't expire.
 func (x *HSTSEnforcer) SetSessionPolicy(DomainVar string, IncludeSubdomainsVar bool) {
+	core.LazyRegister(&xHSTSEnforcerSetSessionPolicy, "SOUP", "soup_hsts_enforcer_set_session_policy", false)
+
 	xHSTSEnforcerSetSessionPolicy(x.GoPointer(), DomainVar, IncludeSubdomainsVar)
 }
 
@@ -259,47 +281,28 @@ func (c *HSTSEnforcer) SetGoPointer(ptr uintptr) {
 // Note that you shouldn't modify the policies from a callback to
 // this signal.
 func (x *HSTSEnforcer) ConnectChanged(cb *func(HSTSEnforcer, uintptr, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, OldPolicyVarp uintptr, NewPolicyVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.HSTSEnforcer.Changed", func(clsPtr uintptr, OldPolicyVarp uintptr, NewPolicyVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(HSTSEnforcer, uintptr, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := HSTSEnforcer{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, OldPolicyVarp, NewPolicyVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "changed", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "changed", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
 	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("SOUP") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xHSTSEnforcerGLibType, libs, "soup_hsts_enforcer_get_type")
-
-	core.PuregoSafeRegister(&xNewHSTSEnforcer, libs, "soup_hsts_enforcer_new")
-
-	core.PuregoSafeRegister(&xHSTSEnforcerGetDomains, libs, "soup_hsts_enforcer_get_domains")
-	core.PuregoSafeRegister(&xHSTSEnforcerGetPolicies, libs, "soup_hsts_enforcer_get_policies")
-	core.PuregoSafeRegister(&xHSTSEnforcerHasValidPolicy, libs, "soup_hsts_enforcer_has_valid_policy")
-	core.PuregoSafeRegister(&xHSTSEnforcerIsPersistent, libs, "soup_hsts_enforcer_is_persistent")
-	core.PuregoSafeRegister(&xHSTSEnforcerSetPolicy, libs, "soup_hsts_enforcer_set_policy")
-	core.PuregoSafeRegister(&xHSTSEnforcerSetSessionPolicy, libs, "soup_hsts_enforcer_set_session_policy")
 }

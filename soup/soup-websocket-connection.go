@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
@@ -24,6 +23,14 @@ func (x *WebsocketConnectionClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func WebsocketConnectionClassNewFromInternalPtr(ptr uintptr) *WebsocketConnectionClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*WebsocketConnectionClass)(rawPtr)
+}
+
 // The WebSocket Protocol
 //
 // Provides support for the [WebSocket](http://tools.ietf.org/html/rfc6455)
@@ -40,11 +47,11 @@ func (x *WebsocketConnectionClass) GoPointer() uintptr {
 // WebSocket handshake, and [func@websocket_server_process_handshake] for
 // handling the server side.)
 //
-// #SoupWebsocketConnection handles the details of WebSocket communication. You
+// [class@WebsocketConnection] handles the details of WebSocket communication. You
 // can use [method@WebsocketConnection.send_text] and
 // [method@WebsocketConnection.send_binary] to send data, and the
 // [signal@WebsocketConnection::message] signal to receive data.
-// (#SoupWebsocketConnection currently only supports asynchronous I/O.)
+// ([class@WebsocketConnection] currently only supports asynchronous I/O.)
 type WebsocketConnection struct {
 	gobject.Object
 }
@@ -52,6 +59,7 @@ type WebsocketConnection struct {
 var xWebsocketConnectionGLibType func() types.GType
 
 func WebsocketConnectionGLibType() types.GType {
+	core.LazyRegister(&xWebsocketConnectionGLibType, "SOUP", "soup_websocket_connection_get_type", false)
 	return xWebsocketConnectionGLibType()
 }
 
@@ -63,11 +71,12 @@ func WebsocketConnectionNewFromInternalPtr(ptr uintptr) *WebsocketConnection {
 
 var xNewWebsocketConnection func(uintptr, *glib.Uri, WebsocketConnectionType, uintptr, uintptr, *glib.List) uintptr
 
-// Creates a #SoupWebsocketConnection on @stream with the given active @extensions.
+// Creates a [class@WebsocketConnection] on @stream with the given active @extensions.
 //
 // This should be called after completing the handshake to begin using the WebSocket
 // protocol.
 func NewWebsocketConnection(StreamVar *gio.IOStream, UriVar *glib.Uri, TypeVar WebsocketConnectionType, OriginVar *string, ProtocolVar *string, ExtensionsVar *glib.List) *WebsocketConnection {
+	core.LazyRegister(&xNewWebsocketConnection, "SOUP", "soup_websocket_connection_new", false)
 	var cls *WebsocketConnection
 
 	OriginVarPtr := core.GStrdupNullable(OriginVar)
@@ -99,6 +108,8 @@ var xWebsocketConnectionClose func(uintptr, uint16, uintptr)
 // (without code and data) is sent.
 // Note that the @data must be UTF-8 valid.
 func (x *WebsocketConnection) Close(CodeVar uint16, DataVar *string) {
+	core.LazyRegister(&xWebsocketConnectionClose, "SOUP", "soup_websocket_connection_close", false)
+
 	DataVarPtr := core.GStrdupNullable(DataVar)
 	defer core.GFreeNullable(DataVarPtr)
 
@@ -114,6 +125,8 @@ var xWebsocketConnectionGetCloseCode func(uintptr) uint16
 // [enum@WebsocketCloseCode] enumeration, but may also be an application
 // defined close code.
 func (x *WebsocketConnection) GetCloseCode() uint16 {
+	core.LazyRegister(&xWebsocketConnectionGetCloseCode, "SOUP", "soup_websocket_connection_get_close_code", false)
+
 	cret := xWebsocketConnectionGetCloseCode(x.GoPointer())
 	return cret
 }
@@ -126,6 +139,8 @@ var xWebsocketConnectionGetCloseData func(uintptr) string
 // %SOUP_WEBSOCKET_STATE_CLOSED state. The data may be freed once
 // the main loop is run, so copy it if you need to keep it around.
 func (x *WebsocketConnection) GetCloseData() string {
+	core.LazyRegister(&xWebsocketConnectionGetCloseData, "SOUP", "soup_websocket_connection_get_close_data", false)
+
 	cret := xWebsocketConnectionGetCloseData(x.GoPointer())
 	return cret
 }
@@ -134,6 +149,8 @@ var xWebsocketConnectionGetConnectionType func(uintptr) WebsocketConnectionType
 
 // Get the connection type (client/server) of the connection.
 func (x *WebsocketConnection) GetConnectionType() WebsocketConnectionType {
+	core.LazyRegister(&xWebsocketConnectionGetConnectionType, "SOUP", "soup_websocket_connection_get_connection_type", false)
+
 	cret := xWebsocketConnectionGetConnectionType(x.GoPointer())
 	return cret
 }
@@ -142,6 +159,8 @@ var xWebsocketConnectionGetExtensions func(uintptr) uintptr
 
 // Get the extensions chosen via negotiation with the peer.
 func (x *WebsocketConnection) GetExtensions() *glib.List {
+	core.LazyRegister(&xWebsocketConnectionGetExtensions, "SOUP", "soup_websocket_connection_get_extensions", false)
+
 	cret := xWebsocketConnectionGetExtensions(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -153,6 +172,7 @@ var xWebsocketConnectionGetIoStream func(uintptr) uintptr
 
 // Get the I/O stream the WebSocket is communicating over.
 func (x *WebsocketConnection) GetIoStream() *gio.IOStream {
+	core.LazyRegister(&xWebsocketConnectionGetIoStream, "SOUP", "soup_websocket_connection_get_io_stream", false)
 	var cls *gio.IOStream
 
 	cret := xWebsocketConnectionGetIoStream(x.GoPointer())
@@ -170,6 +190,8 @@ var xWebsocketConnectionGetKeepaliveInterval func(uintptr) uint
 
 // Gets the keepalive interval in seconds or 0 if disabled.
 func (x *WebsocketConnection) GetKeepaliveInterval() uint {
+	core.LazyRegister(&xWebsocketConnectionGetKeepaliveInterval, "SOUP", "soup_websocket_connection_get_keepalive_interval", false)
+
 	cret := xWebsocketConnectionGetKeepaliveInterval(x.GoPointer())
 	return cret
 }
@@ -178,6 +200,8 @@ var xWebsocketConnectionGetKeepalivePongTimeout func(uintptr) uint
 
 // Gets the keepalive pong timeout in seconds or 0 if disabled.
 func (x *WebsocketConnection) GetKeepalivePongTimeout() uint {
+	core.LazyRegister(&xWebsocketConnectionGetKeepalivePongTimeout, "SOUP", "soup_websocket_connection_get_keepalive_pong_timeout", false)
+
 	cret := xWebsocketConnectionGetKeepalivePongTimeout(x.GoPointer())
 	return cret
 }
@@ -186,6 +210,8 @@ var xWebsocketConnectionGetMaxIncomingPayloadSize func(uintptr) uint64
 
 // Gets the maximum payload size allowed for incoming packets.
 func (x *WebsocketConnection) GetMaxIncomingPayloadSize() uint64 {
+	core.LazyRegister(&xWebsocketConnectionGetMaxIncomingPayloadSize, "SOUP", "soup_websocket_connection_get_max_incoming_payload_size", false)
+
 	cret := xWebsocketConnectionGetMaxIncomingPayloadSize(x.GoPointer())
 	return cret
 }
@@ -194,6 +220,8 @@ var xWebsocketConnectionGetOrigin func(uintptr) string
 
 // Get the origin of the WebSocket.
 func (x *WebsocketConnection) GetOrigin() string {
+	core.LazyRegister(&xWebsocketConnectionGetOrigin, "SOUP", "soup_websocket_connection_get_origin", false)
+
 	cret := xWebsocketConnectionGetOrigin(x.GoPointer())
 	return cret
 }
@@ -202,6 +230,8 @@ var xWebsocketConnectionGetProtocol func(uintptr) string
 
 // Get the protocol chosen via negotiation with the peer.
 func (x *WebsocketConnection) GetProtocol() string {
+	core.LazyRegister(&xWebsocketConnectionGetProtocol, "SOUP", "soup_websocket_connection_get_protocol", false)
+
 	cret := xWebsocketConnectionGetProtocol(x.GoPointer())
 	return cret
 }
@@ -210,6 +240,8 @@ var xWebsocketConnectionGetState func(uintptr) WebsocketState
 
 // Get the current state of the WebSocket.
 func (x *WebsocketConnection) GetState() WebsocketState {
+	core.LazyRegister(&xWebsocketConnectionGetState, "SOUP", "soup_websocket_connection_get_state", false)
+
 	cret := xWebsocketConnectionGetState(x.GoPointer())
 	return cret
 }
@@ -221,6 +253,8 @@ var xWebsocketConnectionGetUri func(uintptr) uintptr
 // For servers this represents the address of the WebSocket, and
 // for clients it is the address connected to.
 func (x *WebsocketConnection) GetUri() *glib.Uri {
+	core.LazyRegister(&xWebsocketConnectionGetUri, "SOUP", "soup_websocket_connection_get_uri", false)
+
 	cret := xWebsocketConnectionGetUri(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -237,6 +271,8 @@ var xWebsocketConnectionSendBinary func(uintptr, []byte, uint)
 // The message is queued to be sent and will be sent when the main loop
 // is run.
 func (x *WebsocketConnection) SendBinary(DataVar []byte, LengthVar uint) {
+	core.LazyRegister(&xWebsocketConnectionSendBinary, "SOUP", "soup_websocket_connection_send_binary", false)
+
 	xWebsocketConnectionSendBinary(x.GoPointer(), DataVar, LengthVar)
 }
 
@@ -248,6 +284,8 @@ var xWebsocketConnectionSendMessage func(uintptr, WebsocketDataType, *glib.Bytes
 // The message is queued to be sent and will be sent when the main loop
 // is run.
 func (x *WebsocketConnection) SendMessage(TypeVar WebsocketDataType, MessageVar *glib.Bytes) {
+	core.LazyRegister(&xWebsocketConnectionSendMessage, "SOUP", "soup_websocket_connection_send_message", false)
+
 	xWebsocketConnectionSendMessage(x.GoPointer(), TypeVar, MessageVar)
 }
 
@@ -261,6 +299,8 @@ var xWebsocketConnectionSendText func(uintptr, string)
 // The message is queued to be sent and will be sent when the main loop
 // is run.
 func (x *WebsocketConnection) SendText(TextVar string) {
+	core.LazyRegister(&xWebsocketConnectionSendText, "SOUP", "soup_websocket_connection_send_text", false)
+
 	xWebsocketConnectionSendText(x.GoPointer(), TextVar)
 }
 
@@ -271,6 +311,8 @@ var xWebsocketConnectionSetKeepaliveInterval func(uintptr, uint)
 //
 // If set to 0 the keepalive message is disabled.
 func (x *WebsocketConnection) SetKeepaliveInterval(IntervalVar uint) {
+	core.LazyRegister(&xWebsocketConnectionSetKeepaliveInterval, "SOUP", "soup_websocket_connection_set_keepalive_interval", false)
+
 	xWebsocketConnectionSetKeepaliveInterval(x.GoPointer(), IntervalVar)
 }
 
@@ -281,6 +323,8 @@ var xWebsocketConnectionSetKeepalivePongTimeout func(uintptr, uint)
 //
 // If set to 0 then the absence of pongs from keepalive pings is ignored.
 func (x *WebsocketConnection) SetKeepalivePongTimeout(PongTimeoutVar uint) {
+	core.LazyRegister(&xWebsocketConnectionSetKeepalivePongTimeout, "SOUP", "soup_websocket_connection_set_keepalive_pong_timeout", false)
+
 	xWebsocketConnectionSetKeepalivePongTimeout(x.GoPointer(), PongTimeoutVar)
 }
 
@@ -290,6 +334,8 @@ var xWebsocketConnectionSetMaxIncomingPayloadSize func(uintptr, uint64)
 //
 // It does not limit the outgoing packet size.
 func (x *WebsocketConnection) SetMaxIncomingPayloadSize(MaxIncomingPayloadSizeVar uint64) {
+	core.LazyRegister(&xWebsocketConnectionSetMaxIncomingPayloadSize, "SOUP", "soup_websocket_connection_set_max_incoming_payload_size", false)
+
 	xWebsocketConnectionSetMaxIncomingPayloadSize(x.GoPointer(), MaxIncomingPayloadSizeVar)
 }
 
@@ -459,47 +505,47 @@ func (x *WebsocketConnection) GetPropertyUri() uintptr {
 //
 // This signal will be emitted once.
 func (x *WebsocketConnection) ConnectClosed(cb *func(WebsocketConnection)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.WebsocketConnection.Closed", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebsocketConnection))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebsocketConnection{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "closed", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "closed", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // This signal will be emitted during an orderly close.
 func (x *WebsocketConnection) ConnectClosing(cb *func(WebsocketConnection)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "closing", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.WebsocketConnection.Closing", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebsocketConnection))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebsocketConnection{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "closing", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "closing", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -508,24 +554,24 @@ func (x *WebsocketConnection) ConnectClosing(cb *func(WebsocketConnection)) uint
 // This may be fired multiple times. Fatal errors will be followed by
 // the [signal@WebsocketConnection::closed] signal being emitted.
 func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, *glib.Error)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "error", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, ErrorVarp unsafe.Pointer) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.WebsocketConnection.Error", func(clsPtr uintptr, ErrorVarp unsafe.Pointer, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebsocketConnection, *glib.Error))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebsocketConnection{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, (*glib.Error)(ErrorVarp))
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "error", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "error", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -535,24 +581,24 @@ func (x *WebsocketConnection) ConnectError(cb *func(WebsocketConnection, *glib.E
 // %NULL-terminated, but the NUL byte will not be included in
 // the length count.
 func (x *WebsocketConnection) ConnectMessage(cb *func(WebsocketConnection, int, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "message", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, TypeVarp int, MessageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.WebsocketConnection.Message", func(clsPtr uintptr, TypeVarp int, MessageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebsocketConnection, int, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebsocketConnection{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, TypeVarp, MessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "message", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "message", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -563,60 +609,28 @@ func (x *WebsocketConnection) ConnectMessage(cb *func(WebsocketConnection, int, 
 // %NULL-terminated, but the NUL byte will not be included in
 // the length count.
 func (x *WebsocketConnection) ConnectPong(cb *func(WebsocketConnection, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "pong", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.WebsocketConnection.Pong", func(clsPtr uintptr, MessageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebsocketConnection, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebsocketConnection{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, MessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "pong", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "pong", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
 	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("SOUP") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xWebsocketConnectionGLibType, libs, "soup_websocket_connection_get_type")
-
-	core.PuregoSafeRegister(&xNewWebsocketConnection, libs, "soup_websocket_connection_new")
-
-	core.PuregoSafeRegister(&xWebsocketConnectionClose, libs, "soup_websocket_connection_close")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetCloseCode, libs, "soup_websocket_connection_get_close_code")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetCloseData, libs, "soup_websocket_connection_get_close_data")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetConnectionType, libs, "soup_websocket_connection_get_connection_type")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetExtensions, libs, "soup_websocket_connection_get_extensions")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetIoStream, libs, "soup_websocket_connection_get_io_stream")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetKeepaliveInterval, libs, "soup_websocket_connection_get_keepalive_interval")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetKeepalivePongTimeout, libs, "soup_websocket_connection_get_keepalive_pong_timeout")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetMaxIncomingPayloadSize, libs, "soup_websocket_connection_get_max_incoming_payload_size")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetOrigin, libs, "soup_websocket_connection_get_origin")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetProtocol, libs, "soup_websocket_connection_get_protocol")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetState, libs, "soup_websocket_connection_get_state")
-	core.PuregoSafeRegister(&xWebsocketConnectionGetUri, libs, "soup_websocket_connection_get_uri")
-	core.PuregoSafeRegister(&xWebsocketConnectionSendBinary, libs, "soup_websocket_connection_send_binary")
-	core.PuregoSafeRegister(&xWebsocketConnectionSendMessage, libs, "soup_websocket_connection_send_message")
-	core.PuregoSafeRegister(&xWebsocketConnectionSendText, libs, "soup_websocket_connection_send_text")
-	core.PuregoSafeRegister(&xWebsocketConnectionSetKeepaliveInterval, libs, "soup_websocket_connection_set_keepalive_interval")
-	core.PuregoSafeRegister(&xWebsocketConnectionSetKeepalivePongTimeout, libs, "soup_websocket_connection_set_keepalive_pong_timeout")
-	core.PuregoSafeRegister(&xWebsocketConnectionSetMaxIncomingPayloadSize, libs, "soup_websocket_connection_set_max_incoming_payload_size")
 }

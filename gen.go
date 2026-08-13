@@ -73,7 +73,7 @@ func main() {
 		"convcb":   util.ConvertCallbackArgs,
 		"convcd":   util.ConvertArgsCommaDeref,
 		"convd":    util.ConvertArgsDeref,
-		"convcbne": util.ConvertCallbackArgsNoErr,
+		"convcbe":  util.ConvertCallbackArgsWithErr,
 		"propsset": util.PropertyScalarSet,
 		"propsget": util.PropertyScalarGet,
 		"propvset": util.PropertyVectorSet,
@@ -359,7 +359,7 @@ func NavigationActionFromPointer(ptr uintptr) *NavigationAction {
 	if ptr == 0 {
 		return nil
 	}
-	return xNavigationActionCopy(ptr)
+	return NavigationActionNewFromInternalPtr(ptr).Copy()
 }
 `
 	webkitDir := filepath.Join(dir, "webkit")

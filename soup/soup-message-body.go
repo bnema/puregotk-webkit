@@ -5,13 +5,12 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject/types"
 )
 
-// #SoupMessageBody represents the request or response body of a
+// [struct@MessageBody] represents the request or response body of a
 // [class@Message].
 //
 // Note that while @length always reflects the full length of the
@@ -35,6 +34,7 @@ type MessageBody struct {
 var xMessageBodyGLibType func() types.GType
 
 func MessageBodyGLibType() types.GType {
+	core.LazyRegister(&xMessageBodyGLibType, "SOUP", "soup_message_body_get_type", false)
 	return xMessageBodyGLibType()
 }
 
@@ -42,13 +42,23 @@ func (x *MessageBody) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func MessageBodyNewFromInternalPtr(ptr uintptr) *MessageBody {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*MessageBody)(rawPtr)
+}
+
 var xNewMessageBody func() uintptr
 
-// Creates a new #SoupMessageBody.
+// Creates a new [struct@MessageBody]
 //
 // [class@Message] uses this internally; you
 // will not normally need to call it yourself.
 func NewMessageBody() *MessageBody {
+	core.LazyRegister(&xNewMessageBody, "SOUP", "soup_message_body_new", false)
+
 	cret := xNewMessageBody()
 	if cret == 0 {
 		return nil
@@ -60,6 +70,8 @@ var xMessageBodyAppend func(uintptr, MemoryUse, []byte, uint)
 
 // Appends @length bytes from @data to @body according to @use.
 func (x *MessageBody) Append(UseVar MemoryUse, DataVar []byte, LengthVar uint) {
+	core.LazyRegister(&xMessageBodyAppend, "SOUP", "soup_message_body_append", false)
+
 	xMessageBodyAppend(x.GoPointer(), UseVar, DataVar, LengthVar)
 }
 
@@ -67,6 +79,8 @@ var xMessageBodyAppendBytes func(uintptr, *glib.Bytes)
 
 // Appends the data from @buffer to @body.
 func (x *MessageBody) AppendBytes(BufferVar *glib.Bytes) {
+	core.LazyRegister(&xMessageBodyAppendBytes, "SOUP", "soup_message_body_append_bytes", false)
+
 	xMessageBodyAppendBytes(x.GoPointer(), BufferVar)
 }
 
@@ -78,6 +92,8 @@ var xMessageBodyAppendTake func(uintptr, []byte, uint)
 // with %SOUP_MEMORY_TAKE as second argument; it exists mainly for
 // convenience and simplifying language bindings.
 func (x *MessageBody) AppendTake(DataVar []byte, LengthVar uint) {
+	core.LazyRegister(&xMessageBodyAppendTake, "SOUP", "soup_message_body_append_take", false)
+
 	xMessageBodyAppendTake(x.GoPointer(), DataVar, LengthVar)
 }
 
@@ -87,6 +103,8 @@ var xMessageBodyComplete func(uintptr)
 //
 // Call this when using chunked encoding after you have appended the last chunk.
 func (x *MessageBody) Complete() {
+	core.LazyRegister(&xMessageBodyComplete, "SOUP", "soup_message_body_complete", false)
+
 	xMessageBodyComplete(x.GoPointer())
 }
 
@@ -98,6 +116,8 @@ var xMessageBodyFlatten func(uintptr) uintptr
 // Adds an additional `\0` byte not counted by @body's
 // length field.
 func (x *MessageBody) Flatten() *glib.Bytes {
+	core.LazyRegister(&xMessageBodyFlatten, "SOUP", "soup_message_body_flatten", false)
+
 	cret := xMessageBodyFlatten(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -111,6 +131,8 @@ var xMessageBodyGetAccumulate func(uintptr) bool
 //
 // See [method@MessageBody.set_accumulate. for details.
 func (x *MessageBody) GetAccumulate() bool {
+	core.LazyRegister(&xMessageBodyGetAccumulate, "SOUP", "soup_message_body_get_accumulate", false)
+
 	cret := xMessageBodyGetAccumulate(x.GoPointer())
 	return cret
 }
@@ -134,6 +156,8 @@ var xMessageBodyGetChunk func(uintptr, int64) uintptr
 // @body may still potentially have more data, but that data is not
 // currently available).
 func (x *MessageBody) GetChunk(OffsetVar int64) *glib.Bytes {
+	core.LazyRegister(&xMessageBodyGetChunk, "SOUP", "soup_message_body_get_chunk", false)
+
 	cret := xMessageBodyGetChunk(x.GoPointer(), OffsetVar)
 	if cret == 0 {
 		return nil
@@ -143,7 +167,7 @@ func (x *MessageBody) GetChunk(OffsetVar int64) *glib.Bytes {
 
 var xMessageBodyGotChunk func(uintptr, *glib.Bytes)
 
-// Handles the #SoupMessageBody part of receiving a chunk of data from
+// Handles the [struct@MessageBody] part of receiving a chunk of data from
 // the network.
 //
 // Normally this means appending @chunk to @body, exactly as with
@@ -153,6 +177,8 @@ var xMessageBodyGotChunk func(uintptr, *glib.Bytes)
 // This is a low-level method which you should not normally need to
 // use.
 func (x *MessageBody) GotChunk(ChunkVar *glib.Bytes) {
+	core.LazyRegister(&xMessageBodyGotChunk, "SOUP", "soup_message_body_got_chunk", false)
+
 	xMessageBodyGotChunk(x.GoPointer(), ChunkVar)
 }
 
@@ -160,6 +186,8 @@ var xMessageBodyRef func(uintptr) uintptr
 
 // Atomically increments the reference count of @body by one.
 func (x *MessageBody) Ref() *MessageBody {
+	core.LazyRegister(&xMessageBodyRef, "SOUP", "soup_message_body_ref", false)
+
 	cret := xMessageBodyRef(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -183,6 +211,8 @@ var xMessageBodySetAccumulate func(uintptr, bool)
 // be kept around in case the request needs to be sent a second time
 // due to redirection or authentication.
 func (x *MessageBody) SetAccumulate(AccumulateVar bool) {
+	core.LazyRegister(&xMessageBodySetAccumulate, "SOUP", "soup_message_body_set_accumulate", false)
+
 	xMessageBodySetAccumulate(x.GoPointer(), AccumulateVar)
 }
 
@@ -190,6 +220,8 @@ var xMessageBodyTruncate func(uintptr)
 
 // Deletes all of the data in @body.
 func (x *MessageBody) Truncate() {
+	core.LazyRegister(&xMessageBodyTruncate, "SOUP", "soup_message_body_truncate", false)
+
 	xMessageBodyTruncate(x.GoPointer())
 }
 
@@ -200,12 +232,14 @@ var xMessageBodyUnref func(uintptr)
 // When the reference count reaches zero, the resources allocated by
 // @body are freed
 func (x *MessageBody) Unref() {
+	core.LazyRegister(&xMessageBodyUnref, "SOUP", "soup_message_body_unref", false)
+
 	xMessageBodyUnref(x.GoPointer())
 }
 
 var xMessageBodyWroteChunk func(uintptr, *glib.Bytes)
 
-// Handles the #SoupMessageBody part of writing a chunk of data to the
+// Handles the [struct@MessageBody] part of writing a chunk of data to the
 // network.
 //
 // Normally this is a no-op, but if you have set @body's accumulate flag to
@@ -215,6 +249,8 @@ var xMessageBodyWroteChunk func(uintptr, *glib.Bytes)
 // there are further restrictions on its proper use which are not
 // documented here.
 func (x *MessageBody) WroteChunk(ChunkVar *glib.Bytes) {
+	core.LazyRegister(&xMessageBodyWroteChunk, "SOUP", "soup_message_body_wrote_chunk", false)
+
 	xMessageBodyWroteChunk(x.GoPointer(), ChunkVar)
 }
 
@@ -224,6 +260,7 @@ type MemoryUse int
 var xMemoryUseGLibType func() types.GType
 
 func MemoryUseGLibType() types.GType {
+	core.LazyRegister(&xMemoryUseGLibType, "SOUP", "soup_memory_use_get_type", false)
 	return xMemoryUseGLibType()
 }
 
@@ -245,32 +282,4 @@ const (
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
 	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("SOUP") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xMemoryUseGLibType, libs, "soup_memory_use_get_type")
-
-	core.PuregoSafeRegister(&xMessageBodyGLibType, libs, "soup_message_body_get_type")
-
-	core.PuregoSafeRegister(&xNewMessageBody, libs, "soup_message_body_new")
-
-	core.PuregoSafeRegister(&xMessageBodyAppend, libs, "soup_message_body_append")
-	core.PuregoSafeRegister(&xMessageBodyAppendBytes, libs, "soup_message_body_append_bytes")
-	core.PuregoSafeRegister(&xMessageBodyAppendTake, libs, "soup_message_body_append_take")
-	core.PuregoSafeRegister(&xMessageBodyComplete, libs, "soup_message_body_complete")
-	core.PuregoSafeRegister(&xMessageBodyFlatten, libs, "soup_message_body_flatten")
-	core.PuregoSafeRegister(&xMessageBodyGetAccumulate, libs, "soup_message_body_get_accumulate")
-	core.PuregoSafeRegister(&xMessageBodyGetChunk, libs, "soup_message_body_get_chunk")
-	core.PuregoSafeRegister(&xMessageBodyGotChunk, libs, "soup_message_body_got_chunk")
-	core.PuregoSafeRegister(&xMessageBodyRef, libs, "soup_message_body_ref")
-	core.PuregoSafeRegister(&xMessageBodySetAccumulate, libs, "soup_message_body_set_accumulate")
-	core.PuregoSafeRegister(&xMessageBodyTruncate, libs, "soup_message_body_truncate")
-	core.PuregoSafeRegister(&xMessageBodyUnref, libs, "soup_message_body_unref")
-	core.PuregoSafeRegister(&xMessageBodyWroteChunk, libs, "soup_message_body_wrote_chunk")
 }

@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
@@ -23,6 +22,14 @@ func (x *WebPageClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func WebPageClassNewFromInternalPtr(ptr uintptr) *WebPageClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*WebPageClass)(rawPtr)
+}
+
 // A loaded web page.
 type WebPage struct {
 	gobject.Object
@@ -31,6 +38,7 @@ type WebPage struct {
 var xWebPageGLibType func() types.GType
 
 func WebPageGLibType() types.GType {
+	core.LazyRegister(&xWebPageGLibType, "WEBKITWEBPROCESSEXTENSION", "webkit_web_page_get_type", false)
 	return xWebPageGLibType()
 }
 
@@ -44,6 +52,7 @@ var xWebPageGetEditor func(uintptr) uintptr
 
 // Gets the #WebKitWebEditor of a #WebKitWebPage.
 func (x *WebPage) GetEditor() *WebEditor {
+	core.LazyRegister(&xWebPageGetEditor, "WEBKITWEBPROCESSEXTENSION", "webkit_web_page_get_editor", false)
 	var cls *WebEditor
 
 	cret := xWebPageGetEditor(x.GoPointer())
@@ -61,6 +70,7 @@ var xWebPageGetFormManager func(uintptr, uintptr) uintptr
 
 // Get the #WebKitWebFormManager of @web_page in @world.
 func (x *WebPage) GetFormManager(WorldVar *ScriptWorld) *WebFormManager {
+	core.LazyRegister(&xWebPageGetFormManager, "WEBKITWEBPROCESSEXTENSION", "webkit_web_page_get_form_manager", false)
 	var cls *WebFormManager
 
 	cret := xWebPageGetFormManager(x.GoPointer(), WorldVar.GoPointer())
@@ -78,6 +88,8 @@ var xWebPageGetId func(uintptr) uint64
 
 // Get the identifier of the #WebKitWebPage
 func (x *WebPage) GetId() uint64 {
+	core.LazyRegister(&xWebPageGetId, "WEBKITWEBPROCESSEXTENSION", "webkit_web_page_get_id", false)
+
 	cret := xWebPageGetId(x.GoPointer())
 	return cret
 }
@@ -86,6 +98,7 @@ var xWebPageGetMainFrame func(uintptr) uintptr
 
 // Returns the main frame of a #WebKitWebPage.
 func (x *WebPage) GetMainFrame() *Frame {
+	core.LazyRegister(&xWebPageGetMainFrame, "WEBKITWEBPROCESSEXTENSION", "webkit_web_page_get_main_frame", false)
 	var cls *Frame
 
 	cret := xWebPageGetMainFrame(x.GoPointer())
@@ -106,6 +119,8 @@ var xWebPageGetUri func(uintptr) string
 // You can monitor the active URI by connecting to the notify::uri
 // signal of @web_page.
 func (x *WebPage) GetUri() string {
+	core.LazyRegister(&xWebPageGetUri, "WEBKITWEBPROCESSEXTENSION", "webkit_web_page_get_uri", false)
+
 	cret := xWebPageGetUri(x.GoPointer())
 	return cret
 }
@@ -118,6 +133,8 @@ var xWebPageSendMessageToView func(uintptr, uintptr, uintptr, uintptr, uintptr)
 // When the operation is finished, @callback will be called. You can then call
 // webkit_web_page_send_message_to_view_finish() to get the message reply.
 func (x *WebPage) SendMessageToView(MessageVar *UserMessage, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xWebPageSendMessageToView, "WEBKITWEBPROCESSEXTENSION", "webkit_web_page_send_message_to_view", false)
+
 	xWebPageSendMessageToView(x.GoPointer(), MessageVar.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -125,6 +142,7 @@ var xWebPageSendMessageToViewFinish func(uintptr, uintptr, **glib.Error) uintptr
 
 // Finish an asynchronous operation started with webkit_web_page_send_message_to_view().
 func (x *WebPage) SendMessageToViewFinish(ResultVar gio.AsyncResult) (*UserMessage, error) {
+	core.LazyRegister(&xWebPageSendMessageToViewFinish, "WEBKITWEBPROCESSEXTENSION", "webkit_web_page_send_message_to_view_finish", false)
 	var cls *UserMessage
 	var cerr *glib.Error
 
@@ -165,24 +183,24 @@ func (x *WebPage) GetPropertyUri() string {
 // a security error or other errors, warnings, debug or log messages.
 // The @console_message contains information of the message.
 func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "console-message-sent", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, ConsoleMessageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebPage.ConsoleMessageSent", func(clsPtr uintptr, ConsoleMessageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebPage, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebPage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, ConsoleMessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "console-message-sent", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "console-message-sent", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -195,24 +213,26 @@ func (x *WebPage) ConnectConsoleMessageSent(cb *func(WebPage, uintptr)) uint {
 // @hit_test_result. Otherwise, it's recommended to use #WebKitWebView::context-menu
 // signal instead.
 func (x *WebPage) ConnectContextMenu(cb *func(WebPage, uintptr, uintptr) bool) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, ContextMenuVarp uintptr, HitTestResultVarp uintptr) bool {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebPage.ContextMenu", func(clsPtr uintptr, ContextMenuVarp uintptr, HitTestResultVarp uintptr, signalData uintptr) bool {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			var zero bool
+			return zero
+		}
+		cb, ok := handler.(*func(WebPage, uintptr, uintptr) bool)
+		if !ok || cb == nil || *cb == nil {
+			var zero bool
+			return zero
+		}
 		fa := WebPage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		return cbFn(fa, ContextMenuVarp, HitTestResultVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "context-menu", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "context-menu", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -221,24 +241,24 @@ func (x *WebPage) ConnectContextMenu(cb *func(WebPage, uintptr, uintptr) bool) u
 //
 // You can wait for this signal to get the DOM document
 func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "document-loaded", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebPage.DocumentLoaded", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebPage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebPage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "document-loaded", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "document-loaded", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -257,24 +277,26 @@ func (x *WebPage) ConnectDocumentLoaded(cb *func(WebPage)) uint {
 // #SoupMessageHeaders will be taken into account when the request
 // is sent over the network.
 func (x *WebPage) ConnectSendRequest(cb *func(WebPage, uintptr, uintptr) bool) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "send-request", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, RequestVarp uintptr, RedirectedResponseVarp uintptr) bool {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebPage.SendRequest", func(clsPtr uintptr, RequestVarp uintptr, RedirectedResponseVarp uintptr, signalData uintptr) bool {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			var zero bool
+			return zero
+		}
+		cb, ok := handler.(*func(WebPage, uintptr, uintptr) bool)
+		if !ok || cb == nil || *cb == nil {
+			var zero bool
+			return zero
+		}
 		fa := WebPage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		return cbFn(fa, RequestVarp, RedirectedResponseVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "send-request", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "send-request", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -287,46 +309,30 @@ func (x *WebPage) ConnectSendRequest(cb *func(WebPage, uintptr, uintptr) bool) u
 // and the message has been replied, the operation in the #WebKitWebView will
 // finish with error %WEBKIT_USER_MESSAGE_UNHANDLED_MESSAGE.
 func (x *WebPage) ConnectUserMessageReceived(cb *func(WebPage, uintptr) bool) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, MessageVarp uintptr) bool {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebPage.UserMessageReceived", func(clsPtr uintptr, MessageVarp uintptr, signalData uintptr) bool {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			var zero bool
+			return zero
+		}
+		cb, ok := handler.(*func(WebPage, uintptr) bool)
+		if !ok || cb == nil || *cb == nil {
+			var zero bool
+			return zero
+		}
 		fa := WebPage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		return cbFn(fa, MessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "user-message-received", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xWebPageGLibType, libs, "webkit_web_page_get_type")
-
-	core.PuregoSafeRegister(&xWebPageGetEditor, libs, "webkit_web_page_get_editor")
-	core.PuregoSafeRegister(&xWebPageGetFormManager, libs, "webkit_web_page_get_form_manager")
-	core.PuregoSafeRegister(&xWebPageGetId, libs, "webkit_web_page_get_id")
-	core.PuregoSafeRegister(&xWebPageGetMainFrame, libs, "webkit_web_page_get_main_frame")
-	core.PuregoSafeRegister(&xWebPageGetUri, libs, "webkit_web_page_get_uri")
-	core.PuregoSafeRegister(&xWebPageSendMessageToView, libs, "webkit_web_page_send_message_to_view")
-	core.PuregoSafeRegister(&xWebPageSendMessageToViewFinish, libs, "webkit_web_page_send_message_to_view_finish")
 }

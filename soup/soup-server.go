@@ -35,7 +35,7 @@ import (
 // for details of what handlers can/should do.
 type ServerCallback func(uintptr, uintptr, string, *glib.HashTable, uintptr)
 
-// A callback used to handle WebSocket requests to a #SoupServer.
+// A callback used to handle WebSocket requests to a [class@Server].
 //
 // The callback will be invoked after sending the handshake response back to the
 // client (and is only invoked if the handshake was successful).
@@ -62,6 +62,14 @@ type ServerClass struct {
 
 func (x *ServerClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func ServerClassNewFromInternalPtr(ptr uintptr) *ServerClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*ServerClass)(rawPtr)
 }
 
 // OverrideRequestStarted sets the "request_started" callback function.
@@ -168,6 +176,7 @@ type ServerListenOptions int
 var xServerListenOptionsGLibType func() types.GType
 
 func ServerListenOptionsGLibType() types.GType {
+	core.LazyRegister(&xServerListenOptionsGLibType, "SOUP", "soup_server_listen_options_get_type", false)
 	return xServerListenOptionsGLibType()
 }
 
@@ -182,7 +191,7 @@ const (
 	ServerListenIpv6OnlyValue ServerListenOptions = 4
 )
 
-// #SoupServer provides a basic implementation of an HTTP server. The
+// [class@Server] provides a basic implementation of an HTTP server. The
 // recommended usage of this server is for internal use, tasks like
 // a mock server for tests, a private service for IPC, etc. It is not
 // recommended to be exposed to untrusted clients as it may be vulnerable
@@ -196,20 +205,20 @@ const (
 // the path.)
 //
 // When a new connection is accepted (or a new request is started on
-// an existing persistent connection), the #SoupServer will emit
+// an existing persistent connection), the [class@Server] will emit
 // [signal@Server::request-started] and then begin processing the request
 // as described below, but note that once the message is assigned a
 // status-code, then callbacks after that point will be
 // skipped. Note also that it is not defined when the callbacks happen
 // relative to various [class@ServerMessage] signals.
 //
-// Once the headers have been read, #SoupServer will check if there is
+// Once the headers have been read, [class@Server] will check if there is
 // a [class@AuthDomain] `(qv)` covering the Request-URI; if so, and if the
 // message does not contain suitable authorization, then the
 // [class@AuthDomain] will set a status of %SOUP_STATUS_UNAUTHORIZED on
 // the message.
 //
-// After checking for authorization, #SoupServer will look for "early"
+// After checking for authorization, [class@Server] will look for "early"
 // handlers (added with [method@Server.add_early_handler]) matching the
 // Request-URI. If one is found, it will be run; in particular, this
 // can be used to connect to signals to do a streaming read of the
@@ -217,10 +226,10 @@ const (
 //
 // (At this point, if the request headers contain `Expect:
 // 100-continue`, and a status code has been set, then
-// #SoupServer will skip the remaining steps and return the response.
+// [class@Server] will skip the remaining steps and return the response.
 // If the request headers contain `Expect:
 // 100-continue` and no status code has been set,
-// #SoupServer will return a %SOUP_STATUS_CONTINUE status before
+// [class@Server] will return a %SOUP_STATUS_CONTINUE status before
 // continuing.)
 //
 // The server will then read in the response body (if present). At
@@ -234,7 +243,7 @@ const (
 // run.
 //
 // Then, if the path has a WebSocket handler registered (and has
-// not yet been assigned a status), #SoupServer will attempt to
+// not yet been assigned a status), [class@Server] will attempt to
 // validate the WebSocket handshake, filling in the response and
 // setting a status of %SOUP_STATUS_SWITCHING_PROTOCOLS or
 // %SOUP_STATUS_BAD_REQUEST accordingly.
@@ -259,13 +268,13 @@ const (
 // Once the server is set up, make one or more calls to
 // [method@Server.listen], [method@Server.listen_local], or
 // [method@Server.listen_all] to tell it where to listen for
-// connections. (All ports on a #SoupServer use the same handlers; if
+// connections. (All ports on a [class@Server] use the same handlers; if
 // you need to handle some ports differently, such as returning
 // different data for http and https, you'll need to create multiple
-// `SoupServer`s, or else check the passed-in URI in the handler
+// [class@Server]s, or else check the passed-in URI in the handler
 // function.).
 //
-// #SoupServer will begin processing connections as soon as you return
+// [class@Server] will begin processing connections as soon as you return
 // to (or start) the main loop for the current thread-default
 // [struct@GLib.MainContext].
 type Server struct {
@@ -275,6 +284,7 @@ type Server struct {
 var xServerGLibType func() types.GType
 
 func ServerGLibType() types.GType {
+	core.LazyRegister(&xServerGLibType, "SOUP", "soup_server_get_type", false)
 	return xServerGLibType()
 }
 
@@ -286,11 +296,12 @@ func ServerNewFromInternalPtr(ptr uintptr) *Server {
 
 var xNewServer func(string, ...interface{}) uintptr
 
-// Creates a new #SoupServer.
+// Creates a new [class@Server].
 //
 // This is exactly equivalent to calling [ctor@GObject.Object.new] and
 // specifying %SOUP_TYPE_SERVER as the type.
 func NewServer(Optname1Var string, varArgs ...interface{}) *Server {
+	core.LazyRegister(&xNewServer, "SOUP", "soup_server_new", false)
 	var cls *Server
 
 	cret := xNewServer(Optname1Var, varArgs...)
@@ -307,6 +318,7 @@ var xServerAcceptIostream func(uintptr, uintptr, uintptr, uintptr, **glib.Error)
 
 // Adds a new client stream to the @server.
 func (x *Server) AcceptIostream(StreamVar *gio.IOStream, LocalAddrVar *gio.SocketAddress, RemoteAddrVar *gio.SocketAddress) (bool, error) {
+	core.LazyRegister(&xServerAcceptIostream, "SOUP", "soup_server_accept_iostream", false)
 	var cerr *glib.Error
 
 	cret := xServerAcceptIostream(x.GoPointer(), StreamVar.GoPointer(), LocalAddrVar.GoPointer(), RemoteAddrVar.GoPointer(), &cerr)
@@ -330,6 +342,8 @@ var xServerAddAuthDomain func(uintptr, uintptr)
 // SoupServer:100-continue Expectation, @server will reject it before the
 // request body is sent.
 func (x *Server) AddAuthDomain(AuthDomainVar *AuthDomain) {
+	core.LazyRegister(&xServerAddAuthDomain, "SOUP", "soup_server_add_auth_domain", false)
+
 	xServerAddAuthDomain(x.GoPointer(), AuthDomainVar.GoPointer())
 }
 
@@ -362,6 +376,8 @@ var xServerAddEarlyHandler func(uintptr, uintptr, uintptr, uintptr, uintptr)
 // [signal@ServerMessage::got-body] is emitted, the non-early handler will be
 // run as well.
 func (x *Server) AddEarlyHandler(PathVar *string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
+	core.LazyRegister(&xServerAddEarlyHandler, "SOUP", "soup_server_add_early_handler", false)
+
 	PathVarPtr := core.GStrdupNullable(PathVar)
 	defer core.GFreeNullable(PathVarPtr)
 
@@ -404,6 +420,8 @@ var xServerAddHandler func(uintptr, uintptr, uintptr, uintptr, uintptr)
 // more chunks are available.) When you are done, call
 // [method@MessageBody.complete] to indicate that no more chunks are coming.
 func (x *Server) AddHandler(PathVar *string, CallbackVar *ServerCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
+	core.LazyRegister(&xServerAddHandler, "SOUP", "soup_server_add_handler", false)
+
 	PathVarPtr := core.GStrdupNullable(PathVar)
 	defer core.GFreeNullable(PathVarPtr)
 
@@ -421,6 +439,8 @@ var xServerAddWebsocketExtension func(uintptr, types.GType)
 // Note that [class@WebsocketExtensionDeflate] is supported by default, use
 // [method@Server.remove_websocket_extension] if you want to disable it.
 func (x *Server) AddWebsocketExtension(ExtensionTypeVar types.GType) {
+	core.LazyRegister(&xServerAddWebsocketExtension, "SOUP", "soup_server_add_websocket_extension", false)
+
 	xServerAddWebsocketExtension(x.GoPointer(), ExtensionTypeVar)
 }
 
@@ -445,6 +465,8 @@ var xServerAddWebsocketHandler func(uintptr, uintptr, uintptr, []string, uintptr
 // whatever checks are needed and
 // setting a failure status code if the handshake should be rejected.
 func (x *Server) AddWebsocketHandler(PathVar *string, OriginVar *string, ProtocolsVar []string, CallbackVar *ServerWebsocketCallback, UserDataVar uintptr, DestroyVar *glib.DestroyNotify) {
+	core.LazyRegister(&xServerAddWebsocketHandler, "SOUP", "soup_server_add_websocket_handler", false)
+
 	PathVarPtr := core.GStrdupNullable(PathVar)
 	defer core.GFreeNullable(PathVarPtr)
 
@@ -465,6 +487,8 @@ var xServerDisconnect func(uintptr)
 // You can call [method@Server.listen], etc, after calling this function
 // if you want to start listening again.
 func (x *Server) Disconnect() {
+	core.LazyRegister(&xServerDisconnect, "SOUP", "soup_server_disconnect", false)
+
 	xServerDisconnect(x.GoPointer())
 }
 
@@ -475,6 +499,8 @@ var xServerGetListeners func(uintptr) uintptr
 // You should treat these sockets as read-only; writing to or
 // modifiying any of these sockets may cause @server to malfunction.
 func (x *Server) GetListeners() *glib.SList {
+	core.LazyRegister(&xServerGetListeners, "SOUP", "soup_server_get_listeners", false)
+
 	cret := xServerGetListeners(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -486,6 +512,8 @@ var xServerGetTlsAuthMode func(uintptr) gio.TlsAuthenticationMode
 
 // Gets the @server SSL/TLS client authentication mode.
 func (x *Server) GetTlsAuthMode() gio.TlsAuthenticationMode {
+	core.LazyRegister(&xServerGetTlsAuthMode, "SOUP", "soup_server_get_tls_auth_mode", false)
+
 	cret := xServerGetTlsAuthMode(x.GoPointer())
 	return cret
 }
@@ -494,6 +522,7 @@ var xServerGetTlsCertificate func(uintptr) uintptr
 
 // Gets the @server SSL/TLS certificate.
 func (x *Server) GetTlsCertificate() *gio.TlsCertificate {
+	core.LazyRegister(&xServerGetTlsCertificate, "SOUP", "soup_server_get_tls_certificate", false)
 	var cls *gio.TlsCertificate
 
 	cret := xServerGetTlsCertificate(x.GoPointer())
@@ -511,6 +540,7 @@ var xServerGetTlsDatabase func(uintptr) uintptr
 
 // Gets the @server SSL/TLS database.
 func (x *Server) GetTlsDatabase() *gio.TlsDatabase {
+	core.LazyRegister(&xServerGetTlsDatabase, "SOUP", "soup_server_get_tls_database", false)
 	var cls *gio.TlsDatabase
 
 	cret := xServerGetTlsDatabase(x.GoPointer())
@@ -536,6 +566,8 @@ var xServerGetUris func(uintptr) uintptr
 // the addresses `0.0.0.0` and `::`, rather than actually returning separate
 // URIs for each interface on the system.
 func (x *Server) GetUris() *glib.SList {
+	core.LazyRegister(&xServerGetUris, "SOUP", "soup_server_get_uris", false)
+
 	cret := xServerGetUris(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -553,12 +585,14 @@ var xServerIsHttps func(uintptr) bool
 // certificate to use.
 //
 // If you are using the deprecated single-listener APIs, then a return value of
-// %TRUE indicates that the #SoupServer serves https exclusively. If you are
+// %TRUE indicates that the [class@Server] serves https exclusively. If you are
 // using [method@Server.listen], etc, then a %TRUE return value merely indicates
 // that the server is *able* to do https, regardless of whether it actually
 // currently is or not. Use [method@Server.get_uris] to see if it currently has
 // any https listeners.
 func (x *Server) IsHttps() bool {
+	core.LazyRegister(&xServerIsHttps, "SOUP", "soup_server_is_https", false)
+
 	cret := xServerIsHttps(x.GoPointer())
 	return cret
 }
@@ -582,6 +616,7 @@ var xServerListen func(uintptr, uintptr, ServerListenOptions, **glib.Error) bool
 // @address is an IPv6 address, it will only accept IPv6 connections.
 // You must configure IPv4 listening separately.
 func (x *Server) Listen(AddressVar *gio.SocketAddress, OptionsVar ServerListenOptions) (bool, error) {
+	core.LazyRegister(&xServerListen, "SOUP", "soup_server_listen", false)
 	var cerr *glib.Error
 
 	cret := xServerListen(x.GoPointer(), AddressVar.GoPointer(), OptionsVar, &cerr)
@@ -605,6 +640,7 @@ var xServerListenAll func(uintptr, uint, ServerListenOptions, **glib.Error) bool
 //
 // See [method@Server.listen] for more details.
 func (x *Server) ListenAll(PortVar uint, OptionsVar ServerListenOptions) (bool, error) {
+	core.LazyRegister(&xServerListenAll, "SOUP", "soup_server_listen_all", false)
 	var cerr *glib.Error
 
 	cret := xServerListenAll(x.GoPointer(), PortVar, OptionsVar, &cerr)
@@ -626,6 +662,7 @@ var xServerListenLocal func(uintptr, uint, ServerListenOptions, **glib.Error) bo
 //
 // See [method@Server.listen] for more details.
 func (x *Server) ListenLocal(PortVar uint, OptionsVar ServerListenOptions) (bool, error) {
+	core.LazyRegister(&xServerListenLocal, "SOUP", "soup_server_listen_local", false)
 	var cerr *glib.Error
 
 	cret := xServerListenLocal(x.GoPointer(), PortVar, OptionsVar, &cerr)
@@ -641,6 +678,7 @@ var xServerListenSocket func(uintptr, uintptr, ServerListenOptions, **glib.Error
 //
 // See [method@Server.listen] for more details.
 func (x *Server) ListenSocket(SocketVar *gio.Socket, OptionsVar ServerListenOptions) (bool, error) {
+	core.LazyRegister(&xServerListenSocket, "SOUP", "soup_server_listen_socket", false)
 	var cerr *glib.Error
 
 	cret := xServerListenSocket(x.GoPointer(), SocketVar.GoPointer(), OptionsVar, &cerr)
@@ -659,10 +697,12 @@ var xServerPauseMessage func(uintptr, uintptr)
 // resume I/O.
 //
 // This must only be called on a [class@ServerMessage] which was created by the
-// #SoupServer and are currently doing I/O, such as those passed into a
+// [class@Server] and are currently doing I/O, such as those passed into a
 // [callback@ServerCallback] or emitted in a [signal@Server::request-read]
 // signal.
 func (x *Server) PauseMessage(MsgVar *ServerMessage) {
+	core.LazyRegister(&xServerPauseMessage, "SOUP", "soup_server_pause_message", false)
+
 	xServerPauseMessage(x.GoPointer(), MsgVar.GoPointer())
 }
 
@@ -670,6 +710,8 @@ var xServerRemoveAuthDomain func(uintptr, uintptr)
 
 // Removes @auth_domain from @server.
 func (x *Server) RemoveAuthDomain(AuthDomainVar *AuthDomain) {
+	core.LazyRegister(&xServerRemoveAuthDomain, "SOUP", "soup_server_remove_auth_domain", false)
+
 	xServerRemoveAuthDomain(x.GoPointer(), AuthDomainVar.GoPointer())
 }
 
@@ -677,6 +719,8 @@ var xServerRemoveHandler func(uintptr, string)
 
 // Removes all handlers (early and normal) registered at @path.
 func (x *Server) RemoveHandler(PathVar string) {
+	core.LazyRegister(&xServerRemoveHandler, "SOUP", "soup_server_remove_handler", false)
+
 	xServerRemoveHandler(x.GoPointer(), PathVar)
 }
 
@@ -685,6 +729,8 @@ var xServerRemoveWebsocketExtension func(uintptr, types.GType)
 // Removes support for WebSocket extension of type @extension_type (or any subclass of
 // @extension_type) from @server.
 func (x *Server) RemoveWebsocketExtension(ExtensionTypeVar types.GType) {
+	core.LazyRegister(&xServerRemoveWebsocketExtension, "SOUP", "soup_server_remove_websocket_extension", false)
+
 	xServerRemoveWebsocketExtension(x.GoPointer(), ExtensionTypeVar)
 }
 
@@ -692,6 +738,8 @@ var xServerSetTlsAuthMode func(uintptr, gio.TlsAuthenticationMode)
 
 // Sets @server's #GTlsAuthenticationMode to use for SSL/TLS client authentication.
 func (x *Server) SetTlsAuthMode(ModeVar gio.TlsAuthenticationMode) {
+	core.LazyRegister(&xServerSetTlsAuthMode, "SOUP", "soup_server_set_tls_auth_mode", false)
+
 	xServerSetTlsAuthMode(x.GoPointer(), ModeVar)
 }
 
@@ -699,6 +747,8 @@ var xServerSetTlsCertificate func(uintptr, uintptr)
 
 // Sets @server up to do https, using the given SSL/TLS @certificate.
 func (x *Server) SetTlsCertificate(CertificateVar *gio.TlsCertificate) {
+	core.LazyRegister(&xServerSetTlsCertificate, "SOUP", "soup_server_set_tls_certificate", false)
+
 	xServerSetTlsCertificate(x.GoPointer(), CertificateVar.GoPointer())
 }
 
@@ -706,6 +756,8 @@ var xServerSetTlsDatabase func(uintptr, uintptr)
 
 // Sets @server's #GTlsDatabase to use for validating SSL/TLS client certificates.
 func (x *Server) SetTlsDatabase(TlsDatabaseVar *gio.TlsDatabase) {
+	core.LazyRegister(&xServerSetTlsDatabase, "SOUP", "soup_server_set_tls_database", false)
+
 	xServerSetTlsDatabase(x.GoPointer(), TlsDatabaseVar.GoPointer())
 }
 
@@ -719,10 +771,12 @@ var xServerUnpauseMessage func(uintptr, uintptr)
 // I/O won't actually resume until you return to the main loop.
 //
 // This must only be called on a [class@ServerMessage] which was created by the
-// #SoupServer and are currently doing I/O, such as those passed into a
+// [class@Server] and are currently doing I/O, such as those passed into a
 // [callback@ServerCallback] or emitted in a [signal@Server::request-read]
 // signal.
 func (x *Server) UnpauseMessage(MsgVar *ServerMessage) {
+	core.LazyRegister(&xServerUnpauseMessage, "SOUP", "soup_server_unpause_message", false)
+
 	xServerUnpauseMessage(x.GoPointer(), MsgVar.GoPointer())
 }
 
@@ -780,7 +834,7 @@ func (x *Server) GetPropertyRawPaths() bool {
 //
 // As with [property@Session:user_agent], if you set a
 // [property@Server:server-header] property that has trailing
-// whitespace, #SoupServer will append its own product token (eg,
+// whitespace, [class@Server] will append its own product token (eg,
 // `libsoup/2.3.2`) to the end of the header for you.
 func (x *Server) SetPropertyServerHeader(value string) {
 	var v gobject.Value
@@ -813,7 +867,7 @@ func (x *Server) SetPropertyServerHeader(value string) {
 //
 // As with [property@Session:user_agent], if you set a
 // [property@Server:server-header] property that has trailing
-// whitespace, #SoupServer will append its own product token (eg,
+// whitespace, [class@Server] will append its own product token (eg,
 // `libsoup/2.3.2`) to the end of the header for you.
 func (x *Server) GetPropertyServerHeader() string {
 	var v gobject.Value
@@ -833,48 +887,48 @@ func (x *Server) GetPropertyServerHeader() string {
 // free any state that it may have allocated in
 // [signal@Server::request-started].
 func (x *Server) ConnectRequestAborted(cb *func(Server, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.Server.RequestAborted", func(clsPtr uintptr, MessageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(Server, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := Server{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, MessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "request-aborted", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "request-aborted", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted when the server has finished writing a response to
 // a request.
 func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.Server.RequestFinished", func(clsPtr uintptr, MessageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(Server, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := Server{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, MessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "request-finished", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "request-finished", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -887,24 +941,24 @@ func (x *Server) ConnectRequestFinished(cb *func(Server, uintptr)) uint {
 // and if it sets the message's #status_code, then normal
 // handler processing will be skipped.
 func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.Server.RequestRead", func(clsPtr uintptr, MessageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(Server, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := Server{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, MessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "request-read", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "request-read", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -921,68 +975,28 @@ func (x *Server) ConnectRequestRead(cb *func(Server, uintptr)) uint {
 // occurs, the processing will instead end with
 // [signal@Server::request-aborted].
 func (x *Server) ConnectRequestStarted(cb *func(Server, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.Server.RequestStarted", func(clsPtr uintptr, MessageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(Server, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := Server{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, MessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "request-started", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "request-started", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
 	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("SOUP") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xServerListenOptionsGLibType, libs, "soup_server_listen_options_get_type")
-
-	core.PuregoSafeRegister(&xServerGLibType, libs, "soup_server_get_type")
-
-	core.PuregoSafeRegister(&xNewServer, libs, "soup_server_new")
-
-	core.PuregoSafeRegister(&xServerAcceptIostream, libs, "soup_server_accept_iostream")
-	core.PuregoSafeRegister(&xServerAddAuthDomain, libs, "soup_server_add_auth_domain")
-	core.PuregoSafeRegister(&xServerAddEarlyHandler, libs, "soup_server_add_early_handler")
-	core.PuregoSafeRegister(&xServerAddHandler, libs, "soup_server_add_handler")
-	core.PuregoSafeRegister(&xServerAddWebsocketExtension, libs, "soup_server_add_websocket_extension")
-	core.PuregoSafeRegister(&xServerAddWebsocketHandler, libs, "soup_server_add_websocket_handler")
-	core.PuregoSafeRegister(&xServerDisconnect, libs, "soup_server_disconnect")
-	core.PuregoSafeRegister(&xServerGetListeners, libs, "soup_server_get_listeners")
-	core.PuregoSafeRegister(&xServerGetTlsAuthMode, libs, "soup_server_get_tls_auth_mode")
-	core.PuregoSafeRegister(&xServerGetTlsCertificate, libs, "soup_server_get_tls_certificate")
-	core.PuregoSafeRegister(&xServerGetTlsDatabase, libs, "soup_server_get_tls_database")
-	core.PuregoSafeRegister(&xServerGetUris, libs, "soup_server_get_uris")
-	core.PuregoSafeRegister(&xServerIsHttps, libs, "soup_server_is_https")
-	core.PuregoSafeRegister(&xServerListen, libs, "soup_server_listen")
-	core.PuregoSafeRegister(&xServerListenAll, libs, "soup_server_listen_all")
-	core.PuregoSafeRegister(&xServerListenLocal, libs, "soup_server_listen_local")
-	core.PuregoSafeRegister(&xServerListenSocket, libs, "soup_server_listen_socket")
-	core.PuregoSafeRegister(&xServerPauseMessage, libs, "soup_server_pause_message")
-	core.PuregoSafeRegister(&xServerRemoveAuthDomain, libs, "soup_server_remove_auth_domain")
-	core.PuregoSafeRegister(&xServerRemoveHandler, libs, "soup_server_remove_handler")
-	core.PuregoSafeRegister(&xServerRemoveWebsocketExtension, libs, "soup_server_remove_websocket_extension")
-	core.PuregoSafeRegister(&xServerSetTlsAuthMode, libs, "soup_server_set_tls_auth_mode")
-	core.PuregoSafeRegister(&xServerSetTlsCertificate, libs, "soup_server_set_tls_certificate")
-	core.PuregoSafeRegister(&xServerSetTlsDatabase, libs, "soup_server_set_tls_database")
-	core.PuregoSafeRegister(&xServerUnpauseMessage, libs, "soup_server_unpause_message")
 }

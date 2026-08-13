@@ -5,6 +5,7 @@ import (
 	"structs"
 	"unsafe"
 
+	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject/types"
 )
 
@@ -17,12 +18,20 @@ func (x *SessionFeatureInterface) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func SessionFeatureInterfaceNewFromInternalPtr(ptr uintptr) *SessionFeatureInterface {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*SessionFeatureInterface)(rawPtr)
+}
+
 // Interface for miscellaneous [class@Session] features.
 //
-// #SoupSessionFeature is the interface used by classes that extend
+// [iface@SessionFeature] is the interface used by classes that extend
 // the functionality of a [class@Session]. Some features like HTTP
 // authentication handling are implemented internally via
-// `SoupSessionFeature`s. Other features can be added to the session
+// [iface@SessionFeature]s. Other features can be added to the session
 // by the application. (Eg, [class@Logger], [class@CookieJar].)
 //
 // See [method@Session.add_feature], etc, to add a feature to a session.
@@ -34,6 +43,7 @@ type SessionFeature interface {
 var xSessionFeatureGLibType func() types.GType
 
 func SessionFeatureGLibType() types.GType {
+	core.LazyRegister(&xSessionFeatureGLibType, "SOUP", "soup_session_feature_get_type", false)
 	return xSessionFeatureGLibType()
 }
 
@@ -50,4 +60,9 @@ func (x *SessionFeatureBase) GoPointer() uintptr {
 
 func (x *SessionFeatureBase) SetGoPointer(ptr uintptr) {
 	x.Ptr = ptr
+}
+
+func init() {
+	core.SetPackageName("SOUP", "libsoup-3.0")
+	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
 }

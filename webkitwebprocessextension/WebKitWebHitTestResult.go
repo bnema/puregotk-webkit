@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk-webkit/javascriptcore"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject"
@@ -22,6 +21,14 @@ func (x *WebHitTestResultClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func WebHitTestResultClassNewFromInternalPtr(ptr uintptr) *WebHitTestResultClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*WebHitTestResultClass)(rawPtr)
+}
+
 // Result of a Hit Test (Web Process Extensions).
 //
 // WebKitWebHitTestResult extends #WebKitHitTestResult to provide information
@@ -33,6 +40,7 @@ type WebHitTestResult struct {
 var xWebHitTestResultGLibType func() types.GType
 
 func WebHitTestResultGLibType() types.GType {
+	core.LazyRegister(&xWebHitTestResultGLibType, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_get_type", false)
 	return xWebHitTestResultGLibType()
 }
 
@@ -49,6 +57,8 @@ var xWebHitTestResultContextIsEditable func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_EDITABLE flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsEditable() bool {
+	core.LazyRegister(&xWebHitTestResultContextIsEditable, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_context_is_editable", false)
+
 	cret := xWebHitTestResultContextIsEditable(x.GoPointer())
 	return cret
 }
@@ -60,6 +70,8 @@ var xWebHitTestResultContextIsImage func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsImage() bool {
+	core.LazyRegister(&xWebHitTestResultContextIsImage, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_context_is_image", false)
+
 	cret := xWebHitTestResultContextIsImage(x.GoPointer())
 	return cret
 }
@@ -71,6 +83,8 @@ var xWebHitTestResultContextIsLink func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsLink() bool {
+	core.LazyRegister(&xWebHitTestResultContextIsLink, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_context_is_link", false)
+
 	cret := xWebHitTestResultContextIsLink(x.GoPointer())
 	return cret
 }
@@ -82,6 +96,8 @@ var xWebHitTestResultContextIsMedia func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_MEDIA flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsMedia() bool {
+	core.LazyRegister(&xWebHitTestResultContextIsMedia, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_context_is_media", false)
+
 	cret := xWebHitTestResultContextIsMedia(x.GoPointer())
 	return cret
 }
@@ -93,6 +109,8 @@ var xWebHitTestResultContextIsScrollbar func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_SCROLLBAR flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsScrollbar() bool {
+	core.LazyRegister(&xWebHitTestResultContextIsScrollbar, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_context_is_scrollbar", false)
+
 	cret := xWebHitTestResultContextIsScrollbar(x.GoPointer())
 	return cret
 }
@@ -104,6 +122,8 @@ var xWebHitTestResultContextIsSelection func(uintptr) bool
 // Checks whether %WEBKIT_HIT_TEST_RESULT_CONTEXT_SELECTION flag is present in
 // the context flags.
 func (x *WebHitTestResult) ContextIsSelection() bool {
+	core.LazyRegister(&xWebHitTestResultContextIsSelection, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_context_is_selection", false)
+
 	cret := xWebHitTestResultContextIsSelection(x.GoPointer())
 	return cret
 }
@@ -112,6 +132,8 @@ var xWebHitTestResultGetContext func(uintptr) uint
 
 // Gets the the context flags for the hit test result.
 func (x *WebHitTestResult) GetContext() uint {
+	core.LazyRegister(&xWebHitTestResultGetContext, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_get_context", false)
+
 	cret := xWebHitTestResultGetContext(x.GoPointer())
 	return cret
 }
@@ -120,6 +142,8 @@ var xWebHitTestResultGetImageUri func(uintptr) string
 
 // Obtains the URI associated with the image element at the hit test position.
 func (x *WebHitTestResult) GetImageUri() string {
+	core.LazyRegister(&xWebHitTestResultGetImageUri, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_get_image_uri", false)
+
 	cret := xWebHitTestResultGetImageUri(x.GoPointer())
 	return cret
 }
@@ -128,6 +152,7 @@ var xWebHitTestResultGetJsNode func(uintptr, uintptr) uintptr
 
 // Get the #JSCValue for the DOM node in @world at the coordinates of the Hit Test.
 func (x *WebHitTestResult) GetJsNode(WorldVar *ScriptWorld) *javascriptcore.Value {
+	core.LazyRegister(&xWebHitTestResultGetJsNode, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_get_js_node", false)
 	var cls *javascriptcore.Value
 
 	cret := xWebHitTestResultGetJsNode(x.GoPointer(), WorldVar.GoPointer())
@@ -144,6 +169,8 @@ var xWebHitTestResultGetLinkLabel func(uintptr) string
 
 // Obtains the label associated with the link element at the hit test position.
 func (x *WebHitTestResult) GetLinkLabel() string {
+	core.LazyRegister(&xWebHitTestResultGetLinkLabel, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_get_link_label", false)
+
 	cret := xWebHitTestResultGetLinkLabel(x.GoPointer())
 	return cret
 }
@@ -152,6 +179,8 @@ var xWebHitTestResultGetLinkTitle func(uintptr) string
 
 // Obtains the title associated with the link element at the hit test position.
 func (x *WebHitTestResult) GetLinkTitle() string {
+	core.LazyRegister(&xWebHitTestResultGetLinkTitle, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_get_link_title", false)
+
 	cret := xWebHitTestResultGetLinkTitle(x.GoPointer())
 	return cret
 }
@@ -160,6 +189,8 @@ var xWebHitTestResultGetLinkUri func(uintptr) string
 
 // Obtains the URI associated with the link element at the hit test position.
 func (x *WebHitTestResult) GetLinkUri() string {
+	core.LazyRegister(&xWebHitTestResultGetLinkUri, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_get_link_uri", false)
+
 	cret := xWebHitTestResultGetLinkUri(x.GoPointer())
 	return cret
 }
@@ -168,6 +199,8 @@ var xWebHitTestResultGetMediaUri func(uintptr) string
 
 // Obtains the URI associated with the media element at the hit test position.
 func (x *WebHitTestResult) GetMediaUri() string {
+	core.LazyRegister(&xWebHitTestResultGetMediaUri, "WEBKITWEBPROCESSEXTENSION", "webkit_web_hit_test_result_get_media_uri", false)
+
 	cret := xWebHitTestResultGetMediaUri(x.GoPointer())
 	return cret
 }
@@ -186,28 +219,4 @@ func (c *WebHitTestResult) SetGoPointer(ptr uintptr) {
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xWebHitTestResultGLibType, libs, "webkit_web_hit_test_result_get_type")
-
-	core.PuregoSafeRegister(&xWebHitTestResultContextIsEditable, libs, "webkit_web_hit_test_result_context_is_editable")
-	core.PuregoSafeRegister(&xWebHitTestResultContextIsImage, libs, "webkit_web_hit_test_result_context_is_image")
-	core.PuregoSafeRegister(&xWebHitTestResultContextIsLink, libs, "webkit_web_hit_test_result_context_is_link")
-	core.PuregoSafeRegister(&xWebHitTestResultContextIsMedia, libs, "webkit_web_hit_test_result_context_is_media")
-	core.PuregoSafeRegister(&xWebHitTestResultContextIsScrollbar, libs, "webkit_web_hit_test_result_context_is_scrollbar")
-	core.PuregoSafeRegister(&xWebHitTestResultContextIsSelection, libs, "webkit_web_hit_test_result_context_is_selection")
-	core.PuregoSafeRegister(&xWebHitTestResultGetContext, libs, "webkit_web_hit_test_result_get_context")
-	core.PuregoSafeRegister(&xWebHitTestResultGetImageUri, libs, "webkit_web_hit_test_result_get_image_uri")
-	core.PuregoSafeRegister(&xWebHitTestResultGetJsNode, libs, "webkit_web_hit_test_result_get_js_node")
-	core.PuregoSafeRegister(&xWebHitTestResultGetLinkLabel, libs, "webkit_web_hit_test_result_get_link_label")
-	core.PuregoSafeRegister(&xWebHitTestResultGetLinkTitle, libs, "webkit_web_hit_test_result_get_link_title")
-	core.PuregoSafeRegister(&xWebHitTestResultGetLinkUri, libs, "webkit_web_hit_test_result_get_link_uri")
-	core.PuregoSafeRegister(&xWebHitTestResultGetMediaUri, libs, "webkit_web_hit_test_result_get_media_uri")
 }

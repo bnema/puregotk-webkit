@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
@@ -31,6 +30,14 @@ type WebProcessExtensionClass struct {
 
 func (x *WebProcessExtensionClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func WebProcessExtensionClassNewFromInternalPtr(ptr uintptr) *WebProcessExtensionClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*WebProcessExtensionClass)(rawPtr)
 }
 
 // Represents an extension of the web process.
@@ -119,6 +126,7 @@ type WebProcessExtension struct {
 var xWebProcessExtensionGLibType func() types.GType
 
 func WebProcessExtensionGLibType() types.GType {
+	core.LazyRegister(&xWebProcessExtensionGLibType, "WEBKITWEBPROCESSEXTENSION", "webkit_web_process_extension_get_type", false)
 	return xWebProcessExtensionGLibType()
 }
 
@@ -132,6 +140,7 @@ var xWebProcessExtensionGetPage func(uintptr, uint64) uintptr
 
 // Get the web page of the given @page_id.
 func (x *WebProcessExtension) GetPage(PageIdVar uint64) *WebPage {
+	core.LazyRegister(&xWebProcessExtensionGetPage, "WEBKITWEBPROCESSEXTENSION", "webkit_web_process_extension_get_page", false)
 	var cls *WebPage
 
 	cret := xWebProcessExtensionGetPage(x.GoPointer(), PageIdVar)
@@ -153,6 +162,8 @@ var xWebProcessExtensionSendMessageToContext func(uintptr, uintptr, uintptr, uin
 // When the operation is finished, @callback will be called. You can then call
 // webkit_web_process_extension_send_message_to_context_finish() to get the message reply.
 func (x *WebProcessExtension) SendMessageToContext(MessageVar *UserMessage, CancellableVar *gio.Cancellable, CallbackVar *gio.AsyncReadyCallback, UserDataVar uintptr) {
+	core.LazyRegister(&xWebProcessExtensionSendMessageToContext, "WEBKITWEBPROCESSEXTENSION", "webkit_web_process_extension_send_message_to_context", false)
+
 	xWebProcessExtensionSendMessageToContext(x.GoPointer(), MessageVar.GoPointer(), CancellableVar.GoPointer(), glib.NewCallbackNullable(CallbackVar), UserDataVar)
 }
 
@@ -160,6 +171,7 @@ var xWebProcessExtensionSendMessageToContextFinish func(uintptr, uintptr, **glib
 
 // Finish an asynchronous operation started with webkit_web_process_extension_send_message_to_context().
 func (x *WebProcessExtension) SendMessageToContextFinish(ResultVar gio.AsyncResult) (*UserMessage, error) {
+	core.LazyRegister(&xWebProcessExtensionSendMessageToContextFinish, "WEBKITWEBPROCESSEXTENSION", "webkit_web_process_extension_send_message_to_context_finish", false)
 	var cls *UserMessage
 	var cerr *glib.Error
 
@@ -190,24 +202,24 @@ func (c *WebProcessExtension) SetGoPointer(ptr uintptr) {
 // This signal is emitted when a new #WebKitWebPage is created in
 // the Web Process.
 func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "page-created", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, WebPageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebProcessExtension.PageCreated", func(clsPtr uintptr, WebPageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebProcessExtension, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebProcessExtension{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, WebPageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "page-created", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "page-created", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -216,42 +228,28 @@ func (x *WebProcessExtension) ConnectPageCreated(cb *func(WebProcessExtension, u
 // are always broadcasted to all web extensions and they can't be
 // replied to. Calling webkit_user_message_send_reply() will do nothing.
 func (x *WebProcessExtension) ConnectUserMessageReceived(cb *func(WebProcessExtension, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, MessageVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.WebProcessExtension.UserMessageReceived", func(clsPtr uintptr, MessageVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(WebProcessExtension, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := WebProcessExtension{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, MessageVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "user-message-received", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "user-message-received", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xWebProcessExtensionGLibType, libs, "webkit_web_process_extension_get_type")
-
-	core.PuregoSafeRegister(&xWebProcessExtensionGetPage, libs, "webkit_web_process_extension_get_page")
-	core.PuregoSafeRegister(&xWebProcessExtensionSendMessageToContext, libs, "webkit_web_process_extension_send_message_to_context")
-	core.PuregoSafeRegister(&xWebProcessExtensionSendMessageToContextFinish, libs, "webkit_web_process_extension_send_message_to_context_finish")
 }

@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gobject/types"
 )
@@ -22,11 +21,20 @@ type NetworkProxySettings struct {
 var xNetworkProxySettingsGLibType func() types.GType
 
 func NetworkProxySettingsGLibType() types.GType {
+	core.LazyRegister(&xNetworkProxySettingsGLibType, "WEBKIT", "webkit_network_proxy_settings_get_type", false)
 	return xNetworkProxySettingsGLibType()
 }
 
 func (x *NetworkProxySettings) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
+}
+
+func NetworkProxySettingsNewFromInternalPtr(ptr uintptr) *NetworkProxySettings {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*NetworkProxySettings)(rawPtr)
 }
 
 var xNewNetworkProxySettings func(uintptr, []string) uintptr
@@ -63,6 +71,8 @@ var xNewNetworkProxySettings func(uintptr, []string) uintptr
 // to connections made to hosts identified by address. That is, if example.com has an address of 192.168.1.1, and @ignore_hosts
 // contains only "192.168.1.1", then a connection to "example.com" will use the proxy, and a connection to 192.168.1.1" will not.
 func NewNetworkProxySettings(DefaultProxyUriVar *string, IgnoreHostsVar []string) *NetworkProxySettings {
+	core.LazyRegister(&xNewNetworkProxySettings, "WEBKIT", "webkit_network_proxy_settings_new", false)
+
 	DefaultProxyUriVarPtr := core.GStrdupNullable(DefaultProxyUriVar)
 	defer core.GFreeNullable(DefaultProxyUriVarPtr)
 
@@ -81,6 +91,8 @@ var xNetworkProxySettingsAddProxyForScheme func(uintptr, string, string)
 // As with the default proxy URI, if @proxy_uri starts with "socks://", it will be treated as referring to
 // all three of the socks5, socks4a, and socks4 proxy types.
 func (x *NetworkProxySettings) AddProxyForScheme(SchemeVar string, ProxyUriVar string) {
+	core.LazyRegister(&xNetworkProxySettingsAddProxyForScheme, "WEBKIT", "webkit_network_proxy_settings_add_proxy_for_scheme", false)
+
 	xNetworkProxySettingsAddProxyForScheme(x.GoPointer(), SchemeVar, ProxyUriVar)
 }
 
@@ -88,6 +100,8 @@ var xNetworkProxySettingsCopy func(uintptr) uintptr
 
 // Make a copy of the #WebKitNetworkProxySettings.
 func (x *NetworkProxySettings) Copy() *NetworkProxySettings {
+	core.LazyRegister(&xNetworkProxySettingsCopy, "WEBKIT", "webkit_network_proxy_settings_copy", false)
+
 	cret := xNetworkProxySettingsCopy(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -99,6 +113,8 @@ var xNetworkProxySettingsFree func(uintptr)
 
 // Free the #WebKitNetworkProxySettings.
 func (x *NetworkProxySettings) Free() {
+	core.LazyRegister(&xNetworkProxySettingsFree, "WEBKIT", "webkit_network_proxy_settings_free", false)
+
 	xNetworkProxySettingsFree(x.GoPointer())
 }
 
@@ -108,6 +124,7 @@ type NetworkProxyMode int
 var xNetworkProxyModeGLibType func() types.GType
 
 func NetworkProxyModeGLibType() types.GType {
+	core.LazyRegister(&xNetworkProxyModeGLibType, "WEBKIT", "webkit_network_proxy_mode_get_type", false)
 	return xNetworkProxyModeGLibType()
 }
 
@@ -124,22 +141,7 @@ const (
 func init() {
 	core.SetPackageName("WEBKIT", "webkitgtk-6.0")
 	core.SetSharedLibraries("WEBKIT", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKIT") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
 
-	core.PuregoSafeRegister(&xNetworkProxyModeGLibType, libs, "webkit_network_proxy_mode_get_type")
-
-	core.PuregoSafeRegister(&xNetworkProxySettingsGLibType, libs, "webkit_network_proxy_settings_get_type")
-
-	core.PuregoSafeRegister(&xNewNetworkProxySettings, libs, "webkit_network_proxy_settings_new")
-
-	core.PuregoSafeRegister(&xNetworkProxySettingsAddProxyForScheme, libs, "webkit_network_proxy_settings_add_proxy_for_scheme")
-	core.PuregoSafeRegister(&xNetworkProxySettingsCopy, libs, "webkit_network_proxy_settings_copy")
-	core.PuregoSafeRegister(&xNetworkProxySettingsFree, libs, "webkit_network_proxy_settings_free")
+	// Manually register types since they aren't automatically registered when
+	// WebKit is loaded. See https://bugs.webkit.org/show_bug.cgi?id=175937.
 }

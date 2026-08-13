@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
@@ -22,6 +21,14 @@ func (x *ScriptWorldClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func ScriptWorldClassNewFromInternalPtr(ptr uintptr) *ScriptWorldClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*ScriptWorldClass)(rawPtr)
+}
+
 type ScriptWorld struct {
 	gobject.Object
 }
@@ -29,6 +36,7 @@ type ScriptWorld struct {
 var xScriptWorldGLibType func() types.GType
 
 func ScriptWorldGLibType() types.GType {
+	core.LazyRegister(&xScriptWorldGLibType, "WEBKITWEBPROCESSEXTENSION", "webkit_script_world_get_type", false)
 	return xScriptWorldGLibType()
 }
 
@@ -49,6 +57,7 @@ var xNewScriptWorld func() uintptr
 // You can get the JavaScript execution context of a #WebKitScriptWorld
 // for a given #WebKitFrame with webkit_frame_get_javascript_context_for_script_world().
 func NewScriptWorld() *ScriptWorld {
+	core.LazyRegister(&xNewScriptWorld, "WEBKITWEBPROCESSEXTENSION", "webkit_script_world_new", false)
 	var cls *ScriptWorld
 
 	cret := xNewScriptWorld()
@@ -69,6 +78,7 @@ var xNewScriptWorldWithName func(string) uintptr
 // You can get the JavaScript execution context of a #WebKitScriptWorld
 // for a given #WebKitFrame with webkit_frame_get_javascript_context_for_script_world().
 func NewScriptWorldWithName(NameVar string) *ScriptWorld {
+	core.LazyRegister(&xNewScriptWorldWithName, "WEBKITWEBPROCESSEXTENSION", "webkit_script_world_new_with_name", false)
 	var cls *ScriptWorld
 
 	cret := xNewScriptWorldWithName(NameVar)
@@ -85,6 +95,8 @@ var xScriptWorldGetName func(uintptr) string
 
 // Get the name of a #WebKitScriptWorld.
 func (x *ScriptWorld) GetName() string {
+	core.LazyRegister(&xScriptWorldGetName, "WEBKITWEBPROCESSEXTENSION", "webkit_script_world_get_name", false)
+
 	cret := xScriptWorldGetName(x.GoPointer())
 	return cret
 }
@@ -106,24 +118,24 @@ func (c *ScriptWorld) SetGoPointer(ptr uintptr) {
 // from the JavaScript execution context of @world that is returned by
 // webkit_frame_get_js_context_for_script_world().
 func (x *ScriptWorld) ConnectWindowObjectCleared(cb *func(ScriptWorld, uintptr, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "window-object-cleared", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, PageVarp uintptr, FrameVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("webkitwebprocessextension.ScriptWorld.WindowObjectCleared", func(clsPtr uintptr, PageVarp uintptr, FrameVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ScriptWorld, uintptr, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ScriptWorld{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, PageVarp, FrameVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "window-object-cleared", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "window-object-cleared", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -134,6 +146,7 @@ var xScriptWorldGetDefault func() uintptr
 // You can get the JavaScript execution context of a #WebKitScriptWorld
 // for a given #WebKitFrame with webkit_frame_get_javascript_context_for_script_world().
 func ScriptWorldGetDefault() *ScriptWorld {
+	core.LazyRegister(&xScriptWorldGetDefault, "WEBKITWEBPROCESSEXTENSION", "webkit_script_world_get_default", false)
 	var cls *ScriptWorld
 
 	cret := xScriptWorldGetDefault()
@@ -150,21 +163,4 @@ func ScriptWorldGetDefault() *ScriptWorld {
 func init() {
 	core.SetPackageName("WEBKITWEBPROCESSEXTENSION", "webkitgtk-web-process-extension-6.0")
 	core.SetSharedLibraries("WEBKITWEBPROCESSEXTENSION", []string{"libwebkitgtk-6.0.so.4", "libjavascriptcoregtk-6.0.so.1", "libwebkitgtk-6.0.4.dylib", "libjavascriptcoregtk-6.0.1.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("WEBKITWEBPROCESSEXTENSION") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xScriptWorldGLibType, libs, "webkit_script_world_get_type")
-
-	core.PuregoSafeRegister(&xNewScriptWorld, libs, "webkit_script_world_new")
-	core.PuregoSafeRegister(&xNewScriptWorldWithName, libs, "webkit_script_world_new_with_name")
-
-	core.PuregoSafeRegister(&xScriptWorldGetName, libs, "webkit_script_world_get_name")
-
-	core.PuregoSafeRegister(&xScriptWorldGetDefault, libs, "webkit_script_world_get_default")
 }

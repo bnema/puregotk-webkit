@@ -5,14 +5,13 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/glib"
 	"github.com/bnema/puregotk/v4/gobject"
 	"github.com/bnema/puregotk/v4/gobject/types"
 )
 
-// Callback used by #SoupAuthDomainBasic for authentication purposes.
+// Callback used by [class@AuthDomainBasic] for authentication purposes.
 //
 // The application should verify that @username and @password and valid
 // and return %TRUE or %FALSE.
@@ -39,9 +38,17 @@ func (x *AuthDomainBasicClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func AuthDomainBasicClassNewFromInternalPtr(ptr uintptr) *AuthDomainBasicClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*AuthDomainBasicClass)(rawPtr)
+}
+
 // Server-side "Basic" authentication.
 //
-// #SoupAuthDomainBasic handles the server side of HTTP "Basic" (ie,
+// [class@AuthDomainBasic] handles the server side of HTTP "Basic" (ie,
 // cleartext password) authentication.
 type AuthDomainBasic struct {
 	AuthDomain
@@ -50,6 +57,7 @@ type AuthDomainBasic struct {
 var xAuthDomainBasicGLibType func() types.GType
 
 func AuthDomainBasicGLibType() types.GType {
+	core.LazyRegister(&xAuthDomainBasicGLibType, "SOUP", "soup_auth_domain_basic_get_type", false)
 	return xAuthDomainBasicGLibType()
 }
 
@@ -61,12 +69,13 @@ func AuthDomainBasicNewFromInternalPtr(ptr uintptr) *AuthDomainBasic {
 
 var xNewAuthDomainBasic func(string, ...interface{}) uintptr
 
-// Creates a #SoupAuthDomainBasic.
+// Creates a [class@AuthDomainBasic].
 //
 // You must set the [property@AuthDomain:realm] property, to indicate the realm
 // name to be returned with the authentication challenge to the client. Other
 // parameters are optional.
 func NewAuthDomainBasic(Optname1Var string, varArgs ...interface{}) *AuthDomainBasic {
+	core.LazyRegister(&xNewAuthDomainBasic, "SOUP", "soup_auth_domain_basic_new", false)
 	var cls *AuthDomainBasic
 
 	cret := xNewAuthDomainBasic(Optname1Var, varArgs...)
@@ -93,6 +102,8 @@ var xAuthDomainBasicSetAuthCallback func(uintptr, uintptr, uintptr, uintptr)
 // [property@AuthDomainBasic:auth-data] properties, which can also be used to
 // set the callback at construct time.
 func (x *AuthDomainBasic) SetAuthCallback(CallbackVar *AuthDomainBasicAuthCallback, UserDataVar uintptr, DnotifyVar *glib.DestroyNotify) {
+	core.LazyRegister(&xAuthDomainBasicSetAuthCallback, "SOUP", "soup_auth_domain_basic_set_auth_callback", false)
+
 	xAuthDomainBasicSetAuthCallback(x.GoPointer(), glib.NewCallback(CallbackVar), UserDataVar, glib.NewCallbackNullable(DnotifyVar))
 }
 
@@ -127,18 +138,4 @@ func (x *AuthDomainBasic) GetPropertyAuthData() uintptr {
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
 	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("SOUP") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xAuthDomainBasicGLibType, libs, "soup_auth_domain_basic_get_type")
-
-	core.PuregoSafeRegister(&xNewAuthDomainBasic, libs, "soup_auth_domain_basic_new")
-
-	core.PuregoSafeRegister(&xAuthDomainBasicSetAuthCallback, libs, "soup_auth_domain_basic_set_auth_callback")
 }

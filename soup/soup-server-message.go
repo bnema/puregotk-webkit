@@ -5,7 +5,6 @@ import (
 	"structs"
 	"unsafe"
 
-	"github.com/bnema/purego"
 	"github.com/bnema/puregotk/pkg/core"
 	"github.com/bnema/puregotk/v4/gio"
 	"github.com/bnema/puregotk/v4/glib"
@@ -23,17 +22,25 @@ func (x *ServerMessageClass) GoPointer() uintptr {
 	return uintptr(unsafe.Pointer(x))
 }
 
+func ServerMessageClassNewFromInternalPtr(ptr uintptr) *ServerMessageClass {
+	if ptr == 0 {
+		return nil
+	}
+	rawPtr := *(*unsafe.Pointer)(unsafe.Pointer(&ptr))
+	return (*ServerMessageClass)(rawPtr)
+}
+
 // An HTTP server request and response pair.
 //
-// A SoupServerMessage represents an HTTP message that is being sent or
+// A [class@ServerMessage] represents an HTTP message that is being sent or
 // received on a [class@Server].
 //
-// [class@Server] will create `SoupServerMessage`s automatically for
+// [class@Server] will create [class@ServerMessage]s automatically for
 // incoming requests, which your application will receive via handlers.
 //
 // Note that libsoup's terminology here does not quite match the HTTP
 // specification: in RFC 2616, an "HTTP-message" is *either* a Request, *or* a
-// Response. In libsoup, a #SoupServerMessage combines both the request and the
+// Response. In libsoup, a [class@ServerMessage] combines both the request and the
 // response.
 type ServerMessage struct {
 	gobject.Object
@@ -42,6 +49,7 @@ type ServerMessage struct {
 var xServerMessageGLibType func() types.GType
 
 func ServerMessageGLibType() types.GType {
+	core.LazyRegister(&xServerMessageGLibType, "SOUP", "soup_server_message_get_type", false)
 	return xServerMessageGLibType()
 }
 
@@ -55,6 +63,8 @@ var xServerMessageGetHttpVersion func(uintptr) HTTPVersion
 
 // Get the HTTP version of @msg.
 func (x *ServerMessage) GetHttpVersion() HTTPVersion {
+	core.LazyRegister(&xServerMessageGetHttpVersion, "SOUP", "soup_server_message_get_http_version", false)
+
 	cret := xServerMessageGetHttpVersion(x.GoPointer())
 	return cret
 }
@@ -64,6 +74,7 @@ var xServerMessageGetLocalAddress func(uintptr) uintptr
 // Retrieves the [class@Gio.SocketAddress] associated with the local end
 // of a connection.
 func (x *ServerMessage) GetLocalAddress() *gio.SocketAddress {
+	core.LazyRegister(&xServerMessageGetLocalAddress, "SOUP", "soup_server_message_get_local_address", false)
 	var cls *gio.SocketAddress
 
 	cret := xServerMessageGetLocalAddress(x.GoPointer())
@@ -81,6 +92,8 @@ var xServerMessageGetMethod func(uintptr) string
 
 // Get the HTTP method of @msg.
 func (x *ServerMessage) GetMethod() string {
+	core.LazyRegister(&xServerMessageGetMethod, "SOUP", "soup_server_message_get_method", false)
+
 	cret := xServerMessageGetMethod(x.GoPointer())
 	return cret
 }
@@ -89,6 +102,8 @@ var xServerMessageGetReasonPhrase func(uintptr) string
 
 // Get the HTTP reason phrase of @msg.
 func (x *ServerMessage) GetReasonPhrase() string {
+	core.LazyRegister(&xServerMessageGetReasonPhrase, "SOUP", "soup_server_message_get_reason_phrase", false)
+
 	cret := xServerMessageGetReasonPhrase(x.GoPointer())
 	return cret
 }
@@ -98,6 +113,7 @@ var xServerMessageGetRemoteAddress func(uintptr) uintptr
 // Retrieves the [class@Gio.SocketAddress] associated with the remote end
 // of a connection.
 func (x *ServerMessage) GetRemoteAddress() *gio.SocketAddress {
+	core.LazyRegister(&xServerMessageGetRemoteAddress, "SOUP", "soup_server_message_get_remote_address", false)
 	var cls *gio.SocketAddress
 
 	cret := xServerMessageGetRemoteAddress(x.GoPointer())
@@ -116,6 +132,8 @@ var xServerMessageGetRemoteHost func(uintptr) string
 // Retrieves the IP address associated with the remote end of a
 // connection.
 func (x *ServerMessage) GetRemoteHost() string {
+	core.LazyRegister(&xServerMessageGetRemoteHost, "SOUP", "soup_server_message_get_remote_host", false)
+
 	cret := xServerMessageGetRemoteHost(x.GoPointer())
 	return cret
 }
@@ -124,6 +142,8 @@ var xServerMessageGetRequestBody func(uintptr) uintptr
 
 // Get the request body of @msg.
 func (x *ServerMessage) GetRequestBody() *MessageBody {
+	core.LazyRegister(&xServerMessageGetRequestBody, "SOUP", "soup_server_message_get_request_body", false)
+
 	cret := xServerMessageGetRequestBody(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -135,6 +155,8 @@ var xServerMessageGetRequestHeaders func(uintptr) uintptr
 
 // Get the request headers of @msg.
 func (x *ServerMessage) GetRequestHeaders() *MessageHeaders {
+	core.LazyRegister(&xServerMessageGetRequestHeaders, "SOUP", "soup_server_message_get_request_headers", false)
+
 	cret := xServerMessageGetRequestHeaders(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -146,6 +168,8 @@ var xServerMessageGetResponseBody func(uintptr) uintptr
 
 // Get the response body of @msg.
 func (x *ServerMessage) GetResponseBody() *MessageBody {
+	core.LazyRegister(&xServerMessageGetResponseBody, "SOUP", "soup_server_message_get_response_body", false)
+
 	cret := xServerMessageGetResponseBody(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -157,6 +181,8 @@ var xServerMessageGetResponseHeaders func(uintptr) uintptr
 
 // Get the response headers of @msg.
 func (x *ServerMessage) GetResponseHeaders() *MessageHeaders {
+	core.LazyRegister(&xServerMessageGetResponseHeaders, "SOUP", "soup_server_message_get_response_headers", false)
+
 	cret := xServerMessageGetResponseHeaders(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -175,6 +201,7 @@ var xServerMessageGetSocket func(uintptr) uintptr
 // not get fooled when the allocator reuses the memory address of a
 // previously-destroyed socket to represent a new socket.
 func (x *ServerMessage) GetSocket() *gio.Socket {
+	core.LazyRegister(&xServerMessageGetSocket, "SOUP", "soup_server_message_get_socket", false)
 	var cls *gio.Socket
 
 	cret := xServerMessageGetSocket(x.GoPointer())
@@ -192,6 +219,8 @@ var xServerMessageGetStatus func(uintptr) uint
 
 // Get the HTTP status code of @msg.
 func (x *ServerMessage) GetStatus() uint {
+	core.LazyRegister(&xServerMessageGetStatus, "SOUP", "soup_server_message_get_status", false)
+
 	cret := xServerMessageGetStatus(x.GoPointer())
 	return cret
 }
@@ -202,6 +231,7 @@ var xServerMessageGetTlsPeerCertificate func(uintptr) uintptr
 // Note that this is not set yet during the emission of
 // SoupServerMessage::accept-certificate signal.
 func (x *ServerMessage) GetTlsPeerCertificate() *gio.TlsCertificate {
+	core.LazyRegister(&xServerMessageGetTlsPeerCertificate, "SOUP", "soup_server_message_get_tls_peer_certificate", false)
 	var cls *gio.TlsCertificate
 
 	cret := xServerMessageGetTlsPeerCertificate(x.GoPointer())
@@ -221,6 +251,8 @@ var xServerMessageGetTlsPeerCertificateErrors func(uintptr) gio.TlsCertificateFl
 // Note that this is not set yet during the emission of
 // SoupServerMessage::accept-certificate signal.
 func (x *ServerMessage) GetTlsPeerCertificateErrors() gio.TlsCertificateFlags {
+	core.LazyRegister(&xServerMessageGetTlsPeerCertificateErrors, "SOUP", "soup_server_message_get_tls_peer_certificate_errors", false)
+
 	cret := xServerMessageGetTlsPeerCertificateErrors(x.GoPointer())
 	return cret
 }
@@ -229,6 +261,8 @@ var xServerMessageGetUri func(uintptr) uintptr
 
 // Get @msg's URI.
 func (x *ServerMessage) GetUri() *glib.Uri {
+	core.LazyRegister(&xServerMessageGetUri, "SOUP", "soup_server_message_get_uri", false)
+
 	cret := xServerMessageGetUri(x.GoPointer())
 	if cret == 0 {
 		return nil
@@ -240,6 +274,8 @@ var xServerMessageIsOptionsPing func(uintptr) bool
 
 // Gets if @msg represents an OPTIONS message with the path `*`.
 func (x *ServerMessage) IsOptionsPing() bool {
+	core.LazyRegister(&xServerMessageIsOptionsPing, "SOUP", "soup_server_message_is_options_ping", false)
+
 	cret := xServerMessageIsOptionsPing(x.GoPointer())
 	return cret
 }
@@ -252,6 +288,8 @@ var xServerMessagePause func(uintptr)
 // having the full response ready yet. Use [method@ServerMessage.unpause] to
 // resume I/O.
 func (x *ServerMessage) Pause() {
+	core.LazyRegister(&xServerMessagePause, "SOUP", "soup_server_message_pause", false)
+
 	xServerMessagePause(x.GoPointer())
 }
 
@@ -259,6 +297,8 @@ var xServerMessageSetHttpVersion func(uintptr, HTTPVersion)
 
 // Set the HTTP version of @msg.
 func (x *ServerMessage) SetHttpVersion(VersionVar HTTPVersion) {
+	core.LazyRegister(&xServerMessageSetHttpVersion, "SOUP", "soup_server_message_set_http_version", false)
+
 	xServerMessageSetHttpVersion(x.GoPointer(), VersionVar)
 }
 
@@ -273,14 +313,18 @@ var xServerMessageSetRedirect func(uintptr, uint, string)
 // @redirect_uri is just a path, it will replace the path
 // *and query* of @msg's URI.
 func (x *ServerMessage) SetRedirect(StatusCodeVar uint, RedirectUriVar string) {
+	core.LazyRegister(&xServerMessageSetRedirect, "SOUP", "soup_server_message_set_redirect", false)
+
 	xServerMessageSetRedirect(x.GoPointer(), StatusCodeVar, RedirectUriVar)
 }
 
 var xServerMessageSetResponse func(uintptr, uintptr, MemoryUse, uintptr, uint)
 
-// Convenience function to set the response body of a #SoupServerMessage. If
+// Convenience function to set the response body of a [class@ServerMessage]. If
 // @content_type is %NULL, the response body must be empty as well.
 func (x *ServerMessage) SetResponse(ContentTypeVar *string, RespUseVar MemoryUse, RespBodyVar *string, RespLengthVar uint) {
+	core.LazyRegister(&xServerMessageSetResponse, "SOUP", "soup_server_message_set_response", false)
+
 	ContentTypeVarPtr := core.GStrdupNullable(ContentTypeVar)
 	defer core.GFreeNullable(ContentTypeVarPtr)
 
@@ -297,6 +341,8 @@ var xServerMessageSetStatus func(uintptr, uint, uintptr)
 // If @status_code is a known value and @reason_phrase is %NULL, the
 // reason_phrase will be set automatically.
 func (x *ServerMessage) SetStatus(StatusCodeVar uint, ReasonPhraseVar *string) {
+	core.LazyRegister(&xServerMessageSetStatus, "SOUP", "soup_server_message_set_status", false)
+
 	ReasonPhraseVarPtr := core.GStrdupNullable(ReasonPhraseVar)
 	defer core.GFreeNullable(ReasonPhraseVarPtr)
 
@@ -305,7 +351,7 @@ func (x *ServerMessage) SetStatus(StatusCodeVar uint, ReasonPhraseVar *string) {
 
 var xServerMessageStealConnection func(uintptr) uintptr
 
-// "Steals" the HTTP connection associated with @msg from its #SoupServer. This
+// "Steals" the HTTP connection associated with @msg from its [class@Server]. This
 // happens immediately, regardless of the current state of the connection; if
 // the response to @msg has not yet finished being sent, then it will be
 // discarded; you can steal the connection from a
@@ -316,6 +362,7 @@ var xServerMessageStealConnection func(uintptr) uintptr
 // Note that when calling this function from C, @msg will most
 // likely be freed as a side effect.
 func (x *ServerMessage) StealConnection() *gio.IOStream {
+	core.LazyRegister(&xServerMessageStealConnection, "SOUP", "soup_server_message_steal_connection", false)
 	var cls *gio.IOStream
 
 	cret := xServerMessageStealConnection(x.GoPointer())
@@ -336,6 +383,8 @@ var xServerMessageUnpause func(uintptr)
 // adding a new chunk to a chunked response. I/O won't actually resume until you
 // return to the main loop.
 func (x *ServerMessage) Unpause() {
+	core.LazyRegister(&xServerMessageUnpause, "SOUP", "soup_server_message_unpause", false)
+
 	xServerMessageUnpause(x.GoPointer())
 }
 
@@ -355,117 +404,119 @@ func (c *ServerMessage) SetGoPointer(ptr uintptr) {
 // You can return %TRUE to accept @tls_certificate despite
 // @tls_errors.
 func (x *ServerMessage) ConnectAcceptCertificate(cb *func(ServerMessage, uintptr, gio.TlsCertificateFlags) bool) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "accept-certificate", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, TlsPeerCertificateVarp uintptr, TlsPeerErrorsVarp gio.TlsCertificateFlags) bool {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.AcceptCertificate", func(clsPtr uintptr, TlsPeerCertificateVarp uintptr, TlsPeerErrorsVarp gio.TlsCertificateFlags, signalData uintptr) bool {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			var zero bool
+			return zero
+		}
+		cb, ok := handler.(*func(ServerMessage, uintptr, gio.TlsCertificateFlags) bool)
+		if !ok || cb == nil || *cb == nil {
+			var zero bool
+			return zero
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		return cbFn(fa, TlsPeerCertificateVarp, TlsPeerErrorsVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "accept-certificate", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "accept-certificate", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted when the @msg's socket is connected and the TLS handshake completed.
 func (x *ServerMessage) ConnectConnected(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "connected", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.Connected", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "connected", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "connected", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted when the @msg's socket is disconnected.
 func (x *ServerMessage) ConnectDisconnected(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "disconnected", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.Disconnected", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "disconnected", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "disconnected", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted when all HTTP processing is finished for a message.
 // (After [signal@ServerMessage::wrote-body]).
 func (x *ServerMessage) ConnectFinished(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.Finished", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "finished", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "finished", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted after receiving the complete request body.
 func (x *ServerMessage) ConnectGotBody(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "got-body", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.GotBody", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "got-body", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "got-body", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -474,95 +525,95 @@ func (x *ServerMessage) ConnectGotBody(cb *func(ServerMessage)) uint {
 // Note that "chunk" in this context means any subpiece of the body, not
 // necessarily the specific HTTP 1.1 chunks sent by the other side.
 func (x *ServerMessage) ConnectGotChunk(cb *func(ServerMessage, uintptr)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "got-chunk", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, ChunkVarp uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.GotChunk", func(clsPtr uintptr, ChunkVarp uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage, uintptr))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, ChunkVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "got-chunk", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "got-chunk", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted after receiving the Request-Line and request headers.
 func (x *ServerMessage) ConnectGotHeaders(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "got-headers", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.GotHeaders", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "got-headers", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "got-headers", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted immediately after writing the complete response body for a
 // message.
 func (x *ServerMessage) ConnectWroteBody(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-body", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.WroteBody", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-body", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "wrote-body", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted immediately after writing a portion of the message
 // body to the network.
 func (x *ServerMessage) ConnectWroteBodyData(cb *func(ServerMessage, uint)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-body-data", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr, ChunkSizeVarp uint) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.WroteBodyData", func(clsPtr uintptr, ChunkSizeVarp uint, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage, uint))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa, ChunkSizeVarp)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-body-data", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "wrote-body-data", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
@@ -575,109 +626,75 @@ func (x *ServerMessage) ConnectWroteBodyData(cb *func(ServerMessage, uint)) uint
 // more useful continuous progress information, use
 // [signal@ServerMessage::wrote-body-data].
 func (x *ServerMessage) ConnectWroteChunk(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-chunk", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.WroteChunk", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-chunk", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "wrote-chunk", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted immediately after writing the response headers for a
 // message.
 func (x *ServerMessage) ConnectWroteHeaders(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-headers", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.WroteHeaders", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-headers", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "wrote-headers", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 // Emitted immediately after writing a 1xx (Informational) response.
 func (x *ServerMessage) ConnectWroteInformational(cb *func(ServerMessage)) uint {
-	cbPtr := uintptr(unsafe.Pointer(cb))
-	if cbRefPtr, ok := glib.GetCallback(cbPtr); ok {
-		handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-informational", cbRefPtr)
-		glib.SaveHandlerMapping(handlerID, cbPtr)
-		return handlerID
-	}
-
-	fcb := func(clsPtr uintptr) {
+	signalData := glib.SaveSignalHandler(cb)
+	cbRefPtr := glib.SharedCallback("soup.ServerMessage.WroteInformational", func(clsPtr uintptr, signalData uintptr) {
+		handler, ok := glib.GetSignalHandler(signalData)
+		if !ok {
+			return
+		}
+		cb, ok := handler.(*func(ServerMessage))
+		if !ok || cb == nil || *cb == nil {
+			return
+		}
 		fa := ServerMessage{}
 		fa.Ptr = clsPtr
 		cbFn := *cb
 
 		cbFn(fa)
-	}
-	cbRefPtr := purego.NewCallback(fcb)
-	glib.SaveCallbackWithClosure(cbPtr, cbRefPtr, cb)
-	handlerID := gobject.SignalConnect(x.GoPointer(), "wrote-informational", cbRefPtr)
-	glib.SaveHandlerMapping(handlerID, cbPtr)
+	})
+	handlerID := gobject.SignalConnectDataRaw(x.GoPointer(), "wrote-informational", cbRefPtr, signalData, glib.SignalDestroyNotify(), gobject.GConnectDefaultValue)
+	glib.SaveSignalHandlerMapping(handlerID, signalData)
 	return handlerID
 }
 
 func init() {
 	core.SetPackageName("SOUP", "libsoup-3.0")
 	core.SetSharedLibraries("SOUP", []string{"libsoup-3.0.so.0", "libsoup-3.0.0.dylib"})
-	var libs []uintptr
-	for _, libPath := range core.GetPaths("SOUP") {
-		lib, err := purego.Dlopen(libPath, purego.RTLD_NOW|purego.RTLD_GLOBAL)
-		if err != nil {
-			panic(err)
-		}
-		libs = append(libs, lib)
-	}
-
-	core.PuregoSafeRegister(&xServerMessageGLibType, libs, "soup_server_message_get_type")
-
-	core.PuregoSafeRegister(&xServerMessageGetHttpVersion, libs, "soup_server_message_get_http_version")
-	core.PuregoSafeRegister(&xServerMessageGetLocalAddress, libs, "soup_server_message_get_local_address")
-	core.PuregoSafeRegister(&xServerMessageGetMethod, libs, "soup_server_message_get_method")
-	core.PuregoSafeRegister(&xServerMessageGetReasonPhrase, libs, "soup_server_message_get_reason_phrase")
-	core.PuregoSafeRegister(&xServerMessageGetRemoteAddress, libs, "soup_server_message_get_remote_address")
-	core.PuregoSafeRegister(&xServerMessageGetRemoteHost, libs, "soup_server_message_get_remote_host")
-	core.PuregoSafeRegister(&xServerMessageGetRequestBody, libs, "soup_server_message_get_request_body")
-	core.PuregoSafeRegister(&xServerMessageGetRequestHeaders, libs, "soup_server_message_get_request_headers")
-	core.PuregoSafeRegister(&xServerMessageGetResponseBody, libs, "soup_server_message_get_response_body")
-	core.PuregoSafeRegister(&xServerMessageGetResponseHeaders, libs, "soup_server_message_get_response_headers")
-	core.PuregoSafeRegister(&xServerMessageGetSocket, libs, "soup_server_message_get_socket")
-	core.PuregoSafeRegister(&xServerMessageGetStatus, libs, "soup_server_message_get_status")
-	core.PuregoSafeRegister(&xServerMessageGetTlsPeerCertificate, libs, "soup_server_message_get_tls_peer_certificate")
-	core.PuregoSafeRegister(&xServerMessageGetTlsPeerCertificateErrors, libs, "soup_server_message_get_tls_peer_certificate_errors")
-	core.PuregoSafeRegister(&xServerMessageGetUri, libs, "soup_server_message_get_uri")
-	core.PuregoSafeRegister(&xServerMessageIsOptionsPing, libs, "soup_server_message_is_options_ping")
-	core.PuregoSafeRegister(&xServerMessagePause, libs, "soup_server_message_pause")
-	core.PuregoSafeRegister(&xServerMessageSetHttpVersion, libs, "soup_server_message_set_http_version")
-	core.PuregoSafeRegister(&xServerMessageSetRedirect, libs, "soup_server_message_set_redirect")
-	core.PuregoSafeRegister(&xServerMessageSetResponse, libs, "soup_server_message_set_response")
-	core.PuregoSafeRegister(&xServerMessageSetStatus, libs, "soup_server_message_set_status")
-	core.PuregoSafeRegister(&xServerMessageStealConnection, libs, "soup_server_message_steal_connection")
-	core.PuregoSafeRegister(&xServerMessageUnpause, libs, "soup_server_message_unpause")
 }
